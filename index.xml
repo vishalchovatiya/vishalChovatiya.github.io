@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vishal Chovatiya</title>
+    <link>https://vishalchovatiya.github.io/</link>
+    <description>Recent content on Vishal Chovatiya</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vishalchovatiya.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test</title>
+      <link>https://vishalchovatiya.github.io/posts/about/</link>
+      <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://vishalchovatiya.github.io/posts/about/</guid>
+      <description>This  Link to heading    That  </description>
+    </item>
+    
+    <item>
+      <title>Test</title>
+      <link>https://vishalchovatiya.github.io/posts/test/test/</link>
+      <pubDate>Thu, 28 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://vishalchovatiya.github.io/posts/test/test/</guid>
+      <description>This is my first post  x = function() $$ \int_{-\infty}^\infty e^{-x^2} dx = \sqrt{\pi} $$</description>
+    </item>
+    
+  </channel>
+</rss>
