@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Cpp-Coroutine on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/cpp-coroutine/</link>
+    <description>Recent content in Cpp-Coroutine on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 09 May 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/cpp-coroutine/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;20 Coroutine: Under The Hood</title>
+      <link>http://localhost:1313/posts/cpp20-coroutine-under-the-hood/</link>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/cpp20-coroutine-under-the-hood/</guid>
+      <description>A coroutine is one of the major feature introduced with the C++20 standard apart from Module, Ranges &amp;amp; Concept. And you see how happy I am to unfold it. I already set the baseline on this topic with my previous article that Coroutine in C Language, where we saw, how suspension-resumption of execution works! With this article &amp;ldquo;C++20 Coroutine: Under The Hood&amp;rdquo;, we will see how compiler creates magic &amp;amp; standard library helps it with basic infrastructure making C++20 coroutine more sophisticated(yet complex) &amp;amp; scalable/customizable.</description>
+    </item>
+  </channel>
+</rss>

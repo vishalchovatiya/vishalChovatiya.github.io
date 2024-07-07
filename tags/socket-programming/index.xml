@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Socket-Programming on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/socket-programming/</link>
+    <description>Recent content in Socket-Programming on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 10 Sep 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/socket-programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Socket Programming</title>
+      <link>http://localhost:1313/posts/socket-programming/</link>
+      <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/socket-programming/</guid>
+      <description>Points To Catch On a single system, Two processes can communicate through Pipes Message queues Shared memory To communicate between two processes over a network, you need Socket Socket = Endpoint of communication between two systems on a network OR Combination of IP &amp;amp; Port Number Server Example #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;arpa/inet.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; void ErrorAndExit(const char *str); #define IP &amp;#34;127.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Strip on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/strip/</link>
+    <description>Recent content in Strip on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 25 Sep 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/strip/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to hack C/C&#43;&#43; application using RTLD_NEXT with an easy example</title>
+      <link>http://localhost:1313/posts/hack-c-cpp-application-using-rtld-next-with-an-easy-example/</link>
+      <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hack-c-cpp-application-using-rtld-next-with-an-easy-example/</guid>
+      <description>While I was working as a core C library developer with my previous employer. I came across this RTLD_NEXT flag in dynamic linking which has the amazing capability and can be easily exploited or used for unethical purpose(Here I intend to educate the developer to don&amp;rsquo;t be victims). In this article, I will show you a simple way to hack C/C++ application using RTLD_NEXT with an easy example.
+Brief Let say you have a C/C++ application/tool which is highly proprietary and driving most of the business to your company.</description>
+    </item>
+  </channel>
+</rss>

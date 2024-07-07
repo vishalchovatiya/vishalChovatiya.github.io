@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Constexpr-Visual-Studio on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/constexpr-visual-studio/</link>
+    <description>Recent content in Constexpr-Visual-Studio on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 12 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/constexpr-visual-studio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>When to Use const vs constexpr in C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/when-to-use-const-vs-constexpr-in-cpp/</link>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/when-to-use-const-vs-constexpr-in-cpp/</guid>
+      <description>While introducing myself to Modern C++ &amp;amp; its new features introduced in C++11 &amp;amp; C++14, I have completely neglected this keyword constexpr. Initially, I was confused about when to use const vs constexpr in C++ &amp;amp; how this constexpr works &amp;amp; differ with const. So, I have studied this from different sources &amp;amp; here is the consolidation of it:
+Primitive constexpr Variables int varA = 3; const int varB = 5; constexpr int varC = 7; All of the above variable having a value which is known at compile time.</description>
+    </item>
+  </channel>
+</rss>

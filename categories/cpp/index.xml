@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Cpp on Vishal Chovatiya</title>
     <link>http://localhost:1313/categories/cpp/</link>
     <description>Recent content in Cpp on Vishal Chovatiya</description>
-    <generator>Hugo</generator>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 09 May 2021 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/cpp/index.xml" rel="self" type="application/rss+xml" />
@@ -41,7 +46,8 @@
       <link>http://localhost:1313/posts/using-std-map-wisely-with-modern-cpp/</link>
       <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/using-std-map-wisely-with-modern-cpp/</guid>
-      <description>std::map and its siblings(std::multimap, std::unordered_map/multimap) used to be my favourite containers when I was doing competitive programming. In fact, I still like them(though using less frequently nowadays). And with Modern C++, we now have more reasons to use std::map. That&amp;rsquo;s why I have decided to address this topic by writing an article summarizing these new features. So, without much gibberish, let&amp;rsquo;s dive-in directly.&#xA;std::map::contains(C++20) Link to heading std::map::contains member function is a good step towards code expressiveness.</description>
+      <description>std::map and its siblings(std::multimap, std::unordered_map/multimap) used to be my favourite containers when I was doing competitive programming. In fact, I still like them(though using less frequently nowadays). And with Modern C++, we now have more reasons to use std::map. That&amp;rsquo;s why I have decided to address this topic by writing an article summarizing these new features. So, without much gibberish, let&amp;rsquo;s dive-in directly.
+std::map::contains(C++20) std::map::contains member function is a good step towards code expressiveness.</description>
     </item>
     <item>
       <title>CRTP C&#43;&#43; Examples</title>
@@ -83,28 +89,32 @@
       <link>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</guid>
-      <description>This is the second part of a five-part article series about SOLID as Rock design principle. The SOLID design principles, when combined together, make it easy for a programmer to craft software that is easy to maintain, reuse &amp;amp; extend. Open-Closed Principle(OCP) is the second principle in this series which I will discuss here with minimalistic example in Modern C++ along with its benefits &amp;amp; generic guideline.&#xA;By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
+      <description>This is the second part of a five-part article series about SOLID as Rock design principle. The SOLID design principles, when combined together, make it easy for a programmer to craft software that is easy to maintain, reuse &amp;amp; extend. Open-Closed Principle(OCP) is the second principle in this series which I will discuss here with minimalistic example in Modern C++ along with its benefits &amp;amp; generic guideline.
+By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
     </item>
     <item>
       <title>Single Responsibility Principle in C&#43;&#43; | SOLID as a Rock</title>
       <link>http://localhost:1313/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/</guid>
-      <description>This article is the first part of a five-part series about SOLID as Rock design principle series. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see an example of the Single Responsibility Principle in C++ along with its benefits &amp;amp; generic guideline.&#xA;By the way, If you want to directly jumps to other design principles, then below is the quick links:</description>
+      <description>This article is the first part of a five-part series about SOLID as Rock design principle series. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see an example of the Single Responsibility Principle in C++ along with its benefits &amp;amp; generic guideline.
+By the way, If you want to directly jumps to other design principles, then below is the quick links:</description>
     </item>
     <item>
       <title>What Is Design Pattern?</title>
       <link>http://localhost:1313/posts/what-is-design-pattern/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/what-is-design-pattern/</guid>
-      <description>After hitting a certain level of experience &amp;amp; spending quite enough time in the industry, I have realised the importance of designing/architecting system &amp;amp; software. So I have started looking into system/software design &amp;amp; got to know nothing can better start than a Design Pattern. And the first thing I have done is googling &amp;ldquo;What is Design Pattern?&amp;rdquo; Hence got the idea of this article.&#xA;But as someone without a computer science background(I am from electronics background), learning them was a struggle.</description>
+      <description>After hitting a certain level of experience &amp;amp; spending quite enough time in the industry, I have realised the importance of designing/architecting system &amp;amp; software. So I have started looking into system/software design &amp;amp; got to know nothing can better start than a Design Pattern. And the first thing I have done is googling &amp;ldquo;What is Design Pattern?&amp;rdquo; Hence got the idea of this article.
+But as someone without a computer science background(I am from electronics background), learning them was a struggle.</description>
     </item>
     <item>
       <title>Builder Design Pattern in Modern C&#43;&#43;</title>
       <link>http://localhost:1313/posts/builder-design-pattern-in-modern-cpp/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/builder-design-pattern-in-modern-cpp/</guid>
-      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic or ordinary form of object creation could result in design problems or added complexity to the design. Builder Design Pattern in C++ solves this specific problem by separating the construction of a complex object from its representation.&#xA;By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic or ordinary form of object creation could result in design problems or added complexity to the design. Builder Design Pattern in C++ solves this specific problem by separating the construction of a complex object from its representation.
+By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Dependency Inversion Principle in C&#43;&#43; | SOLID as a Rock</title>
@@ -118,14 +128,16 @@
       <link>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</guid>
-      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C++ helps to mitigate this issue by creating objects using separate methods or polymorphic classes.&#xA;By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C++ helps to mitigate this issue by creating objects using separate methods or polymorphic classes.
+By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock</title>
       <link>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</guid>
-      <description>Interface Segregation Principle in C++ is the fourth &amp;amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp;amp; benefits of ISP.&#xA;By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
+      <description>Interface Segregation Principle in C++ is the fourth &amp;amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp;amp; benefits of ISP.
+By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
     </item>
     <item>
       <title>Prototype Design Pattern in Modern C&#43;&#43;</title>
@@ -174,7 +186,8 @@
       <link>http://localhost:1313/posts/facade-design-pattern-in-modern-cpp/</link>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/facade-design-pattern-in-modern-cpp/</guid>
-      <description>Facade Design Pattern is a Structural Design Pattern used to provide a unified interface to a complex system. It is same as Facade in building architecture, a Facade is an object that serves as a front-facing interface masking a more complex underlying system. A Facade Design Pattern in C++ can:&#xA;Improve the readability &amp;amp; usability of a software library by masking interaction with more complex components by providing a single simplified API.</description>
+      <description>Facade Design Pattern is a Structural Design Pattern used to provide a unified interface to a complex system. It is same as Facade in building architecture, a Facade is an object that serves as a front-facing interface masking a more complex underlying system. A Facade Design Pattern in C++ can:
+Improve the readability &amp;amp; usability of a software library by masking interaction with more complex components by providing a single simplified API.</description>
     </item>
     <item>
       <title>Flyweight Design Pattern in Modern C&#43;&#43;</title>
@@ -188,14 +201,16 @@
       <link>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</link>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</guid>
-      <description>In software engineering, Structural Design Patterns deal with the relationship between objects i.e. how objects/classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at Proxy Design Pattern in C++ which dictates the way you access the object.&#xA;If you haven’t check out other Structural Design Patterns, then here is the list:</description>
+      <description>In software engineering, Structural Design Patterns deal with the relationship between objects i.e. how objects/classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at Proxy Design Pattern in C++ which dictates the way you access the object.
+If you haven’t check out other Structural Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Chain of Responsibility Design Pattern in Modern C&#43;&#43;</title>
       <link>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</guid>
-      <description>Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C++ lets you pass requests along a chain of handlers &amp;amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
+      <description>Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C++ lets you pass requests along a chain of handlers &amp;amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Command Design Pattern in Modern C&#43;&#43;</title>
@@ -209,7 +224,9 @@
       <link>http://localhost:1313/posts/interpreter-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/interpreter-design-pattern-in-modern-cpp/</guid>
-      <description>Interpreter Design Pattern is a Behavioural Design Pattern which is a component that processes structured text data by turning it into separate lexical tokens(lexing) and then interpreting sequences of tokens(parsing). In this article, we will see the Interpreter Design Pattern in Modern C++.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:&#xA;Chain of responsibility Command Interpreter Iterator Mediator Memento Observer State Strategy Template Method Visitor The code snippets you see throughout this series of articles are simplified not sophisticated.</description>
+      <description>Interpreter Design Pattern is a Behavioural Design Pattern which is a component that processes structured text data by turning it into separate lexical tokens(lexing) and then interpreting sequences of tokens(parsing). In this article, we will see the Interpreter Design Pattern in Modern C++.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:
+Chain of responsibility Command Interpreter Iterator Mediator Memento Observer State Strategy Template Method Visitor The code snippets you see throughout this series of articles are simplified not sophisticated.</description>
     </item>
     <item>
       <title>Iterator Design Pattern in Modern C&#43;&#43;</title>
@@ -230,7 +247,8 @@
       <link>http://localhost:1313/posts/memento-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/memento-design-pattern-in-modern-cpp/</guid>
-      <description>Memento Design Pattern in Modern C++ is a very straight forward Behavioural Design Pattern. The motivation behind using the Memento Design Pattern is to keep some sort of token which then allows you to restore an object to a particular state. This is particularly useful if you have a system with medieval components i.e. an object or indeed a set of objects goes through a set of changes.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
+      <description>Memento Design Pattern in Modern C++ is a very straight forward Behavioural Design Pattern. The motivation behind using the Memento Design Pattern is to keep some sort of token which then allows you to restore an object to a particular state. This is particularly useful if you have a system with medieval components i.e. an object or indeed a set of objects goes through a set of changes.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Observer Design Pattern in Modern C&#43;&#43;</title>
@@ -279,7 +297,8 @@
       <link>http://localhost:1313/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/</link>
       <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/</guid>
-      <description>So I have started updating myself with Modern C++ a while ago &amp;amp; since my post 21 new features of Modern C++ to use in your project &amp;amp; All about lambda function in C++ was popular I decided to write about advance C++ concepts &amp;amp; idioms which I have learned from this wikibook &amp;amp; course.&#xA;There are many other advance C++ concepts &amp;amp; idioms as well but I consider these 7 as &amp;ldquo;should-know&amp;rdquo;.</description>
+      <description>So I have started updating myself with Modern C++ a while ago &amp;amp; since my post 21 new features of Modern C++ to use in your project &amp;amp; All about lambda function in C++ was popular I decided to write about advance C++ concepts &amp;amp; idioms which I have learned from this wikibook &amp;amp; course.
+There are many other advance C++ concepts &amp;amp; idioms as well but I consider these 7 as &amp;ldquo;should-know&amp;rdquo;.</description>
     </item>
     <item>
       <title>C&#43;&#43; Exception Handling Best Practices: 7 Things To Know</title>
@@ -293,7 +312,8 @@
       <link>http://localhost:1313/posts/21-new-features-of-modern-cpp-to-use-in-your-project/</link>
       <pubDate>Sun, 13 Oct 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/21-new-features-of-modern-cpp-to-use-in-your-project/</guid>
-      <description>So, you came across the Modern C++ &amp;amp; overwhelmed by its features in terms of performance, convenience &amp;amp; code expressiveness. But in a dilemma that how you can spot where you can enforce Modern C++ features in your day to day coding job. No worries, here we will see 21 new features of Modern C++ you can use in your project.&#xA;C++ community releasing new standards more frequently than iPhone releases.</description>
+      <description>So, you came across the Modern C++ &amp;amp; overwhelmed by its features in terms of performance, convenience &amp;amp; code expressiveness. But in a dilemma that how you can spot where you can enforce Modern C++ features in your day to day coding job. No worries, here we will see 21 new features of Modern C++ you can use in your project.
+C++ community releasing new standards more frequently than iPhone releases.</description>
     </item>
     <item>
       <title>All About Lambda Function in C&#43;&#43;(From C&#43;&#43;11 to C&#43;&#43;20)</title>
@@ -307,7 +327,8 @@
       <link>http://localhost:1313/posts/how-c-program-convert-into-assembly/</link>
       <pubDate>Mon, 16 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/how-c-program-convert-into-assembly/</guid>
-      <description>In an earlier article, we have seen C runtime: before starting main &amp;amp; How C program stored in RAM memory. Here we will see &amp;ldquo;How C program converts into assembly?&amp;rdquo; and different aspect of its working at the machine level.&#xA;A Bit About Functions Stack Frames Link to heading During function code execution, a new stack frame is created in stack memory to allow access to function parameters and local variables.</description>
+      <description>In an earlier article, we have seen C runtime: before starting main &amp;amp; How C program stored in RAM memory. Here we will see &amp;ldquo;How C program converts into assembly?&amp;rdquo; and different aspect of its working at the machine level.
+A Bit About Functions Stack Frames During function code execution, a new stack frame is created in stack memory to allow access to function parameters and local variables. The direction of stack frame growth totally depends on compiler ABI which is out of our scope for this article.</description>
     </item>
     <item>
       <title>How C Program Stored in Ram Memory!</title>
@@ -321,14 +342,18 @@
       <link>http://localhost:1313/posts/default-handlers-in-c-weak_alias/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/default-handlers-in-c-weak_alias/</guid>
-      <description>Default Handlers in C: weak_alias function tells the linker that new is to be a weak alias for old. That is, this definition of new is a weak symbol. If there is no other definition of a symbol called new, this old definition stands.&#xA;Might seems alien to you first, so go through a below example &amp;amp; read again.&#xA;Definition of weak_alias is as follows : #define weak_alias(old, new) \ extern __typeof(old) new __attribute__((weak, alias(#old))) If there is another (non-weak) definition of new then that non-weak(i.</description>
+      <description>Default Handlers in C: weak_alias function tells the linker that new is to be a weak alias for old. That is, this definition of new is a weak symbol. If there is no other definition of a symbol called new, this old definition stands.
+Might seems alien to you first, so go through a below example &amp;amp; read again.
+Definition of weak_alias is as follows : #define weak_alias(old, new) \ extern __typeof(old) new __attribute__((weak, alias(#old))) If there is another (non-weak) definition of new then that non-weak(i.</description>
     </item>
     <item>
       <title>How Floating-Point No Is Stored in Memory?</title>
       <link>http://localhost:1313/posts/how-floating-point-no-is-stored-memory/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/how-floating-point-no-is-stored-memory/</guid>
-      <description>This article is just a simplification of the IEEE 754 standard. Here, we will see how floating-point no stored in memory, floating-point exceptions/rounding, etc. But if you will want to find more authoritative sources then go for&#xA;What Every Computer Scientist Should Know About Floating-Point Arithmetic https://en.wikipedia.org/wiki/IEEE_754-1985 https://en.wikipedia.org/wiki/Floating_point. Floating-point numbers stored by encoding significand &amp;amp; the exponent (along with a sign bit)&#xA;Above line contains 2-3 abstract terms &amp;amp; I think you will unable to understand the above line until you read further.</description>
+      <description>This article is just a simplification of the IEEE 754 standard. Here, we will see how floating-point no stored in memory, floating-point exceptions/rounding, etc. But if you will want to find more authoritative sources then go for
+What Every Computer Scientist Should Know About Floating-Point Arithmetic https://en.wikipedia.org/wiki/IEEE_754-1985 https://en.wikipedia.org/wiki/Floating_point. Floating-point numbers stored by encoding significand &amp;amp; the exponent (along with a sign bit)
+Above line contains 2-3 abstract terms &amp;amp; I think you will unable to understand the above line until you read further.</description>
     </item>
     <item>
       <title>Lvalue Rvalue and Their References With Example in C&#43;&#43;</title>
@@ -342,14 +367,16 @@
       <link>http://localhost:1313/posts/move-constructor-assignment-operator-with-shared-ptr/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/move-constructor-assignment-operator-with-shared-ptr/</guid>
-      <description>In an earlier article, we have seen how move constructor &amp;amp; move assignment operators helped us in creating our own unique_ptr. Here we will use move constructor &amp;amp; assignment operator to implement unsophisticated shared_ptr.&#xA;Implementing Our shared_ptr with Move Constructor &amp;amp; Assignment Operator Link to heading In some cases, we have a requirement where a single resource is represented by multiple pointers. We can not accomplish this by std::unique_ptr. To accomplish this, we can add a new variable to our smart pointer class which keeps track of reference count at the real-time.</description>
+      <description>In an earlier article, we have seen how move constructor &amp;amp; move assignment operators helped us in creating our own unique_ptr. Here we will use move constructor &amp;amp; assignment operator to implement unsophisticated shared_ptr.
+Implementing Our shared_ptr with Move Constructor &amp;amp; Assignment Operator In some cases, we have a requirement where a single resource is represented by multiple pointers. We can not accomplish this by std::unique_ptr. To accomplish this, we can add a new variable to our smart pointer class which keeps track of reference count at the real-time.</description>
     </item>
     <item>
       <title>Understanding unique_ptr with Example in C&#43;&#43;11</title>
       <link>http://localhost:1313/posts/unique_ptr-with-example-in-c/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/unique_ptr-with-example-in-c/</guid>
-      <description>The smart pointers are a really good mechanism to manage dynamically allocated resources. In this article, we will see unique_ptr with example in C++11. But we don&amp;rsquo;t discuss standard smart pointers from a library. Rather, we implement our own smart pointer equivalent to it. This will give us an idea of inside working of smart pointers.&#xA;Brief Link to heading Prior to C++11, the standard provided std::auto_ptr. Which had some limitations.</description>
+      <description>The smart pointers are a really good mechanism to manage dynamically allocated resources. In this article, we will see unique_ptr with example in C++11. But we don&amp;rsquo;t discuss standard smart pointers from a library. Rather, we implement our own smart pointer equivalent to it. This will give us an idea of inside working of smart pointers.
+Brief Prior to C++11, the standard provided std::auto_ptr. Which had some limitations. But from C++11, standard provided many smart pointers classes.</description>
     </item>
     <item>
       <title>C&#43;&#43; Type Casting With Example for C Developers</title>
@@ -370,14 +397,16 @@
       <link>http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</link>
       <pubDate>Thu, 12 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</guid>
-      <description>Finally, we are in the 3rd &amp;amp; last part of this series. We have already discussed how virtual function &amp;amp; virtual class/inheritance works internally in previous parts. We left one topic i.e. &amp;ldquo;How Does Virtual Destructor Works?&amp;rdquo; which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”&#xA;Why Do We Need a Virtual Destructor? Link to heading We will understand this with our earlier example(slightly twisted): class protocol_t { private: uint8_t *_type; // storage .</description>
+      <description>Finally, we are in the 3rd &amp;amp; last part of this series. We have already discussed how virtual function &amp;amp; virtual class/inheritance works internally in previous parts. We left one topic i.e. &amp;ldquo;How Does Virtual Destructor Works?&amp;rdquo; which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”
+Why Do We Need a Virtual Destructor? We will understand this with our earlier example(slightly twisted): class protocol_t { private: uint8_t *_type; // storage .</description>
     </item>
     <item>
       <title>When to Use const vs constexpr in C&#43;&#43;</title>
       <link>http://localhost:1313/posts/when-to-use-const-vs-constexpr-in-cpp/</link>
       <pubDate>Thu, 12 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/when-to-use-const-vs-constexpr-in-cpp/</guid>
-      <description>While introducing myself to Modern C++ &amp;amp; its new features introduced in C++11 &amp;amp; C++14, I have completely neglected this keyword constexpr. Initially, I was confused about when to use const vs constexpr in C++ &amp;amp; how this constexpr works &amp;amp; differ with const. So, I have studied this from different sources &amp;amp; here is the consolidation of it:&#xA;Primitive constexpr Variables Link to heading int varA = 3; const int varB = 5; constexpr int varC = 7; All of the above variable having a value which is known at compile time.</description>
+      <description>While introducing myself to Modern C++ &amp;amp; its new features introduced in C++11 &amp;amp; C++14, I have completely neglected this keyword constexpr. Initially, I was confused about when to use const vs constexpr in C++ &amp;amp; how this constexpr works &amp;amp; differ with const. So, I have studied this from different sources &amp;amp; here is the consolidation of it:
+Primitive constexpr Variables int varA = 3; const int varB = 5; constexpr int varC = 7; All of the above variable having a value which is known at compile time.</description>
     </item>
     <item>
       <title>2 Wrong Way to Learn Copy Assignment Operator in C&#43;&#43; With Example</title>
@@ -391,7 +420,8 @@
       <link>http://localhost:1313/posts/all-about-copy-constructor-in-cpp-with-example/</link>
       <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/all-about-copy-constructor-in-cpp-with-example/</guid>
-      <description>Do not carry away with the title &amp;ldquo;All about copy constructor in C++ with example&amp;rdquo;. In this article, I am not going to describe what copy constructor in C++ is. There is plenty of material available for that over the internet. Rather we will discuss why, where &amp;amp; how it used, how compiler synthesizes it for you and in what scenarios it called or not synthesized.&#xA;Why: Copy Constructor Link to heading The simple answer is to copy the data within the same data types, but if you want more concrete idea then see below image:</description>
+      <description>Do not carry away with the title &amp;ldquo;All about copy constructor in C++ with example&amp;rdquo;. In this article, I am not going to describe what copy constructor in C++ is. There is plenty of material available for that over the internet. Rather we will discuss why, where &amp;amp; how it used, how compiler synthesizes it for you and in what scenarios it called or not synthesized.
+Why: Copy Constructor The simple answer is to copy the data within the same data types, but if you want more concrete idea then see below image:</description>
     </item>
     <item>
       <title>Inside the C&#43;&#43; Object Model</title>
@@ -426,14 +456,17 @@
       <link>http://localhost:1313/posts/how-do-malloc-free-work-in-c/</link>
       <pubDate>Sat, 08 Oct 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/how-do-malloc-free-work-in-c/</guid>
-      <description>As we know, the process can allocate &amp;amp; deallocate memory using malloc &amp;amp; free in C language. But do you ever consider what happens behind the scene ? or How do malloc &amp;amp; free work? Let see&#xA;Allocating Memory on the Heap Link to heading A process can allocate memory by increasing the size of the heap.&#xA;Heap is a variable-size segment of contiguous virtual memory that begins just after the uninitialized data segment of a process and grows &amp;amp; shrinks as memory allocated and freed.</description>
+      <description>As we know, the process can allocate &amp;amp; deallocate memory using malloc &amp;amp; free in C language. But do you ever consider what happens behind the scene ? or How do malloc &amp;amp; free work? Let see
+Allocating Memory on the Heap A process can allocate memory by increasing the size of the heap.
+Heap is a variable-size segment of contiguous virtual memory that begins just after the uninitialized data segment of a process and grows &amp;amp; shrinks as memory allocated and freed.</description>
     </item>
     <item>
       <title>CRT: C Run Time Before Starting main()</title>
       <link>http://localhost:1313/posts/crt-run-time-before-starting-main/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/crt-run-time-before-starting-main/</guid>
-      <description>There are a lot of functions called before &amp;amp; after the main execution. As an application developer you need not worry about this stuff, but yes! if you are a core developer who works in Linux kernel, Binutils, compiler or embedded system-related development, then you must know these things. Here in &amp;ldquo;CRT: C run time before starting main&amp;rdquo;, we will see some pointers related to it.&#xA;What Is crt? Link to heading crt stands for C runtime.</description>
+      <description>There are a lot of functions called before &amp;amp; after the main execution. As an application developer you need not worry about this stuff, but yes! if you are a core developer who works in Linux kernel, Binutils, compiler or embedded system-related development, then you must know these things. Here in &amp;ldquo;CRT: C run time before starting main&amp;rdquo;, we will see some pointers related to it.
+What Is crt? crt stands for C runtime.</description>
     </item>
   </channel>
 </rss>

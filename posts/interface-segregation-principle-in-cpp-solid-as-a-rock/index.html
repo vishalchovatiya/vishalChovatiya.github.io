@@ -1,451 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <title>
-  Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock · Vishal Chovatiya
-</title>
-  <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light dark">
-
-
-
-
-<meta name="author" content="Vishal Chovatiya">
-<meta name="description" content="Interface Segregation Principle in C&#43;&#43; is the fourth &amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp; benefits of ISP.
-By the way, If you haven&rsquo;t gone through my previous articles on design principles, then below is the quick links:">
-<meta name="keywords" content="blog,developer,personal">
-
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock">
-  <meta name="twitter:description" content="Interface Segregation Principle in C&#43;&#43; is the fourth &amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp; benefits of ISP.
-By the way, If you haven’t gone through my previous articles on design principles, then below is the quick links:">
-
-<meta property="og:url" content="http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/">
-  <meta property="og:site_name" content="Vishal Chovatiya">
-  <meta property="og:title" content="Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock">
-  <meta property="og:description" content="Interface Segregation Principle in C&#43;&#43; is the fourth &amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp; benefits of ISP.
-By the way, If you haven’t gone through my previous articles on design principles, then below is the quick links:">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2020-04-06T00:00:00+00:00">
-    <meta property="article:modified_time" content="2020-04-06T00:00:00+00:00">
-
-
-
-
-<link rel="canonical" href="http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/">
-
-
-<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-
-
-  
-  
-  <link rel="stylesheet" href="/css/coder.css" media="screen">
-
-
-
-
-
-
-
-
- 
-
-
-
-
-<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
-<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-
-
-
-
-
-
-</head>
-
-
-
-
-<body class="preload-transitions colorscheme-light">
-  
-
-  <main class="wrapper">
-    <nav class="navigation">
-  <section class="container">
-    
-    <a class="navigation-title" href="http://localhost:1313/">
-      Vishal Chovatiya
-    </a>
-    
-    
-      <input type="checkbox" id="menu-toggle" />
-      <label class="menu-button float-right" for="menu-toggle">
-        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
-      </label>
-      <ul class="navigation-list">
-        
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/posts/">Latest</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/pages/start-here">Start Here</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/misc/">Misc</a>
-            </li>
-          
-        
-        
-      </ul>
-    
-  </section>
-</nav>
-
-
-    <div class="content">
-      
-  <section class="container post">
-    <article>
-      <header>
-        <div class="post-title">
-          <h1 class="title">
-            <a class="title-link" href="http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/">
-              Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock
-            </a>
-          </h1>
-        </div>
-        <div class="post-meta">
-          <div class="date">
-            <span class="posted-on">
-              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              <time datetime="2020-04-06T00:00:00Z">
-                April 6, 2020
-              </time>
-            </span>
-            <span class="reading-time">
-              <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              5-minute read
-            </span>
-          </div>
-          
-          <div class="categories">
-  <i class="fa-solid fa-folder" aria-hidden="true"></i>
-    <a href="/categories/cpp/">Cpp</a>
-      <span class="separator">•</span>
-    <a href="/categories/design-patterns/">Design-Patterns</a>
-      <span class="separator">•</span>
-    <a href="/categories/design-principles/">Design-Principles</a>
-      <span class="separator">•</span>
-    <a href="/categories/software-engineering/">Software-Engineering</a></div>
-
-          
-        </div>
-      </header>
-
-      <div class="post-content">
-        
-          <img src="/images/Interface-Segregation-Principle-in-C-SOLID-as-a-Rock-vishal-chovatiya.webp" alt="Featured image"/>
-        
-        <p><strong>I</strong>nterface <strong>S</strong>egregation <strong>P</strong>rinciple in C++ is the fourth &amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp; benefits of ISP.</p>
-<p>By the way, If you haven&rsquo;t gone through my previous articles on design principles, then below is the quick links:</p>
-<ol>
-<li><a href="/posts//single-responsibility-principle-in-cpp-solid-as-a-rock/" ><strong>S</strong>RP – Single Responsibility Principle</a></li>
-<li><a href="/posts//open-closed-principle-in-cpp-solid-as-a-rock/" ><strong>O</strong>CP – Open/Closed Principle</a></li>
-<li><a href="/posts//liskovs-substitution-principle-in-cpp-solid-as-a-rock/" ><strong>L</strong>SP – Liskov Substitution Principle</a></li>
-<li><a href="/posts//interface-segregation-principle-in-cpp-solid-as-a-rock/" ><strong>I</strong>SP – Interface Segregation Principle</a></li>
-<li><a href="/posts//dependency-inversion-principle-in-cpp-solid-as-a-rock/" ><strong>D</strong>IP – Dependency Inversion Principle</a></li>
-</ol>
-<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
-<p><strong><em>Note:</em></strong></p>
-<ul>
-<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
-<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
-</ul>
-<h2 id="intent">
-  Intent
-  <a class="heading-link" href="#intent">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<blockquote>
-<p><strong><em>Clients should not be forced to depend on interfaces that they do not use.</em></strong></p>
-</blockquote>
-<ul>
-<li>Interface Segregation Principle is very much related to the Single Responsibility Principle. What it really means is that you should always design your abstractions in such a way that the clients that are using the exposed methods do not have to get the whole pie instead. That imposing the clients with the burden of implementing methods that they don’t actually need.</li>
-</ul>
-<h2 id="motivation-violating-the-interface-segregation-principle">
-  Motivation: Violating the Interface Segregation Principle
-  <a class="heading-link" href="#motivation-violating-the-interface-segregation-principle">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Document</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">IMachine</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fax</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">scan</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MultiFunctionPrinter</span> <span style="color:#f92672">:</span> IMachine {      <span style="color:#75715e">// OK
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> { }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fax</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> { }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">scan</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> { }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Scanner</span> <span style="color:#f92672">:</span> IMachine {                   <span style="color:#75715e">// Not OK
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> { <span style="color:#75715e">/* Blank */</span> }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fax</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> { <span style="color:#75715e">/* Blank */</span> }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">scan</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> {  
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Do scanning ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><ul>
-<li>As you can see, as far as <code>MultiFunctionPrinter</code> was concerned it&rsquo;s ok to implement <code>print()</code>, <code>fax()</code> &amp; <code>scan()</code> methods enforced by <code>IMachine</code> interface.</li>
-<li>But what if you only need a <code>Scanner</code> or <code>Printer</code>, some dev still inherits <code>IMachine</code> &amp; leave unnecessary methods blank or throw <code>NotImplemented</code> exception, either way, you are doing it wrong.</li>
-</ul>
-<h2 id="solution-example-of-interface-segregation-principle-in-c">
-  Solution: Example of Interface Segregation Principle in C++
-  <a class="heading-link" href="#solution-example-of-interface-segregation-principle-in-c">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">/* -------------------------------- Interfaces ----------------------------- */</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">IPrinter</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">IScanner</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">scan</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------------------------------------------------ */</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Printer</span> <span style="color:#f92672">:</span> IPrinter {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span>;
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Scanner</span> <span style="color:#f92672">:</span> IScanner {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">scan</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span>;
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">IMachine</span> <span style="color:#f92672">:</span> IPrinter, IScanner { };
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Machine</span> <span style="color:#f92672">:</span> IMachine {
-</span></span><span style="display:flex;"><span>    IPrinter<span style="color:#f92672">&amp;</span>   m_printer;
-</span></span><span style="display:flex;"><span>    IScanner<span style="color:#f92672">&amp;</span>   m_scanner;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Machine(IPrinter <span style="color:#f92672">&amp;</span>p, IScanner <span style="color:#f92672">&amp;</span>s) <span style="color:#f92672">:</span> printer{p}, scanner{s} { }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> { printer.print(doc); }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">scan</span>(Document <span style="color:#f92672">&amp;</span>doc) <span style="color:#66d9ef">override</span> { scanner.scan(doc); }
-</span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><ul>
-<li>This gives the flexibility for the clients to combine the abstractions as they may see fit and to provide implementations without unnecessary cargo. </li>
-<li>As explained in the <a href="/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/" >Single Responsibility Principle</a>. You should avoid classes &amp; interfaces with multiple responsibilities. Because they change often and make your software hard to maintain. You should try to <strong><em>split up the interface into multiple interfaces based on role</em></strong>.</li>
-</ul>
-<h2 id="benefits">
-  Benefits
-  <a class="heading-link" href="#benefits">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<h3 id="-faster-compilation">
-  =&gt; Faster Compilation
-  <a class="heading-link" href="#-faster-compilation">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>If you have violated ISP i.e. stuffed methods together in the interface, and when method signature changes, you need to recompile all the derived classes. This is an important aspect for some compiled languages like <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >C++</a> which is well known for <a href="https://stackoverflow.com/questions/318398/why-does-c-compilation-take-so-long"  class="external-link" target="_blank" rel="noopener">slow compilation</a>. While another way around is self explainable.</li>
-</ul>
-<h3 id="-reusability">
-  =&gt; Reusability
-  <a class="heading-link" href="#-reusability">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Robert_C._Martin"  class="external-link" target="_blank" rel="noopener">Martin</a> also mentions that <strong><em>&ldquo;fat interfaces&rdquo; — interfaces with additional useless methods</em></strong> — lead to inadvertent coupling between classes. Thus, an experienced dev knows coupling is the bane of reusability.</li>
-</ul>
-<h3 id="-maintainability">
-  =&gt; Maintainability
-  <a class="heading-link" href="#-maintainability">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>The much more universal ISP benefit is that by avoiding unneeded dependencies, the system becomes
-<ul>
-<li>easier to understand;</li>
-<li>lighter to test;</li>
-<li>quicker to change.</li>
-</ul>
-</li>
-<li>Similarly, to the reader of your code, it would be harder to get an idea of what your class does from the class declaration line. So, if dev sees only the one god-interface that may have inherited other interfaces it will likely not be obvious. Compare</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>MyMachine : IMachine
-</span></span></code></pre></div><p>to</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>MyMachine : IPrinter, IScanner, IFaxer
-</span></span></code></pre></div><ul>
-<li>The latter tells you a lot, the former makes you guess at best.</li>
-</ul>
-<h2 id="yardstick-to-craft-interface-segregation-principle-friendly-software-in-c">
-  Yardstick to Craft Interface Segregation Principle Friendly Software in C++
-  <a class="heading-link" href="#yardstick-to-craft-interface-segregation-principle-friendly-software-in-c">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<ul>
-<li>This principle comes naturally when you start decomposing your problem space by identifying major roles that take part in your domain. Hence, it&rsquo;s never a mechanical action.</li>
-<li>Following a single question to your self may help you to rectify your design:</li>
-</ul>
-<p><strong><em>Do I need all the methods on this interface I&rsquo;m using?</em></strong></p>
-<h2 id="closing-notes">
-  Closing Notes
-  <a class="heading-link" href="#closing-notes">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<p>Even though big interfaces are a potential problem, the ISP isn&rsquo;t about the size of interfaces. Rather, it&rsquo;s about whether classes use the methods of the interfaces on which they depend. So ISP is poor guidance when designing software, but an excellent indicator of whether it’s healthy or not.</p>
-
-      </div>
-
-
-      <footer>
-        
-
-
-        
-        
-        
-        
-        
-
-        
-        
-      </footer>
-    </article>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
-    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
-  
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
-    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
-    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
-    onload="renderMathInElement(document.body,
-      {
-        delimiters: [
-          {left: '$$', right: '$$', display:true},
-          {left: '$', right: '$', display:false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ]
-      }
-    );"></script>
-  </section>
-
-    </div>
-
-    <footer class="footer">
-  <section class="container">
-    ©
-    
-    2024
-     Vishal Chovatiya 
-    ·
-    
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
-    
-  </section>
-</footer>
-
-  </main>
-
-  
-
-  
-  
-  <script src="/js/coder.js"></script>
-  
-
-  
-
-  
-
-
-  
-  
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</body>
-
-</html>
+<!doctype html><html lang=en dir=auto><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Interface Segregation Principle in C++ | SOLID as a Rock | Vishal Chovatiya</title>
+<meta name=keywords content="advantages-of-interface-segregation-principle,benefits,benefits-of-interface-segregation-principle,clean-code-interface-segregation-principle,dependency-inversion-principle,difference-between-liskov-and-interface-segregation,example-of-interface-segregation-principle,faster-compilation,fat-interface-segregation-principle,intent,interface-segregation,interface-segregation-principle,interface-segregation-principle-isp,interface-segregation-principle-isp-example,interface-segregation-principle-abstract-class,interface-segregation-principle-adapter-pattern,interface-segregation-principle-benefits,interface-segregation-principle-c-example,interface-segregation-principle-definition,interface-segregation-principle-design-pattern,interface-segregation-principle-example,interface-segregation-principle-example-in-c,interface-segregation-principle-in-agile,interface-segregation-principle-in-software-engineering,interface-segregation-principle-in-solid,interface-segregation-principle-martin,interface-segregation-principle-principle,interface-segregation-principle-pros-and-cons,interface-segregation-principle-real-world-example,interface-segregation-principle-simple-example,interface-segregation-principle-solid,interface-segregation-principle-too-many-interfaces,interface-segregation-principle-uncle-bob,interface-segregation-principle-usages,interface-segregation-principle-violation,interface-segregation-principle-violation-example,interface-segregation-principle-vs-single-responsibility,interface-segregation-principle-with-example,isp-interface-segregation-principle,isp-principle,maintainability,motivation-violating-the-interface-segregation-principle,reusability,segregation-principle,solid-principles-interface-segregation-principle,solution-example-of-interface-segregation-principle-in-c,the-interface-segregation-principle,what-is-interface-segregation-principle,why-interface-segregation-principle,yardstick-to-craft-interface-segregation-principle-friendly-software-in-c"><meta name=description content="Interface Segregation Principle in C++ is the fourth & by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable & extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline & benefits of ISP.
+By the way, If you haven&rsquo;t gone through my previous articles on design principles, then below is the quick links:"><meta name=author content="Vishal Chovatiya"><link rel=canonical href=http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as=style><link rel=icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="Interface Segregation Principle in C++ | SOLID as a Rock"><meta property="og:description" content="Interface Segregation Principle in C++ is the fourth & by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable & extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline & benefits of ISP.
+By the way, If you haven&rsquo;t gone through my previous articles on design principles, then below is the quick links:"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/"><meta property="og:image" content="http://localhost:1313/images/Interface-Segregation-Principle-in-C-SOLID-as-a-Rock-vishal-chovatiya.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-04-06T00:00:00+00:00"><meta property="article:modified_time" content="2020-04-06T00:00:00+00:00"><meta property="og:site_name" content="ExampleSite"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://localhost:1313/images/Interface-Segregation-Principle-in-C-SOLID-as-a-Rock-vishal-chovatiya.webp"><meta name=twitter:title content="Interface Segregation Principle in C++ | SOLID as a Rock"><meta name=twitter:description content="Interface Segregation Principle in C++ is the fourth & by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable & extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline & benefits of ISP.
+By the way, If you haven&rsquo;t gone through my previous articles on design principles, then below is the quick links:"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"http://localhost:1313/posts/"},{"@type":"ListItem","position":2,"name":"Interface Segregation Principle in C++ | SOLID as a Rock","item":"http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Interface Segregation Principle in C++ | SOLID as a Rock","name":"Interface Segregation Principle in C\u002b\u002b | SOLID as a Rock","description":"Interface Segregation Principle in C++ is the fourth \u0026amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable \u0026amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline \u0026amp; benefits of ISP.\nBy the way, If you haven\u0026rsquo;t gone through my previous articles on design principles, then below is the quick links:","keywords":["advantages-of-interface-segregation-principle","benefits","benefits-of-interface-segregation-principle","clean-code-interface-segregation-principle","dependency-inversion-principle","difference-between-liskov-and-interface-segregation","example-of-interface-segregation-principle","faster-compilation","fat-interface-segregation-principle","intent","interface-segregation","interface-segregation-principle","interface-segregation-principle-isp","interface-segregation-principle-isp-example","interface-segregation-principle-abstract-class","interface-segregation-principle-adapter-pattern","interface-segregation-principle-benefits","interface-segregation-principle-c-example","interface-segregation-principle-definition","interface-segregation-principle-design-pattern","interface-segregation-principle-example","interface-segregation-principle-example-in-c","interface-segregation-principle-in-agile","interface-segregation-principle-in-software-engineering","interface-segregation-principle-in-solid","interface-segregation-principle-martin","interface-segregation-principle-principle","interface-segregation-principle-pros-and-cons","interface-segregation-principle-real-world-example","interface-segregation-principle-simple-example","interface-segregation-principle-solid","interface-segregation-principle-too-many-interfaces","interface-segregation-principle-uncle-bob","interface-segregation-principle-usages","interface-segregation-principle-violation","interface-segregation-principle-violation-example","interface-segregation-principle-vs-single-responsibility","interface-segregation-principle-with-example","isp-interface-segregation-principle","isp-principle","maintainability","motivation-violating-the-interface-segregation-principle","reusability","segregation-principle","solid-principles-interface-segregation-principle","solution-example-of-interface-segregation-principle-in-c","the-interface-segregation-principle","what-is-interface-segregation-principle","why-interface-segregation-principle","yardstick-to-craft-interface-segregation-principle-friendly-software-in-c"],"articleBody":"Interface Segregation Principle in C++ is the fourth \u0026 by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable \u0026 extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline \u0026 benefits of ISP.\nBy the way, If you haven’t gone through my previous articles on design principles, then below is the quick links:\nSRP – Single Responsibility Principle OCP – Open/Closed Principle LSP – Liskov Substitution Principle ISP – Interface Segregation Principle DIP – Dependency Inversion Principle The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like override, final, public(while inheritance) just to make code compact \u0026 consumable(most of the time) in single standard screen size. I also prefer struct instead of class just to save line by not writing “public:” sometimes and also miss virtual destructor, constructor, copy constructor, prefix std::, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.\nNote:\nIf you stumbled here directly, then I would suggest you go through What is design pattern? first, even if it is trivial. I believe it will encourage you to explore more on this topic. All of this code you encounter in this series of articles are compiled using C++20(though I have used Modern C++ features up to C++17 in most cases). So if you don’t have access to the latest compiler you can use https://wandbox.org/ which has preinstalled boost library as well. Intent Clients should not be forced to depend on interfaces that they do not use.\nInterface Segregation Principle is very much related to the Single Responsibility Principle. What it really means is that you should always design your abstractions in such a way that the clients that are using the exposed methods do not have to get the whole pie instead. That imposing the clients with the burden of implementing methods that they don’t actually need. Motivation: Violating the Interface Segregation Principle struct Document; struct IMachine { virtual void print(Document \u0026doc) = 0; virtual void fax(Document \u0026doc) = 0; virtual void scan(Document \u0026doc) = 0; }; struct MultiFunctionPrinter : IMachine { // OK void print(Document \u0026doc) override { } void fax(Document \u0026doc) override { } void scan(Document \u0026doc) override { } }; struct Scanner : IMachine { // Not OK void print(Document \u0026doc) override { /* Blank */ } void fax(Document \u0026doc) override { /* Blank */ } void scan(Document \u0026doc) override { // Do scanning ... } }; As you can see, as far as MultiFunctionPrinter was concerned it’s ok to implement print(), fax() \u0026 scan() methods enforced by IMachine interface. But what if you only need a Scanner or Printer, some dev still inherits IMachine \u0026 leave unnecessary methods blank or throw NotImplemented exception, either way, you are doing it wrong. Solution: Example of Interface Segregation Principle in C++ /* -------------------------------- Interfaces ----------------------------- */ struct IPrinter { virtual void print(Document \u0026doc) = 0; }; struct IScanner { virtual void scan(Document \u0026doc) = 0; }; /* ------------------------------------------------------------------------ */ struct Printer : IPrinter { void print(Document \u0026doc) override; }; struct Scanner : IScanner { void scan(Document \u0026doc) override; }; struct IMachine : IPrinter, IScanner { }; struct Machine : IMachine { IPrinter\u0026 m_printer; IScanner\u0026 m_scanner; Machine(IPrinter \u0026p, IScanner \u0026s) : printer{p}, scanner{s} { } void print(Document \u0026doc) override { printer.print(doc); } void scan(Document \u0026doc) override { scanner.scan(doc); } }; This gives the flexibility for the clients to combine the abstractions as they may see fit and to provide implementations without unnecessary cargo. As explained in the Single Responsibility Principle. You should avoid classes \u0026 interfaces with multiple responsibilities. Because they change often and make your software hard to maintain. You should try to split up the interface into multiple interfaces based on role. Benefits =\u003e Faster Compilation If you have violated ISP i.e. stuffed methods together in the interface, and when method signature changes, you need to recompile all the derived classes. This is an important aspect for some compiled languages like C++ which is well known for slow compilation. While another way around is self explainable. =\u003e Reusability Martin also mentions that “fat interfaces” — interfaces with additional useless methods — lead to inadvertent coupling between classes. Thus, an experienced dev knows coupling is the bane of reusability. =\u003e Maintainability The much more universal ISP benefit is that by avoiding unneeded dependencies, the system becomes easier to understand; lighter to test; quicker to change. Similarly, to the reader of your code, it would be harder to get an idea of what your class does from the class declaration line. So, if dev sees only the one god-interface that may have inherited other interfaces it will likely not be obvious. Compare MyMachine : IMachine to\nMyMachine : IPrinter, IScanner, IFaxer The latter tells you a lot, the former makes you guess at best. Yardstick to Craft Interface Segregation Principle Friendly Software in C++ This principle comes naturally when you start decomposing your problem space by identifying major roles that take part in your domain. Hence, it’s never a mechanical action. Following a single question to your self may help you to rectify your design: Do I need all the methods on this interface I’m using?\nClosing Notes Even though big interfaces are a potential problem, the ISP isn’t about the size of interfaces. Rather, it’s about whether classes use the methods of the interfaces on which they depend. So ISP is poor guidance when designing software, but an excellent indicator of whether it’s healthy or not.\n","wordCount":"962","inLanguage":"en","image":"http://localhost:1313/images/Interface-Segregation-Principle-in-C-SOLID-as-a-Rock-vishal-chovatiya.webp","datePublished":"2020-04-06T00:00:00Z","dateModified":"2020-04-06T00:00:00Z","author":{"@type":"Person","name":"Vishal Chovatiya"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/"},"publisher":{"@type":"Organization","name":"Vishal Chovatiya","logo":{"@type":"ImageObject","url":"http://localhost:1313/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=http://localhost:1313/ accesskey=h title="Vishal Chovatiya (Alt + H)"><img src=http://localhost:1313/apple-touch-icon.png alt aria-label=logo height=35>Vishal Chovatiya</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=http://localhost:1313/pages/vishal-chovatiya title="About Me"><span>About Me</span></a></li><li><a href=http://localhost:1313/pages/start-here title="Start Here"><span>Start Here</span></a></li><li><a href=http://localhost:1313/posts/ title=Latest><span>Latest</span></a></li><li><a href=http://localhost:1313/categories/ title=Categories><span>Categories</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=http://localhost:1313/>Home</a>&nbsp;»&nbsp;<a href=http://localhost:1313/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">Interface Segregation Principle in C++ | SOLID as a Rock</h1><div class=post-meta><span title='2020-04-06 00:00:00 +0000 UTC'>April 6, 2020</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;962 words&nbsp;·&nbsp;Vishal Chovatiya&nbsp;|&nbsp;<a href=https://github.com/vishalchovatiya/blog/vishalchovatiya/content/posts/interface-segregation-principle-in-cpp-solid-as-a-rock.md rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><figure class=entry-cover><img loading=eager src=http://localhost:1313/images/Interface-Segregation-Principle-in-C-SOLID-as-a-Rock-vishal-chovatiya.webp alt></figure><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#intent>Intent</a></li><li><a href=#motivation-violating-the-interface-segregation-principle>Motivation: Violating the Interface Segregation Principle</a></li><li><a href=#solution-example-of-interface-segregation-principle-in-c>Solution: Example of Interface Segregation Principle in C++</a></li><li><a href=#benefits>Benefits</a><ul><li><a href=#-faster-compilation>=> Faster Compilation</a></li><li><a href=#-reusability>=> Reusability</a></li><li><a href=#-maintainability>=> Maintainability</a></li></ul></li><li><a href=#yardstick-to-craft-interface-segregation-principle-friendly-software-in-c>Yardstick to Craft Interface Segregation Principle Friendly Software in C++</a></li><li><a href=#closing-notes>Closing Notes</a></li></ul></nav></div></details></div><div class=post-content><p><strong>I</strong>nterface <strong>S</strong>egregation <strong>P</strong>rinciple in C++ is the fourth & by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable & extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline & benefits of ISP.</p><p>By the way, If you haven&rsquo;t gone through my previous articles on design principles, then below is the quick links:</p><ol><li><a href=/posts//single-responsibility-principle-in-cpp-solid-as-a-rock/><strong>S</strong>RP – Single Responsibility Principle</a></li><li><a href=/posts//open-closed-principle-in-cpp-solid-as-a-rock/><strong>O</strong>CP – Open/Closed Principle</a></li><li><a href=/posts//liskovs-substitution-principle-in-cpp-solid-as-a-rock/><strong>L</strong>SP – Liskov Substitution Principle</a></li><li><a href=/posts//interface-segregation-principle-in-cpp-solid-as-a-rock/><strong>I</strong>SP – Interface Segregation Principle</a></li><li><a href=/posts//dependency-inversion-principle-in-cpp-solid-as-a-rock/><strong>D</strong>IP – Dependency Inversion Principle</a></li></ol><p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact & consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href=/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/>virtual destructor</a>, constructor, <a href=/posts//all-about-copy-constructor-in-cpp-with-example/>copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p><p><strong><em>Note:</em></strong></p><ul><li>If you stumbled here directly, then I would suggest you go through <a href=/posts//what-is-design-pattern/>What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li><li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href=/posts//21-new-features-of-modern-cpp-to-use-in-your-project/>Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href=https://wandbox.org/>https://wandbox.org/</a> which has preinstalled boost library as well.</li></ul><h2 id=intent>Intent<a hidden class=anchor aria-hidden=true href=#intent>#</a></h2><blockquote><p><strong><em>Clients should not be forced to depend on interfaces that they do not use.</em></strong></p></blockquote><ul><li>Interface Segregation Principle is very much related to the Single Responsibility Principle. What it really means is that you should always design your abstractions in such a way that the clients that are using the exposed methods do not have to get the whole pie instead. That imposing the clients with the burden of implementing methods that they don’t actually need.</li></ul><h2 id=motivation-violating-the-interface-segregation-principle>Motivation: Violating the Interface Segregation Principle<a hidden class=anchor aria-hidden=true href=#motivation-violating-the-interface-segregation-principle>#</a></h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Document</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>IMachine</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>fax</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>scan</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>MultiFunctionPrinter</span> <span class=o>:</span> <span class=n>IMachine</span> <span class=p>{</span>      <span class=c1>// OK
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>fax</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>scan</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Scanner</span> <span class=o>:</span> <span class=n>IMachine</span> <span class=p>{</span>                   <span class=c1>// Not OK
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span> <span class=cm>/* Blank */</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>fax</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span> <span class=cm>/* Blank */</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>scan</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span>  
+</span></span><span class=line><span class=cl>        <span class=c1>// Do scanning ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></div><ul><li>As you can see, as far as <code>MultiFunctionPrinter</code> was concerned it&rsquo;s ok to implement <code>print()</code>, <code>fax()</code> & <code>scan()</code> methods enforced by <code>IMachine</code> interface.</li><li>But what if you only need a <code>Scanner</code> or <code>Printer</code>, some dev still inherits <code>IMachine</code> & leave unnecessary methods blank or throw <code>NotImplemented</code> exception, either way, you are doing it wrong.</li></ul><h2 id=solution-example-of-interface-segregation-principle-in-c>Solution: Example of Interface Segregation Principle in C++<a hidden class=anchor aria-hidden=true href=#solution-example-of-interface-segregation-principle-in-c>#</a></h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cm>/* -------------------------------- Interfaces ----------------------------- */</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>IPrinter</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>IScanner</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>virtual</span> <span class=kt>void</span> <span class=nf>scan</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=cm>/* ------------------------------------------------------------------------ */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Printer</span> <span class=o>:</span> <span class=n>IPrinter</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Scanner</span> <span class=o>:</span> <span class=n>IScanner</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>scan</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>IMachine</span> <span class=o>:</span> <span class=n>IPrinter</span><span class=p>,</span> <span class=n>IScanner</span> <span class=p>{</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Machine</span> <span class=o>:</span> <span class=n>IMachine</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>IPrinter</span><span class=o>&amp;</span>   <span class=n>m_printer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>IScanner</span><span class=o>&amp;</span>   <span class=n>m_scanner</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Machine</span><span class=p>(</span><span class=n>IPrinter</span> <span class=o>&amp;</span><span class=n>p</span><span class=p>,</span> <span class=n>IScanner</span> <span class=o>&amp;</span><span class=n>s</span><span class=p>)</span> <span class=o>:</span> <span class=n>printer</span><span class=p>{</span><span class=n>p</span><span class=p>},</span> <span class=n>scanner</span><span class=p>{</span><span class=n>s</span><span class=p>}</span> <span class=p>{</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span> <span class=n>printer</span><span class=p>.</span><span class=n>print</span><span class=p>(</span><span class=n>doc</span><span class=p>);</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=nf>scan</span><span class=p>(</span><span class=n>Document</span> <span class=o>&amp;</span><span class=n>doc</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span> <span class=n>scanner</span><span class=p>.</span><span class=n>scan</span><span class=p>(</span><span class=n>doc</span><span class=p>);</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></div><ul><li>This gives the flexibility for the clients to combine the abstractions as they may see fit and to provide implementations without unnecessary cargo. </li><li>As explained in the <a href=/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/>Single Responsibility Principle</a>. You should avoid classes & interfaces with multiple responsibilities. Because they change often and make your software hard to maintain. You should try to <strong><em>split up the interface into multiple interfaces based on role</em></strong>.</li></ul><h2 id=benefits>Benefits<a hidden class=anchor aria-hidden=true href=#benefits>#</a></h2><h3 id=-faster-compilation>=> Faster Compilation<a hidden class=anchor aria-hidden=true href=#-faster-compilation>#</a></h3><ul><li>If you have violated ISP i.e. stuffed methods together in the interface, and when method signature changes, you need to recompile all the derived classes. This is an important aspect for some compiled languages like <a href=/posts/21-new-features-of-modern-cpp-to-use-in-your-project/>C++</a> which is well known for <a href=https://stackoverflow.com/questions/318398/why-does-c-compilation-take-so-long>slow compilation</a>. While another way around is self explainable.</li></ul><h3 id=-reusability>=> Reusability<a hidden class=anchor aria-hidden=true href=#-reusability>#</a></h3><ul><li><a href=https://en.wikipedia.org/wiki/Robert_C._Martin>Martin</a> also mentions that <strong><em>&ldquo;fat interfaces&rdquo; — interfaces with additional useless methods</em></strong> — lead to inadvertent coupling between classes. Thus, an experienced dev knows coupling is the bane of reusability.</li></ul><h3 id=-maintainability>=> Maintainability<a hidden class=anchor aria-hidden=true href=#-maintainability>#</a></h3><ul><li>The much more universal ISP benefit is that by avoiding unneeded dependencies, the system becomes<ul><li>easier to understand;</li><li>lighter to test;</li><li>quicker to change.</li></ul></li><li>Similarly, to the reader of your code, it would be harder to get an idea of what your class does from the class declaration line. So, if dev sees only the one god-interface that may have inherited other interfaces it will likely not be obvious. Compare</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=nl>MyMachine</span> <span class=p>:</span> <span class=n>IMachine</span>
+</span></span></code></pre></div><p>to</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=nl>MyMachine</span> <span class=p>:</span> <span class=n>IPrinter</span><span class=p>,</span> <span class=n>IScanner</span><span class=p>,</span> <span class=n>IFaxer</span>
+</span></span></code></pre></div><ul><li>The latter tells you a lot, the former makes you guess at best.</li></ul><h2 id=yardstick-to-craft-interface-segregation-principle-friendly-software-in-c>Yardstick to Craft Interface Segregation Principle Friendly Software in C++<a hidden class=anchor aria-hidden=true href=#yardstick-to-craft-interface-segregation-principle-friendly-software-in-c>#</a></h2><ul><li>This principle comes naturally when you start decomposing your problem space by identifying major roles that take part in your domain. Hence, it&rsquo;s never a mechanical action.</li><li>Following a single question to your self may help you to rectify your design:</li></ul><p><strong><em>Do I need all the methods on this interface I&rsquo;m using?</em></strong></p><h2 id=closing-notes>Closing Notes<a hidden class=anchor aria-hidden=true href=#closing-notes>#</a></h2><p>Even though big interfaces are a potential problem, the ISP isn&rsquo;t about the size of interfaces. Rather, it&rsquo;s about whether classes use the methods of the interfaces on which they depend. So ISP is poor guidance when designing software, but an excellent indicator of whether it’s healthy or not.</p></div><footer class=post-footer><ul class=post-tags><li><a href=http://localhost:1313/tags/advantages-of-interface-segregation-principle/>Advantages-of-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/benefits/>Benefits</a></li><li><a href=http://localhost:1313/tags/benefits-of-interface-segregation-principle/>Benefits-of-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/clean-code-interface-segregation-principle/>Clean-Code-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/dependency-inversion-principle/>Dependency-Inversion-Principle</a></li><li><a href=http://localhost:1313/tags/difference-between-liskov-and-interface-segregation/>Difference-Between-Liskov-and-Interface-Segregation</a></li><li><a href=http://localhost:1313/tags/example-of-interface-segregation-principle/>Example-of-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/faster-compilation/>Faster-Compilation</a></li><li><a href=http://localhost:1313/tags/fat-interface-segregation-principle/>Fat-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/intent/>Intent</a></li><li><a href=http://localhost:1313/tags/interface-segregation/>Interface-Segregation</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle/>Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-isp/>Interface-Segregation-Principle-Isp</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-isp-example/>Interface-Segregation-Principle-Isp-Example</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-abstract-class/>Interface-Segregation-Principle-Abstract-Class</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-adapter-pattern/>Interface-Segregation-Principle-Adapter-Pattern</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-benefits/>Interface-Segregation-Principle-Benefits</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-c-example/>Interface-Segregation-Principle-C-Example</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-definition/>Interface-Segregation-Principle-Definition</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-design-pattern/>Interface-Segregation-Principle-Design-Pattern</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-example/>Interface-Segregation-Principle-Example</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-example-in-c/>Interface-Segregation-Principle-Example-in-C</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-in-agile/>Interface-Segregation-Principle-in-Agile</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-in-software-engineering/>Interface-Segregation-Principle-in-Software-Engineering</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-in-solid/>Interface-Segregation-Principle-in-Solid</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-martin/>Interface-Segregation-Principle-Martin</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-principle/>Interface-Segregation-Principle-Principle</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-pros-and-cons/>Interface-Segregation-Principle-Pros-and-Cons</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-real-world-example/>Interface-Segregation-Principle-Real-World-Example</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-simple-example/>Interface-Segregation-Principle-Simple-Example</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-solid/>Interface-Segregation-Principle-Solid</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-too-many-interfaces/>Interface-Segregation-Principle-Too-Many-Interfaces</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-uncle-bob/>Interface-Segregation-Principle-Uncle-Bob</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-usages/>Interface-Segregation-Principle-Usages</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-violation/>Interface-Segregation-Principle-Violation</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-violation-example/>Interface-Segregation-Principle-Violation-Example</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-vs-single-responsibility/>Interface-Segregation-Principle-vs-Single-Responsibility</a></li><li><a href=http://localhost:1313/tags/interface-segregation-principle-with-example/>Interface-Segregation-Principle-With-Example</a></li><li><a href=http://localhost:1313/tags/isp-interface-segregation-principle/>Isp-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/isp-principle/>Isp-Principle</a></li><li><a href=http://localhost:1313/tags/maintainability/>Maintainability</a></li><li><a href=http://localhost:1313/tags/motivation-violating-the-interface-segregation-principle/>Motivation-Violating-the-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/reusability/>Reusability</a></li><li><a href=http://localhost:1313/tags/segregation-principle/>Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/solid-principles-interface-segregation-principle/>Solid-Principles-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/solution-example-of-interface-segregation-principle-in-c/>Solution-Example-of-Interface-Segregation-Principle-in-C</a></li><li><a href=http://localhost:1313/tags/the-interface-segregation-principle/>The-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/what-is-interface-segregation-principle/>What-Is-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/why-interface-segregation-principle/>Why-Interface-Segregation-Principle</a></li><li><a href=http://localhost:1313/tags/yardstick-to-craft-interface-segregation-principle-friendly-software-in-c/>Yardstick-to-Craft-Interface-Segregation-Principle-Friendly-Software-in-C</a></li></ul><nav class=paginav><a class=prev href=http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/><span class=title>« Prev</span><br><span>Factory Design Pattern in Modern C++</span>
+</a><a class=next href=http://localhost:1313/posts/prototype-design-pattern-in-modern-cpp/><span class=title>Next »</span><br><span>Prototype Design Pattern in Modern C++</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share Interface Segregation Principle in C++ | SOLID as a Rock on x" href="https://x.com/intent/tweet/?text=Interface%20Segregation%20Principle%20in%20C%2b%2b%20%7c%20SOLID%20as%20a%20Rock&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f&amp;hashtags=advantages-of-interface-segregation-principle%2cbenefits%2cbenefits-of-interface-segregation-principle%2cclean-code-interface-segregation-principle%2cdependency-inversion-principle%2cdifference-between-liskov-and-interface-segregation%2cexample-of-interface-segregation-principle%2cfaster-compilation%2cfat-interface-segregation-principle%2cintent%2cinterface-segregation%2cinterface-segregation-principle%2cinterface-segregation-principle-isp%2cinterface-segregation-principle-isp-example%2cinterface-segregation-principle-abstract-class%2cinterface-segregation-principle-adapter-pattern%2cinterface-segregation-principle-benefits%2cinterface-segregation-principle-c-example%2cinterface-segregation-principle-definition%2cinterface-segregation-principle-design-pattern%2cinterface-segregation-principle-example%2cinterface-segregation-principle-example-in-c%2cinterface-segregation-principle-in-agile%2cinterface-segregation-principle-in-software-engineering%2cinterface-segregation-principle-in-solid%2cinterface-segregation-principle-martin%2cinterface-segregation-principle-principle%2cinterface-segregation-principle-pros-and-cons%2cinterface-segregation-principle-real-world-example%2cinterface-segregation-principle-simple-example%2cinterface-segregation-principle-solid%2cinterface-segregation-principle-too-many-interfaces%2cinterface-segregation-principle-uncle-bob%2cinterface-segregation-principle-usages%2cinterface-segregation-principle-violation%2cinterface-segregation-principle-violation-example%2cinterface-segregation-principle-vs-single-responsibility%2cinterface-segregation-principle-with-example%2cisp-interface-segregation-principle%2cisp-principle%2cmaintainability%2cmotivation-violating-the-interface-segregation-principle%2creusability%2csegregation-principle%2csolid-principles-interface-segregation-principle%2csolution-example-of-interface-segregation-principle-in-c%2cthe-interface-segregation-principle%2cwhat-is-interface-segregation-principle%2cwhy-interface-segregation-principle%2cyardstick-to-craft-interface-segregation-principle-friendly-software-in-c"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Interface Segregation Principle in C++ | SOLID as a Rock on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f&amp;title=Interface%20Segregation%20Principle%20in%20C%2b%2b%20%7c%20SOLID%20as%20a%20Rock&amp;summary=Interface%20Segregation%20Principle%20in%20C%2b%2b%20%7c%20SOLID%20as%20a%20Rock&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Interface Segregation Principle in C++ | SOLID as a Rock on reddit" href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f&title=Interface%20Segregation%20Principle%20in%20C%2b%2b%20%7c%20SOLID%20as%20a%20Rock"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Interface Segregation Principle in C++ | SOLID as a Rock on facebook" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Interface Segregation Principle in C++ | SOLID as a Rock on whatsapp" href="https://api.whatsapp.com/send?text=Interface%20Segregation%20Principle%20in%20C%2b%2b%20%7c%20SOLID%20as%20a%20Rock%20-%20http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Interface Segregation Principle in C++ | SOLID as a Rock on telegram" href="https://telegram.me/share/url?text=Interface%20Segregation%20Principle%20in%20C%2b%2b%20%7c%20SOLID%20as%20a%20Rock&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Interface Segregation Principle in C++ | SOLID as a Rock on ycombinator" href="https://news.ycombinator.com/submitlink?t=Interface%20Segregation%20Principle%20in%20C%2b%2b%20%7c%20SOLID%20as%20a%20Rock&u=http%3a%2f%2flocalhost%3a1313%2fposts%2finterface-segregation-principle-in-cpp-solid-as-a-rock%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=http://localhost:1313/>Vishal Chovatiya</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>

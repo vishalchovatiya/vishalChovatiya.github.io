@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Design-Patterns on Vishal Chovatiya</title>
     <link>http://localhost:1313/categories/design-patterns/</link>
     <description>Recent content in Design-Patterns on Vishal Chovatiya</description>
-    <generator>Hugo</generator>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/design-patterns/index.xml" rel="self" type="application/rss+xml" />
@@ -20,28 +25,32 @@
       <link>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</guid>
-      <description>This is the second part of a five-part article series about SOLID as Rock design principle. The SOLID design principles, when combined together, make it easy for a programmer to craft software that is easy to maintain, reuse &amp;amp; extend. Open-Closed Principle(OCP) is the second principle in this series which I will discuss here with minimalistic example in Modern C++ along with its benefits &amp;amp; generic guideline.&#xA;By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
+      <description>This is the second part of a five-part article series about SOLID as Rock design principle. The SOLID design principles, when combined together, make it easy for a programmer to craft software that is easy to maintain, reuse &amp;amp; extend. Open-Closed Principle(OCP) is the second principle in this series which I will discuss here with minimalistic example in Modern C++ along with its benefits &amp;amp; generic guideline.
+By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
     </item>
     <item>
       <title>Single Responsibility Principle in C&#43;&#43; | SOLID as a Rock</title>
       <link>http://localhost:1313/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/</guid>
-      <description>This article is the first part of a five-part series about SOLID as Rock design principle series. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see an example of the Single Responsibility Principle in C++ along with its benefits &amp;amp; generic guideline.&#xA;By the way, If you want to directly jumps to other design principles, then below is the quick links:</description>
+      <description>This article is the first part of a five-part series about SOLID as Rock design principle series. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see an example of the Single Responsibility Principle in C++ along with its benefits &amp;amp; generic guideline.
+By the way, If you want to directly jumps to other design principles, then below is the quick links:</description>
     </item>
     <item>
       <title>What Is Design Pattern?</title>
       <link>http://localhost:1313/posts/what-is-design-pattern/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/what-is-design-pattern/</guid>
-      <description>After hitting a certain level of experience &amp;amp; spending quite enough time in the industry, I have realised the importance of designing/architecting system &amp;amp; software. So I have started looking into system/software design &amp;amp; got to know nothing can better start than a Design Pattern. And the first thing I have done is googling &amp;ldquo;What is Design Pattern?&amp;rdquo; Hence got the idea of this article.&#xA;But as someone without a computer science background(I am from electronics background), learning them was a struggle.</description>
+      <description>After hitting a certain level of experience &amp;amp; spending quite enough time in the industry, I have realised the importance of designing/architecting system &amp;amp; software. So I have started looking into system/software design &amp;amp; got to know nothing can better start than a Design Pattern. And the first thing I have done is googling &amp;ldquo;What is Design Pattern?&amp;rdquo; Hence got the idea of this article.
+But as someone without a computer science background(I am from electronics background), learning them was a struggle.</description>
     </item>
     <item>
       <title>Builder Design Pattern in Modern C&#43;&#43;</title>
       <link>http://localhost:1313/posts/builder-design-pattern-in-modern-cpp/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/builder-design-pattern-in-modern-cpp/</guid>
-      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic or ordinary form of object creation could result in design problems or added complexity to the design. Builder Design Pattern in C++ solves this specific problem by separating the construction of a complex object from its representation.&#xA;By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic or ordinary form of object creation could result in design problems or added complexity to the design. Builder Design Pattern in C++ solves this specific problem by separating the construction of a complex object from its representation.
+By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Dependency Inversion Principle in C&#43;&#43; | SOLID as a Rock</title>
@@ -55,14 +64,16 @@
       <link>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</guid>
-      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C++ helps to mitigate this issue by creating objects using separate methods or polymorphic classes.&#xA;By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C++ helps to mitigate this issue by creating objects using separate methods or polymorphic classes.
+By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock</title>
       <link>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</guid>
-      <description>Interface Segregation Principle in C++ is the fourth &amp;amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp;amp; benefits of ISP.&#xA;By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
+      <description>Interface Segregation Principle in C++ is the fourth &amp;amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp;amp; benefits of ISP.
+By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
     </item>
     <item>
       <title>Prototype Design Pattern in Modern C&#43;&#43;</title>
@@ -111,7 +122,8 @@
       <link>http://localhost:1313/posts/facade-design-pattern-in-modern-cpp/</link>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/facade-design-pattern-in-modern-cpp/</guid>
-      <description>Facade Design Pattern is a Structural Design Pattern used to provide a unified interface to a complex system. It is same as Facade in building architecture, a Facade is an object that serves as a front-facing interface masking a more complex underlying system. A Facade Design Pattern in C++ can:&#xA;Improve the readability &amp;amp; usability of a software library by masking interaction with more complex components by providing a single simplified API.</description>
+      <description>Facade Design Pattern is a Structural Design Pattern used to provide a unified interface to a complex system. It is same as Facade in building architecture, a Facade is an object that serves as a front-facing interface masking a more complex underlying system. A Facade Design Pattern in C++ can:
+Improve the readability &amp;amp; usability of a software library by masking interaction with more complex components by providing a single simplified API.</description>
     </item>
     <item>
       <title>Flyweight Design Pattern in Modern C&#43;&#43;</title>
@@ -125,14 +137,16 @@
       <link>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</link>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</guid>
-      <description>In software engineering, Structural Design Patterns deal with the relationship between objects i.e. how objects/classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at Proxy Design Pattern in C++ which dictates the way you access the object.&#xA;If you haven’t check out other Structural Design Patterns, then here is the list:</description>
+      <description>In software engineering, Structural Design Patterns deal with the relationship between objects i.e. how objects/classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at Proxy Design Pattern in C++ which dictates the way you access the object.
+If you haven’t check out other Structural Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Chain of Responsibility Design Pattern in Modern C&#43;&#43;</title>
       <link>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</guid>
-      <description>Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C++ lets you pass requests along a chain of handlers &amp;amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
+      <description>Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C++ lets you pass requests along a chain of handlers &amp;amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Command Design Pattern in Modern C&#43;&#43;</title>
@@ -146,7 +160,9 @@
       <link>http://localhost:1313/posts/interpreter-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/interpreter-design-pattern-in-modern-cpp/</guid>
-      <description>Interpreter Design Pattern is a Behavioural Design Pattern which is a component that processes structured text data by turning it into separate lexical tokens(lexing) and then interpreting sequences of tokens(parsing). In this article, we will see the Interpreter Design Pattern in Modern C++.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:&#xA;Chain of responsibility Command Interpreter Iterator Mediator Memento Observer State Strategy Template Method Visitor The code snippets you see throughout this series of articles are simplified not sophisticated.</description>
+      <description>Interpreter Design Pattern is a Behavioural Design Pattern which is a component that processes structured text data by turning it into separate lexical tokens(lexing) and then interpreting sequences of tokens(parsing). In this article, we will see the Interpreter Design Pattern in Modern C++.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:
+Chain of responsibility Command Interpreter Iterator Mediator Memento Observer State Strategy Template Method Visitor The code snippets you see throughout this series of articles are simplified not sophisticated.</description>
     </item>
     <item>
       <title>Iterator Design Pattern in Modern C&#43;&#43;</title>
@@ -167,7 +183,8 @@
       <link>http://localhost:1313/posts/memento-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/memento-design-pattern-in-modern-cpp/</guid>
-      <description>Memento Design Pattern in Modern C++ is a very straight forward Behavioural Design Pattern. The motivation behind using the Memento Design Pattern is to keep some sort of token which then allows you to restore an object to a particular state. This is particularly useful if you have a system with medieval components i.e. an object or indeed a set of objects goes through a set of changes.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
+      <description>Memento Design Pattern in Modern C++ is a very straight forward Behavioural Design Pattern. The motivation behind using the Memento Design Pattern is to keep some sort of token which then allows you to restore an object to a particular state. This is particularly useful if you have a system with medieval components i.e. an object or indeed a set of objects goes through a set of changes.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
     </item>
     <item>
       <title>Observer Design Pattern in Modern C&#43;&#43;</title>

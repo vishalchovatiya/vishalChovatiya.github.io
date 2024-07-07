@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Fat-Interface-Segregation-Principle on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/fat-interface-segregation-principle/</link>
+    <description>Recent content in Fat-Interface-Segregation-Principle on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/fat-interface-segregation-principle/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock</title>
+      <link>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</guid>
+      <description>Interface Segregation Principle in C++ is the fourth &amp;amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp;amp; benefits of ISP.
+By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
+    </item>
+  </channel>
+</rss>

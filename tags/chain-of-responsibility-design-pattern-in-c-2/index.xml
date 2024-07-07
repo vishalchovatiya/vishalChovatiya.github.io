@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Chain-of-Responsibility-Design-Pattern-in-C-2 on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/chain-of-responsibility-design-pattern-in-c-2/</link>
+    <description>Recent content in Chain-of-Responsibility-Design-Pattern-in-C-2 on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 03 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/chain-of-responsibility-design-pattern-in-c-2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chain of Responsibility Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</guid>
+      <description>Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C++ lets you pass requests along a chain of handlers &amp;amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
+    </item>
+  </channel>
+</rss>

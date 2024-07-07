@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Substitution-Failure-Is-Not-an-Error on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/substitution-failure-is-not-an-error/</link>
+    <description>Recent content in Substitution-Failure-Is-Not-an-Error on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 16 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/substitution-failure-is-not-an-error/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>7 Advance C&#43;&#43; Concepts &amp; Idiom Examples You Should Know</title>
+      <link>http://localhost:1313/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/</link>
+      <pubDate>Sat, 16 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/</guid>
+      <description>So I have started updating myself with Modern C++ a while ago &amp;amp; since my post 21 new features of Modern C++ to use in your project &amp;amp; All about lambda function in C++ was popular I decided to write about advance C++ concepts &amp;amp; idioms which I have learned from this wikibook &amp;amp; course.
+There are many other advance C++ concepts &amp;amp; idioms as well but I consider these 7 as &amp;ldquo;should-know&amp;rdquo;.</description>
+    </item>
+  </channel>
+</rss>

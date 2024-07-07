@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>C-Template-Variable-Number-of-Arguments on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/c-template-variable-number-of-arguments/</link>
+    <description>Recent content in C-Template-Variable-Number-of-Arguments on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 May 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/c-template-variable-number-of-arguments/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43; Template: A Quick UpToDate Look(C&#43;&#43;11/14/17/20)</title>
+      <link>http://localhost:1313/posts/c-template-a-quick-uptodate-look/</link>
+      <pubDate>Sun, 17 May 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/c-template-a-quick-uptodate-look/</guid>
+      <description>I know, it’s been a while since the last time I published something newbies-friendly on my blog. The main reason is that most of my readers are either experienced devs or from C background having modest C++ encounter. But while programming in C++ you need a completely different mindset as both C &amp;amp; C++ belongs to different programming paradigm. And I always strive to show them a better way of doing things in C++.</description>
+    </item>
+    <item>
+      <title>Variadic Template C&#43;&#43;: Implementing Unsophisticated Tuple</title>
+      <link>http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/</link>
+      <pubDate>Sun, 17 May 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/</guid>
+      <description>From C++11, std::tuple is an incredible expansion to Modern C++, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures &amp;amp; helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Unique_ptr-C-11 on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/unique_ptr-c-11/</link>
+    <description>Recent content in Unique_ptr-C-11 on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 15 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/unique_ptr-c-11/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding unique_ptr with Example in C&#43;&#43;11</title>
+      <link>http://localhost:1313/posts/unique_ptr-with-example-in-c/</link>
+      <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/unique_ptr-with-example-in-c/</guid>
+      <description>The smart pointers are a really good mechanism to manage dynamically allocated resources. In this article, we will see unique_ptr with example in C++11. But we don&amp;rsquo;t discuss standard smart pointers from a library. Rather, we implement our own smart pointer equivalent to it. This will give us an idea of inside working of smart pointers.
+Brief Prior to C++11, the standard provided std::auto_ptr. Which had some limitations. But from C++11, standard provided many smart pointers classes.</description>
+    </item>
+  </channel>
+</rss>

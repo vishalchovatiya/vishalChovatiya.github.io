@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>C-Objects-Memory-Layout on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/c-objects-memory-layout/</link>
+    <description>Recent content in C-Objects-Memory-Layout on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 11 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/c-objects-memory-layout/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Memory Layout of C&#43;&#43; Object in Different Scenarios</title>
+      <link>http://localhost:1313/posts/memory-layout-of-cpp-object/</link>
+      <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/memory-layout-of-cpp-object/</guid>
+      <description>In this article, we will see the memory layout of different C++ Object. And how different storage &amp;amp; access specifiers affect this memory footprint. I am not going to discuss compiler augmented code, name mangling &amp;amp; working of any C++ mechanism related to memory as it is compiler &amp;amp; architecture-dependent. To keep this further simple, I have considered the standard stack growth direction i.e. downwards. And with the same, data members are represented inverted in memory(thanks to Thomas Vermeilh for pointing that out), that too I have ignored for simplicity.</description>
+    </item>
+  </channel>
+</rss>

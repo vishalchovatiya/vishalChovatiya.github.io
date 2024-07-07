@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Virtual-Function-Dynamic-Dispatch on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/virtual-function-dynamic-dispatch/</link>
+    <description>Recent content in Virtual-Function-Dynamic-Dispatch on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 11 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/virtual-function-dynamic-dispatch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Part 1: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Function Works Internally?</title>
+      <link>http://localhost:1313/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/</link>
+      <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/</guid>
+      <description>&amp;ldquo;All About Virtual Keyword in C++&amp;rdquo; is a series of articles(total of three, PART 1, PART 2, PART 3) describe working of the virtual keyword in different scenarios. This article mostly focuses on &amp;ldquo;How Does Virtual Function Works Internally?&amp;rdquo;. In other words, How dynamic dispatch done in C++! Although I am not a compiler writer, but this is what I have learned so far from various sources, courses, books &amp;amp; disassembly of C++ program.</description>
+    </item>
+  </channel>
+</rss>

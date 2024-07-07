@@ -1,567 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <title>
-  Understand ELF file format · Vishal Chovatiya
-</title>
-  <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light dark">
-
-
-
-
-<meta name="author" content="Vishal Chovatiya">
-<meta name="description" content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.">
-<meta name="keywords" content="blog,developer,personal">
-
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Understand ELF file format">
-  <meta name="twitter:description" content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.">
-
-<meta property="og:url" content="http://localhost:1313/posts/understand-elf-file-format/">
-  <meta property="og:site_name" content="Vishal Chovatiya">
-  <meta property="og:title" content="Understand ELF file format">
-  <meta property="og:description" content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2016-09-10T00:00:00+00:00">
-    <meta property="article:modified_time" content="2016-09-10T00:00:00+00:00">
-
-
-
-
-<link rel="canonical" href="http://localhost:1313/posts/understand-elf-file-format/">
-
-
-<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-
-
-  
-  
-  <link rel="stylesheet" href="/css/coder.css" media="screen">
-
-
-
-
-
-
-
-
- 
-
-
-
-
-<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
-<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-
-
-
-
-
-
-</head>
-
-
-
-
-<body class="preload-transitions colorscheme-light">
-  
-
-  <main class="wrapper">
-    <nav class="navigation">
-  <section class="container">
-    
-    <a class="navigation-title" href="http://localhost:1313/">
-      Vishal Chovatiya
-    </a>
-    
-    
-      <input type="checkbox" id="menu-toggle" />
-      <label class="menu-button float-right" for="menu-toggle">
-        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
-      </label>
-      <ul class="navigation-list">
-        
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/posts/">Latest</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/pages/start-here">Start Here</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/misc/">Misc</a>
-            </li>
-          
-        
-        
-      </ul>
-    
-  </section>
-</nav>
-
-
-    <div class="content">
-      
-  <section class="container post">
-    <article>
-      <header>
-        <div class="post-title">
-          <h1 class="title">
-            <a class="title-link" href="http://localhost:1313/posts/understand-elf-file-format/">
-              Understand ELF file format
-            </a>
-          </h1>
-        </div>
-        <div class="post-meta">
-          <div class="date">
-            <span class="posted-on">
-              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              <time datetime="2016-09-10T00:00:00Z">
-                September 10, 2016
-              </time>
-            </span>
-            <span class="reading-time">
-              <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              9-minute read
-            </span>
-          </div>
-          
-          <div class="categories">
-  <i class="fa-solid fa-folder" aria-hidden="true"></i>
-    <a href="/categories/linux-system-programming/">Linux-System-Programming</a></div>
-
-          
-        </div>
-      </header>
-
-      <div class="post-content">
-        
-        <ul>
-<li>ELF is the file format used for object files (<code>.o</code>s), binaries, shared libraries and core dumps in Linux.</li>
-<li>ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific.</li>
-<li>An ELF file provides 2 views on the data it contains: A linking view and an execution view. Those two views can be accessed by two headers: Section header &amp; Program header.</li>
-<li>Before dive in to ELF understanding, let&rsquo;s clear some basic keywords as follows :</li>
-</ul>
-<h4 id="shared-libraryso">
-  <strong>Shared Library(.so)</strong>
-  <a class="heading-link" href="#shared-libraryso">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h4>
-<ul>
-<li>Combination of multiple objects files</li>
-<li>Single Copy loaded in memory shared by multiple processes (that&rsquo;s why called shared object)</li>
-</ul>
-<h4 id="sections">
-  <strong>Sections</strong>
-  <a class="heading-link" href="#sections">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h4>
-<ul>
-<li>Sections contain information needed during the linking time</li>
-</ul>
-<h4 id="segments">
-  <strong>Segments</strong>
-  <a class="heading-link" href="#segments">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h4>
-<ul>
-<li>Segments contain information needed at run time</li>
-</ul>
-<h3 id="elf-header">
-  <strong>ELF Header</strong>
-  <a class="heading-link" href="#elf-header">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>Neither the <code>Section Header</code> nor the <code>Program Header</code> have fixed positions, they can be located anywhere in an ELF file. To find them the <code>ELF header</code> is used, which is located at the very start of the file.</li>
-<li>The first bytes contain the elf magic <code>\x7fELF</code>, followed by the class ID (32 or 64 bit ELF file), the data format ID (little-endian/big-endian), the machine type, etc.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vishal@linuxmachine:~$ readelf -h /bin/bash
-</span></span><span style="display:flex;"><span>    ELF Header:
-</span></span><span style="display:flex;"><span>      Magic:   7f <span style="color:#ae81ff">45</span> 4c <span style="color:#ae81ff">46</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span>
-</span></span><span style="display:flex;"><span>      Class:                             ELF32
-</span></span><span style="display:flex;"><span>      Data:                              2<span style="color:#960050;background-color:#1e0010">&#39;</span>s complement, little endian
-</span></span><span style="display:flex;"><span>      Version:                           <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>current<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>      OS/ABI:                            UNIX - System V
-</span></span><span style="display:flex;"><span>      ABI Version:                       <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>      Type:                              EXEC <span style="color:#f92672">(</span>Executable file<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>      Machine:                           Intel <span style="color:#ae81ff">80386</span>
-</span></span><span style="display:flex;"><span>      Version:                           0x1
-</span></span><span style="display:flex;"><span>      Entry point address:               0x805be30
-</span></span><span style="display:flex;"><span>      Start of program headers:          <span style="color:#ae81ff">52</span> <span style="color:#f92672">(</span>bytes into file<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>      Start of section headers:          <span style="color:#ae81ff">675344</span> <span style="color:#f92672">(</span>bytes into file<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>      Flags:                             0x0
-</span></span><span style="display:flex;"><span>      Size of this header:               <span style="color:#ae81ff">52</span>
-</span></span><span style="display:flex;"><span>      Size of program headers:           <span style="color:#ae81ff">32</span>
-</span></span><span style="display:flex;"><span>      Number of program headers:         <span style="color:#ae81ff">8</span>
-</span></span><span style="display:flex;"><span>      Size of section headers:           <span style="color:#ae81ff">40</span>
-</span></span><span style="display:flex;"><span>      Number of section headers:         <span style="color:#ae81ff">26</span>
-</span></span><span style="display:flex;"><span>      Section header string table index: <span style="color:#ae81ff">25</span>
-</span></span></code></pre></div><h3 id="section-headers-or-section-header-table">
-  <strong>Section Headers OR Section Header Table</strong>
-  <a class="heading-link" href="#section-headers-or-section-header-table">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>Gives a complete overview of the sections contained in the ELF file</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> vishal@linuxmachine:~$ readelf -S /bin/bash
-</span></span><span style="display:flex;"><span> There are <span style="color:#ae81ff">26</span> section headers, starting at offset 0xa4e10:
-</span></span><span style="display:flex;"><span> Section Headers:
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>Nr<span style="color:#f92672">]</span> Name             Type        Addr      Off   Size   ES Flg Lk Inf Al
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 0<span style="color:#f92672">]</span>                  NULL        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">00000</span> <span style="color:#ae81ff">000000</span> <span style="color:#ae81ff">00</span>      <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 1<span style="color:#f92672">]</span> .interp          PROGBITS    <span style="color:#ae81ff">08048134</span> <span style="color:#ae81ff">00134</span> <span style="color:#ae81ff">000013</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 2<span style="color:#f92672">]</span> .note.ABI-tag    NOTE        <span style="color:#ae81ff">08048148</span> <span style="color:#ae81ff">00148</span> <span style="color:#ae81ff">000020</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 3<span style="color:#f92672">]</span> .hash            HASH        <span style="color:#ae81ff">08048168</span> <span style="color:#ae81ff">00168</span> 002e48 <span style="color:#ae81ff">04</span>   A  <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 4<span style="color:#f92672">]</span> .dynsym          DYNSYM      0804afb0 02fb0 <span style="color:#ae81ff">007890</span> <span style="color:#ae81ff">10</span>   A  <span style="color:#ae81ff">5</span>   <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 5<span style="color:#f92672">]</span> .dynstr          STRTAB      <span style="color:#ae81ff">08052840</span> 0a840 0074e2 <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 6<span style="color:#f92672">]</span> .gnu.version     VERSYM      08059d22 11d22 000f12 <span style="color:#ae81ff">02</span>   A  <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 7<span style="color:#f92672">]</span> .gnu.version_r   VERNEED     0805ac34 12c34 <span style="color:#ae81ff">000090</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">5</span>   <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 8<span style="color:#f92672">]</span> .rel.dyn         REL         0805acc4 12cc4 <span style="color:#ae81ff">000040</span> <span style="color:#ae81ff">08</span>   A  <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 9<span style="color:#f92672">]</span> .rel.plt         REL         0805ad04 12d04 0005a8 <span style="color:#ae81ff">08</span>   A  <span style="color:#ae81ff">4</span>  <span style="color:#ae81ff">11</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>10<span style="color:#f92672">]</span> .init            PROGBITS    0805b2ac 132ac <span style="color:#ae81ff">000017</span> <span style="color:#ae81ff">00</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>11<span style="color:#f92672">]</span> .plt             PROGBITS    0805b2c4 132c4 000b60 <span style="color:#ae81ff">04</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>12<span style="color:#f92672">]</span> .text            PROGBITS    0805be30 13e30 <span style="color:#ae81ff">077154</span> <span style="color:#ae81ff">00</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">16</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>13<span style="color:#f92672">]</span> .fini            PROGBITS    080d2f84 8af84 00001a <span style="color:#ae81ff">00</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>14<span style="color:#f92672">]</span> .rodata          PROGBITS    080d2fa0 8afa0 <span style="color:#ae81ff">015198</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">32</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>15<span style="color:#f92672">]</span> .eh_frame_hdr    PROGBITS    080e8138 a0138 00002c <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>16<span style="color:#f92672">]</span> .eh_frame        PROGBITS    080e8164 a0164 00009c <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>17<span style="color:#f92672">]</span> .ctors           PROGBITS    080e9200 a0200 <span style="color:#ae81ff">000008</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>18<span style="color:#f92672">]</span> .dtors           PROGBITS    080e9208 a0208 <span style="color:#ae81ff">000008</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>19<span style="color:#f92672">]</span> .jcr             PROGBITS    080e9210 a0210 <span style="color:#ae81ff">000004</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>20<span style="color:#f92672">]</span> .dynamic         DYNAMIC     080e9214 a0214 0000d8 <span style="color:#ae81ff">08</span>  WA  <span style="color:#ae81ff">5</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>21<span style="color:#f92672">]</span> .got             PROGBITS    080e92ec a02ec <span style="color:#ae81ff">000004</span> <span style="color:#ae81ff">04</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>22<span style="color:#f92672">]</span> .got.plt         PROGBITS    080e92f0 a02f0 0002e0 <span style="color:#ae81ff">04</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>23<span style="color:#f92672">]</span> .data            PROGBITS    080e95e0 a05e0 <span style="color:#ae81ff">004764</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">32</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>24<span style="color:#f92672">]</span> .bss             NOBITS      080edd60 a4d44 004bc8 <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">32</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>25<span style="color:#f92672">]</span> .shstrtab        STRTAB      <span style="color:#ae81ff">00000000</span> a4d44 0000cc <span style="color:#ae81ff">00</span>      <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1</span>
-</span></span></code></pre></div><h3 id="program-headers-or-program-headers-table">
-  <strong>Program Headers OR Program Headers Table</strong>
-  <a class="heading-link" href="#program-headers-or-program-headers-table">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>Contains information for the kernel on how to start the program</li>
-<li>The <code>LOAD</code> directives determinate what parts of the ELF file get mapped into memory.</li>
-<li>The <code>INTERP</code> the directive specifies an ELF interpreter, which is normally /lib/ld-linux.so.2 on Linux systems.</li>
-<li>The DYNAMIC entry points to the .dynamic the section which contains information used by the ELF interpreter to set up the binary.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vishal@linuxmachine:~$ readelf -l /bin/bash
-</span></span><span style="display:flex;"><span>Elf file type is EXEC <span style="color:#f92672">(</span>Executable file<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Entry point 0x805be30
-</span></span><span style="display:flex;"><span>There are <span style="color:#ae81ff">8</span> program headers, starting at offset <span style="color:#ae81ff">52</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Program Headers:
-</span></span><span style="display:flex;"><span>  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-</span></span><span style="display:flex;"><span>  PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
-</span></span><span style="display:flex;"><span>  INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">[</span>Requesting program interpreter: /lib/ld-linux.so.2<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>  LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
-</span></span><span style="display:flex;"><span>  LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
-</span></span><span style="display:flex;"><span>  DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
-</span></span><span style="display:flex;"><span>  NOTE           0x000148 0x08048148 0x08048148 0x00020 0x00020 R   0x4
-</span></span><span style="display:flex;"><span>  GNU_EH_FRAME   0x0a0138 0x080e8138 0x080e8138 0x0002c 0x0002c R   0x4
-</span></span><span style="display:flex;"><span>  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> Section to Segment mapping:
-</span></span><span style="display:flex;"><span>  Segment Sections...
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">00</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">01</span>     .interp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">02</span>     .interp .note.ABI-tag .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt ...
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">03</span>     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">04</span>     .dynamic
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">05</span>     .note.ABI-tag
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">06</span>     .eh_frame_hdr
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">07</span>
-</span></span></code></pre></div><h3 id="relocation-table-or-relocation-section">
-  <strong>Relocation Table OR Relocation Section</strong>
-  <a class="heading-link" href="#relocation-table-or-relocation-section">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>Relocation is the process of connecting symbolic references(functions,variable,etc names) with symbolic definitions(function, variable,etc definitions).</li>
-<li>For example, when a program calls a function(at runtime), the associated call instruction must transfer control to the proper destination address at execution.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    vishal@linuxmachine:~$ readelf -r /bin/bash
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Relocation section <span style="color:#e6db74">&#39;.rel.dyn&#39;</span> at offset 0x12cc4 contains <span style="color:#ae81ff">8</span> entries:
-</span></span><span style="display:flex;"><span>     Offset     Info    Type            Sym.Value  Sym. Name
-</span></span><span style="display:flex;"><span>    080e92ec  <span style="color:#ae81ff">00078006</span> R_386_GLOB_DAT    <span style="color:#ae81ff">00000000</span>   __gmon_start__
-</span></span><span style="display:flex;"><span>    080edd68  <span style="color:#ae81ff">00035205</span> R_386_COPY        080edd68   stdout
-</span></span><span style="display:flex;"><span>    080edd6c  00035d05 R_386_COPY        080edd6c   stderr
-</span></span><span style="display:flex;"><span>    080edd70  <span style="color:#ae81ff">00046405</span> R_386_COPY        080edd70   PC
-</span></span><span style="display:flex;"><span>    080edd74  <span style="color:#ae81ff">00067405</span> R_386_COPY        080edd74   stdin
-</span></span><span style="display:flex;"><span>    080edd78  0006e305 R_386_COPY        080edd78   UP
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Relocation section <span style="color:#e6db74">&#39;.rel.plt&#39;</span> at offset 0x12d04 contains <span style="color:#ae81ff">181</span> entries:
-</span></span><span style="display:flex;"><span>     Offset     Info    Type            Sym.Value  Sym. Name
-</span></span><span style="display:flex;"><span>    080e9368  00012c07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fileno
-</span></span><span style="display:flex;"><span>    080e936c  <span style="color:#ae81ff">00013807</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   strcmp
-</span></span><span style="display:flex;"><span>    080e9370  <span style="color:#ae81ff">00014107</span> R_386_JUMP_SLOT   0805b4a4   close
-</span></span><span style="display:flex;"><span>    080e9374  <span style="color:#ae81ff">00015307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   dlsym
-</span></span><span style="display:flex;"><span>    080e937c  00016a07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fprintf
-</span></span><span style="display:flex;"><span>    080e9388  <span style="color:#ae81ff">00018307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fflush
-</span></span><span style="display:flex;"><span>    080e9390  00019c07 R_386_JUMP_SLOT   0805b524   unlink
-</span></span><span style="display:flex;"><span>    080e930c  <span style="color:#ae81ff">00003307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   regexec
-</span></span><span style="display:flex;"><span>    080e9328  00007a07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   ferror
-</span></span><span style="display:flex;"><span>    080e9330  <span style="color:#ae81ff">00008307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   readdir64
-</span></span><span style="display:flex;"><span>    080e9334  00008f07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   strchr
-</span></span><span style="display:flex;"><span>    080e9338  0000a507 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fdopen
-</span></span><span style="display:flex;"><span>    080e9344  0000da07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   getpid
-</span></span><span style="display:flex;"><span>    080e9360  <span style="color:#ae81ff">00012207</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   write
-</span></span><span style="display:flex;"><span>    080e95cc  <span style="color:#ae81ff">00078707</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   strcpy
-</span></span><span style="display:flex;"><span>    ...
-</span></span><span style="display:flex;"><span>    ...
-</span></span></code></pre></div><h3 id="symbol-table-two-use-case">
-  <strong>Symbol Table: Two Use Case</strong>
-  <a class="heading-link" href="#symbol-table-two-use-case">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ol>
-<li>Symbol table in object/executable files will contain the symbolic name of functions &amp; variables with addresses which are used by Linker to resolve any unresolved references during linking.</li>
-<li>There&rsquo;s also the symbol table in a shared library/DLL produced by the linker(at compile time) which is used by the dynamic linker to do run-time linking &amp; resolving open references to those names to the location where the library is loaded in memory.</li>
-</ol>
-<p><strong>Note</strong>: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.</p>
-<h3 id="dynamic-section--dynamic-linking-with-the-elf-interpreter">
-  <strong>Dynamic Section &amp; Dynamic linking with the ELF interpreter</strong>
-  <a class="heading-link" href="#dynamic-section--dynamic-linking-with-the-elf-interpreter">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>First, the dynamic linker (contained within the interpreter) looks at the Dynamic section, whose address is stored in the Program Header.</li>
-<li>There it finds the NEEDED entries determining which libraries have to be loaded before the program can be run, the RELentries giving the address of the relocation tables, the VER entries which contain symbol versioning information, etc.</li>
-<li>So the dynamic linker loads the needed libraries and performs relocations (either directly at program startup or later(lazy resolution)).</li>
-<li>Finally, control is transferred to the address given by the symbol <code>_start</code> in the binary. Normally some <code>gcc/glibc</code> startup code lives there, which in the end calls <code>main()</code></li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    vishal@linuxmachine:~$ readelf -d /bin/bash
-</span></span><span style="display:flex;"><span>    Dynamic section at offset 0xa0214 contains <span style="color:#ae81ff">22</span> entries:
-</span></span><span style="display:flex;"><span>      Tag        Type                         Name/Value
-</span></span><span style="display:flex;"><span>     0x00000001 <span style="color:#f92672">(</span>NEEDED<span style="color:#f92672">)</span>                     Shared library: <span style="color:#f92672">[</span>libncurses.so.5<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>     0x00000001 <span style="color:#f92672">(</span>NEEDED<span style="color:#f92672">)</span>                     Shared library: <span style="color:#f92672">[</span>libdl.so.2<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>     0x00000001 <span style="color:#f92672">(</span>NEEDED<span style="color:#f92672">)</span>                     Shared library: <span style="color:#f92672">[</span>libc.so.6<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>     0x0000000a <span style="color:#f92672">(</span>STRSZ<span style="color:#f92672">)</span>                      <span style="color:#ae81ff">29922</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>     0x0000000b <span style="color:#f92672">(</span>SYMENT<span style="color:#f92672">)</span>                     <span style="color:#ae81ff">16</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>     0x00000003 <span style="color:#f92672">(</span>PLTGOT<span style="color:#f92672">)</span>                     0x80e92f0
-</span></span><span style="display:flex;"><span>     0x00000002 <span style="color:#f92672">(</span>PLTRELSZ<span style="color:#f92672">)</span>                   <span style="color:#ae81ff">1448</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>     0x00000014 <span style="color:#f92672">(</span>PLTREL<span style="color:#f92672">)</span>                     REL
-</span></span><span style="display:flex;"><span>     0x00000017 <span style="color:#f92672">(</span>JMPREL<span style="color:#f92672">)</span>                     0x805ad04
-</span></span><span style="display:flex;"><span>     0x00000011 <span style="color:#f92672">(</span>REL<span style="color:#f92672">)</span>                        0x805acc4
-</span></span><span style="display:flex;"><span>     0x00000012 <span style="color:#f92672">(</span>RELSZ<span style="color:#f92672">)</span>                      <span style="color:#ae81ff">64</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>     0x6ffffffe <span style="color:#f92672">(</span>VERNEED<span style="color:#f92672">)</span>                    0x805ac34
-</span></span><span style="display:flex;"><span>     0x6fffffff <span style="color:#f92672">(</span>VERNEEDNUM<span style="color:#f92672">)</span>                 <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>     0x6ffffff0 <span style="color:#f92672">(</span>VERSYM<span style="color:#f92672">)</span>                     0x8059d22
-</span></span><span style="display:flex;"><span>     0x00000000 <span style="color:#f92672">(</span>NULL<span style="color:#f92672">)</span>                       0x0
-</span></span></code></pre></div><h3 id="procedure-linkage-tableplt">
-  <strong>Procedure Linkage Table(.plt)</strong>
-  <a class="heading-link" href="#procedure-linkage-tableplt">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>is a table of addresses</li>
-<li>resides in the text segment</li>
-<li>used to store the address of all functions needed at runtime (address not known at the time of linking)</li>
-<li>The PLT uses what is called lazy resolution. Means it resolves procedure address once when it calls method</li>
-<li>How PLT works -
-<ol>
-<li>A function func is called and the compiler translates this to a call to func@plt(you can see this in a binary dump).</li>
-<li>The program jumps to the PLT. The PLT points to the GOT. If the function has not been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself.</li>
-<li>If the function has not been previously called, PLT resolves routine &amp; update the GOT entry with the actual address of the function.</li>
-</ol>
-</li>
-</ul>
-<h3 id="global-offset-tablegot">
-  <strong>Global Offset Table(.got)</strong>
-  <a class="heading-link" href="#global-offset-tablegot">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>is a table of addresses</li>
-<li>resides in the data segment</li>
-<li>used to store the relative address of variables &amp; procedures which is mapped with the absolute address</li>
-<li>How GOT works -
-<ol>
-<li>If some instruction in the text segment, wants to refer to a variable it must normally use an absolute memory address.</li>
-<li>Instead of referring to the absolute memory address, it refers to the GOT, whose location is known.</li>
-</ol>
-</li>
-</ul>
-<p><strong>NOTE:</strong> By this kind of address tables we can effectively use relocating of objects, with just updating entry each time relocation performed</p>
-<h3 id="program-loading-in-the-kernel">
-  <strong>Program loading in the kernel</strong>
-  <a class="heading-link" href="#program-loading-in-the-kernel">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>The execution of a program starts inside the kernel, in the exec system call. There the file type is looked up and the appropriate handler is called.</li>
-<li>The <code>binfmt-elf</code> the handler then loads the ELF header and the Program Header, followed by lots of sanity checks.</li>
-<li>The kernel then loads the parts specified in the LOAD directives in the Program Header into memory. If an INTERP entry is present, the interpreter is loaded too.</li>
-<li>Statically linked binaries can do without an interpreter; dynamically linked programs always need <code>/lib/ld-linux.so</code> as an interpreter, because it includes some startup code, loads shared libraries needed by the binary and performs relocations.</li>
-</ul>
-<p>Finally, control can be transferred to the program, to the interpreter, if present, otherwise to the binary itself.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    vishal@linuxmachine:~$ readelf -l /bin/bash
-</span></span><span style="display:flex;"><span>    Program Headers:
-</span></span><span style="display:flex;"><span>      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-</span></span><span style="display:flex;"><span>      PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
-</span></span><span style="display:flex;"><span>      INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">[</span>Requesting program interpreter: /lib/ld-linux.so.2<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>      LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
-</span></span><span style="display:flex;"><span>      LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
-</span></span><span style="display:flex;"><span>      DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
-</span></span><span style="display:flex;"><span>      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
-</span></span><span style="display:flex;"><span>    ...
-</span></span></code></pre></div>
-      </div>
-
-
-      <footer>
-        
-
-
-        
-        
-        
-        
-        
-
-        
-        
-      </footer>
-    </article>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
-    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
-  
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
-    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
-    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
-    onload="renderMathInElement(document.body,
-      {
-        delimiters: [
-          {left: '$$', right: '$$', display:true},
-          {left: '$', right: '$', display:false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ]
-      }
-    );"></script>
-  </section>
-
-    </div>
-
-    <footer class="footer">
-  <section class="container">
-    ©
-    
-    2024
-     Vishal Chovatiya 
-    ·
-    
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
-    
-  </section>
-</footer>
-
-  </main>
-
-  
-
-  
-  
-  <script src="/js/coder.js"></script>
-  
-
-  
-
-  
-
-
-  
-  
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</body>
-
-</html>
+<!doctype html><html lang=en dir=auto><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Understand ELF file format | Vishal Chovatiya</title>
+<meta name=keywords content="elf-file-format,elf-header,global-offset-table,procedure-linkage-table,program-headers-table,relocation-table,section-header-table,sections,segments,shared-library-so,symbol-table"><meta name=description content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view."><meta name=author content="Vishal Chovatiya"><link rel=canonical href=http://localhost:1313/posts/understand-elf-file-format/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as=style><link rel=icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=http://localhost:1313/posts/understand-elf-file-format/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="Understand ELF file format"><meta property="og:description" content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view."><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/posts/understand-elf-file-format/"><meta property="og:image" content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="posts"><meta property="article:published_time" content="2016-09-10T00:00:00+00:00"><meta property="article:modified_time" content="2016-09-10T00:00:00+00:00"><meta property="og:site_name" content="ExampleSite"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="Understand ELF file format"><meta name=twitter:description content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"http://localhost:1313/posts/"},{"@type":"ListItem","position":2,"name":"Understand ELF file format","item":"http://localhost:1313/posts/understand-elf-file-format/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Understand ELF file format","name":"Understand ELF file format","description":"ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.","keywords":["elf-file-format","elf-header","global-offset-table","procedure-linkage-table","program-headers-table","relocation-table","section-header-table","sections","segments","shared-library-so","symbol-table"],"articleBody":" ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view. Those two views can be accessed by two headers: Section header \u0026 Program header. Before dive in to ELF understanding, let’s clear some basic keywords as follows : Shared Library(.so) Combination of multiple objects files Single Copy loaded in memory shared by multiple processes (that’s why called shared object) Sections Sections contain information needed during the linking time Segments Segments contain information needed at run time ELF Header Neither the Section Header nor the Program Header have fixed positions, they can be located anywhere in an ELF file. To find them the ELF header is used, which is located at the very start of the file. The first bytes contain the elf magic \\x7fELF, followed by the class ID (32 or 64 bit ELF file), the data format ID (little-endian/big-endian), the machine type, etc. vishal@linuxmachine:~$ readelf -h /bin/bash ELF Header: Magic: 7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 Class: ELF32 Data: 2's complement, little endian Version: 1 (current) OS/ABI: UNIX - System V ABI Version: 0 Type: EXEC (Executable file) Machine: Intel 80386 Version: 0x1 Entry point address: 0x805be30 Start of program headers: 52 (bytes into file) Start of section headers: 675344 (bytes into file) Flags: 0x0 Size of this header: 52 Size of program headers: 32 Number of program headers: 8 Size of section headers: 40 Number of section headers: 26 Section header string table index: 25 Section Headers OR Section Header Table Gives a complete overview of the sections contained in the ELF file vishal@linuxmachine:~$ readelf -S /bin/bash There are 26 section headers, starting at offset 0xa4e10: Section Headers: [Nr] Name Type Addr Off Size ES Flg Lk Inf Al [ 0] NULL 00000000 00000 000000 00 0 0 0 [ 1] .interp PROGBITS 08048134 00134 000013 00 A 0 0 1 [ 2] .note.ABI-tag NOTE 08048148 00148 000020 00 A 0 0 4 [ 3] .hash HASH 08048168 00168 002e48 04 A 4 0 4 [ 4] .dynsym DYNSYM 0804afb0 02fb0 007890 10 A 5 1 4 [ 5] .dynstr STRTAB 08052840 0a840 0074e2 00 A 0 0 1 [ 6] .gnu.version VERSYM 08059d22 11d22 000f12 02 A 4 0 2 [ 7] .gnu.version_r VERNEED 0805ac34 12c34 000090 00 A 5 2 4 [ 8] .rel.dyn REL 0805acc4 12cc4 000040 08 A 4 0 4 [ 9] .rel.plt REL 0805ad04 12d04 0005a8 08 A 4 11 4 [10] .init PROGBITS 0805b2ac 132ac 000017 00 AX 0 0 4 [11] .plt PROGBITS 0805b2c4 132c4 000b60 04 AX 0 0 4 [12] .text PROGBITS 0805be30 13e30 077154 00 AX 0 0 16 [13] .fini PROGBITS 080d2f84 8af84 00001a 00 AX 0 0 4 [14] .rodata PROGBITS 080d2fa0 8afa0 015198 00 A 0 0 32 [15] .eh_frame_hdr PROGBITS 080e8138 a0138 00002c 00 A 0 0 4 [16] .eh_frame PROGBITS 080e8164 a0164 00009c 00 A 0 0 4 [17] .ctors PROGBITS 080e9200 a0200 000008 00 WA 0 0 4 [18] .dtors PROGBITS 080e9208 a0208 000008 00 WA 0 0 4 [19] .jcr PROGBITS 080e9210 a0210 000004 00 WA 0 0 4 [20] .dynamic DYNAMIC 080e9214 a0214 0000d8 08 WA 5 0 4 [21] .got PROGBITS 080e92ec a02ec 000004 04 WA 0 0 4 [22] .got.plt PROGBITS 080e92f0 a02f0 0002e0 04 WA 0 0 4 [23] .data PROGBITS 080e95e0 a05e0 004764 00 WA 0 0 32 [24] .bss NOBITS 080edd60 a4d44 004bc8 00 WA 0 0 32 [25] .shstrtab STRTAB 00000000 a4d44 0000cc 00 0 0 1 Program Headers OR Program Headers Table Contains information for the kernel on how to start the program The LOAD directives determinate what parts of the ELF file get mapped into memory. The INTERP the directive specifies an ELF interpreter, which is normally /lib/ld-linux.so.2 on Linux systems. The DYNAMIC entry points to the .dynamic the section which contains information used by the ELF interpreter to set up the binary. vishal@linuxmachine:~$ readelf -l /bin/bash Elf file type is EXEC (Executable file) Entry point 0x805be30 There are 8 program headers, starting at offset 52 Program Headers: Type Offset VirtAddr PhysAddr FileSiz MemSiz Flg Align PHDR 0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4 INTERP 0x000134 0x08048134 0x08048134 0x00013 0x00013 R 0x1 [Requesting program interpreter: /lib/ld-linux.so.2] LOAD 0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000 LOAD 0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW 0x1000 DYNAMIC 0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW 0x4 NOTE 0x000148 0x08048148 0x08048148 0x00020 0x00020 R 0x4 GNU_EH_FRAME 0x0a0138 0x080e8138 0x080e8138 0x0002c 0x0002c R 0x4 GNU_STACK 0x000000 0x00000000 0x00000000 0x00000 0x00000 RW 0x4 Section to Segment mapping: Segment Sections... 00 01 .interp 02 .interp .note.ABI-tag .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt ... 03 .ctors .dtors .jcr .dynamic .got .got.plt .data .bss 04 .dynamic 05 .note.ABI-tag 06 .eh_frame_hdr 07 Relocation Table OR Relocation Section Relocation is the process of connecting symbolic references(functions,variable,etc names) with symbolic definitions(function, variable,etc definitions). For example, when a program calls a function(at runtime), the associated call instruction must transfer control to the proper destination address at execution. vishal@linuxmachine:~$ readelf -r /bin/bash Relocation section '.rel.dyn' at offset 0x12cc4 contains 8 entries: Offset Info Type Sym.Value Sym. Name 080e92ec 00078006 R_386_GLOB_DAT 00000000 __gmon_start__ 080edd68 00035205 R_386_COPY 080edd68 stdout 080edd6c 00035d05 R_386_COPY 080edd6c stderr 080edd70 00046405 R_386_COPY 080edd70 PC 080edd74 00067405 R_386_COPY 080edd74 stdin 080edd78 0006e305 R_386_COPY 080edd78 UP Relocation section '.rel.plt' at offset 0x12d04 contains 181 entries: Offset Info Type Sym.Value Sym. Name 080e9368 00012c07 R_386_JUMP_SLOT 00000000 fileno 080e936c 00013807 R_386_JUMP_SLOT 00000000 strcmp 080e9370 00014107 R_386_JUMP_SLOT 0805b4a4 close 080e9374 00015307 R_386_JUMP_SLOT 00000000 dlsym 080e937c 00016a07 R_386_JUMP_SLOT 00000000 fprintf 080e9388 00018307 R_386_JUMP_SLOT 00000000 fflush 080e9390 00019c07 R_386_JUMP_SLOT 0805b524 unlink 080e930c 00003307 R_386_JUMP_SLOT 00000000 regexec 080e9328 00007a07 R_386_JUMP_SLOT 00000000 ferror 080e9330 00008307 R_386_JUMP_SLOT 00000000 readdir64 080e9334 00008f07 R_386_JUMP_SLOT 00000000 strchr 080e9338 0000a507 R_386_JUMP_SLOT 00000000 fdopen 080e9344 0000da07 R_386_JUMP_SLOT 00000000 getpid 080e9360 00012207 R_386_JUMP_SLOT 00000000 write 080e95cc 00078707 R_386_JUMP_SLOT 00000000 strcpy ... ... Symbol Table: Two Use Case Symbol table in object/executable files will contain the symbolic name of functions \u0026 variables with addresses which are used by Linker to resolve any unresolved references during linking. There’s also the symbol table in a shared library/DLL produced by the linker(at compile time) which is used by the dynamic linker to do run-time linking \u0026 resolving open references to those names to the location where the library is loaded in memory. Note: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.\nDynamic Section \u0026 Dynamic linking with the ELF interpreter First, the dynamic linker (contained within the interpreter) looks at the Dynamic section, whose address is stored in the Program Header. There it finds the NEEDED entries determining which libraries have to be loaded before the program can be run, the RELentries giving the address of the relocation tables, the VER entries which contain symbol versioning information, etc. So the dynamic linker loads the needed libraries and performs relocations (either directly at program startup or later(lazy resolution)). Finally, control is transferred to the address given by the symbol _start in the binary. Normally some gcc/glibc startup code lives there, which in the end calls main() vishal@linuxmachine:~$ readelf -d /bin/bash Dynamic section at offset 0xa0214 contains 22 entries: Tag Type Name/Value 0x00000001 (NEEDED) Shared library: [libncurses.so.5] 0x00000001 (NEEDED) Shared library: [libdl.so.2] 0x00000001 (NEEDED) Shared library: [libc.so.6] 0x0000000a (STRSZ) 29922 (bytes) 0x0000000b (SYMENT) 16 (bytes) 0x00000003 (PLTGOT) 0x80e92f0 0x00000002 (PLTRELSZ) 1448 (bytes) 0x00000014 (PLTREL) REL 0x00000017 (JMPREL) 0x805ad04 0x00000011 (REL) 0x805acc4 0x00000012 (RELSZ) 64 (bytes) 0x6ffffffe (VERNEED) 0x805ac34 0x6fffffff (VERNEEDNUM) 2 0x6ffffff0 (VERSYM) 0x8059d22 0x00000000 (NULL) 0x0 Procedure Linkage Table(.plt) is a table of addresses resides in the text segment used to store the address of all functions needed at runtime (address not known at the time of linking) The PLT uses what is called lazy resolution. Means it resolves procedure address once when it calls method How PLT works - A function func is called and the compiler translates this to a call to func@plt(you can see this in a binary dump). The program jumps to the PLT. The PLT points to the GOT. If the function has not been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself. If the function has not been previously called, PLT resolves routine \u0026 update the GOT entry with the actual address of the function. Global Offset Table(.got) is a table of addresses resides in the data segment used to store the relative address of variables \u0026 procedures which is mapped with the absolute address How GOT works - If some instruction in the text segment, wants to refer to a variable it must normally use an absolute memory address. Instead of referring to the absolute memory address, it refers to the GOT, whose location is known. NOTE: By this kind of address tables we can effectively use relocating of objects, with just updating entry each time relocation performed\nProgram loading in the kernel The execution of a program starts inside the kernel, in the exec system call. There the file type is looked up and the appropriate handler is called. The binfmt-elf the handler then loads the ELF header and the Program Header, followed by lots of sanity checks. The kernel then loads the parts specified in the LOAD directives in the Program Header into memory. If an INTERP entry is present, the interpreter is loaded too. Statically linked binaries can do without an interpreter; dynamically linked programs always need /lib/ld-linux.so as an interpreter, because it includes some startup code, loads shared libraries needed by the binary and performs relocations. Finally, control can be transferred to the program, to the interpreter, if present, otherwise to the binary itself.\nvishal@linuxmachine:~$ readelf -l /bin/bash Program Headers: Type Offset VirtAddr PhysAddr FileSiz MemSiz Flg Align PHDR 0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4 INTERP 0x000134 0x08048134 0x08048134 0x00013 0x00013 R 0x1 [Requesting program interpreter: /lib/ld-linux.so.2] LOAD 0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000 LOAD 0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW 0x1000 DYNAMIC 0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW 0x4 GNU_STACK 0x000000 0x00000000 0x00000000 0x00000 0x00000 RW 0x4 ... ","wordCount":"1779","inLanguage":"en","image":"http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2016-09-10T00:00:00Z","dateModified":"2016-09-10T00:00:00Z","author":{"@type":"Person","name":"Vishal Chovatiya"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:1313/posts/understand-elf-file-format/"},"publisher":{"@type":"Organization","name":"Vishal Chovatiya","logo":{"@type":"ImageObject","url":"http://localhost:1313/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=http://localhost:1313/ accesskey=h title="Vishal Chovatiya (Alt + H)"><img src=http://localhost:1313/apple-touch-icon.png alt aria-label=logo height=35>Vishal Chovatiya</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=http://localhost:1313/pages/vishal-chovatiya title="About Me"><span>About Me</span></a></li><li><a href=http://localhost:1313/pages/start-here title="Start Here"><span>Start Here</span></a></li><li><a href=http://localhost:1313/posts/ title=Latest><span>Latest</span></a></li><li><a href=http://localhost:1313/categories/ title=Categories><span>Categories</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=http://localhost:1313/>Home</a>&nbsp;»&nbsp;<a href=http://localhost:1313/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">Understand ELF file format</h1><div class=post-meta><span title='2016-09-10 00:00:00 +0000 UTC'>September 10, 2016</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;1779 words&nbsp;·&nbsp;Vishal Chovatiya&nbsp;|&nbsp;<a href=https://github.com/vishalchovatiya/blog/vishalchovatiya/content/posts/understand-elf-file-format.md rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><ul><li></li><li><a href=#elf-header><strong>ELF Header</strong></a></li><li><a href=#section-headers-or-section-header-table><strong>Section Headers OR Section Header Table</strong></a></li><li><a href=#program-headers-or-program-headers-table><strong>Program Headers OR Program Headers Table</strong></a></li><li><a href=#relocation-table-or-relocation-section><strong>Relocation Table OR Relocation Section</strong></a></li><li><a href=#symbol-table-two-use-case><strong>Symbol Table: Two Use Case</strong></a></li><li><a href=#dynamic-section--dynamic-linking-with-the-elf-interpreter><strong>Dynamic Section & Dynamic linking with the ELF interpreter</strong></a></li><li><a href=#procedure-linkage-tableplt><strong>Procedure Linkage Table(.plt)</strong></a></li><li><a href=#global-offset-tablegot><strong>Global Offset Table(.got)</strong></a></li><li><a href=#program-loading-in-the-kernel><strong>Program loading in the kernel</strong></a></li></ul></li></ul></nav></div></details></div><div class=post-content><ul><li>ELF is the file format used for object files (<code>.o</code>s), binaries, shared libraries and core dumps in Linux.</li><li>ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific.</li><li>An ELF file provides 2 views on the data it contains: A linking view and an execution view. Those two views can be accessed by two headers: Section header & Program header.</li><li>Before dive in to ELF understanding, let&rsquo;s clear some basic keywords as follows :</li></ul><h4 id=shared-libraryso><strong>Shared Library(.so)</strong><a hidden class=anchor aria-hidden=true href=#shared-libraryso>#</a></h4><ul><li>Combination of multiple objects files</li><li>Single Copy loaded in memory shared by multiple processes (that&rsquo;s why called shared object)</li></ul><h4 id=sections><strong>Sections</strong><a hidden class=anchor aria-hidden=true href=#sections>#</a></h4><ul><li>Sections contain information needed during the linking time</li></ul><h4 id=segments><strong>Segments</strong><a hidden class=anchor aria-hidden=true href=#segments>#</a></h4><ul><li>Segments contain information needed at run time</li></ul><h3 id=elf-header><strong>ELF Header</strong><a hidden class=anchor aria-hidden=true href=#elf-header>#</a></h3><ul><li>Neither the <code>Section Header</code> nor the <code>Program Header</code> have fixed positions, they can be located anywhere in an ELF file. To find them the <code>ELF header</code> is used, which is located at the very start of the file.</li><li>The first bytes contain the elf magic <code>\x7fELF</code>, followed by the class ID (32 or 64 bit ELF file), the data format ID (little-endian/big-endian), the machine type, etc.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vishal@linuxmachine:~$ readelf -h /bin/bash
+</span></span><span class=line><span class=cl>    ELF Header:
+</span></span><span class=line><span class=cl>      Magic:   7f <span class=m>45</span> 4c <span class=m>46</span> <span class=m>01</span> <span class=m>01</span> <span class=m>01</span> <span class=m>00</span> <span class=m>00</span> <span class=m>00</span> <span class=m>00</span> <span class=m>00</span> <span class=m>00</span> <span class=m>00</span> <span class=m>00</span> <span class=m>00</span>
+</span></span><span class=line><span class=cl>      Class:                             ELF32
+</span></span><span class=line><span class=cl>      Data:                              2<span class=err>&#39;</span>s complement, little endian
+</span></span><span class=line><span class=cl>      Version:                           <span class=m>1</span> <span class=o>(</span>current<span class=o>)</span>
+</span></span><span class=line><span class=cl>      OS/ABI:                            UNIX - System V
+</span></span><span class=line><span class=cl>      ABI Version:                       <span class=m>0</span>
+</span></span><span class=line><span class=cl>      Type:                              EXEC <span class=o>(</span>Executable file<span class=o>)</span>
+</span></span><span class=line><span class=cl>      Machine:                           Intel <span class=m>80386</span>
+</span></span><span class=line><span class=cl>      Version:                           0x1
+</span></span><span class=line><span class=cl>      Entry point address:               0x805be30
+</span></span><span class=line><span class=cl>      Start of program headers:          <span class=m>52</span> <span class=o>(</span>bytes into file<span class=o>)</span>
+</span></span><span class=line><span class=cl>      Start of section headers:          <span class=m>675344</span> <span class=o>(</span>bytes into file<span class=o>)</span>
+</span></span><span class=line><span class=cl>      Flags:                             0x0
+</span></span><span class=line><span class=cl>      Size of this header:               <span class=m>52</span>
+</span></span><span class=line><span class=cl>      Size of program headers:           <span class=m>32</span>
+</span></span><span class=line><span class=cl>      Number of program headers:         <span class=m>8</span>
+</span></span><span class=line><span class=cl>      Size of section headers:           <span class=m>40</span>
+</span></span><span class=line><span class=cl>      Number of section headers:         <span class=m>26</span>
+</span></span><span class=line><span class=cl>      Section header string table index: <span class=m>25</span>
+</span></span></code></pre></div><h3 id=section-headers-or-section-header-table><strong>Section Headers OR Section Header Table</strong><a hidden class=anchor aria-hidden=true href=#section-headers-or-section-header-table>#</a></h3><ul><li>Gives a complete overview of the sections contained in the ELF file</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> vishal@linuxmachine:~$ readelf -S /bin/bash
+</span></span><span class=line><span class=cl> There are <span class=m>26</span> section headers, starting at offset 0xa4e10:
+</span></span><span class=line><span class=cl> Section Headers:
+</span></span><span class=line><span class=cl>   <span class=o>[</span>Nr<span class=o>]</span> Name             Type        Addr      Off   Size   ES Flg Lk Inf Al
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 0<span class=o>]</span>                  NULL        <span class=m>00000000</span> <span class=m>00000</span> <span class=m>000000</span> <span class=m>00</span>      <span class=m>0</span>   <span class=m>0</span>  <span class=m>0</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 1<span class=o>]</span> .interp          PROGBITS    <span class=m>08048134</span> <span class=m>00134</span> <span class=m>000013</span> <span class=m>00</span>   A  <span class=m>0</span>   <span class=m>0</span>  <span class=m>1</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 2<span class=o>]</span> .note.ABI-tag    NOTE        <span class=m>08048148</span> <span class=m>00148</span> <span class=m>000020</span> <span class=m>00</span>   A  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 3<span class=o>]</span> .hash            HASH        <span class=m>08048168</span> <span class=m>00168</span> 002e48 <span class=m>04</span>   A  <span class=m>4</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 4<span class=o>]</span> .dynsym          DYNSYM      0804afb0 02fb0 <span class=m>007890</span> <span class=m>10</span>   A  <span class=m>5</span>   <span class=m>1</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 5<span class=o>]</span> .dynstr          STRTAB      <span class=m>08052840</span> 0a840 0074e2 <span class=m>00</span>   A  <span class=m>0</span>   <span class=m>0</span>  <span class=m>1</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 6<span class=o>]</span> .gnu.version     VERSYM      08059d22 11d22 000f12 <span class=m>02</span>   A  <span class=m>4</span>   <span class=m>0</span>  <span class=m>2</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 7<span class=o>]</span> .gnu.version_r   VERNEED     0805ac34 12c34 <span class=m>000090</span> <span class=m>00</span>   A  <span class=m>5</span>   <span class=m>2</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 8<span class=o>]</span> .rel.dyn         REL         0805acc4 12cc4 <span class=m>000040</span> <span class=m>08</span>   A  <span class=m>4</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span> 9<span class=o>]</span> .rel.plt         REL         0805ad04 12d04 0005a8 <span class=m>08</span>   A  <span class=m>4</span>  <span class=m>11</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>10<span class=o>]</span> .init            PROGBITS    0805b2ac 132ac <span class=m>000017</span> <span class=m>00</span>  AX  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>11<span class=o>]</span> .plt             PROGBITS    0805b2c4 132c4 000b60 <span class=m>04</span>  AX  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>12<span class=o>]</span> .text            PROGBITS    0805be30 13e30 <span class=m>077154</span> <span class=m>00</span>  AX  <span class=m>0</span>   <span class=m>0</span> <span class=m>16</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>13<span class=o>]</span> .fini            PROGBITS    080d2f84 8af84 00001a <span class=m>00</span>  AX  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>14<span class=o>]</span> .rodata          PROGBITS    080d2fa0 8afa0 <span class=m>015198</span> <span class=m>00</span>   A  <span class=m>0</span>   <span class=m>0</span> <span class=m>32</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>15<span class=o>]</span> .eh_frame_hdr    PROGBITS    080e8138 a0138 00002c <span class=m>00</span>   A  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>16<span class=o>]</span> .eh_frame        PROGBITS    080e8164 a0164 00009c <span class=m>00</span>   A  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>17<span class=o>]</span> .ctors           PROGBITS    080e9200 a0200 <span class=m>000008</span> <span class=m>00</span>  WA  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>18<span class=o>]</span> .dtors           PROGBITS    080e9208 a0208 <span class=m>000008</span> <span class=m>00</span>  WA  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>19<span class=o>]</span> .jcr             PROGBITS    080e9210 a0210 <span class=m>000004</span> <span class=m>00</span>  WA  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>20<span class=o>]</span> .dynamic         DYNAMIC     080e9214 a0214 0000d8 <span class=m>08</span>  WA  <span class=m>5</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>21<span class=o>]</span> .got             PROGBITS    080e92ec a02ec <span class=m>000004</span> <span class=m>04</span>  WA  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>22<span class=o>]</span> .got.plt         PROGBITS    080e92f0 a02f0 0002e0 <span class=m>04</span>  WA  <span class=m>0</span>   <span class=m>0</span>  <span class=m>4</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>23<span class=o>]</span> .data            PROGBITS    080e95e0 a05e0 <span class=m>004764</span> <span class=m>00</span>  WA  <span class=m>0</span>   <span class=m>0</span> <span class=m>32</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>24<span class=o>]</span> .bss             NOBITS      080edd60 a4d44 004bc8 <span class=m>00</span>  WA  <span class=m>0</span>   <span class=m>0</span> <span class=m>32</span>
+</span></span><span class=line><span class=cl>   <span class=o>[</span>25<span class=o>]</span> .shstrtab        STRTAB      <span class=m>00000000</span> a4d44 0000cc <span class=m>00</span>      <span class=m>0</span>   <span class=m>0</span>  <span class=m>1</span>
+</span></span></code></pre></div><h3 id=program-headers-or-program-headers-table><strong>Program Headers OR Program Headers Table</strong><a hidden class=anchor aria-hidden=true href=#program-headers-or-program-headers-table>#</a></h3><ul><li>Contains information for the kernel on how to start the program</li><li>The <code>LOAD</code> directives determinate what parts of the ELF file get mapped into memory.</li><li>The <code>INTERP</code> the directive specifies an ELF interpreter, which is normally /lib/ld-linux.so.2 on Linux systems.</li><li>The DYNAMIC entry points to the .dynamic the section which contains information used by the ELF interpreter to set up the binary.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vishal@linuxmachine:~$ readelf -l /bin/bash
+</span></span><span class=line><span class=cl>Elf file <span class=nb>type</span> is EXEC <span class=o>(</span>Executable file<span class=o>)</span>
+</span></span><span class=line><span class=cl>Entry point 0x805be30
+</span></span><span class=line><span class=cl>There are <span class=m>8</span> program headers, starting at offset <span class=m>52</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Program Headers:
+</span></span><span class=line><span class=cl>  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+</span></span><span class=line><span class=cl>  PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
+</span></span><span class=line><span class=cl>  INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
+</span></span><span class=line><span class=cl>      <span class=o>[</span>Requesting program interpreter: /lib/ld-linux.so.2<span class=o>]</span>
+</span></span><span class=line><span class=cl>  LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
+</span></span><span class=line><span class=cl>  LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
+</span></span><span class=line><span class=cl>  DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
+</span></span><span class=line><span class=cl>  NOTE           0x000148 0x08048148 0x08048148 0x00020 0x00020 R   0x4
+</span></span><span class=line><span class=cl>  GNU_EH_FRAME   0x0a0138 0x080e8138 0x080e8138 0x0002c 0x0002c R   0x4
+</span></span><span class=line><span class=cl>  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> Section to Segment mapping:
+</span></span><span class=line><span class=cl>  Segment Sections...
+</span></span><span class=line><span class=cl>   <span class=m>00</span>
+</span></span><span class=line><span class=cl>   <span class=m>01</span>     .interp
+</span></span><span class=line><span class=cl>   <span class=m>02</span>     .interp .note.ABI-tag .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt ...
+</span></span><span class=line><span class=cl>   <span class=m>03</span>     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss
+</span></span><span class=line><span class=cl>   <span class=m>04</span>     .dynamic
+</span></span><span class=line><span class=cl>   <span class=m>05</span>     .note.ABI-tag
+</span></span><span class=line><span class=cl>   <span class=m>06</span>     .eh_frame_hdr
+</span></span><span class=line><span class=cl>   <span class=m>07</span>
+</span></span></code></pre></div><h3 id=relocation-table-or-relocation-section><strong>Relocation Table OR Relocation Section</strong><a hidden class=anchor aria-hidden=true href=#relocation-table-or-relocation-section>#</a></h3><ul><li>Relocation is the process of connecting symbolic references(functions,variable,etc names) with symbolic definitions(function, variable,etc definitions).</li><li>For example, when a program calls a function(at runtime), the associated call instruction must transfer control to the proper destination address at execution.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>    vishal@linuxmachine:~$ readelf -r /bin/bash
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    Relocation section <span class=s1>&#39;.rel.dyn&#39;</span> at offset 0x12cc4 contains <span class=m>8</span> entries:
+</span></span><span class=line><span class=cl>     Offset     Info    Type            Sym.Value  Sym. Name
+</span></span><span class=line><span class=cl>    080e92ec  <span class=m>00078006</span> R_386_GLOB_DAT    <span class=m>00000000</span>   __gmon_start__
+</span></span><span class=line><span class=cl>    080edd68  <span class=m>00035205</span> R_386_COPY        080edd68   stdout
+</span></span><span class=line><span class=cl>    080edd6c  00035d05 R_386_COPY        080edd6c   stderr
+</span></span><span class=line><span class=cl>    080edd70  <span class=m>00046405</span> R_386_COPY        080edd70   PC
+</span></span><span class=line><span class=cl>    080edd74  <span class=m>00067405</span> R_386_COPY        080edd74   stdin
+</span></span><span class=line><span class=cl>    080edd78  0006e305 R_386_COPY        080edd78   UP
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    Relocation section <span class=s1>&#39;.rel.plt&#39;</span> at offset 0x12d04 contains <span class=m>181</span> entries:
+</span></span><span class=line><span class=cl>     Offset     Info    Type            Sym.Value  Sym. Name
+</span></span><span class=line><span class=cl>    080e9368  00012c07 R_386_JUMP_SLOT   <span class=m>00000000</span>   fileno
+</span></span><span class=line><span class=cl>    080e936c  <span class=m>00013807</span> R_386_JUMP_SLOT   <span class=m>00000000</span>   strcmp
+</span></span><span class=line><span class=cl>    080e9370  <span class=m>00014107</span> R_386_JUMP_SLOT   0805b4a4   close
+</span></span><span class=line><span class=cl>    080e9374  <span class=m>00015307</span> R_386_JUMP_SLOT   <span class=m>00000000</span>   dlsym
+</span></span><span class=line><span class=cl>    080e937c  00016a07 R_386_JUMP_SLOT   <span class=m>00000000</span>   fprintf
+</span></span><span class=line><span class=cl>    080e9388  <span class=m>00018307</span> R_386_JUMP_SLOT   <span class=m>00000000</span>   fflush
+</span></span><span class=line><span class=cl>    080e9390  00019c07 R_386_JUMP_SLOT   0805b524   unlink
+</span></span><span class=line><span class=cl>    080e930c  <span class=m>00003307</span> R_386_JUMP_SLOT   <span class=m>00000000</span>   regexec
+</span></span><span class=line><span class=cl>    080e9328  00007a07 R_386_JUMP_SLOT   <span class=m>00000000</span>   ferror
+</span></span><span class=line><span class=cl>    080e9330  <span class=m>00008307</span> R_386_JUMP_SLOT   <span class=m>00000000</span>   readdir64
+</span></span><span class=line><span class=cl>    080e9334  00008f07 R_386_JUMP_SLOT   <span class=m>00000000</span>   strchr
+</span></span><span class=line><span class=cl>    080e9338  0000a507 R_386_JUMP_SLOT   <span class=m>00000000</span>   fdopen
+</span></span><span class=line><span class=cl>    080e9344  0000da07 R_386_JUMP_SLOT   <span class=m>00000000</span>   getpid
+</span></span><span class=line><span class=cl>    080e9360  <span class=m>00012207</span> R_386_JUMP_SLOT   <span class=m>00000000</span>   write
+</span></span><span class=line><span class=cl>    080e95cc  <span class=m>00078707</span> R_386_JUMP_SLOT   <span class=m>00000000</span>   strcpy
+</span></span><span class=line><span class=cl>    ...
+</span></span><span class=line><span class=cl>    ...
+</span></span></code></pre></div><h3 id=symbol-table-two-use-case><strong>Symbol Table: Two Use Case</strong><a hidden class=anchor aria-hidden=true href=#symbol-table-two-use-case>#</a></h3><ol><li>Symbol table in object/executable files will contain the symbolic name of functions & variables with addresses which are used by Linker to resolve any unresolved references during linking.</li><li>There&rsquo;s also the symbol table in a shared library/DLL produced by the linker(at compile time) which is used by the dynamic linker to do run-time linking & resolving open references to those names to the location where the library is loaded in memory.</li></ol><p><strong>Note</strong>: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.</p><h3 id=dynamic-section--dynamic-linking-with-the-elf-interpreter><strong>Dynamic Section & Dynamic linking with the ELF interpreter</strong><a hidden class=anchor aria-hidden=true href=#dynamic-section--dynamic-linking-with-the-elf-interpreter>#</a></h3><ul><li>First, the dynamic linker (contained within the interpreter) looks at the Dynamic section, whose address is stored in the Program Header.</li><li>There it finds the NEEDED entries determining which libraries have to be loaded before the program can be run, the RELentries giving the address of the relocation tables, the VER entries which contain symbol versioning information, etc.</li><li>So the dynamic linker loads the needed libraries and performs relocations (either directly at program startup or later(lazy resolution)).</li><li>Finally, control is transferred to the address given by the symbol <code>_start</code> in the binary. Normally some <code>gcc/glibc</code> startup code lives there, which in the end calls <code>main()</code></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>    vishal@linuxmachine:~$ readelf -d /bin/bash
+</span></span><span class=line><span class=cl>    Dynamic section at offset 0xa0214 contains <span class=m>22</span> entries:
+</span></span><span class=line><span class=cl>      Tag        Type                         Name/Value
+</span></span><span class=line><span class=cl>     0x00000001 <span class=o>(</span>NEEDED<span class=o>)</span>                     Shared library: <span class=o>[</span>libncurses.so.5<span class=o>]</span>
+</span></span><span class=line><span class=cl>     0x00000001 <span class=o>(</span>NEEDED<span class=o>)</span>                     Shared library: <span class=o>[</span>libdl.so.2<span class=o>]</span>
+</span></span><span class=line><span class=cl>     0x00000001 <span class=o>(</span>NEEDED<span class=o>)</span>                     Shared library: <span class=o>[</span>libc.so.6<span class=o>]</span>
+</span></span><span class=line><span class=cl>     0x0000000a <span class=o>(</span>STRSZ<span class=o>)</span>                      <span class=m>29922</span> <span class=o>(</span>bytes<span class=o>)</span>
+</span></span><span class=line><span class=cl>     0x0000000b <span class=o>(</span>SYMENT<span class=o>)</span>                     <span class=m>16</span> <span class=o>(</span>bytes<span class=o>)</span>
+</span></span><span class=line><span class=cl>     0x00000003 <span class=o>(</span>PLTGOT<span class=o>)</span>                     0x80e92f0
+</span></span><span class=line><span class=cl>     0x00000002 <span class=o>(</span>PLTRELSZ<span class=o>)</span>                   <span class=m>1448</span> <span class=o>(</span>bytes<span class=o>)</span>
+</span></span><span class=line><span class=cl>     0x00000014 <span class=o>(</span>PLTREL<span class=o>)</span>                     REL
+</span></span><span class=line><span class=cl>     0x00000017 <span class=o>(</span>JMPREL<span class=o>)</span>                     0x805ad04
+</span></span><span class=line><span class=cl>     0x00000011 <span class=o>(</span>REL<span class=o>)</span>                        0x805acc4
+</span></span><span class=line><span class=cl>     0x00000012 <span class=o>(</span>RELSZ<span class=o>)</span>                      <span class=m>64</span> <span class=o>(</span>bytes<span class=o>)</span>
+</span></span><span class=line><span class=cl>     0x6ffffffe <span class=o>(</span>VERNEED<span class=o>)</span>                    0x805ac34
+</span></span><span class=line><span class=cl>     0x6fffffff <span class=o>(</span>VERNEEDNUM<span class=o>)</span>                 <span class=m>2</span>
+</span></span><span class=line><span class=cl>     0x6ffffff0 <span class=o>(</span>VERSYM<span class=o>)</span>                     0x8059d22
+</span></span><span class=line><span class=cl>     0x00000000 <span class=o>(</span>NULL<span class=o>)</span>                       0x0
+</span></span></code></pre></div><h3 id=procedure-linkage-tableplt><strong>Procedure Linkage Table(.plt)</strong><a hidden class=anchor aria-hidden=true href=#procedure-linkage-tableplt>#</a></h3><ul><li>is a table of addresses</li><li>resides in the text segment</li><li>used to store the address of all functions needed at runtime (address not known at the time of linking)</li><li>The PLT uses what is called lazy resolution. Means it resolves procedure address once when it calls method</li><li>How PLT works -<ol><li>A function func is called and the compiler translates this to a call to func@plt(you can see this in a binary dump).</li><li>The program jumps to the PLT. The PLT points to the GOT. If the function has not been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself.</li><li>If the function has not been previously called, PLT resolves routine & update the GOT entry with the actual address of the function.</li></ol></li></ul><h3 id=global-offset-tablegot><strong>Global Offset Table(.got)</strong><a hidden class=anchor aria-hidden=true href=#global-offset-tablegot>#</a></h3><ul><li>is a table of addresses</li><li>resides in the data segment</li><li>used to store the relative address of variables & procedures which is mapped with the absolute address</li><li>How GOT works -<ol><li>If some instruction in the text segment, wants to refer to a variable it must normally use an absolute memory address.</li><li>Instead of referring to the absolute memory address, it refers to the GOT, whose location is known.</li></ol></li></ul><p><strong>NOTE:</strong> By this kind of address tables we can effectively use relocating of objects, with just updating entry each time relocation performed</p><h3 id=program-loading-in-the-kernel><strong>Program loading in the kernel</strong><a hidden class=anchor aria-hidden=true href=#program-loading-in-the-kernel>#</a></h3><ul><li>The execution of a program starts inside the kernel, in the exec system call. There the file type is looked up and the appropriate handler is called.</li><li>The <code>binfmt-elf</code> the handler then loads the ELF header and the Program Header, followed by lots of sanity checks.</li><li>The kernel then loads the parts specified in the LOAD directives in the Program Header into memory. If an INTERP entry is present, the interpreter is loaded too.</li><li>Statically linked binaries can do without an interpreter; dynamically linked programs always need <code>/lib/ld-linux.so</code> as an interpreter, because it includes some startup code, loads shared libraries needed by the binary and performs relocations.</li></ul><p>Finally, control can be transferred to the program, to the interpreter, if present, otherwise to the binary itself.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>    vishal@linuxmachine:~$ readelf -l /bin/bash
+</span></span><span class=line><span class=cl>    Program Headers:
+</span></span><span class=line><span class=cl>      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+</span></span><span class=line><span class=cl>      PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
+</span></span><span class=line><span class=cl>      INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
+</span></span><span class=line><span class=cl>          <span class=o>[</span>Requesting program interpreter: /lib/ld-linux.so.2<span class=o>]</span>
+</span></span><span class=line><span class=cl>      LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
+</span></span><span class=line><span class=cl>      LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
+</span></span><span class=line><span class=cl>      DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
+</span></span><span class=line><span class=cl>      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+</span></span><span class=line><span class=cl>    ...
+</span></span></code></pre></div></div><footer class=post-footer><ul class=post-tags><li><a href=http://localhost:1313/tags/elf-file-format/>Elf-File-Format</a></li><li><a href=http://localhost:1313/tags/elf-header/>Elf-Header</a></li><li><a href=http://localhost:1313/tags/global-offset-table/>Global-Offset-Table</a></li><li><a href=http://localhost:1313/tags/procedure-linkage-table/>Procedure-Linkage-Table</a></li><li><a href=http://localhost:1313/tags/program-headers-table/>Program-Headers-Table</a></li><li><a href=http://localhost:1313/tags/relocation-table/>Relocation-Table</a></li><li><a href=http://localhost:1313/tags/section-header-table/>Section-Header-Table</a></li><li><a href=http://localhost:1313/tags/sections/>Sections</a></li><li><a href=http://localhost:1313/tags/segments/>Segments</a></li><li><a href=http://localhost:1313/tags/shared-library-so/>Shared-Library-So</a></li><li><a href=http://localhost:1313/tags/symbol-table/>Symbol-Table</a></li></ul><nav class=paginav><a class=prev href=http://localhost:1313/posts/thread-conditional-wait-with-mutex-pthread_cond_t/><span class=title>« Prev</span><br><span>Thread Conditional Wait with Mutex : pthread_cond_t</span>
+</a><a class=next href=http://localhost:1313/posts/unix-domain-socket/><span class=title>Next »</span><br><span>Unix Domain Socket</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share Understand ELF file format on x" href="https://x.com/intent/tweet/?text=Understand%20ELF%20file%20format&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f&amp;hashtags=elf-file-format%2celf-header%2cglobal-offset-table%2cprocedure-linkage-table%2cprogram-headers-table%2crelocation-table%2csection-header-table%2csections%2csegments%2cshared-library-so%2csymbol-table"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Understand ELF file format on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f&amp;title=Understand%20ELF%20file%20format&amp;summary=Understand%20ELF%20file%20format&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Understand ELF file format on reddit" href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f&title=Understand%20ELF%20file%20format"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Understand ELF file format on facebook" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Understand ELF file format on whatsapp" href="https://api.whatsapp.com/send?text=Understand%20ELF%20file%20format%20-%20http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Understand ELF file format on telegram" href="https://telegram.me/share/url?text=Understand%20ELF%20file%20format&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Understand ELF file format on ycombinator" href="https://news.ycombinator.com/submitlink?t=Understand%20ELF%20file%20format&u=http%3a%2f%2flocalhost%3a1313%2fposts%2funderstand-elf-file-format%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=http://localhost:1313/>Vishal Chovatiya</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>

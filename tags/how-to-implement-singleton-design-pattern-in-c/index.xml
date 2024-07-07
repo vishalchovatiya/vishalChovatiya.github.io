@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>How-to-Implement-Singleton-Design-Pattern-in-C on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/how-to-implement-singleton-design-pattern-in-c/</link>
+    <description>Recent content in How-to-Implement-Singleton-Design-Pattern-in-C on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/how-to-implement-singleton-design-pattern-in-c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Singleton Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/singleton-design-pattern-in-modern-cpp/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/singleton-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. The basic or ordinary form of object creation could result in design problems or added complexity to the design. In this article of the Creational Design Patterns, we&amp;rsquo;re going to take a look at the much-hated &amp;amp; commonly asked design pattern in a programming interview. That is Singleton Design Pattern in Modern C++ which criticizes for its extensibility &amp;amp; testability.</description>
+    </item>
+  </channel>
+</rss>

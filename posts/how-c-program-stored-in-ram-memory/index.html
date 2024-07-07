@@ -1,183 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <title>
-  How C Program Stored in Ram Memory! · Vishal Chovatiya
-</title>
-  <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light dark">
-
-
-
-
-<meta name="author" content="Vishal Chovatiya">
-<meta name="description" content="When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. &ldquo;Overview&rdquo;, we will see segment-wise overview &amp; in 2nd part i.e. &ldquo;Example&rdquo;, we&rsquo;ll see How C program stored in RAM memory? with example.">
-<meta name="keywords" content="blog,developer,personal">
-
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="How C Program Stored in Ram Memory!">
-  <meta name="twitter:description" content="When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. “Overview”, we will see segment-wise overview &amp; in 2nd part i.e. “Example”, we’ll see How C program stored in RAM memory? with example.">
-
-<meta property="og:url" content="http://localhost:1313/posts/how-c-program-stored-in-ram-memory/">
-  <meta property="og:site_name" content="Vishal Chovatiya">
-  <meta property="og:title" content="How C Program Stored in Ram Memory!">
-  <meta property="og:description" content="When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. “Overview”, we will see segment-wise overview &amp; in 2nd part i.e. “Example”, we’ll see How C program stored in RAM memory? with example.">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2019-09-16T00:00:00+00:00">
-    <meta property="article:modified_time" content="2019-09-16T00:00:00+00:00">
-
-
-
-
-<link rel="canonical" href="http://localhost:1313/posts/how-c-program-stored-in-ram-memory/">
-
-
-<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-
-
-  
-  
-  <link rel="stylesheet" href="/css/coder.css" media="screen">
-
-
-
-
-
-
-
-
- 
-
-
-
-
-<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
-<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-
-
-
-
-
-
-</head>
-
-
-
-
-<body class="preload-transitions colorscheme-light">
-  
-
-  <main class="wrapper">
-    <nav class="navigation">
-  <section class="container">
-    
-    <a class="navigation-title" href="http://localhost:1313/">
-      Vishal Chovatiya
-    </a>
-    
-    
-      <input type="checkbox" id="menu-toggle" />
-      <label class="menu-button float-right" for="menu-toggle">
-        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
-      </label>
-      <ul class="navigation-list">
-        
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/posts/">Latest</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/pages/start-here">Start Here</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/misc/">Misc</a>
-            </li>
-          
-        
-        
-      </ul>
-    
-  </section>
-</nav>
-
-
-    <div class="content">
-      
-  <section class="container post">
-    <article>
-      <header>
-        <div class="post-title">
-          <h1 class="title">
-            <a class="title-link" href="http://localhost:1313/posts/how-c-program-stored-in-ram-memory/">
-              How C Program Stored in Ram Memory!
-            </a>
-          </h1>
-        </div>
-        <div class="post-meta">
-          <div class="date">
-            <span class="posted-on">
-              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              <time datetime="2019-09-16T00:00:00Z">
-                September 16, 2019
-              </time>
-            </span>
-            <span class="reading-time">
-              <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              8-minute read
-            </span>
-          </div>
-          
-          <div class="categories">
-  <i class="fa-solid fa-folder" aria-hidden="true"></i>
-    <a href="/categories/c-language/">C-Language</a>
-      <span class="separator">•</span>
-    <a href="/categories/cpp/">Cpp</a></div>
-
-          
-        </div>
-      </header>
-
-      <div class="post-content">
-        
-          <img src="/images/How-C-program-stored-in-RAM-memory.png" alt="Featured image"/>
-        
-        <p>When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. &ldquo;Overview&rdquo;, we will see segment-wise overview &amp; in 2nd part i.e. &ldquo;Example&rdquo;, we&rsquo;ll see How C program stored in RAM memory? with example.</p>
-<p>The memory layout of C program organized in the following fashion:</p>
-<ul>
-<li>Text segment</li>
-<li>Data segment</li>
-<li>Heap segment</li>
-<li>Stack segment</li>
-</ul>
-<p>Note: It&rsquo;s not just these 4 segments, there are a lot more but these 4 are the core to understanding the working of C program at the machine level.</p>
-<pre tabindex="0"><code>        HIGHER  ADDRESS                                                                                                        
+<!doctype html><html lang=en dir=auto><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>How C Program Stored in Ram Memory! | Vishal Chovatiya</title>
+<meta name=keywords content="data-segment,heap-segment,stack-segment,text-segment,unmapped-or-reserved-segment"><meta name=description content="When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. &ldquo;Overview&rdquo;, we will see segment-wise overview & in 2nd part i.e. &ldquo;Example&rdquo;, we&rsquo;ll see How C program stored in RAM memory? with example."><meta name=author content="Vishal Chovatiya"><link rel=canonical href=http://localhost:1313/posts/how-c-program-stored-in-ram-memory/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as=style><link rel=icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=http://localhost:1313/posts/how-c-program-stored-in-ram-memory/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="How C Program Stored in Ram Memory!"><meta property="og:description" content="When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. &ldquo;Overview&rdquo;, we will see segment-wise overview & in 2nd part i.e. &ldquo;Example&rdquo;, we&rsquo;ll see How C program stored in RAM memory? with example."><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/posts/how-c-program-stored-in-ram-memory/"><meta property="og:image" content="http://localhost:1313/images/How-C-program-stored-in-RAM-memory.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-09-16T00:00:00+00:00"><meta property="article:modified_time" content="2019-09-16T00:00:00+00:00"><meta property="og:site_name" content="ExampleSite"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://localhost:1313/images/How-C-program-stored-in-RAM-memory.png"><meta name=twitter:title content="How C Program Stored in Ram Memory!"><meta name=twitter:description content="When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. &ldquo;Overview&rdquo;, we will see segment-wise overview & in 2nd part i.e. &ldquo;Example&rdquo;, we&rsquo;ll see How C program stored in RAM memory? with example."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"http://localhost:1313/posts/"},{"@type":"ListItem","position":2,"name":"How C Program Stored in Ram Memory!","item":"http://localhost:1313/posts/how-c-program-stored-in-ram-memory/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"How C Program Stored in Ram Memory!","name":"How C Program Stored in Ram Memory!","description":"When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. \u0026ldquo;Overview\u0026rdquo;, we will see segment-wise overview \u0026amp; in 2nd part i.e. \u0026ldquo;Example\u0026rdquo;, we\u0026rsquo;ll see How C program stored in RAM memory? with example.","keywords":["data-segment","heap-segment","stack-segment","text-segment","unmapped-or-reserved-segment"],"articleBody":"When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. “Overview”, we will see segment-wise overview \u0026 in 2nd part i.e. “Example”, we’ll see How C program stored in RAM memory? with example.\nThe memory layout of C program organized in the following fashion:\nText segment Data segment Heap segment Stack segment Note: It’s not just these 4 segments, there are a lot more but these 4 are the core to understanding the working of C program at the machine level.\nHIGHER ADDRESS +------------------------+ | Unmapped or reserved | Command-line argument \u0026 Environment variables |------------------------|------------------------ | Stack segment | | | | | | Stack frame | v | v | | | ^ | ^ | | | | Dynamic memory | Heap segment | | |------------------------|------------------------ | Uninitialized data | |------------------------| Data segment | Initialized data | |------------------------|------------------------ | | | Text segment | Executable code | | +------------------------+ LOWER ADDRESS Text segment Text segment contains executable instructions of your C program, its also called code segment also. This includes all functions making up the program(main()too), both user-defined and system. The text segment is sharable so that only a single copy needs to be in memory for different executing programs, such as text editors, shells, and so on. Usually, the text segment is read-only, to prevent a program from accidentally modifying its instructions. Data segment There are two subsections of this segment\nInitialized data It contains both static and global data that initialized with non-zero values. This segment can be further classified into the read-only area and read-write area. For example, The global string defined by char string[ ] = \"hello world\" and a statement like an int count=1 outside the main (i.e. global) would be stored in initialized read-write area. And a global statement like const int A=3; makes the variable A read-only and to be stored in initialized read-only area. Uninitialized data (BSS segment) An uninitialized data segment also called the BSS( ‘Block Started by Symbol’ ) segment. Which contains all global and static variables that initialized to zero or do not have explicit initialization in source code. For example, The global variable declared as int A would be stored in the uninitialized data segment. A statement like static int X=0 will also be stored in this segment cause it initialized with zero. If you do not initialize a global variable, by default value is zero. This flushing memory content is usually done by program loader(i.e. /lib/ld-linux.so.2). Heap segment The heap segment is an area where dynamically allocated memory (allocated by malloc(), calloc(), realloc()and new for C++) resides. When we allocate memory through dynamic allocation techniques(in other words, run-time memory allocation), program acquire space from OS and process address space grows. We can free dynamically allocated memory space (by using free()or delete). Freed memory goes back to the heap but doesn’t have to be returned to OS (it doesn’t have to be returned at all), so unordered malloc/free eventually, cause heap fragmentation. You can learn more about how malloc works here. When we use dynamic allocation to acquire memory space we must keep track of allocated memory by using its address. Stack segment The stack segment is an area where local variables stored. By saying local variable means that all those variables which are declared in every function including main()in your C program. I have written a detailed article about the stack frame here. When we call any function, the stack frame created and when a function returns, the stack frame destroyed/rewind including all local variables of that particular function. A stack frame contains some data like return address, arguments passed to it, local variables, and any other information needed by the invoked function. A stack pointer(SP) which is a special function register of CPU keeps track of stack by each push \u0026 pop operation onto it, by adjusted stack pointer to next or previous address. The direction of the stack \u0026 heap growth completely depends on the compiler, ABI, OS and hardware. We have taken a simple example as above along with its memory layout.\nAs we discussed in the previous tab(i.e. Overview) how executable image of our program divided into the different segment and stored in memory(RAM). Now we understand those blocks by using our example code presented above.\nLoader A loader is not a segment but kind of program interpreter which reads a different segment from the binary \u0026 copy it in RAM in proper fashion. There is a binary utility command by which you can see different segments \u0026 path of the loader in binary as follows: $ readelf --segments ./a.out Elf file type is EXEC (Executable file) Entry point 0x8048300 There are 9 program headers, starting at offset 52 Program Headers: Type Offset VirtAddr PhysAddr FileSiz MemSiz Flg Align PHDR 0x000034 0x08048034 0x08048034 0x00120 0x00120 R E 0x4 INTERP 0x000154 0x08048154 0x08048154 0x00013 0x00013 R 0x1 [Requesting program interpreter: /lib/ld-linux.so.2] LOAD 0x000000 0x08048000 0x08048000 0x00608 0x00608 R E 0x1000 LOAD 0x000f08 0x08049f08 0x08049f08 0x00118 0x00124 RW 0x1000 DYNAMIC 0x000f14 0x08049f14 0x08049f14 0x000e8 0x000e8 RW 0x4 NOTE 0x000168 0x08048168 0x08048168 0x00020 0x00020 R 0x4 GNU_EH_FRAME 0x0004c4 0x080484c4 0x080484c4 0x00044 0x00044 R 0x4 GNU_STACK 0x000000 0x00000000 0x00000000 0x00000 0x00000 RW 0x10 GNU_RELRO 0x000f08 0x08049f08 0x08049f08 0x000f8 0x000f8 R 0x1 Section to Segment mapping: Segment Sections... 00 01 .interp 02 .interp .note.ABI-tag .hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt .init .plt .plt.got .text .fini .rodata .eh_frame_hdr .eh_frame 03 .init_array .fini_array .jcr .dynamic .got .got.plt .data .bss 04 .dynamic 05 .note.ABI-tag 06 .eh_frame_hdr 07 08 .init_array .fini_array .jcr .dynamic .got As I have mentioned earlier, there is not only 4 segment as you can see above, but there are a lot of segments which usually depends on compiler \u0026 ABI. Above you can see, .data, .bss, .text, etc. segments are there. But a stack segment is not shown as its created at a run time \u0026 decided by OS(precisely loader \u0026 kernel). INTERP in the program header defines the name \u0026 path of loader which going to load the current binary image into the RAM by reading these segments. Here it is /lib/ld-linux.so.2. You can read more about binary file format ELF here. Text segment When you compile C code, you get executable image(which may be in any form like .bin, .exe, .hex, .out or no extension etc). This executable image contains text segment which you see by Binutils command $ objdump -d and it looks like follows:\n..... 080483f1 : 80483f1:\t8d 4c 24 04 lea 0x4(%esp),%ecx 80483f5:\t83 e4 f0 and $0xfffffff0,%esp 80483f8:\tff 71 fc pushl -0x4(%ecx) ..... This is executable instructions stored in the text segment as a read-only section and shared by the processes if requires. These instructions read by CPU using program counter and stack frame created in the stack at the time of execution. Program-counter points to the address of the instruction to executed which lies in the text segment.\nData segment Initialized Data segment A const int x = 1; stored in the read-only area. So you can not modify it accidentally. While a string char str[] = \"Hi!\"; \u0026 static int var = 0; stored in the read-write area because we don’t use a keyword like const which makes variable read-only. Uninitialized Data segment In our program, int i declared global goes to this area of storage because it is not initialized or initialized to zero by default. Heap segment When you compile your program, memory space allocated by you i.e. all locals, static \u0026 global variables fixed at compile-time. But when code needs memory at run-time, it approach OS by calling functions like malloc(), calloc(), etc. When OS provides dynamic memory to process it shrinks stack limit pointer which initially points to uninitialized data segment start(the technical word is “program break”, read about it here). As a result heap segment grows. That’s why there is no line between heap \u0026 stack segment. An arrow indicates its growth of direction. In the example code, we allocate 1-byte dynamic memory using malloc()function and stored its address in pointer ptr to keep track of that memory or to access it. This ptr is a local variable of main hence it’s in main’s stack frame, but memory pointed by it is in a heap which I have shown by *ptr. Stack segment The usual starting point(not entry point which is different) of any program is `main(), which is also a function hence, stack frame is created for it while execution. Although there are many functions called before main which I have discussed here. As you can see in image, stack frame of main() is created before function func()as we called it nested. As the func( ) execution overs its local variable a and its stack frame will destroy(rewind is a precise word here), same goes for main()function also. And this is how stack grows \u0026 shrinks. FAQs Q. How do you determine the stack growth direction\nA. Simple…! by comparing the address of two different function’s local variables.\nint *main_ptr = NULL; int *func_ptr = NULL; void func() { int a; func_ptr = \u0026a; } int main() { int a; main_ptr = \u0026a; func(); (main_ptr \u003e func_ptr) ? printf(\"DOWN\\n\") : printf(\"UP\\n\"); return 0; } Q. How do you corrupt stack deliberately\nA. Corrupt the SFR values stored in the stack frame.\nvoid func() { int a; memset(\u0026a, 0, 100); // Corrupt SFR values stored in stack frame } int main() { func(); return 0; } Q. How you can increase stack frame size\nA. alloca()is the answer. Google about it or see this.\n","wordCount":"1632","inLanguage":"en","image":"http://localhost:1313/images/How-C-program-stored-in-RAM-memory.png","datePublished":"2019-09-16T00:00:00Z","dateModified":"2019-09-16T00:00:00Z","author":{"@type":"Person","name":"Vishal Chovatiya"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:1313/posts/how-c-program-stored-in-ram-memory/"},"publisher":{"@type":"Organization","name":"Vishal Chovatiya","logo":{"@type":"ImageObject","url":"http://localhost:1313/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=http://localhost:1313/ accesskey=h title="Vishal Chovatiya (Alt + H)"><img src=http://localhost:1313/apple-touch-icon.png alt aria-label=logo height=35>Vishal Chovatiya</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=http://localhost:1313/pages/vishal-chovatiya title="About Me"><span>About Me</span></a></li><li><a href=http://localhost:1313/pages/start-here title="Start Here"><span>Start Here</span></a></li><li><a href=http://localhost:1313/posts/ title=Latest><span>Latest</span></a></li><li><a href=http://localhost:1313/categories/ title=Categories><span>Categories</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=http://localhost:1313/>Home</a>&nbsp;»&nbsp;<a href=http://localhost:1313/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">How C Program Stored in Ram Memory!</h1><div class=post-meta><span title='2019-09-16 00:00:00 +0000 UTC'>September 16, 2019</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;1632 words&nbsp;·&nbsp;Vishal Chovatiya&nbsp;|&nbsp;<a href=https://github.com/vishalchovatiya/blog/vishalchovatiya/content/posts/how-c-program-stored-in-ram-memory.md rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><figure class=entry-cover><img loading=eager src=http://localhost:1313/images/How-C-program-stored-in-RAM-memory.png alt></figure><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><ul><li><a href=#text-segment>Text segment</a></li><li><a href=#data-segment>Data segment </a></li><li><a href=#heap-segment>Heap segment</a></li><li><a href=#stack-segment>Stack segment</a></li><li><a href=#loader>Loader</a></li><li><a href=#text-segment-1>Text segment</a></li><li><a href=#data-segment-1>Data segment</a></li><li><a href=#heap-segment-1>Heap segment</a></li><li><a href=#stack-segment-1>Stack segment</a></li><li><a href=#faqs>FAQs</a></li></ul></li></ul></nav></div></details></div><div class=post-content><p>When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. &ldquo;Overview&rdquo;, we will see segment-wise overview & in 2nd part i.e. &ldquo;Example&rdquo;, we&rsquo;ll see How C program stored in RAM memory? with example.</p><p>The memory layout of C program organized in the following fashion:</p><ul><li>Text segment</li><li>Data segment</li><li>Heap segment</li><li>Stack segment</li></ul><p>Note: It&rsquo;s not just these 4 segments, there are a lot more but these 4 are the core to understanding the working of C program at the machine level.</p><pre tabindex=0><code>        HIGHER  ADDRESS                                                                                                        
    +------------------------+                                                                             
    |  Unmapped or reserved  | Command-line argument &amp; Environment variables                                                                          
    |------------------------|------------------------ 
@@ -198,338 +20,71 @@
    |                        |                                                                                                  
    +------------------------+                                                                                                  
          LOWER  ADDRESS                     
-</code></pre><h3 id="text-segment">
-  Text segment
-  <a class="heading-link" href="#text-segment">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>Text segment contains executable instructions of your C program, its also called code segment also.</li>
-<li>This includes all functions making up the program(<code>main()</code>too), both user-defined and system.</li>
-<li>The text segment is sharable so that only a single copy needs to be in memory for different executing programs, such as text editors, shells, and so on.</li>
-<li>Usually, the text segment is read-only, to prevent a program from accidentally modifying its instructions.</li>
-</ul>
-<h3 id="data-segment">
-  Data segment 
-  <a class="heading-link" href="#data-segment">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<p>There are two subsections of this segment</p>
-<h4 id="initialized-data">
-  Initialized data
-  <a class="heading-link" href="#initialized-data">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h4>
-<ul>
-<li>It contains both static and global data that initialized with non-zero values.</li>
-<li>This segment can be further classified into the read-only area and read-write area.</li>
-<li>For example, The global string defined by <code>char string[ ] = &quot;hello world&quot;</code> and a statement like an <code>int count=1</code> outside the <code>main</code> (i.e. global) would be stored in initialized read-write area.</li>
-<li>And a global statement like <code>const int A=3;</code> makes the variable <code>A</code> read-only and to be stored in initialized read-only area.</li>
-</ul>
-<h4 id="uninitialized-data-bss-segment">
-  Uninitialized data (BSS segment)
-  <a class="heading-link" href="#uninitialized-data-bss-segment">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h4>
-<ul>
-<li>An uninitialized data segment also called the BSS( &lsquo;Block Started by Symbol&rsquo; ) segment. Which contains all global and static variables that initialized to zero or do not have explicit initialization in source code.</li>
-<li>For example, The global variable declared as <code>int A</code> would be stored in the uninitialized data segment. A statement like static <code>int X=0</code> will also be stored in this segment cause it initialized with zero.</li>
-<li>If you do not initialize a global variable, by default value is zero. This flushing memory content is usually done by program loader(i.e. <code>/lib/ld-linux.so.2</code>).</li>
-</ul>
-<h3 id="heap-segment">
-  Heap segment
-  <a class="heading-link" href="#heap-segment">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>The heap segment is an area where dynamically allocated memory (allocated by <code>malloc(), </code>calloc(), <code>realloc()</code>and <code>new</code> for C++) resides.</li>
-<li>When we allocate memory through dynamic allocation techniques(in other words, run-time memory allocation), program acquire space from OS and process address space grows.</li>
-<li>We can free dynamically allocated memory space (by using <code>free()</code>or <code>delete</code>). Freed memory goes back to the heap but doesn’t have to be returned to OS (it doesn&rsquo;t have to be returned at all), so unordered <code>malloc</code>/<code>free</code> eventually, cause heap fragmentation. You can learn more about how malloc works <a href="/posts/free-malloc-work-c/" >here</a>.</li>
-<li>When we use dynamic allocation to acquire memory space we must keep track of allocated memory by using its address.</li>
-</ul>
-<h3 id="stack-segment">
-  Stack segment
-  <a class="heading-link" href="#stack-segment">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>The stack segment is an area where local variables stored. By saying local variable means that all those variables which are declared in every function including <code>main()</code>in your C program. I have written a detailed article about the stack frame <a href="/posts/how-c-program-stored-in-ram-memory/" >here</a>.</li>
-<li>When we call any function, the stack frame created and when a function returns, the stack frame destroyed/rewind including all local variables of that particular function.</li>
-<li>A stack frame contains some data like return address, arguments passed to it, local variables, and any other information needed by the invoked function.  </li>
-<li>A stack pointer(SP) which is a special function register of CPU keeps track of stack by each push &amp; pop operation onto it, by adjusted stack pointer to next or previous address.</li>
-<li>The direction of the stack &amp; heap growth completely depends on the compiler, ABI, OS and hardware.</li>
-</ul>
-<p>We have taken a simple example as above along with its memory layout.</p>
-<p>As we discussed in the previous tab(i.e. Overview) how executable image of our program divided into the different segment and stored in memory(RAM). Now we understand those blocks by using our example code presented above.</p>
-<h3 id="loader">
-  Loader
-  <a class="heading-link" href="#loader">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>A loader is not a segment but kind of program interpreter which reads a different segment from the binary &amp; copy it in RAM in proper fashion.</li>
-<li>There is a binary utility command by which you can see different segments &amp; path of the loader in binary as follows:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ readelf --segments ./a.out 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Elf file type is EXEC <span style="color:#f92672">(</span>Executable file<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>Entry point 0x8048300
-</span></span><span style="display:flex;"><span>There are <span style="color:#ae81ff">9</span> program headers, starting at offset <span style="color:#ae81ff">52</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Program Headers:
-</span></span><span style="display:flex;"><span>  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-</span></span><span style="display:flex;"><span>  PHDR           0x000034 0x08048034 0x08048034 0x00120 0x00120 R E 0x4
-</span></span><span style="display:flex;"><span>  INTERP         0x000154 0x08048154 0x08048154 0x00013 0x00013 R   0x1
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">[</span>Requesting program interpreter: /lib/ld-linux.so.2<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>  LOAD           0x000000 0x08048000 0x08048000 0x00608 0x00608 R E 0x1000
-</span></span><span style="display:flex;"><span>  LOAD           0x000f08 0x08049f08 0x08049f08 0x00118 0x00124 RW  0x1000
-</span></span><span style="display:flex;"><span>  DYNAMIC        0x000f14 0x08049f14 0x08049f14 0x000e8 0x000e8 RW  0x4
-</span></span><span style="display:flex;"><span>  NOTE           0x000168 0x08048168 0x08048168 0x00020 0x00020 R   0x4
-</span></span><span style="display:flex;"><span>  GNU_EH_FRAME   0x0004c4 0x080484c4 0x080484c4 0x00044 0x00044 R   0x4
-</span></span><span style="display:flex;"><span>  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
-</span></span><span style="display:flex;"><span>  GNU_RELRO      0x000f08 0x08049f08 0x08049f08 0x000f8 0x000f8 R   0x1
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span> Section to Segment mapping:
-</span></span><span style="display:flex;"><span>  Segment Sections...
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">00</span>     
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">01</span>     .interp 
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">02</span>     .interp .note.ABI-tag .hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt .init .plt .plt.got .text .fini .rodata .eh_frame_hdr .eh_frame 
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">03</span>     .init_array .fini_array .jcr .dynamic .got .got.plt .data .bss 
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">04</span>     .dynamic 
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">05</span>     .note.ABI-tag 
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">06</span>     .eh_frame_hdr 
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">07</span>     
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">08</span>     .init_array .fini_array .jcr .dynamic .got 
-</span></span></code></pre></div><ul>
-<li>As I have mentioned earlier, there is not only 4 segment as you can see above, but there are a lot of segments which usually depends on compiler &amp; <a href="https://en.wikipedia.org/wiki/Application_binary_interface"  class="external-link" target="_blank" rel="noopener">ABI</a>.</li>
-<li>Above you can see, <code>.data</code>, <code>.bss</code>, <code>.text</code>, etc. segments are there. But a stack segment is not shown as its created at a run time &amp; decided by OS(precisely loader &amp; kernel).</li>
-<li><code>INTERP</code> in the program header defines the name &amp; path of loader which going to load the current binary image into the RAM by reading these segments. Here it is <code>/lib/ld-linux.so.2</code>.</li>
-<li>You can read more about binary file format ELF <a href="/posts/understand-elf-file-format/" >here</a>.</li>
-</ul>
-<h3 id="text-segment-1">
-  Text segment
-  <a class="heading-link" href="#text-segment-1">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<p>When you compile C code, you get executable image(which may be in any form like <code>.bin</code>, <code>.exe</code>, <code>.hex</code>, <code>.out</code> or no extension etc). This executable image contains text segment which you see by Binutils command <code>$ objdump -d &lt;binary_name&gt;</code> and it looks like follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.....
-</span></span><span style="display:flex;"><span>080483f1 &lt;main&gt;:
-</span></span><span style="display:flex;"><span> 80483f1:	8d 4c <span style="color:#ae81ff">24</span> <span style="color:#ae81ff">04</span>          	lea    0x4<span style="color:#f92672">(</span>%esp<span style="color:#f92672">)</span>,%ecx
-</span></span><span style="display:flex;"><span> 80483f5:	<span style="color:#ae81ff">83</span> e4 f0             	and    $0xfffffff0,%esp
-</span></span><span style="display:flex;"><span> 80483f8:	ff <span style="color:#ae81ff">71</span> fc             	pushl  -0x4<span style="color:#f92672">(</span>%ecx<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>.....
-</span></span></code></pre></div><p>This is executable instructions stored in the text segment as a read-only section and shared by the processes if requires. These instructions read by CPU using program counter and stack frame created in the stack at the time of execution. Program-counter points to the address of the instruction to executed which lies in the text segment.</p>
-<h3 id="data-segment-1">
-  Data segment
-  <a class="heading-link" href="#data-segment-1">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<h4 id="initialized-data-segment">
-  Initialized Data segment
-  <a class="heading-link" href="#initialized-data-segment">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h4>
-<ul>
-<li>A <code>const int x = 1;</code> stored in the read-only area. So you can not modify it accidentally.</li>
-<li>While a string <code>char str[] = &quot;Hi!&quot;;</code> &amp; <code>static int var = 0;</code> stored in the read-write area because we don&rsquo;t use a keyword like const which makes variable read-only.</li>
-</ul>
-<h4 id="uninitialized-data-segment">
-  Uninitialized Data segment
-  <a class="heading-link" href="#uninitialized-data-segment">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h4>
-<ul>
-<li>In our program, <code>int i</code> declared global goes to this area of storage because it is not initialized or initialized to zero by default.</li>
-</ul>
-<h3 id="heap-segment-1">
-  Heap segment
-  <a class="heading-link" href="#heap-segment-1">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>When you compile your program, memory space allocated by you i.e. all locals, static &amp; global variables fixed at compile-time. But when code needs memory at run-time, it approach OS by calling functions like <code>malloc(), </code>calloc(), etc.</li>
-<li>When OS provides dynamic memory to process it shrinks stack limit pointer which initially points to uninitialized data segment start(the technical word is &ldquo;program break&rdquo;, read about it <a href="/posts/how-do-malloc-free-work-in-c/" >here</a>).</li>
-<li>As a result heap segment grows. That&rsquo;s why there is no line between heap &amp; stack segment. An arrow indicates its growth of direction.</li>
-<li>In the example code, we allocate 1-byte dynamic memory using <code>malloc()</code>function and stored its address in pointer <code>ptr</code> to keep track of that memory or to access it.</li>
-<li>This <code>ptr</code> is a local variable of main hence it&rsquo;s in main&rsquo;s stack frame, but memory pointed by it is in a heap which I have shown by <code>*ptr</code>.</li>
-</ul>
-<h3 id="stack-segment-1">
-  Stack segment
-  <a class="heading-link" href="#stack-segment-1">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>The usual starting point(not entry point which is different) of any program is `main(), which is also a function hence, stack frame is created for it while execution. Although there are many functions called before main which I have discussed <a href="/posts/before-starting-main-c-runtime/" >here</a>.</li>
-<li>As you can see in image, stack frame of <code>main()</code> is created before function <code>func()</code>as we called it nested.</li>
-<li>As the <code>func( )</code> execution overs its local variable <code>a</code> and its stack frame will destroy(rewind is a precise word here), same goes for <code>main()</code>function also.</li>
-<li>And this is how stack grows &amp; shrinks.</li>
-</ul>
-<h3 id="faqs">
-  FAQs
-  <a class="heading-link" href="#faqs">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<p><strong>Q. How do you determine the stack growth direction</strong></p>
-<p><strong>A.</strong> Simple&hellip;! by comparing the address of two different function&rsquo;s local variables.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>main_ptr <span style="color:#f92672">=</span> NULL;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>func_ptr <span style="color:#f92672">=</span> NULL;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>() { <span style="color:#66d9ef">int</span> a; func_ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a; }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a; main_ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">func</span>();
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    (main_ptr <span style="color:#f92672">&gt;</span> func_ptr) <span style="color:#f92672">?</span> <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;DOWN</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>) <span style="color:#f92672">:</span> <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;UP</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Q. How do you corrupt stack deliberately</strong></p>
-<p><strong>A.</strong> Corrupt the SFR values stored in the stack frame.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a;
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">memset</span>(<span style="color:#f92672">&amp;</span>a, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>); <span style="color:#75715e">// Corrupt SFR values stored in stack frame
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">func</span>();
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Q. How you can increase stack frame size</strong></p>
-<p><strong>A.</strong> <code>alloca()</code>is the answer. Google about it or see <a href="http://man7.org/linux/man-pages/man3/alloca.3.html"  class="external-link" target="_blank" rel="noopener">this</a>.</p>
-
-      </div>
-
-
-      <footer>
-        
-
-
-        
-        
-        
-        
-        
-
-        
-        
-      </footer>
-    </article>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
-    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
-  
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
-    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
-    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
-    onload="renderMathInElement(document.body,
-      {
-        delimiters: [
-          {left: '$$', right: '$$', display:true},
-          {left: '$', right: '$', display:false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ]
-      }
-    );"></script>
-  </section>
-
-    </div>
-
-    <footer class="footer">
-  <section class="container">
-    ©
-    
-    2024
-     Vishal Chovatiya 
-    ·
-    
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
-    
-  </section>
-</footer>
-
-  </main>
-
-  
-
-  
-  
-  <script src="/js/coder.js"></script>
-  
-
-  
-
-  
-
-
-  
-  
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</body>
-
-</html>
+</code></pre><h3 id=text-segment>Text segment<a hidden class=anchor aria-hidden=true href=#text-segment>#</a></h3><ul><li>Text segment contains executable instructions of your C program, its also called code segment also.</li><li>This includes all functions making up the program(<code>main()</code>too), both user-defined and system.</li><li>The text segment is sharable so that only a single copy needs to be in memory for different executing programs, such as text editors, shells, and so on.</li><li>Usually, the text segment is read-only, to prevent a program from accidentally modifying its instructions.</li></ul><h3 id=data-segment>Data segment <a hidden class=anchor aria-hidden=true href=#data-segment>#</a></h3><p>There are two subsections of this segment</p><h4 id=initialized-data>Initialized data<a hidden class=anchor aria-hidden=true href=#initialized-data>#</a></h4><ul><li>It contains both static and global data that initialized with non-zero values.</li><li>This segment can be further classified into the read-only area and read-write area.</li><li>For example, The global string defined by <code>char string[ ] = "hello world"</code> and a statement like an <code>int count=1</code> outside the <code>main</code> (i.e. global) would be stored in initialized read-write area.</li><li>And a global statement like <code>const int A=3;</code> makes the variable <code>A</code> read-only and to be stored in initialized read-only area.</li></ul><h4 id=uninitialized-data-bss-segment>Uninitialized data (BSS segment)<a hidden class=anchor aria-hidden=true href=#uninitialized-data-bss-segment>#</a></h4><ul><li>An uninitialized data segment also called the BSS( &lsquo;Block Started by Symbol&rsquo; ) segment. Which contains all global and static variables that initialized to zero or do not have explicit initialization in source code.</li><li>For example, The global variable declared as <code>int A</code> would be stored in the uninitialized data segment. A statement like static <code>int X=0</code> will also be stored in this segment cause it initialized with zero.</li><li>If you do not initialize a global variable, by default value is zero. This flushing memory content is usually done by program loader(i.e. <code>/lib/ld-linux.so.2</code>).</li></ul><h3 id=heap-segment>Heap segment<a hidden class=anchor aria-hidden=true href=#heap-segment>#</a></h3><ul><li>The heap segment is an area where dynamically allocated memory (allocated by <code>malloc(), </code>calloc(), <code>realloc()</code>and <code>new</code> for C++) resides.</li><li>When we allocate memory through dynamic allocation techniques(in other words, run-time memory allocation), program acquire space from OS and process address space grows.</li><li>We can free dynamically allocated memory space (by using <code>free()</code>or <code>delete</code>). Freed memory goes back to the heap but doesn’t have to be returned to OS (it doesn&rsquo;t have to be returned at all), so unordered <code>malloc</code>/<code>free</code> eventually, cause heap fragmentation. You can learn more about how malloc works <a href=/posts/free-malloc-work-c/>here</a>.</li><li>When we use dynamic allocation to acquire memory space we must keep track of allocated memory by using its address.</li></ul><h3 id=stack-segment>Stack segment<a hidden class=anchor aria-hidden=true href=#stack-segment>#</a></h3><ul><li>The stack segment is an area where local variables stored. By saying local variable means that all those variables which are declared in every function including <code>main()</code>in your C program. I have written a detailed article about the stack frame <a href=/posts/how-c-program-stored-in-ram-memory/>here</a>.</li><li>When we call any function, the stack frame created and when a function returns, the stack frame destroyed/rewind including all local variables of that particular function.</li><li>A stack frame contains some data like return address, arguments passed to it, local variables, and any other information needed by the invoked function.  </li><li>A stack pointer(SP) which is a special function register of CPU keeps track of stack by each push & pop operation onto it, by adjusted stack pointer to next or previous address.</li><li>The direction of the stack & heap growth completely depends on the compiler, ABI, OS and hardware.</li></ul><p>We have taken a simple example as above along with its memory layout.</p><p>As we discussed in the previous tab(i.e. Overview) how executable image of our program divided into the different segment and stored in memory(RAM). Now we understand those blocks by using our example code presented above.</p><h3 id=loader>Loader<a hidden class=anchor aria-hidden=true href=#loader>#</a></h3><ul><li>A loader is not a segment but kind of program interpreter which reads a different segment from the binary & copy it in RAM in proper fashion.</li><li>There is a binary utility command by which you can see different segments & path of the loader in binary as follows:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ readelf --segments ./a.out 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Elf file <span class=nb>type</span> is EXEC <span class=o>(</span>Executable file<span class=o>)</span>
+</span></span><span class=line><span class=cl>Entry point 0x8048300
+</span></span><span class=line><span class=cl>There are <span class=m>9</span> program headers, starting at offset <span class=m>52</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Program Headers:
+</span></span><span class=line><span class=cl>  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+</span></span><span class=line><span class=cl>  PHDR           0x000034 0x08048034 0x08048034 0x00120 0x00120 R E 0x4
+</span></span><span class=line><span class=cl>  INTERP         0x000154 0x08048154 0x08048154 0x00013 0x00013 R   0x1
+</span></span><span class=line><span class=cl>      <span class=o>[</span>Requesting program interpreter: /lib/ld-linux.so.2<span class=o>]</span>
+</span></span><span class=line><span class=cl>  LOAD           0x000000 0x08048000 0x08048000 0x00608 0x00608 R E 0x1000
+</span></span><span class=line><span class=cl>  LOAD           0x000f08 0x08049f08 0x08049f08 0x00118 0x00124 RW  0x1000
+</span></span><span class=line><span class=cl>  DYNAMIC        0x000f14 0x08049f14 0x08049f14 0x000e8 0x000e8 RW  0x4
+</span></span><span class=line><span class=cl>  NOTE           0x000168 0x08048168 0x08048168 0x00020 0x00020 R   0x4
+</span></span><span class=line><span class=cl>  GNU_EH_FRAME   0x0004c4 0x080484c4 0x080484c4 0x00044 0x00044 R   0x4
+</span></span><span class=line><span class=cl>  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
+</span></span><span class=line><span class=cl>  GNU_RELRO      0x000f08 0x08049f08 0x08049f08 0x000f8 0x000f8 R   0x1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> Section to Segment mapping:
+</span></span><span class=line><span class=cl>  Segment Sections...
+</span></span><span class=line><span class=cl>   <span class=m>00</span>     
+</span></span><span class=line><span class=cl>   <span class=m>01</span>     .interp 
+</span></span><span class=line><span class=cl>   <span class=m>02</span>     .interp .note.ABI-tag .hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt .init .plt .plt.got .text .fini .rodata .eh_frame_hdr .eh_frame 
+</span></span><span class=line><span class=cl>   <span class=m>03</span>     .init_array .fini_array .jcr .dynamic .got .got.plt .data .bss 
+</span></span><span class=line><span class=cl>   <span class=m>04</span>     .dynamic 
+</span></span><span class=line><span class=cl>   <span class=m>05</span>     .note.ABI-tag 
+</span></span><span class=line><span class=cl>   <span class=m>06</span>     .eh_frame_hdr 
+</span></span><span class=line><span class=cl>   <span class=m>07</span>     
+</span></span><span class=line><span class=cl>   <span class=m>08</span>     .init_array .fini_array .jcr .dynamic .got 
+</span></span></code></pre></div><ul><li>As I have mentioned earlier, there is not only 4 segment as you can see above, but there are a lot of segments which usually depends on compiler & <a href=https://en.wikipedia.org/wiki/Application_binary_interface>ABI</a>.</li><li>Above you can see, <code>.data</code>, <code>.bss</code>, <code>.text</code>, etc. segments are there. But a stack segment is not shown as its created at a run time & decided by OS(precisely loader & kernel).</li><li><code>INTERP</code> in the program header defines the name & path of loader which going to load the current binary image into the RAM by reading these segments. Here it is <code>/lib/ld-linux.so.2</code>.</li><li>You can read more about binary file format ELF <a href=/posts/understand-elf-file-format/>here</a>.</li></ul><h3 id=text-segment-1>Text segment<a hidden class=anchor aria-hidden=true href=#text-segment-1>#</a></h3><p>When you compile C code, you get executable image(which may be in any form like <code>.bin</code>, <code>.exe</code>, <code>.hex</code>, <code>.out</code> or no extension etc). This executable image contains text segment which you see by Binutils command <code>$ objdump -d &lt;binary_name></code> and it looks like follows:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>.....
+</span></span><span class=line><span class=cl>080483f1 &lt;main&gt;:
+</span></span><span class=line><span class=cl> 80483f1:	8d 4c <span class=m>24</span> <span class=m>04</span>          	lea    0x4<span class=o>(</span>%esp<span class=o>)</span>,%ecx
+</span></span><span class=line><span class=cl> 80483f5:	<span class=m>83</span> e4 f0             	and    <span class=nv>$0</span>xfffffff0,%esp
+</span></span><span class=line><span class=cl> 80483f8:	ff <span class=m>71</span> <span class=nb>fc</span>             	pushl  -0x4<span class=o>(</span>%ecx<span class=o>)</span>
+</span></span><span class=line><span class=cl>.....
+</span></span></code></pre></div><p>This is executable instructions stored in the text segment as a read-only section and shared by the processes if requires. These instructions read by CPU using program counter and stack frame created in the stack at the time of execution. Program-counter points to the address of the instruction to executed which lies in the text segment.</p><h3 id=data-segment-1>Data segment<a hidden class=anchor aria-hidden=true href=#data-segment-1>#</a></h3><h4 id=initialized-data-segment>Initialized Data segment<a hidden class=anchor aria-hidden=true href=#initialized-data-segment>#</a></h4><ul><li>A <code>const int x = 1;</code> stored in the read-only area. So you can not modify it accidentally.</li><li>While a string <code>char str[] = "Hi!";</code> & <code>static int var = 0;</code> stored in the read-write area because we don&rsquo;t use a keyword like const which makes variable read-only.</li></ul><h4 id=uninitialized-data-segment>Uninitialized Data segment<a hidden class=anchor aria-hidden=true href=#uninitialized-data-segment>#</a></h4><ul><li>In our program, <code>int i</code> declared global goes to this area of storage because it is not initialized or initialized to zero by default.</li></ul><h3 id=heap-segment-1>Heap segment<a hidden class=anchor aria-hidden=true href=#heap-segment-1>#</a></h3><ul><li>When you compile your program, memory space allocated by you i.e. all locals, static & global variables fixed at compile-time. But when code needs memory at run-time, it approach OS by calling functions like <code>malloc(), </code>calloc(), etc.</li><li>When OS provides dynamic memory to process it shrinks stack limit pointer which initially points to uninitialized data segment start(the technical word is &ldquo;program break&rdquo;, read about it <a href=/posts/how-do-malloc-free-work-in-c/>here</a>).</li><li>As a result heap segment grows. That&rsquo;s why there is no line between heap & stack segment. An arrow indicates its growth of direction.</li><li>In the example code, we allocate 1-byte dynamic memory using <code>malloc()</code>function and stored its address in pointer <code>ptr</code> to keep track of that memory or to access it.</li><li>This <code>ptr</code> is a local variable of main hence it&rsquo;s in main&rsquo;s stack frame, but memory pointed by it is in a heap which I have shown by <code>*ptr</code>.</li></ul><h3 id=stack-segment-1>Stack segment<a hidden class=anchor aria-hidden=true href=#stack-segment-1>#</a></h3><ul><li>The usual starting point(not entry point which is different) of any program is `main(), which is also a function hence, stack frame is created for it while execution. Although there are many functions called before main which I have discussed <a href=/posts/before-starting-main-c-runtime/>here</a>.</li><li>As you can see in image, stack frame of <code>main()</code> is created before function <code>func()</code>as we called it nested.</li><li>As the <code>func( )</code> execution overs its local variable <code>a</code> and its stack frame will destroy(rewind is a precise word here), same goes for <code>main()</code>function also.</li><li>And this is how stack grows & shrinks.</li></ul><h3 id=faqs>FAQs<a hidden class=anchor aria-hidden=true href=#faqs>#</a></h3><p><strong>Q. How do you determine the stack growth direction</strong></p><p><strong>A.</strong> Simple&mldr;! by comparing the address of two different function&rsquo;s local variables.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=o>*</span><span class=n>main_ptr</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=o>*</span><span class=n>func_ptr</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>func</span><span class=p>()</span> <span class=p>{</span> <span class=kt>int</span> <span class=n>a</span><span class=p>;</span> <span class=n>func_ptr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span><span class=p>;</span> <span class=n>main_ptr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nf>func</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=n>main_ptr</span> <span class=o>&gt;</span> <span class=n>func_ptr</span><span class=p>)</span> <span class=o>?</span> <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;DOWN</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>)</span> <span class=o>:</span> <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;UP</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p><strong>Q. How do you corrupt stack deliberately</strong></p><p><strong>A.</strong> Corrupt the SFR values stored in the stack frame.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>func</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nf>memset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>a</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>100</span><span class=p>);</span> <span class=c1>// Corrupt SFR values stored in stack frame
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>func</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p><strong>Q. How you can increase stack frame size</strong></p><p><strong>A.</strong> <code>alloca()</code>is the answer. Google about it or see <a href=http://man7.org/linux/man-pages/man3/alloca.3.html>this</a>.</p></div><footer class=post-footer><ul class=post-tags><li><a href=http://localhost:1313/tags/data-segment/>Data-Segment</a></li><li><a href=http://localhost:1313/tags/heap-segment/>Heap-Segment</a></li><li><a href=http://localhost:1313/tags/stack-segment/>Stack-Segment</a></li><li><a href=http://localhost:1313/tags/text-segment/>Text-Segment</a></li><li><a href=http://localhost:1313/tags/unmapped-or-reserved-segment/>Unmapped-or-Reserved-Segment</a></li></ul><nav class=paginav><a class=prev href=http://localhost:1313/posts/how-c-program-convert-into-assembly/><span class=title>« Prev</span><br><span>How C Program Converts Into Assembly!</span>
+</a><a class=next href=http://localhost:1313/posts/default-handlers-in-c-weak_alias/><span class=title>Next »</span><br><span>Default Handlers in C: weak_alias</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share How C Program Stored in Ram Memory! on x" href="https://x.com/intent/tweet/?text=How%20C%20Program%20Stored%20in%20Ram%20Memory%21&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f&amp;hashtags=data-segment%2cheap-segment%2cstack-segment%2ctext-segment%2cunmapped-or-reserved-segment"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share How C Program Stored in Ram Memory! on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f&amp;title=How%20C%20Program%20Stored%20in%20Ram%20Memory%21&amp;summary=How%20C%20Program%20Stored%20in%20Ram%20Memory%21&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share How C Program Stored in Ram Memory! on reddit" href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f&title=How%20C%20Program%20Stored%20in%20Ram%20Memory%21"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share How C Program Stored in Ram Memory! on facebook" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share How C Program Stored in Ram Memory! on whatsapp" href="https://api.whatsapp.com/send?text=How%20C%20Program%20Stored%20in%20Ram%20Memory%21%20-%20http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share How C Program Stored in Ram Memory! on telegram" href="https://telegram.me/share/url?text=How%20C%20Program%20Stored%20in%20Ram%20Memory%21&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share How C Program Stored in Ram Memory! on ycombinator" href="https://news.ycombinator.com/submitlink?t=How%20C%20Program%20Stored%20in%20Ram%20Memory%21&u=http%3a%2f%2flocalhost%3a1313%2fposts%2fhow-c-program-stored-in-ram-memory%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=http://localhost:1313/>Vishal Chovatiya</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>

@@ -1,670 +1,223 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <title>
-  Variadic Template C&#43;&#43;: Implementing Unsophisticated Tuple · Vishal Chovatiya
-</title>
-  <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light dark">
-
-
-
-
-<meta name="author" content="Vishal Chovatiya">
-<meta name="description" content="From C&#43;&#43;11, std::tuple is an incredible expansion to Modern C&#43;&#43;, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C&#43;&#43; stan­dard in­tro­duced a few fea­tures &amp; helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C&#43;&#43; with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.">
-<meta name="keywords" content="blog,developer,personal">
-
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Variadic Template C&#43;&#43;: Implementing Unsophisticated Tuple">
-  <meta name="twitter:description" content="From C&#43;&#43;11, std::tuple is an incredible expansion to Modern C&#43;&#43;, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C&#43;&#43; stan­dard in­tro­duced a few fea­tures &amp; helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C&#43;&#43; with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.">
-
-<meta property="og:url" content="http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/">
-  <meta property="og:site_name" content="Vishal Chovatiya">
-  <meta property="og:title" content="Variadic Template C&#43;&#43;: Implementing Unsophisticated Tuple">
-  <meta property="og:description" content="From C&#43;&#43;11, std::tuple is an incredible expansion to Modern C&#43;&#43;, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C&#43;&#43; stan­dard in­tro­duced a few fea­tures &amp; helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C&#43;&#43; with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2020-05-17T00:00:00+00:00">
-    <meta property="article:modified_time" content="2020-05-17T00:00:00+00:00">
-
-
-
-
-<link rel="canonical" href="http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/">
-
-
-<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-
-
-  
-  
-  <link rel="stylesheet" href="/css/coder.css" media="screen">
-
-
-
-
-
-
-
-
- 
-
-
-
-
-<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
-<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-
-
-
-
-
-
-</head>
-
-
-
-
-<body class="preload-transitions colorscheme-light">
-  
-
-  <main class="wrapper">
-    <nav class="navigation">
-  <section class="container">
-    
-    <a class="navigation-title" href="http://localhost:1313/">
-      Vishal Chovatiya
-    </a>
-    
-    
-      <input type="checkbox" id="menu-toggle" />
-      <label class="menu-button float-right" for="menu-toggle">
-        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
-      </label>
-      <ul class="navigation-list">
-        
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/posts/">Latest</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/pages/start-here">Start Here</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/categories/misc/">Misc</a>
-            </li>
-          
-        
-        
-      </ul>
-    
-  </section>
-</nav>
-
-
-    <div class="content">
-      
-  <section class="container post">
-    <article>
-      <header>
-        <div class="post-title">
-          <h1 class="title">
-            <a class="title-link" href="http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/">
-              Variadic Template C&#43;&#43;: Implementing Unsophisticated Tuple
-            </a>
-          </h1>
-        </div>
-        <div class="post-meta">
-          <div class="date">
-            <span class="posted-on">
-              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              <time datetime="2020-05-17T00:00:00Z">
-                May 17, 2020
-              </time>
-            </span>
-            <span class="reading-time">
-              <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              9-minute read
-            </span>
-          </div>
-          
-          <div class="categories">
-  <i class="fa-solid fa-folder" aria-hidden="true"></i>
-    <a href="/categories/cpp/">Cpp</a></div>
-
-          
-        </div>
-      </header>
-
-      <div class="post-content">
-        
-          <img src="/images/Cpp-Template-Vishal-Chovatiya.webp" alt="Featured image"/>
-        
-        <p>From C++11, <a href="https://en.cppreference.com/w/cpp/utility/tuple"  class="external-link" target="_blank" rel="noopener"><code>std::tuple</code></a> is an incredible expansion to <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a>, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures &amp; helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.e. loop through tuple element. In spite of the fact that I have shrouded the variadic template in my prior article i.e. <a href="/posts/cpp-template-a-quick-uptodate-look/" >C++ Template: A Quick UpToDate Look</a>. So, my focus here would be a blend of variadic template &amp; tuple implementation with more up to date C++ gauges.</p>
-<h2 id="motivation">
-  Motivation
-  <a class="heading-link" href="#motivation">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<ul>
-<li>It is often useful to define class/struct/union/function that accepts a variable number and type of arguments.</li>
-<li>If you have already used C you&rsquo;ll know that <code>printf</code> function can accept any number of arguments. Such functions are entirely implemented through macros or <a href="https://stackoverflow.com/questions/3792761/what-is-ellipsis-operator-in-c"  class="external-link" target="_blank" rel="noopener">ellipses operator</a>. And because of that it has several disadvantages like <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >type-safety</a>, cannot accept references as arguments, etc.</li>
-</ul>
-<h2 id="variadic-class-template-implementing-tuple-class">
-  Variadic Class Template: Implementing Tuple Class
-  <a class="heading-link" href="#variadic-class-template-implementing-tuple-class">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<ul>
-<li>So, let&rsquo;s build our own <a href="https://en.wikipedia.org/wiki/Abstract_data_type"  class="external-link" target="_blank" rel="noopener">ADT</a> same as <code>[`std::tuple`](https://en.cppreference.com/w/cpp/utility/tuple)</code> with the help of variadic template.</li>
-<li>The variadic template in C++ usually starts with the general (empty) definition, that also serves as the base-case for template recursion termination in the later specialisation:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tuple</span> { };
-</span></span></code></pre></div><ul>
-<li>This already allows us to define an empty structure i.e. <code>Tuple&lt;&gt; object;</code>, albeit that isn&rsquo;t very useful yet. Next comes the recursive case specialisation:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest    <span style="color:#75715e">// Template parameter pack
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tuple</span><span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;</span> {      <span style="color:#75715e">// Class parameter pack
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    T first;
-</span></span><span style="display:flex;"><span>    Tuple<span style="color:#f92672">&lt;</span>Rest...<span style="color:#f92672">&gt;</span> rest;        <span style="color:#75715e">// Parameter pack expansion
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    Tuple(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> f, <span style="color:#66d9ef">const</span> Rest<span style="color:#f92672">&amp;</span> ... r)
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> first(f)
-</span></span><span style="display:flex;"><span>        , rest(r...) {
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>                 t1(false);           <span style="color:#75715e">// Case 1
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span>, string<span style="color:#f92672">&gt;</span>    t2(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#34;ABC&#34;</span>);   <span style="color:#75715e">// Case 2
-</span></span></span></code></pre></div><h3 id="how-does-variadic-class-template-works">
-  How Does Variadic Class Template Works?
-  <a class="heading-link" href="#how-does-variadic-class-template-works">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<p>To understand variadic class template, consider use case 2 above i.e. <code>Tuple&lt;int, char, string&gt; t2(1, 'a', &quot;ABC&quot;);</code></p>
-<ul>
-<li>The declaration first matches against the specialization, yielding a structure with <code>int first;</code> and <code>Tuple&lt;char, string&gt; rest;</code> data members.</li>
-<li>The rest definition again matches with specialization, yielding a structure with <code>char first;</code> and <code>Tuple&lt;string&gt; rest;</code> data members.</li>
-<li>The rest definition again matches this specialization, creating its own <code>string first;</code> and <code>Tuple&lt;&gt; rest;</code> members.</li>
-<li>Finally, this last rest matches against the base-case definition, producing an empty structure.</li>
-</ul>
-<p>You can visualize this as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Tuple&lt;int, char, string&gt;
-</span></span><span style="display:flex;"><span>-&gt; int first
-</span></span><span style="display:flex;"><span>-&gt; Tuple&lt;char, string&gt; rest
-</span></span><span style="display:flex;"><span>    -&gt; char first
-</span></span><span style="display:flex;"><span>    -&gt; Tuple&lt;string&gt; rest
-</span></span><span style="display:flex;"><span>        -&gt; string first
-</span></span><span style="display:flex;"><span>        -&gt; Tuple&lt;&gt; rest
-</span></span><span style="display:flex;"><span>            -&gt; <span style="color:#f92672">(</span>empty<span style="color:#f92672">)</span>
-</span></span></code></pre></div><h2 id="variadic-function-template-implementing-get-function-for-tuple-class">
-  Variadic Function Template: Implementing get&lt;&gt;() Function for Tuple Class
-  <a class="heading-link" href="#variadic-function-template-implementing-get-function-for-tuple-class">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<ul>
-<li>So far we have designed data structure with variable number and type of data members. But still, it isn&rsquo;t useful as there is no mechanism to retrieve data from our Tuple class. So let&rsquo;s design one:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            size_t idx, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>...<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Tuple</span>, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Args
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> get(Tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> GetHelper<span style="color:#f92672">&lt;</span>idx, Tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;&gt;::</span>get(t);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ul>
-<li>As you can see this get function is templatized on the <code>idx</code>. So usage can be like <code>get&lt;1&gt;(t)</code>, similar to <a href="https://en.cppreference.com/w/cpp/utility/tuple"  class="external-link" target="_blank" rel="noopener"><code>std::tuple</code></a>. Though, the actual work is done by a static function in a helper class i.e. <code>GetHelper</code>.</li>
-<li>Note also the use of a C++14-style <code>auto</code> return type that makes our lives significantly simpler as otherwise, we would need quite a complicated expression for the return type.</li>
-<li>So on to the helper class. This time we will need an empty forward declaration and two specializations. First the empty declaration:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            size_t idx, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GetHelper</span>;
-</span></span></code></pre></div><ul>
-<li>Now the base-case (when <code>idx==0</code>). In this specialisation, we just return the first member:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GetHelper</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>, Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;&gt;</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> T <span style="color:#a6e22e">get</span>(Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>data) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> data.first;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><ul>
-<li>In the recursive case, we decrement <code>idx</code> and invoke the <code>GetHelper</code> for the rest member:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            size_t idx, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GetHelper</span><span style="color:#f92672">&lt;</span>idx, Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;&gt;</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">auto</span> <span style="color:#a6e22e">get</span>(Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>data) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> GetHelper<span style="color:#f92672">&lt;</span>idx <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, Tuple<span style="color:#f92672">&lt;</span>Rest...<span style="color:#f92672">&gt;&gt;::</span>get(data.rest);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><ul>
-<li>To work through an example, suppose we have Tuple data and we need `get&lt;1&gt;(data).</li>
-<li>This invokes `GetHelper&lt;1, Tuple&lt;T, Rest&hellip;&raquo;&gt;::get(data) (the 2nd specialization).</li>
-<li>Which in turn invokes `GetHelper&lt;0, Tuple&lt;T, Rest&hellip;&raquo;&gt;::get(data.rest).</li>
-<li>And finally returns (by the 1st specialization as now <code>idx</code> is 0) <code>data.rest.first</code>.</li>
-</ul>
-<p>So that&rsquo;s it! Here is the whole functioning code, with some example use in the main function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Forward Declaration &amp; Base Case -----------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            size_t idx,
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GetHelper</span> { };
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tuple</span> { };
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// GetHelper ---------------------------------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T,
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GetHelper</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>, Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;&gt;</span> { <span style="color:#75715e">// Specialization for index 0
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> T <span style="color:#a6e22e">get</span>(Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>data) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> data.first;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            size_t idx,
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T,
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">GetHelper</span><span style="color:#f92672">&lt;</span>idx, Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;&gt;</span> { <span style="color:#75715e">// GetHelper Implementation
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">auto</span> <span style="color:#a6e22e">get</span>(Tuple<span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>data) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> GetHelper<span style="color:#f92672">&lt;</span>idx <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, Tuple<span style="color:#f92672">&lt;</span>Rest...<span style="color:#f92672">&gt;&gt;::</span>get(data.rest);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Tuple Implementation ----------------------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T,
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tuple</span><span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>    T                   first;
-</span></span><span style="display:flex;"><span>    Tuple<span style="color:#f92672">&lt;</span>Rest...<span style="color:#f92672">&gt;</span>      rest;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Tuple(<span style="color:#66d9ef">const</span> T <span style="color:#f92672">&amp;</span>f, <span style="color:#66d9ef">const</span> Rest <span style="color:#f92672">&amp;</span>... r)
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> first(f)
-</span></span><span style="display:flex;"><span>        , rest(r...) {
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// get Implementation ------------------------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
-</span></span><span style="display:flex;"><span>            size_t idx, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>...<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Tuple</span>, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Args
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> get(Tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> GetHelper<span style="color:#f92672">&lt;</span>idx, Tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;&gt;::</span>get(t);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    Tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span>, string<span style="color:#f92672">&gt;</span> t(<span style="color:#ae81ff">500</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#34;ABC&#34;</span>);
-</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>(t) <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="variadic-template-vs-fold-expression">
-  Variadic Template vs Fold Expression
-  <a class="heading-link" href="#variadic-template-vs-fold-expression">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<ul>
-<li>There is two way to process C++ parameter pack i.e.
-<ol>
-<li>Recursion</li>
-<li>Fold Expression(From C++17)</li>
-</ol>
-</li>
-<li>At whatever point conceivable, we should process a parameter pack with fold expression instead of using recursion. Because it has some benefits as:
-<ul>
-<li>Less code to write</li>
-<li>Faster code (without optimizations), as you just have a single expression instead of multiple function calls</li>
-<li>Faster to compile, as you deal with fewer template instantiation</li>
-</ul>
-</li>
-</ul>
-<h3 id="processing-a-parameter-pack-with-recursion">
-  Processing a Parameter Pack With Recursion
-  <a class="heading-link" href="#processing-a-parameter-pack-with-recursion">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>As we have seen earlier, variadic template starts with empty definition i.e. base case for recursion.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() {}
-</span></span></code></pre></div><ul>
-<li>Then the recursive case specialisation:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>   
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> First, 
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest                    <span style="color:#75715e">// Template parameter pack
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">&gt;</span>     
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(First first, Rest... rest) {         <span style="color:#75715e">// Function parameter pack
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> first <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>    print(rest...);                             <span style="color:#75715e">// Parameter pack expansion
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} 
-</span></span></code></pre></div><ul>
-<li>This is now sufficient for us to use the print function with variable number and type of arguments. For example:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>print(<span style="color:#ae81ff">500</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#34;ABC&#34;</span>);
-</span></span></code></pre></div><h3 id="processing-a-parameter-pack-with-fold-expression">
-  Processing a Parameter Pack With Fold Expression
-  <a class="heading-link" href="#processing-a-parameter-pack-with-fold-expression">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(Args... args) {
-</span></span><span style="display:flex;"><span>    (<span style="color:#66d9ef">void</span>(cout <span style="color:#f92672">&lt;&lt;</span> args <span style="color:#f92672">&lt;&lt;</span> endl), ...);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ul>
-<li>See, no cryptic boilerplate required. Isn’t this solution looks neater?</li>
-<li>There are total 3 types of folding: Unary fold, Binary fold &amp; Fold over a comma. Here we have done left folding over a comma. You can read more about Fold Expression <a href="https://www.codingame.com/playgrounds/2205/7-features-of-c17-that-will-simplify-your-code/fold-expressions"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
-</ul>
-<h2 id="loop-throughiterate-over-tuple-elements-in-c">
-  Loop-Through/Iterate Over Tuple Elements in C++
-  <a class="heading-link" href="#loop-throughiterate-over-tuple-elements-in-c">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<ul>
-<li>If I give you a task to print the elements of tuple, the first thing that comes to your mind is:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>elem : t) <span style="color:#75715e">// Error: no begin/end iterator
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> elem <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ul>
-<li>But, this just can&rsquo;t work. <a href="https://en.cppreference.com/w/cpp/utility/tuple"  class="external-link" target="_blank" rel="noopener"><code>std::tuple</code></a> doesn&rsquo;t have <code>begin</code> &amp; <code>end</code> iterator.</li>
-<li>OK! So, now you might try raw loop right?</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;&amp;</span>   t) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">sizeof</span>...(Args); <span style="color:#f92672">++</span>i)
-</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>get<span style="color:#f92672">&lt;</span>i<span style="color:#f92672">&gt;</span>(t) <span style="color:#f92672">&lt;&lt;</span> endl;    <span style="color:#75715e">// Error :( , `i` needs to be compile time constant
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span></code></pre></div><ul>
-<li>No! you can&rsquo;t. I know that <code>std::get&lt;&gt;</code> works with a number as <a href="/posts/cpp-template-a-quick-uptodate-look/#Non-Type_Template_Parameter" >non-type template argument</a>.</li>
-<li>But, that number has to be compile-time constant to make this working. So there are many solutions &amp; we will go through quite enough ones.</li>
-</ul>
-<h3 id="c11-loop-through-tuple-elements">
-  C++11: Loop Through Tuple Elements
-  <a class="heading-link" href="#c11-loop-through-tuple-elements">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Template recursion
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span>size_t i, <span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">printer</span>  {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(<span style="color:#66d9ef">const</span> tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> get<span style="color:#f92672">&lt;</span>i<span style="color:#f92672">&gt;</span>(t) <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>        printer<span style="color:#f92672">&lt;</span>i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, Args...<span style="color:#f92672">&gt;::</span>print(t);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Terminating template specialisation
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">printer</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">sizeof</span>...(Args), Args...<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(<span style="color:#66d9ef">const</span> tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>) {}
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(<span style="color:#66d9ef">const</span> tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>    printer<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>, Args...<span style="color:#f92672">&gt;::</span>print(t);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span>, string<span style="color:#f92672">&gt;</span> t(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#34;ABC&#34;</span>);
-</span></span><span style="display:flex;"><span>print(t);
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Note: might not work in GCC, I&#39;ve used clang
-</span></span></span></code></pre></div><ul>
-<li>This isn&rsquo;t that complicated as it looks, believe me. If you know recursion &amp; template specialisation, it won&rsquo;t take you more than 30 seconds to figure out what&rsquo;s going on here.</li>
-<li>For our example <code>tuple&lt;int, char, string&gt; t(1, 'A', &quot;ABC&quot;);</code>, <code>printer::print()</code>calls template recursion i,e, <code>template&lt;size_t i, typename… Args&gt; struct printer{};</code> each time with incremented non-type template parameter <code>i</code>. And when <code>i == sizeof…(Args)</code>, our recusion stops by calling template specialization i.e. <code>template&lt;typename… Args&gt; struct printer&lt;sizeof…(Args), Args…&gt; { };</code>.</li>
-</ul>
-<h3 id="c17-loop-through-tuple-elements">
-  C++17: Loop Through Tuple Elements
-  <a class="heading-link" href="#c17-loop-through-tuple-elements">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<ul>
-<li>With C++ 17, it&rsquo;s slightly better because we have Fold Expressions. So, we don&rsquo;t need recursion any more.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>apply([](<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>... args) {
-</span></span><span style="display:flex;"><span>        ((cout <span style="color:#f92672">&lt;&lt;</span> args <span style="color:#f92672">&lt;&lt;</span> endl), ...);
-</span></span><span style="display:flex;"><span>    }, t);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ul>
-<li><a href="https://en.cppreference.com/w/cpp/utility/apply"  class="external-link" target="_blank" rel="noopener"><code>std::apply</code></a> designed as tuple helper that accepts functor or <a href="/posts/learn-lambda-function-in-cpp-with-example/" >lambda expression</a>. Though you can do better if wants to dispatch to different implementation according to type, you might use <code>overloaded</code> class as:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">... </span><span style="color:#a6e22e">Ts</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">overloaded</span> <span style="color:#f92672">:</span> Ts... {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> Ts<span style="color:#f92672">::</span><span style="color:#66d9ef">operator</span>()...;
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Deduction guide, google `CTAD for aggregates` for more info
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">... </span><span style="color:#a6e22e">Ts</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>overloaded(Ts...) <span style="color:#f92672">-&gt;</span> overloaded<span style="color:#f92672">&lt;</span>Ts...<span style="color:#f92672">&gt;</span>;   <span style="color:#75715e">// not needed from C++20
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> f <span style="color:#f92672">=</span> overloaded {
-</span></span><span style="display:flex;"><span>    [](<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a)        { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;From int: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl; },
-</span></span><span style="display:flex;"><span>    [](<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">&amp;</span>b)       { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;From char: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl; },
-</span></span><span style="display:flex;"><span>    [](<span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>c)     { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;From string: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> c <span style="color:#f92672">&lt;&lt;</span> endl; },
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span>, string<span style="color:#f92672">&gt;</span>    t(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#34;ABC&#34;</span>);
-</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>apply([<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>... e) { (f(e), ...); }, t);
-</span></span></code></pre></div><h3 id="c23-loop-through-tuple-elements">
-  C++23: Loop Through Tuple Elements
-  <a class="heading-link" href="#c23-loop-through-tuple-elements">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>... (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>elem : t)
-</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> elem <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ul>
-<li>So, from C++23 we might have <a href="http://wg21.link/p1306"  class="external-link" target="_blank" rel="noopener">expansion statement</a> i.e. <code>for...()</code> That looks like a loop, though it isn&rsquo;t. It just stencil out each call with scope as:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(<span style="color:#66d9ef">const</span> tuple<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>t) {
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>elem <span style="color:#f92672">=</span> get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>(t);
-</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> elem <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>elem <span style="color:#f92672">=</span> get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>(t);
-</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> elem <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>elem <span style="color:#f92672">=</span> get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span>(t);
-</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> elem <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ul>
-<li>And it is obvious that there is no <code>break</code> &amp; <code>continue</code> as it isn&rsquo;t loop.</li>
-<li>It basically works for every standard container which can access by <code>std::get&lt;&gt;()</code> For example, a plain array, <code>std::tuple</code>, <code>std::pair</code>, <code>std::array</code>, unexpanded argument packs, constexpr ranges, etc.</li>
-</ul>
-<h2 id="closing-words">
-  Closing Words
-  <a class="heading-link" href="#closing-words">
-    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
-    <span class="sr-only">Link to heading</span>
-  </a>
-</h2>
-<p>There are still many things missing in our tuple class like <a href="/posts/all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, <a href="/posts/move-constructor-assignment-operator-with-shared-ptr/" >move constructors</a>, some operators and helper classes(like <a href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size"  class="external-link" target="_blank" rel="noopener"><code>std::tuple_size</code></a>). But I hope now you get the idea of how it can be implemented using the variadic template. By the way, implementing those missing things will be a good start for learning variadic template on your own.</p>
-
-      </div>
-
-
-      <footer>
-        
-
-
-        
-        
-        
-        
-        
-
-        
-        
-      </footer>
-    </article>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
-    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
-  
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
-    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
-    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
-    onload="renderMathInElement(document.body,
-      {
-        delimiters: [
-          {left: '$$', right: '$$', display:true},
-          {left: '$', right: '$', display:false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ]
-      }
-    );"></script>
-  </section>
-
-    </div>
-
-    <footer class="footer">
-  <section class="container">
-    ©
-    
-    2024
-     Vishal Chovatiya 
-    ·
-    
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
-    
-  </section>
-</footer>
-
-  </main>
-
-  
-
-  
-  
-  <script src="/js/coder.js"></script>
-  
-
-  
-
-  
-
-
-  
-  
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</body>
-
-</html>
+<!doctype html><html lang=en dir=auto><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Variadic Template C++: Implementing Unsophisticated Tuple | Vishal Chovatiya</title>
+<meta name=keywords content="c-11-variadic-templates,c-forward-variadic-arguments,c-iterate-over-parameter-pack,c-tuple-comparison,c-tuple-example,c-variadic-function,c-expansion-statements,c-how-does-variadic-class-template-works,c-implementing-std-get-function-for-tuple-class,c-implementing-tuple-class,c-iterate-over-tuple-elements-in-c,c-iterate-variadic-template,c-named-tuple,c-parameter-pack,c-process-a-parameter-pack-with-fold-expression,c-process-a-parameter-pack-with-recursion,c-return-tuple,c-template,c-template-variable-number-of-arguments,c-template-variadic-arguments,c-tuple-get,c-tuple-implementation,c-tuple-implementation-example,c-vararg,c-variadic,c-variadic-arguments,c-variadic-class-template,c-variadic-constructor,c-variadic-function-2,c-variadic-function-template,c-variadic-parameters,c-variadic-template-class,c-variadic-template-example,c-variadic-template-function,c-variadic-template-printf,c-variadic-template-vs-fold-expression,c-variadic-templates,c-variadic-templates-unpack,c11-loop-through-tuple-elements,c17-loop-through-tuple-elements,c23-loop-through-tuple-elements,introduction-to-c-variadic-template,learning-variadic-template-c,process-c-parameter-pack,sizeof-parameter-pack,std-make-tuple,stdtuple-size,tuple-is-not-a-member-of-std,variadic-templates-c-example,variadic-templates-c17,variadic-templates-example"><meta name=description content="From C++11, std::tuple is an incredible expansion to Modern C++, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures & helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i."><meta name=author content="Vishal Chovatiya"><link rel=canonical href=http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.fc220c15db4aef0318bbf30adc45d33d4d7c88deff3238b23eb255afdc472ca6.css integrity="sha256-/CIMFdtK7wMYu/MK3EXTPU18iN7/MjiyPrJVr9xHLKY=" rel="preload stylesheet" as=style><link rel=icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=http://localhost:1313/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="Variadic Template C++: Implementing Unsophisticated Tuple"><meta property="og:description" content="From C++11, std::tuple is an incredible expansion to Modern C++, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures & helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i."><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/"><meta property="og:image" content="http://localhost:1313/images/Cpp-Template-Vishal-Chovatiya.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-17T00:00:00+00:00"><meta property="article:modified_time" content="2020-05-17T00:00:00+00:00"><meta property="og:site_name" content="ExampleSite"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="http://localhost:1313/images/Cpp-Template-Vishal-Chovatiya.webp"><meta name=twitter:title content="Variadic Template C++: Implementing Unsophisticated Tuple"><meta name=twitter:description content="From C++11, std::tuple is an incredible expansion to Modern C++, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures & helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"http://localhost:1313/posts/"},{"@type":"ListItem","position":2,"name":"Variadic Template C++: Implementing Unsophisticated Tuple","item":"http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Variadic Template C++: Implementing Unsophisticated Tuple","name":"Variadic Template C\u002b\u002b: Implementing Unsophisticated Tuple","description":"From C++11, std::tuple is an incredible expansion to Modern C++, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures \u0026amp; helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.","keywords":["c-11-variadic-templates","c-forward-variadic-arguments","c-iterate-over-parameter-pack","c-tuple-comparison","c-tuple-example","c-variadic-function","c-expansion-statements","c-how-does-variadic-class-template-works","c-implementing-std-get-function-for-tuple-class","c-implementing-tuple-class","c-iterate-over-tuple-elements-in-c","c-iterate-variadic-template","c-named-tuple","c-parameter-pack","c-process-a-parameter-pack-with-fold-expression","c-process-a-parameter-pack-with-recursion","c-return-tuple","c-template","c-template-variable-number-of-arguments","c-template-variadic-arguments","c-tuple-get","c-tuple-implementation","c-tuple-implementation-example","c-vararg","c-variadic","c-variadic-arguments","c-variadic-class-template","c-variadic-constructor","c-variadic-function-2","c-variadic-function-template","c-variadic-parameters","c-variadic-template-class","c-variadic-template-example","c-variadic-template-function","c-variadic-template-printf","c-variadic-template-vs-fold-expression","c-variadic-templates","c-variadic-templates-unpack","c11-loop-through-tuple-elements","c17-loop-through-tuple-elements","c23-loop-through-tuple-elements","introduction-to-c-variadic-template","learning-variadic-template-c","process-c-parameter-pack","sizeof-parameter-pack","std-make-tuple","stdtuple-size","tuple-is-not-a-member-of-std","variadic-templates-c-example","variadic-templates-c17","variadic-templates-example"],"articleBody":"From C++11, std::tuple is an incredible expansion to Modern C++, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures \u0026 helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.e. loop through tuple element. In spite of the fact that I have shrouded the variadic template in my prior article i.e. C++ Template: A Quick UpToDate Look. So, my focus here would be a blend of variadic template \u0026 tuple implementation with more up to date C++ gauges.\nMotivation It is often useful to define class/struct/union/function that accepts a variable number and type of arguments. If you have already used C you’ll know that printf function can accept any number of arguments. Such functions are entirely implemented through macros or ellipses operator. And because of that it has several disadvantages like type-safety, cannot accept references as arguments, etc. Variadic Class Template: Implementing Tuple Class So, let’s build our own ADT same as [`std::tuple`](https://en.cppreference.com/w/cpp/utility/tuple) with the help of variadic template. The variadic template in C++ usually starts with the general (empty) definition, that also serves as the base-case for template recursion termination in the later specialisation: template \u003ctypename... T\u003e struct Tuple { }; This already allows us to define an empty structure i.e. Tuple\u003c\u003e object;, albeit that isn’t very useful yet. Next comes the recursive case specialisation: template\u003c typename T, typename... Rest // Template parameter pack \u003e struct Tuple\u003cT, Rest...\u003e { // Class parameter pack T first; Tuple\u003cRest...\u003e rest; // Parameter pack expansion Tuple(const T\u0026 f, const Rest\u0026 ... r) : first(f) , rest(r...) { } }; Tuple\u003cbool\u003e t1(false); // Case 1 Tuple\u003cint, char, string\u003e t2(1, 'a', \"ABC\"); // Case 2 How Does Variadic Class Template Works? To understand variadic class template, consider use case 2 above i.e. Tuple t2(1, 'a', \"ABC\");\nThe declaration first matches against the specialization, yielding a structure with int first; and Tuple rest; data members. The rest definition again matches with specialization, yielding a structure with char first; and Tuple rest; data members. The rest definition again matches this specialization, creating its own string first; and Tuple\u003c\u003e rest; members. Finally, this last rest matches against the base-case definition, producing an empty structure. You can visualize this as follows:\nTuple -\u003e int first -\u003e Tuple rest -\u003e char first -\u003e Tuple rest -\u003e string first -\u003e Tuple\u003c\u003e rest -\u003e (empty) Variadic Function Template: Implementing get\u003c\u003e() Function for Tuple Class So far we have designed data structure with variable number and type of data members. But still, it isn’t useful as there is no mechanism to retrieve data from our Tuple class. So let’s design one: template\u003c size_t idx, template \u003ctypename...\u003e class Tuple, typename... Args \u003e auto get(Tuple\u003cArgs...\u003e \u0026t) { return GetHelper\u003cidx, Tuple\u003cArgs...\u003e\u003e::get(t); } As you can see this get function is templatized on the idx. So usage can be like get\u003c1\u003e(t), similar to std::tuple. Though, the actual work is done by a static function in a helper class i.e. GetHelper. Note also the use of a C++14-style auto return type that makes our lives significantly simpler as otherwise, we would need quite a complicated expression for the return type. So on to the helper class. This time we will need an empty forward declaration and two specializations. First the empty declaration: template\u003c size_t idx, typename T \u003e struct GetHelper; Now the base-case (when idx==0). In this specialisation, we just return the first member: template\u003c typename T, typename... Rest \u003e struct GetHelper\u003c0, Tuple\u003cT, Rest...\u003e\u003e { static T get(Tuple\u003cT, Rest...\u003e \u0026data) { return data.first; } }; In the recursive case, we decrement idx and invoke the GetHelper for the rest member: template\u003c size_t idx, typename T, typename... Rest \u003e struct GetHelper\u003cidx, Tuple\u003cT, Rest...\u003e\u003e { static auto get(Tuple\u003cT, Rest...\u003e \u0026data) { return GetHelper\u003cidx - 1, Tuple\u003cRest...\u003e\u003e::get(data.rest); } }; To work through an example, suppose we have Tuple data and we need `get\u003c1\u003e(data). This invokes `GetHelper\u003c1, Tuple::get(data) (the 2nd specialization). Which in turn invokes `GetHelper\u003c0, Tuple::get(data.rest). And finally returns (by the 1st specialization as now idx is 0) data.rest.first. So that’s it! Here is the whole functioning code, with some example use in the main function:\n// Forward Declaration \u0026 Base Case ----------------------------------------- template\u003c size_t idx, typename T \u003e struct GetHelper { }; template \u003ctypename... T\u003e struct Tuple { }; // ------------------------------------------------------------------------- // GetHelper --------------------------------------------------------------- template\u003c typename T, typename... Rest \u003e struct GetHelper\u003c0, Tuple\u003cT, Rest...\u003e\u003e { // Specialization for index 0 static T get(Tuple\u003cT, Rest...\u003e \u0026data) { return data.first; } }; template\u003c size_t idx, typename T, typename... Rest \u003e struct GetHelper\u003cidx, Tuple\u003cT, Rest...\u003e\u003e { // GetHelper Implementation static auto get(Tuple\u003cT, Rest...\u003e \u0026data) { return GetHelper\u003cidx - 1, Tuple\u003cRest...\u003e\u003e::get(data.rest); } }; // ------------------------------------------------------------------------- // Tuple Implementation ---------------------------------------------------- template\u003c typename T, typename... Rest \u003e struct Tuple\u003cT, Rest...\u003e { T first; Tuple\u003cRest...\u003e rest; Tuple(const T \u0026f, const Rest \u0026... r) : first(f) , rest(r...) { } }; // ------------------------------------------------------------------------- // get Implementation ------------------------------------------------------ template\u003c size_t idx, template \u003ctypename...\u003e class Tuple, typename... Args \u003e auto get(Tuple\u003cArgs...\u003e \u0026t) { return GetHelper\u003cidx, Tuple\u003cArgs...\u003e\u003e::get(t); } // ------------------------------------------------------------------------- int main() { Tuple\u003cint, char, string\u003e t(500, 'a', \"ABC\"); cout \u003c\u003c get\u003c1\u003e(t) \u003c\u003c endl; return 0; } Variadic Template vs Fold Expression There is two way to process C++ parameter pack i.e. Recursion Fold Expression(From C++17) At whatever point conceivable, we should process a parameter pack with fold expression instead of using recursion. Because it has some benefits as: Less code to write Faster code (without optimizations), as you just have a single expression instead of multiple function calls Faster to compile, as you deal with fewer template instantiation Processing a Parameter Pack With Recursion As we have seen earlier, variadic template starts with empty definition i.e. base case for recursion. void print() {} Then the recursive case specialisation: template\u003c typename First, typename... Rest // Template parameter pack \u003e void print(First first, Rest... rest) { // Function parameter pack cout \u003c\u003c first \u003c\u003c endl; print(rest...); // Parameter pack expansion } This is now sufficient for us to use the print function with variable number and type of arguments. For example: print(500, 'a', \"ABC\"); Processing a Parameter Pack With Fold Expression template \u003ctypename... Args\u003e void print(Args... args) { (void(cout \u003c\u003c args \u003c\u003c endl), ...); } See, no cryptic boilerplate required. Isn’t this solution looks neater? There are total 3 types of folding: Unary fold, Binary fold \u0026 Fold over a comma. Here we have done left folding over a comma. You can read more about Fold Expression here. Loop-Through/Iterate Over Tuple Elements in C++ If I give you a task to print the elements of tuple, the first thing that comes to your mind is: template \u003ctypename... Args\u003e void print(const std::tuple\u003cArgs...\u003e \u0026t) { for (const auto \u0026elem : t) // Error: no begin/end iterator cout \u003c\u003c elem \u003c\u003c endl; } But, this just can’t work. std::tuple doesn’t have begin \u0026 end iterator. OK! So, now you might try raw loop right? template \u003ctypename... Args\u003e void print(const std::tuple\u003cArgs...\u003e\u0026 t) { for (int i = 0; i \u003c sizeof...(Args); ++i) cout \u003c\u003c std::get\u003ci\u003e(t) \u003c\u003c endl; // Error :( , `i` needs to be compile time constant } No! you can’t. I know that std::get\u003c\u003e works with a number as non-type template argument. But, that number has to be compile-time constant to make this working. So there are many solutions \u0026 we will go through quite enough ones. C++11: Loop Through Tuple Elements // Template recursion template \u003csize_t i, typename... Args\u003e struct printer { static void print(const tuple\u003cArgs...\u003e \u0026t) { cout \u003c\u003c get\u003ci\u003e(t) \u003c\u003c endl; printer\u003ci + 1, Args...\u003e::print(t); } }; // Terminating template specialisation template \u003ctypename... Args\u003e struct printer\u003csizeof...(Args), Args...\u003e { static void print(const tuple\u003cArgs...\u003e \u0026) {} }; template \u003ctypename... Args\u003e void print(const tuple\u003cArgs...\u003e \u0026t) { printer\u003c0, Args...\u003e::print(t); } tuple\u003cint, char, string\u003e t(1, 'A', \"ABC\"); print(t); // Note: might not work in GCC, I've used clang This isn’t that complicated as it looks, believe me. If you know recursion \u0026 template specialisation, it won’t take you more than 30 seconds to figure out what’s going on here. For our example tuple t(1, 'A', \"ABC\");, printer::print()calls template recursion i,e, template struct printer{}; each time with incremented non-type template parameter i. And when i == sizeof…(Args), our recusion stops by calling template specialization i.e. template struct printer { };. C++17: Loop Through Tuple Elements With C++ 17, it’s slightly better because we have Fold Expressions. So, we don’t need recursion any more. template \u003ctypename... Args\u003e void print(const std::tuple\u003cArgs...\u003e \u0026t) { std::apply([](const auto \u0026... args) { ((cout \u003c\u003c args \u003c\u003c endl), ...); }, t); } std::apply designed as tuple helper that accepts functor or lambda expression. Though you can do better if wants to dispatch to different implementation according to type, you might use overloaded class as: template \u003cclass... Ts\u003e struct overloaded : Ts... { using Ts::operator()...; }; // Deduction guide, google `CTAD for aggregates` for more info template \u003cclass... Ts\u003e overloaded(Ts...) -\u003e overloaded\u003cTs...\u003e; // not needed from C++20 auto f = overloaded { [](const int \u0026a) { cout \u003c\u003c \"From int: \" \u003c\u003c a \u003c\u003c endl; }, [](const char \u0026b) { cout \u003c\u003c \"From char: \" \u003c\u003c b \u003c\u003c endl; }, [](const string \u0026c) { cout \u003c\u003c \"From string: \" \u003c\u003c c \u003c\u003c endl; }, }; tuple\u003cint, char, string\u003e t(1, 'A', \"ABC\"); std::apply([\u0026](const auto \u0026... e) { (f(e), ...); }, t); C++23: Loop Through Tuple Elements template \u003ctypename... Args\u003e void print(const std::tuple\u003cArgs...\u003e \u0026t) { for... (const auto \u0026elem : t) cout \u003c\u003c elem \u003c\u003c endl; } So, from C++23 we might have expansion statement i.e. for...() That looks like a loop, though it isn’t. It just stencil out each call with scope as: template \u003ctypename... Args\u003e void print(const tuple\u003cArgs...\u003e \u0026t) { { const auto \u0026elem = get\u003c0\u003e(t); cout \u003c\u003c elem \u003c\u003c endl; } { const auto \u0026elem = get\u003c1\u003e(t); cout \u003c\u003c elem \u003c\u003c endl; } { const auto \u0026elem = get\u003c2\u003e(t); cout \u003c\u003c elem \u003c\u003c endl; } } And it is obvious that there is no break \u0026 continue as it isn’t loop. It basically works for every standard container which can access by std::get\u003c\u003e() For example, a plain array, std::tuple, std::pair, std::array, unexpanded argument packs, constexpr ranges, etc. Closing Words There are still many things missing in our tuple class like copy constructor, move constructors, some operators and helper classes(like std::tuple_size). But I hope now you get the idea of how it can be implemented using the variadic template. By the way, implementing those missing things will be a good start for learning variadic template on your own.\n","wordCount":"1785","inLanguage":"en","image":"http://localhost:1313/images/Cpp-Template-Vishal-Chovatiya.webp","datePublished":"2020-05-17T00:00:00Z","dateModified":"2020-05-17T00:00:00Z","author":{"@type":"Person","name":"Vishal Chovatiya"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/"},"publisher":{"@type":"Organization","name":"Vishal Chovatiya","logo":{"@type":"ImageObject","url":"http://localhost:1313/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=http://localhost:1313/ accesskey=h title="Vishal Chovatiya (Alt + H)"><img src=http://localhost:1313/apple-touch-icon.png alt aria-label=logo height=35>Vishal Chovatiya</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=http://localhost:1313/pages/vishal-chovatiya title="About Me"><span>About Me</span></a></li><li><a href=http://localhost:1313/pages/start-here title="Start Here"><span>Start Here</span></a></li><li><a href=http://localhost:1313/posts/ title=Latest><span>Latest</span></a></li><li><a href=http://localhost:1313/categories/ title=Categories><span>Categories</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=http://localhost:1313/>Home</a>&nbsp;»&nbsp;<a href=http://localhost:1313/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">Variadic Template C++: Implementing Unsophisticated Tuple</h1><div class=post-meta><span title='2020-05-17 00:00:00 +0000 UTC'>May 17, 2020</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;1785 words&nbsp;·&nbsp;Vishal Chovatiya&nbsp;|&nbsp;<a href=https://github.com/vishalchovatiya/blog/vishalchovatiya/content/posts/variadic-template-cpp-implementing-unsophisticated-tuple.md rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><figure class=entry-cover><img loading=eager src=http://localhost:1313/images/Cpp-Template-Vishal-Chovatiya.webp alt></figure><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#motivation>Motivation</a></li><li><a href=#variadic-class-template-implementing-tuple-class>Variadic Class Template: Implementing Tuple Class</a><ul><li><a href=#how-does-variadic-class-template-works>How Does Variadic Class Template Works?</a></li></ul></li><li><a href=#variadic-function-template-implementing-get-function-for-tuple-class>Variadic Function Template: Implementing get&lt;>() Function for Tuple Class</a></li><li><a href=#variadic-template-vs-fold-expression>Variadic Template vs Fold Expression</a><ul><li><a href=#processing-a-parameter-pack-with-recursion>Processing a Parameter Pack With Recursion</a></li><li><a href=#processing-a-parameter-pack-with-fold-expression>Processing a Parameter Pack With Fold Expression</a></li></ul></li><li><a href=#loop-throughiterate-over-tuple-elements-in-c>Loop-Through/Iterate Over Tuple Elements in C++</a><ul><li><a href=#c11-loop-through-tuple-elements>C++11: Loop Through Tuple Elements</a></li><li><a href=#c17-loop-through-tuple-elements>C++17: Loop Through Tuple Elements</a></li><li><a href=#c23-loop-through-tuple-elements>C++23: Loop Through Tuple Elements</a></li></ul></li><li><a href=#closing-words>Closing Words</a></li></ul></nav></div></details></div><div class=post-content><p>From C++11, <a href=https://en.cppreference.com/w/cpp/utility/tuple><code>std::tuple</code></a> is an incredible expansion to <a href=/posts/21-new-features-of-modern-cpp-to-use-in-your-project/>Modern C++</a>, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures & helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.e. loop through tuple element. In spite of the fact that I have shrouded the variadic template in my prior article i.e. <a href=/posts/cpp-template-a-quick-uptodate-look/>C++ Template: A Quick UpToDate Look</a>. So, my focus here would be a blend of variadic template & tuple implementation with more up to date C++ gauges.</p><h2 id=motivation>Motivation<a hidden class=anchor aria-hidden=true href=#motivation>#</a></h2><ul><li>It is often useful to define class/struct/union/function that accepts a variable number and type of arguments.</li><li>If you have already used C you&rsquo;ll know that <code>printf</code> function can accept any number of arguments. Such functions are entirely implemented through macros or <a href=https://stackoverflow.com/questions/3792761/what-is-ellipsis-operator-in-c>ellipses operator</a>. And because of that it has several disadvantages like <a href=/posts/cpp-type-casting-with-example-for-c-developers/>type-safety</a>, cannot accept references as arguments, etc.</li></ul><h2 id=variadic-class-template-implementing-tuple-class>Variadic Class Template: Implementing Tuple Class<a hidden class=anchor aria-hidden=true href=#variadic-class-template-implementing-tuple-class>#</a></h2><ul><li>So, let&rsquo;s build our own <a href=https://en.wikipedia.org/wiki/Abstract_data_type>ADT</a> same as <code>[`std::tuple`](https://en.cppreference.com/w/cpp/utility/tuple)</code> with the help of variadic template.</li><li>The variadic template in C++ usually starts with the general (empty) definition, that also serves as the base-case for template recursion termination in the later specialisation:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Tuple</span> <span class=p>{</span> <span class=p>};</span>
+</span></span></code></pre></div><ul><li>This already allows us to define an empty structure i.e. <code>Tuple&lt;> object;</code>, albeit that isn&rsquo;t very useful yet. Next comes the recursive case specialisation:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Rest</span>    <span class=c1>// Template parameter pack
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span> <span class=p>{</span>      <span class=c1>// Class parameter pack
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>T</span> <span class=n>first</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span> <span class=n>rest</span><span class=p>;</span>        <span class=c1>// Parameter pack expansion
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>Tuple</span><span class=p>(</span><span class=k>const</span> <span class=n>T</span><span class=o>&amp;</span> <span class=n>f</span><span class=p>,</span> <span class=k>const</span> <span class=n>Rest</span><span class=o>&amp;</span> <span class=p>...</span> <span class=n>r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>:</span> <span class=n>first</span><span class=p>(</span><span class=n>f</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>,</span> <span class=n>rest</span><span class=p>(</span><span class=n>r</span><span class=p>...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Tuple</span><span class=o>&lt;</span><span class=kt>bool</span><span class=o>&gt;</span>                 <span class=n>t1</span><span class=p>(</span><span class=nb>false</span><span class=p>);</span>           <span class=c1>// Case 1
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Tuple</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=kt>char</span><span class=p>,</span> <span class=n>string</span><span class=o>&gt;</span>    <span class=n>t2</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=sc>&#39;a&#39;</span><span class=p>,</span> <span class=s>&#34;ABC&#34;</span><span class=p>);</span>   <span class=c1>// Case 2
+</span></span></span></code></pre></div><h3 id=how-does-variadic-class-template-works>How Does Variadic Class Template Works?<a hidden class=anchor aria-hidden=true href=#how-does-variadic-class-template-works>#</a></h3><p>To understand variadic class template, consider use case 2 above i.e. <code>Tuple&lt;int, char, string> t2(1, 'a', "ABC");</code></p><ul><li>The declaration first matches against the specialization, yielding a structure with <code>int first;</code> and <code>Tuple&lt;char, string> rest;</code> data members.</li><li>The rest definition again matches with specialization, yielding a structure with <code>char first;</code> and <code>Tuple&lt;string> rest;</code> data members.</li><li>The rest definition again matches this specialization, creating its own <code>string first;</code> and <code>Tuple&lt;> rest;</code> members.</li><li>Finally, this last rest matches against the base-case definition, producing an empty structure.</li></ul><p>You can visualize this as follows:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>Tuple&lt;int, char, string&gt;
+</span></span><span class=line><span class=cl>-&gt; int first
+</span></span><span class=line><span class=cl>-&gt; Tuple&lt;char, string&gt; rest
+</span></span><span class=line><span class=cl>    -&gt; char first
+</span></span><span class=line><span class=cl>    -&gt; Tuple&lt;string&gt; rest
+</span></span><span class=line><span class=cl>        -&gt; string first
+</span></span><span class=line><span class=cl>        -&gt; Tuple&lt;&gt; rest
+</span></span><span class=line><span class=cl>            -&gt; <span class=o>(</span>empty<span class=o>)</span>
+</span></span></code></pre></div><h2 id=variadic-function-template-implementing-get-function-for-tuple-class>Variadic Function Template: Implementing get&lt;>() Function for Tuple Class<a hidden class=anchor aria-hidden=true href=#variadic-function-template-implementing-get-function-for-tuple-class>#</a></h2><ul><li>So far we have designed data structure with variable number and type of data members. But still, it isn&rsquo;t useful as there is no mechanism to retrieve data from our Tuple class. So let&rsquo;s design one:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size_t</span> <span class=n>idx</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span><span class=o>&gt;</span> <span class=k>class</span> <span class=nc>Tuple</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Args</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>auto</span> <span class=n>get</span><span class=p>(</span><span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>GetHelper</span><span class=o>&lt;</span><span class=n>idx</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;&gt;::</span><span class=n>get</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><ul><li>As you can see this get function is templatized on the <code>idx</code>. So usage can be like <code>get&lt;1>(t)</code>, similar to <a href=https://en.cppreference.com/w/cpp/utility/tuple><code>std::tuple</code></a>. Though, the actual work is done by a static function in a helper class i.e. <code>GetHelper</code>.</li><li>Note also the use of a C++14-style <code>auto</code> return type that makes our lives significantly simpler as otherwise, we would need quite a complicated expression for the return type.</li><li>So on to the helper class. This time we will need an empty forward declaration and two specializations. First the empty declaration:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size_t</span> <span class=n>idx</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>GetHelper</span><span class=p>;</span>
+</span></span></code></pre></div><ul><li>Now the base-case (when <code>idx==0</code>). In this specialisation, we just return the first member:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Rest</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>GetHelper</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=n>T</span> <span class=nf>get</span><span class=p>(</span><span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>data</span><span class=p>.</span><span class=n>first</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></div><ul><li>In the recursive case, we decrement <code>idx</code> and invoke the <code>GetHelper</code> for the rest member:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size_t</span> <span class=n>idx</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Rest</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>GetHelper</span><span class=o>&lt;</span><span class=n>idx</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=k>auto</span> <span class=nf>get</span><span class=p>(</span><span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>GetHelper</span><span class=o>&lt;</span><span class=n>idx</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Rest</span><span class=p>...</span><span class=o>&gt;&gt;::</span><span class=n>get</span><span class=p>(</span><span class=n>data</span><span class=p>.</span><span class=n>rest</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></div><ul><li>To work through an example, suppose we have Tuple data and we need `get&lt;1>(data).</li><li>This invokes `GetHelper&lt;1, Tuple&lt;T, Rest&mldr;&#187;>::get(data) (the 2nd specialization).</li><li>Which in turn invokes `GetHelper&lt;0, Tuple&lt;T, Rest&mldr;&#187;>::get(data.rest).</li><li>And finally returns (by the 1st specialization as now <code>idx</code> is 0) <code>data.rest.first</code>.</li></ul><p>So that&rsquo;s it! Here is the whole functioning code, with some example use in the main function:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// Forward Declaration &amp; Base Case -----------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size_t</span> <span class=n>idx</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>GetHelper</span> <span class=p>{</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Tuple</span> <span class=p>{</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=c1>// -------------------------------------------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// GetHelper ---------------------------------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Rest</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>GetHelper</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;&gt;</span> <span class=p>{</span> <span class=c1>// Specialization for index 0
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>static</span> <span class=n>T</span> <span class=nf>get</span><span class=p>(</span><span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>data</span><span class=p>.</span><span class=n>first</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size_t</span> <span class=n>idx</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Rest</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>GetHelper</span><span class=o>&lt;</span><span class=n>idx</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;&gt;</span> <span class=p>{</span> <span class=c1>// GetHelper Implementation
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>static</span> <span class=k>auto</span> <span class=nf>get</span><span class=p>(</span><span class=n>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>GetHelper</span><span class=o>&lt;</span><span class=n>idx</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Rest</span><span class=p>...</span><span class=o>&gt;&gt;::</span><span class=n>get</span><span class=p>(</span><span class=n>data</span><span class=p>.</span><span class=n>rest</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=c1>// -------------------------------------------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// Tuple Implementation ----------------------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>T</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Rest</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Tuple</span><span class=o>&lt;</span><span class=n>T</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span>                   <span class=n>first</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Rest</span><span class=p>...</span><span class=o>&gt;</span>      <span class=n>rest</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>Tuple</span><span class=p>(</span><span class=k>const</span> <span class=n>T</span> <span class=o>&amp;</span><span class=n>f</span><span class=p>,</span> <span class=k>const</span> <span class=n>Rest</span> <span class=o>&amp;</span><span class=p>...</span> <span class=n>r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>:</span> <span class=n>first</span><span class=p>(</span><span class=n>f</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>,</span> <span class=n>rest</span><span class=p>(</span><span class=n>r</span><span class=p>...)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=c1>// -------------------------------------------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// get Implementation ------------------------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span><span class=o>&lt;</span>
+</span></span><span class=line><span class=cl>            <span class=n>size_t</span> <span class=n>idx</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span><span class=o>&gt;</span> <span class=k>class</span> <span class=nc>Tuple</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Args</span>
+</span></span><span class=line><span class=cl>        <span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>auto</span> <span class=n>get</span><span class=p>(</span><span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>GetHelper</span><span class=o>&lt;</span><span class=n>idx</span><span class=p>,</span> <span class=n>Tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;&gt;::</span><span class=n>get</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=c1>// -------------------------------------------------------------------------
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Tuple</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=kt>char</span><span class=p>,</span> <span class=n>string</span><span class=o>&gt;</span> <span class=n>t</span><span class=p>(</span><span class=mi>500</span><span class=p>,</span> <span class=sc>&#39;a&#39;</span><span class=p>,</span> <span class=s>&#34;ABC&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>get</span><span class=o>&lt;</span><span class=mi>1</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=variadic-template-vs-fold-expression>Variadic Template vs Fold Expression<a hidden class=anchor aria-hidden=true href=#variadic-template-vs-fold-expression>#</a></h2><ul><li>There is two way to process C++ parameter pack i.e.<ol><li>Recursion</li><li>Fold Expression(From C++17)</li></ol></li><li>At whatever point conceivable, we should process a parameter pack with fold expression instead of using recursion. Because it has some benefits as:<ul><li>Less code to write</li><li>Faster code (without optimizations), as you just have a single expression instead of multiple function calls</li><li>Faster to compile, as you deal with fewer template instantiation</li></ul></li></ul><h3 id=processing-a-parameter-pack-with-recursion>Processing a Parameter Pack With Recursion<a hidden class=anchor aria-hidden=true href=#processing-a-parameter-pack-with-recursion>#</a></h3><ul><li>As we have seen earlier, variadic template starts with empty definition i.e. base case for recursion.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>void</span> <span class=nf>print</span><span class=p>()</span> <span class=p>{}</span>
+</span></span></code></pre></div><ul><li>Then the recursive case specialisation:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span>   
+</span></span><span class=line><span class=cl>            <span class=k>typename</span> <span class=n>First</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>            <span class=k>typename</span><span class=p>...</span> <span class=n>Rest</span>                    <span class=c1>// Template parameter pack
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=o>&gt;</span>     
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=n>First</span> <span class=n>first</span><span class=p>,</span> <span class=n>Rest</span><span class=p>...</span> <span class=n>rest</span><span class=p>)</span> <span class=p>{</span>         <span class=c1>// Function parameter pack
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>first</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>print</span><span class=p>(</span><span class=n>rest</span><span class=p>...);</span>                             <span class=c1>// Parameter pack expansion
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span> 
+</span></span></code></pre></div><ul><li>This is now sufficient for us to use the print function with variable number and type of arguments. For example:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>print</span><span class=p>(</span><span class=mi>500</span><span class=p>,</span> <span class=sc>&#39;a&#39;</span><span class=p>,</span> <span class=s>&#34;ABC&#34;</span><span class=p>);</span>
+</span></span></code></pre></div><h3 id=processing-a-parameter-pack-with-fold-expression>Processing a Parameter Pack With Fold Expression<a hidden class=anchor aria-hidden=true href=#processing-a-parameter-pack-with-fold-expression>#</a></h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=n>Args</span><span class=p>...</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=kt>void</span><span class=p>(</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>args</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>),</span> <span class=p>...);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><ul><li>See, no cryptic boilerplate required. Isn’t this solution looks neater?</li><li>There are total 3 types of folding: Unary fold, Binary fold & Fold over a comma. Here we have done left folding over a comma. You can read more about Fold Expression <a href=https://www.codingame.com/playgrounds/2205/7-features-of-c17-that-will-simplify-your-code/fold-expressions>here</a>.</li></ul><h2 id=loop-throughiterate-over-tuple-elements-in-c>Loop-Through/Iterate Over Tuple Elements in C++<a hidden class=anchor aria-hidden=true href=#loop-throughiterate-over-tuple-elements-in-c>#</a></h2><ul><li>If I give you a task to print the elements of tuple, the first thing that comes to your mind is:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=k>const</span> <span class=k>auto</span> <span class=o>&amp;</span><span class=nl>elem</span> <span class=p>:</span> <span class=n>t</span><span class=p>)</span> <span class=c1>// Error: no begin/end iterator
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>elem</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><ul><li>But, this just can&rsquo;t work. <a href=https://en.cppreference.com/w/cpp/utility/tuple><code>std::tuple</code></a> doesn&rsquo;t have <code>begin</code> & <code>end</code> iterator.</li><li>OK! So, now you might try raw loop right?</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;&amp;</span>   <span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=k>sizeof</span><span class=p>...(</span><span class=n>Args</span><span class=p>);</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>get</span><span class=o>&lt;</span><span class=n>i</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>    <span class=c1>// Error :( , `i` needs to be compile time constant
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></div><ul><li>No! you can&rsquo;t. I know that <code>std::get&lt;></code> works with a number as <a href=/posts/cpp-template-a-quick-uptodate-look/#Non-Type_Template_Parameter>non-type template argument</a>.</li><li>But, that number has to be compile-time constant to make this working. So there are many solutions & we will go through quite enough ones.</li></ul><h3 id=c11-loop-through-tuple-elements>C++11: Loop Through Tuple Elements<a hidden class=anchor aria-hidden=true href=#c11-loop-through-tuple-elements>#</a></h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// Template recursion
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span> <span class=o>&lt;</span><span class=n>size_t</span> <span class=n>i</span><span class=p>,</span> <span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>printer</span>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=k>const</span> <span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>get</span><span class=o>&lt;</span><span class=n>i</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>printer</span><span class=o>&lt;</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>,</span> <span class=n>Args</span><span class=p>...</span><span class=o>&gt;::</span><span class=n>print</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Terminating template specialisation
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>printer</span><span class=o>&lt;</span><span class=k>sizeof</span><span class=p>...(</span><span class=n>Args</span><span class=p>),</span> <span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=k>const</span> <span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=k>const</span> <span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>printer</span><span class=o>&lt;</span><span class=mi>0</span><span class=p>,</span> <span class=n>Args</span><span class=p>...</span><span class=o>&gt;::</span><span class=n>print</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>tuple</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=kt>char</span><span class=p>,</span> <span class=n>string</span><span class=o>&gt;</span> <span class=n>t</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=sc>&#39;A&#39;</span><span class=p>,</span> <span class=s>&#34;ABC&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>print</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// Note: might not work in GCC, I&#39;ve used clang
+</span></span></span></code></pre></div><ul><li>This isn&rsquo;t that complicated as it looks, believe me. If you know recursion & template specialisation, it won&rsquo;t take you more than 30 seconds to figure out what&rsquo;s going on here.</li><li>For our example <code>tuple&lt;int, char, string> t(1, 'A', "ABC");</code>, <code>printer::print()</code>calls template recursion i,e, <code>template&lt;size_t i, typename… Args> struct printer{};</code> each time with incremented non-type template parameter <code>i</code>. And when <code>i == sizeof…(Args)</code>, our recusion stops by calling template specialization i.e. <code>template&lt;typename… Args> struct printer&lt;sizeof…(Args), Args…> { };</code>.</li></ul><h3 id=c17-loop-through-tuple-elements>C++17: Loop Through Tuple Elements<a hidden class=anchor aria-hidden=true href=#c17-loop-through-tuple-elements>#</a></h3><ul><li>With C++ 17, it&rsquo;s slightly better because we have Fold Expressions. So, we don&rsquo;t need recursion any more.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>apply</span><span class=p>([](</span><span class=k>const</span> <span class=k>auto</span> <span class=o>&amp;</span><span class=p>...</span> <span class=n>args</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>((</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>args</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>),</span> <span class=p>...);</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><ul><li><a href=https://en.cppreference.com/w/cpp/utility/apply><code>std::apply</code></a> designed as tuple helper that accepts functor or <a href=/posts/learn-lambda-function-in-cpp-with-example/>lambda expression</a>. Though you can do better if wants to dispatch to different implementation according to type, you might use <code>overloaded</code> class as:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span><span class=err>... </span><span class=nc>Ts</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>overloaded</span> <span class=o>:</span> <span class=n>Ts</span><span class=p>...</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>using</span> <span class=n>Ts</span><span class=o>::</span><span class=k>operator</span><span class=p>()...;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Deduction guide, google `CTAD for aggregates` for more info
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>template</span> <span class=o>&lt;</span><span class=k>class</span><span class=err>... </span><span class=nc>Ts</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>overloaded</span><span class=p>(</span><span class=n>Ts</span><span class=p>...)</span> <span class=o>-&gt;</span> <span class=n>overloaded</span><span class=o>&lt;</span><span class=n>Ts</span><span class=p>...</span><span class=o>&gt;</span><span class=p>;</span>   <span class=c1>// not needed from C++20
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>auto</span> <span class=n>f</span> <span class=o>=</span> <span class=n>overloaded</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>[](</span><span class=k>const</span> <span class=kt>int</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>)</span>        <span class=p>{</span> <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;From int: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>a</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>[](</span><span class=k>const</span> <span class=kt>char</span> <span class=o>&amp;</span><span class=n>b</span><span class=p>)</span>       <span class=p>{</span> <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;From char: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>b</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>[](</span><span class=k>const</span> <span class=n>string</span> <span class=o>&amp;</span><span class=n>c</span><span class=p>)</span>     <span class=p>{</span> <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;From string: &#34;</span> <span class=o>&lt;&lt;</span> <span class=n>c</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>tuple</span><span class=o>&lt;</span><span class=kt>int</span><span class=p>,</span> <span class=kt>char</span><span class=p>,</span> <span class=n>string</span><span class=o>&gt;</span>    <span class=n>t</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=sc>&#39;A&#39;</span><span class=p>,</span> <span class=s>&#34;ABC&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>apply</span><span class=p>([</span><span class=o>&amp;</span><span class=p>](</span><span class=k>const</span> <span class=k>auto</span> <span class=o>&amp;</span><span class=p>...</span> <span class=n>e</span><span class=p>)</span> <span class=p>{</span> <span class=p>(</span><span class=n>f</span><span class=p>(</span><span class=n>e</span><span class=p>),</span> <span class=p>...);</span> <span class=p>},</span> <span class=n>t</span><span class=p>);</span>
+</span></span></code></pre></div><h3 id=c23-loop-through-tuple-elements>C++23: Loop Through Tuple Elements<a hidden class=anchor aria-hidden=true href=#c23-loop-through-tuple-elements>#</a></h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span><span class=p>...</span> <span class=p>(</span><span class=k>const</span> <span class=k>auto</span> <span class=o>&amp;</span><span class=nl>elem</span> <span class=p>:</span> <span class=n>t</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>elem</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><ul><li>So, from C++23 we might have <a href=http://wg21.link/p1306>expansion statement</a> i.e. <code>for...()</code> That looks like a loop, though it isn&rsquo;t. It just stencil out each call with scope as:</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span> <span class=n>Args</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=n>print</span><span class=p>(</span><span class=k>const</span> <span class=n>tuple</span><span class=o>&lt;</span><span class=n>Args</span><span class=p>...</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>const</span> <span class=k>auto</span> <span class=o>&amp;</span><span class=n>elem</span> <span class=o>=</span> <span class=n>get</span><span class=o>&lt;</span><span class=mi>0</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>elem</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>const</span> <span class=k>auto</span> <span class=o>&amp;</span><span class=n>elem</span> <span class=o>=</span> <span class=n>get</span><span class=o>&lt;</span><span class=mi>1</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>elem</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>const</span> <span class=k>auto</span> <span class=o>&amp;</span><span class=n>elem</span> <span class=o>=</span> <span class=n>get</span><span class=o>&lt;</span><span class=mi>2</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>elem</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><ul><li>And it is obvious that there is no <code>break</code> & <code>continue</code> as it isn&rsquo;t loop.</li><li>It basically works for every standard container which can access by <code>std::get&lt;>()</code> For example, a plain array, <code>std::tuple</code>, <code>std::pair</code>, <code>std::array</code>, unexpanded argument packs, constexpr ranges, etc.</li></ul><h2 id=closing-words>Closing Words<a hidden class=anchor aria-hidden=true href=#closing-words>#</a></h2><p>There are still many things missing in our tuple class like <a href=/posts/all-about-copy-constructor-in-cpp-with-example/>copy constructor</a>, <a href=/posts/move-constructor-assignment-operator-with-shared-ptr/>move constructors</a>, some operators and helper classes(like <a href=https://en.cppreference.com/w/cpp/utility/tuple/tuple_size><code>std::tuple_size</code></a>). But I hope now you get the idea of how it can be implemented using the variadic template. By the way, implementing those missing things will be a good start for learning variadic template on your own.</p></div><footer class=post-footer><ul class=post-tags><li><a href=http://localhost:1313/tags/c-11-variadic-templates/>C-11-Variadic-Templates</a></li><li><a href=http://localhost:1313/tags/c-forward-variadic-arguments/>C-Forward-Variadic-Arguments</a></li><li><a href=http://localhost:1313/tags/c-iterate-over-parameter-pack/>C-Iterate-Over-Parameter-Pack</a></li><li><a href=http://localhost:1313/tags/c-tuple-comparison/>C-Tuple-Comparison</a></li><li><a href=http://localhost:1313/tags/c-tuple-example/>C-Tuple-Example</a></li><li><a href=http://localhost:1313/tags/c-variadic-function/>C-Variadic-Function</a></li><li><a href=http://localhost:1313/tags/c-expansion-statements/>C-Expansion-Statements</a></li><li><a href=http://localhost:1313/tags/c-how-does-variadic-class-template-works/>C-How-Does-Variadic-Class-Template-Works</a></li><li><a href=http://localhost:1313/tags/c-implementing-std-get-function-for-tuple-class/>C-Implementing-Std-Get-Function-for-Tuple-Class</a></li><li><a href=http://localhost:1313/tags/c-implementing-tuple-class/>C-Implementing-Tuple-Class</a></li><li><a href=http://localhost:1313/tags/c-iterate-over-tuple-elements-in-c/>C-Iterate-Over-Tuple-Elements-in-C</a></li><li><a href=http://localhost:1313/tags/c-iterate-variadic-template/>C-Iterate-Variadic-Template</a></li><li><a href=http://localhost:1313/tags/c-named-tuple/>C-Named-Tuple</a></li><li><a href=http://localhost:1313/tags/c-parameter-pack/>C-Parameter-Pack</a></li><li><a href=http://localhost:1313/tags/c-process-a-parameter-pack-with-fold-expression/>C-Process-a-Parameter-Pack-With-Fold-Expression</a></li><li><a href=http://localhost:1313/tags/c-process-a-parameter-pack-with-recursion/>C-Process-a-Parameter-Pack-With-Recursion</a></li><li><a href=http://localhost:1313/tags/c-return-tuple/>C-Return-Tuple</a></li><li><a href=http://localhost:1313/tags/c-template/>C-Template</a></li><li><a href=http://localhost:1313/tags/c-template-variable-number-of-arguments/>C-Template-Variable-Number-of-Arguments</a></li><li><a href=http://localhost:1313/tags/c-template-variadic-arguments/>C-Template-Variadic-Arguments</a></li><li><a href=http://localhost:1313/tags/c-tuple-get/>C-Tuple-Get</a></li><li><a href=http://localhost:1313/tags/c-tuple-implementation/>C-Tuple-Implementation</a></li><li><a href=http://localhost:1313/tags/c-tuple-implementation-example/>C-Tuple-Implementation-Example</a></li><li><a href=http://localhost:1313/tags/c-vararg/>C-Vararg</a></li><li><a href=http://localhost:1313/tags/c-variadic/>C-Variadic</a></li><li><a href=http://localhost:1313/tags/c-variadic-arguments/>C-Variadic-Arguments</a></li><li><a href=http://localhost:1313/tags/c-variadic-class-template/>C-Variadic-Class-Template</a></li><li><a href=http://localhost:1313/tags/c-variadic-constructor/>C-Variadic-Constructor</a></li><li><a href=http://localhost:1313/tags/c-variadic-function-2/>C-Variadic-Function-2</a></li><li><a href=http://localhost:1313/tags/c-variadic-function-template/>C-Variadic-Function-Template</a></li><li><a href=http://localhost:1313/tags/c-variadic-parameters/>C-Variadic-Parameters</a></li><li><a href=http://localhost:1313/tags/c-variadic-template-class/>C-Variadic-Template-Class</a></li><li><a href=http://localhost:1313/tags/c-variadic-template-example/>C-Variadic-Template-Example</a></li><li><a href=http://localhost:1313/tags/c-variadic-template-function/>C-Variadic-Template-Function</a></li><li><a href=http://localhost:1313/tags/c-variadic-template-printf/>C-Variadic-Template-Printf</a></li><li><a href=http://localhost:1313/tags/c-variadic-template-vs-fold-expression/>C-Variadic-Template-vs-Fold-Expression</a></li><li><a href=http://localhost:1313/tags/c-variadic-templates/>C-Variadic-Templates</a></li><li><a href=http://localhost:1313/tags/c-variadic-templates-unpack/>C-Variadic-Templates-Unpack</a></li><li><a href=http://localhost:1313/tags/c11-loop-through-tuple-elements/>C11-Loop-Through-Tuple-Elements</a></li><li><a href=http://localhost:1313/tags/c17-loop-through-tuple-elements/>C17-Loop-Through-Tuple-Elements</a></li><li><a href=http://localhost:1313/tags/c23-loop-through-tuple-elements/>C23-Loop-Through-Tuple-Elements</a></li><li><a href=http://localhost:1313/tags/introduction-to-c-variadic-template/>Introduction-to-C-Variadic-Template</a></li><li><a href=http://localhost:1313/tags/learning-variadic-template-c/>Learning-Variadic-Template-C</a></li><li><a href=http://localhost:1313/tags/process-c-parameter-pack/>Process-C-Parameter-Pack</a></li><li><a href=http://localhost:1313/tags/sizeof-parameter-pack/>Sizeof-Parameter-Pack</a></li><li><a href=http://localhost:1313/tags/std-make-tuple/>Std-Make-Tuple</a></li><li><a href=http://localhost:1313/tags/stdtuple-size/>Stdtuple-Size</a></li><li><a href=http://localhost:1313/tags/tuple-is-not-a-member-of-std/>Tuple-Is-Not-a-Member-of-Std</a></li><li><a href=http://localhost:1313/tags/variadic-templates-c-example/>Variadic-Templates-C-Example</a></li><li><a href=http://localhost:1313/tags/variadic-templates-c17/>Variadic-Templates-C17</a></li><li><a href=http://localhost:1313/tags/variadic-templates-example/>Variadic-Templates-Example</a></li></ul><nav class=paginav><a class=prev href=http://localhost:1313/posts/c-template-a-quick-uptodate-look/><span class=title>« Prev</span><br><span>C++ Template: A Quick UpToDate Look(C++11/14/17/20)</span>
+</a><a class=next href=http://localhost:1313/posts/watchdog-timer/><span class=title>Next »</span><br><span>Watchdog Timer(WDT) & Window Watchdog Timer(WWDT)</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share Variadic Template C++: Implementing Unsophisticated Tuple on x" href="https://x.com/intent/tweet/?text=Variadic%20Template%20C%2b%2b%3a%20Implementing%20Unsophisticated%20Tuple&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f&amp;hashtags=c-11-variadic-templates%2cc-forward-variadic-arguments%2cc-iterate-over-parameter-pack%2cc-tuple-comparison%2cc-tuple-example%2cc-variadic-function%2cc-expansion-statements%2cc-how-does-variadic-class-template-works%2cc-implementing-std-get-function-for-tuple-class%2cc-implementing-tuple-class%2cc-iterate-over-tuple-elements-in-c%2cc-iterate-variadic-template%2cc-named-tuple%2cc-parameter-pack%2cc-process-a-parameter-pack-with-fold-expression%2cc-process-a-parameter-pack-with-recursion%2cc-return-tuple%2cc-template%2cc-template-variable-number-of-arguments%2cc-template-variadic-arguments%2cc-tuple-get%2cc-tuple-implementation%2cc-tuple-implementation-example%2cc-vararg%2cc-variadic%2cc-variadic-arguments%2cc-variadic-class-template%2cc-variadic-constructor%2cc-variadic-function-2%2cc-variadic-function-template%2cc-variadic-parameters%2cc-variadic-template-class%2cc-variadic-template-example%2cc-variadic-template-function%2cc-variadic-template-printf%2cc-variadic-template-vs-fold-expression%2cc-variadic-templates%2cc-variadic-templates-unpack%2cc11-loop-through-tuple-elements%2cc17-loop-through-tuple-elements%2cc23-loop-through-tuple-elements%2cintroduction-to-c-variadic-template%2clearning-variadic-template-c%2cprocess-c-parameter-pack%2csizeof-parameter-pack%2cstd-make-tuple%2cstdtuple-size%2ctuple-is-not-a-member-of-std%2cvariadic-templates-c-example%2cvariadic-templates-c17%2cvariadic-templates-example"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Variadic Template C++: Implementing Unsophisticated Tuple on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f&amp;title=Variadic%20Template%20C%2b%2b%3a%20Implementing%20Unsophisticated%20Tuple&amp;summary=Variadic%20Template%20C%2b%2b%3a%20Implementing%20Unsophisticated%20Tuple&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Variadic Template C++: Implementing Unsophisticated Tuple on reddit" href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f&title=Variadic%20Template%20C%2b%2b%3a%20Implementing%20Unsophisticated%20Tuple"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Variadic Template C++: Implementing Unsophisticated Tuple on facebook" href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Variadic Template C++: Implementing Unsophisticated Tuple on whatsapp" href="https://api.whatsapp.com/send?text=Variadic%20Template%20C%2b%2b%3a%20Implementing%20Unsophisticated%20Tuple%20-%20http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Variadic Template C++: Implementing Unsophisticated Tuple on telegram" href="https://telegram.me/share/url?text=Variadic%20Template%20C%2b%2b%3a%20Implementing%20Unsophisticated%20Tuple&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share Variadic Template C++: Implementing Unsophisticated Tuple on ycombinator" href="https://news.ycombinator.com/submitlink?t=Variadic%20Template%20C%2b%2b%3a%20Implementing%20Unsophisticated%20Tuple&u=http%3a%2f%2flocalhost%3a1313%2fposts%2fvariadic-template-cpp-implementing-unsophisticated-tuple%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentcolor" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=http://localhost:1313/>Vishal Chovatiya</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Flyweight-Design-Pattern-Cpp on Vishal Chovatiya</title>
+    <link>http://localhost:1313/tags/flyweight-design-pattern-cpp/</link>
+    <description>Recent content in Flyweight-Design-Pattern-Cpp on Vishal Chovatiya</description>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/flyweight-design-pattern-cpp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flyweight Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/flyweight-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/flyweight-design-pattern-in-modern-cpp/</guid>
+      <description>Flyweight Design Pattern is a Structural Design Pattern that concerned with space optimization. It is a technique to minimizes memory footprint by sharing or avoiding redundancy as much as possible with other similar objects. Flyweight Design Pattern in Modern C++ is often used in a situation where object count is higher which uses an unacceptable amount of memory. Often some parts of these objects can be shared &amp;amp; kept in common data structures that can be used by multiple objects.</description>
+    </item>
+  </channel>
+</rss>

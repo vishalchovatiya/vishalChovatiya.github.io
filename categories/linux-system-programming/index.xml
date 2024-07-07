@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Linux-System-Programming on Vishal Chovatiya</title>
     <link>http://localhost:1313/categories/linux-system-programming/</link>
     <description>Recent content in Linux-System-Programming on Vishal Chovatiya</description>
-    <generator>Hugo</generator>
+    <image>
+      <title>Vishal Chovatiya</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 30 Sep 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/linux-system-programming/index.xml" rel="self" type="application/rss+xml" />
@@ -13,84 +18,90 @@
       <link>http://localhost:1313/posts/dynamic-linking-example/</link>
       <pubDate>Fri, 30 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/dynamic-linking-example/</guid>
-      <description>Following example covers API like dladdr, dlclose, dlerror, dlopen, dlsym and flags like RTLD_LAZY, RTLD_NOW, RTLD_GLOBAL, `RTLD_LOCAL, `RTLD_NODELETE`, `RTLD_NOLOAD`, RTLD_NEXT, RTLD_DEFAULT, etc.&#xA;At First Sight, This Might Look Lengthy &amp;amp; Alien, But If You Spend 5 Min, You Might Get What You Looking For. I Struggle With Finding Dynamic Linking Example On Net When I Came Across Dynamic Linking Related Development. So I Wrote One Helping Post. flags.c Link to heading We will create binary flags out of flags.</description>
+      <description>Following example covers API like dladdr, dlclose, dlerror, dlopen, dlsym and flags like RTLD_LAZY, RTLD_NOW, RTLD_GLOBAL, `RTLD_LOCAL, `RTLD_NODELETE`, `RTLD_NOLOAD`, RTLD_NEXT, RTLD_DEFAULT, etc.
+At First Sight, This Might Look Lengthy &amp;amp; Alien, But If You Spend 5 Min, You Might Get What You Looking For. I Struggle With Finding Dynamic Linking Example On Net When I Came Across Dynamic Linking Related Development. So I Wrote One Helping Post. flags.c We will create binary flags out of flags.</description>
     </item>
     <item>
       <title>GNU Build System: Automake, Autoconf, Libtool</title>
       <link>http://localhost:1313/posts/gnu-build-system-automake-autoconf-libtool/</link>
       <pubDate>Fri, 30 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/gnu-build-system-automake-autoconf-libtool/</guid>
-      <description>Brief Link to heading GNU Build System: Automake, Autoconf, Libtool are a suite of programming tools used to make source code packages portable to many Unix-like systems. Why We Need Autotools: Link to heading Autoconf: automatically generates configure script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms. configure generates a config.h file (from a template) which programs can include to work around portability issues.</description>
+      <description>Brief GNU Build System: Automake, Autoconf, Libtool are a suite of programming tools used to make source code packages portable to many Unix-like systems. Why We Need Autotools: Autoconf: automatically generates configure script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms. configure generates a config.h file (from a template) which programs can include to work around portability issues. For example, if HAVE_LIBPTHREAD is not defined, use forks instead.</description>
     </item>
     <item>
       <title>How Program Gets Run: Linux</title>
       <link>http://localhost:1313/posts/program-gets-run-linux/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/program-gets-run-linux/</guid>
-      <description>I know it’s long, but please bear with me &amp;amp; have patience.&#xA;How do we launch our programs? Link to heading Do you know how programs get runs behind the screen when you double-click on it or you type ./a.out on shell As you know, the standard way to launch an application from a shell is to start terminal emulator application &amp;amp; just write the name of the program &amp;amp; pass or not arguments to our program, for example: [vishal@machine Desktop]$ ls --version ls (GNU coreutils) 8.</description>
+      <description>I know it’s long, but please bear with me &amp;amp; have patience.
+How do we launch our programs? Do you know how programs get runs behind the screen when you double-click on it or you type ./a.out on shell As you know, the standard way to launch an application from a shell is to start terminal emulator application &amp;amp; just write the name of the program &amp;amp; pass or not arguments to our program, for example: [vishal@machine Desktop]$ ls --version ls (GNU coreutils) 8.</description>
     </item>
     <item>
       <title>How to hack C/C&#43;&#43; application using RTLD_NEXT with an easy example</title>
       <link>http://localhost:1313/posts/hack-c-cpp-application-using-rtld-next-with-an-easy-example/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/hack-c-cpp-application-using-rtld-next-with-an-easy-example/</guid>
-      <description>While I was working as a core C library developer with my previous employer. I came across this RTLD_NEXT flag in dynamic linking which has the amazing capability and can be easily exploited or used for unethical purpose(Here I intend to educate the developer to don&amp;rsquo;t be victims). In this article, I will show you a simple way to hack C/C++ application using RTLD_NEXT with an easy example.&#xA;Brief Link to heading Let say you have a C/C++ application/tool which is highly proprietary and driving most of the business to your company.</description>
+      <description>While I was working as a core C library developer with my previous employer. I came across this RTLD_NEXT flag in dynamic linking which has the amazing capability and can be easily exploited or used for unethical purpose(Here I intend to educate the developer to don&amp;rsquo;t be victims). In this article, I will show you a simple way to hack C/C++ application using RTLD_NEXT with an easy example.
+Brief Let say you have a C/C++ application/tool which is highly proprietary and driving most of the business to your company.</description>
     </item>
     <item>
       <title>A Bit About mmap</title>
       <link>http://localhost:1313/posts/mmap/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/mmap/</guid>
-      <description>Points to Catch Link to heading mmap()is system call used to maps files or devices into memory Linux provides the `mremap( ) system call for expanding or shrinking the size of a given mapping. POSIX defines the `mprotect( ) interface to allow programs to change the permissions of existing regions of memory. Synchronizing a File with a Mapping: A system call msync( ) flushes back to disk any changes made to a file mapped via mmap( ), synchronizing the mapped file with the mapping *Advantage of mmap() over open(), read()&amp;amp; write()` Link to heading mmap is great if you have multiple processes accessing data in a read-only fashion from the same file which saves many system calls or context switching overheads Useful for inter-process communication.</description>
+      <description>Points to Catch mmap()is system call used to maps files or devices into memory Linux provides the `mremap( ) system call for expanding or shrinking the size of a given mapping. POSIX defines the `mprotect( ) interface to allow programs to change the permissions of existing regions of memory. Synchronizing a File with a Mapping: A system call msync( ) flushes back to disk any changes made to a file mapped via mmap( ), synchronizing the mapped file with the mapping *Advantage of mmap() over open(), read()&amp;amp; write()` mmap is great if you have multiple processes accessing data in a read-only fashion from the same file which saves many system calls or context switching overheads Useful for inter-process communication.</description>
     </item>
     <item>
       <title>A Bit About vfork</title>
       <link>http://localhost:1313/posts/vfork/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/vfork/</guid>
-      <description>What is vfork ? Link to heading It&amp;rsquo;s a special case of a clone. It is used to create new processes without copying the page tables of the parent process. calling thread is suspended until the child call execve or _exit. Points To Remember Link to heading vfork()is an obsolete optimization. Before good memory management, fork()made a full copy of the parent&amp;rsquo;s memory, so it was pretty expensive. since in many cases a fork()was followed by `exec(), which discards the current memory map and creates a new one, it was a needless expense.</description>
+      <description>What is vfork ? It&amp;rsquo;s a special case of a clone. It is used to create new processes without copying the page tables of the parent process. calling thread is suspended until the child call execve or _exit. Points To Remember vfork()is an obsolete optimization. Before good memory management, fork()made a full copy of the parent&amp;rsquo;s memory, so it was pretty expensive. since in many cases a fork()was followed by `exec(), which discards the current memory map and creates a new one, it was a needless expense.</description>
     </item>
     <item>
       <title>Binary semaphore example between threads in C</title>
       <link>http://localhost:1313/posts/binary-semaphore-example-between-threads-in-c/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/binary-semaphore-example-between-threads-in-c/</guid>
-      <description>Semaphore is a synchronization mechanism. In more words, semaphores are a technique for coordinating or synchronizing activities in which multiple processes compete for the same resources. There are 2 types of semaphores: Binary semaphores &amp;amp; Counting semaphores. But our focus would be on binary semaphore only. That too binary semaphore example between threads in C language specifically. If you are in search of semaphore between processes then see this.&#xA;As its name suggest binary semaphore can have a value either 0 or 1.</description>
+      <description>Semaphore is a synchronization mechanism. In more words, semaphores are a technique for coordinating or synchronizing activities in which multiple processes compete for the same resources. There are 2 types of semaphores: Binary semaphores &amp;amp; Counting semaphores. But our focus would be on binary semaphore only. That too binary semaphore example between threads in C language specifically. If you are in search of semaphore between processes then see this.
+As its name suggest binary semaphore can have a value either 0 or 1.</description>
     </item>
     <item>
       <title>Clone system call example</title>
       <link>http://localhost:1313/posts/clone-system-call-example/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/clone-system-call-example/</guid>
-      <description>This is a quick article on Clone system call example without talking shit. So let&amp;rsquo;s see some pointers for the same :&#xA;clone() creates a new process, in a manner similar to fork. It is actually a library function layered on top of the underlying clone()system call. Unlike fork , these calls allow the child process to share parts of its execution context with the calling process, such as the memory space, the table of file descriptors, and the table of signal handlers.</description>
+      <description>This is a quick article on Clone system call example without talking shit. So let&amp;rsquo;s see some pointers for the same :
+clone() creates a new process, in a manner similar to fork. It is actually a library function layered on top of the underlying clone()system call. Unlike fork , these calls allow the child process to share parts of its execution context with the calling process, such as the memory space, the table of file descriptors, and the table of signal handlers.</description>
     </item>
     <item>
       <title>Create Process Using fork()</title>
       <link>http://localhost:1313/posts/create-process-using-fork/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/create-process-using-fork/</guid>
-      <description>Points To Catch Link to heading When we fork in any process it simply creates a copy of the same process which we call child process Parent Child return PID 0 Fork returns 0 in the child process &amp;amp; PID of the child process in the parent process, which you can see in above example. returns -1 on failer.&#xA;Create copy of process including memory variables &amp;amp; stored value in it with its own address space Example 1 Link to heading #include &amp;lt;stdio.</description>
+      <description>Points To Catch When we fork in any process it simply creates a copy of the same process which we call child process Parent Child return PID 0 Fork returns 0 in the child process &amp;amp; PID of the child process in the parent process, which you can see in above example. returns -1 on failer.
+Create copy of process including memory variables &amp;amp; stored value in it with its own address space Example 1 #include &amp;lt;stdio.</description>
     </item>
     <item>
       <title>Dealing with Multiple file descriptor : poll() system call</title>
       <link>http://localhost:1313/posts/dealing-with-multiple-file-descriptor-poll-system-call/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/dealing-with-multiple-file-descriptor-poll-system-call/</guid>
-      <description>Why use poll()? Link to heading Suppose you have to deal with multiple clients connected at the same time. A natural question, then, is: how can you read from multiple file descriptors (sockets) at once? Do you need to make some really annoyingly multi-threaded code to handle each client that&amp;rsquo;s connected? Do you have to go into some stupid loop constantly checking each socket to see if data&amp;rsquo;s available? You can resolve this issue efficiently by polling file descriptor(Sockets here).</description>
+      <description>Why use poll()? Suppose you have to deal with multiple clients connected at the same time. A natural question, then, is: how can you read from multiple file descriptors (sockets) at once? Do you need to make some really annoyingly multi-threaded code to handle each client that&amp;rsquo;s connected? Do you have to go into some stupid loop constantly checking each socket to see if data&amp;rsquo;s available? You can resolve this issue efficiently by polling file descriptor(Sockets here).</description>
     </item>
     <item>
       <title>Error Handling : setjmp &amp; longjmp</title>
       <link>http://localhost:1313/posts/error-handling-setjmp-longjmp/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/error-handling-setjmp-longjmp/</guid>
-      <description>Points To Catch Link to heading As for the control flow: setjmp returns twice, and longjmp never returns. When you call setjmp for the first time, to store the environment, it returns zero, And then when you call longjmp, the control flow passes to return from setjmp with the value provided in the argument. Use cases are generally cited as &amp;ldquo;error handling&amp;rdquo;, and &amp;ldquo;don&amp;rsquo;t use these functions&amp;rdquo;. Note: setjmp needn&amp;rsquo;t actually be functions; it may well be a macro.</description>
+      <description>Points To Catch As for the control flow: setjmp returns twice, and longjmp never returns. When you call setjmp for the first time, to store the environment, it returns zero, And then when you call longjmp, the control flow passes to return from setjmp with the value provided in the argument. Use cases are generally cited as &amp;ldquo;error handling&amp;rdquo;, and &amp;ldquo;don&amp;rsquo;t use these functions&amp;rdquo;. Note: setjmp needn&amp;rsquo;t actually be functions; it may well be a macro.</description>
     </item>
     <item>
       <title>Execute Threads Parallelly at Given Time: pthread_barrier_t</title>
       <link>http://localhost:1313/posts/execute-threads-parallelly-at-given-time-pthread_barrier_t/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/execute-threads-parallelly-at-given-time-pthread_barrier_t/</guid>
-      <description>Why we need pthread_barrier_t? Link to heading When multiple threads are working together, it might be required that the threads wait for each other at a certain event or point in the program before proceeding ahead. Let us say we have four threads, each of which is going to initialize a global variable. The 4 variables, in turn, might be used by all the four threads. Thus it would be feasible that all the threads wait for each other to finish the initialization of the variables before proceeding.</description>
+      <description>Why we need pthread_barrier_t? When multiple threads are working together, it might be required that the threads wait for each other at a certain event or point in the program before proceeding ahead. Let us say we have four threads, each of which is going to initialize a global variable. The 4 variables, in turn, might be used by all the four threads. Thus it would be feasible that all the threads wait for each other to finish the initialization of the variables before proceeding.</description>
     </item>
     <item>
       <title>Semaphore between processes example in C</title>
@@ -104,28 +115,29 @@
       <link>http://localhost:1313/posts/shared-memory-ipc/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/shared-memory-ipc/</guid>
-      <description>Brief Link to heading As the name suggests, shared memory is a memory that may be shared by multiple programs with an intent to provide communication among them or avoid redundant copies. Points To Catch Link to heading shmget() Creates a shared memory segment, The key argument could be semaphore ID shmat(): Shared segment can be attached to a process address space using this API It can be detached using shmdt(), A shared segment can be attached multiple times by the same process The original owner of a shared memory segment can assign ownership to another user with `shmctl() List out shared memory areas by ipcs -m Get more info on the particular shared memory area ipcs -m -i [shmid] Remove shared memory ipcrm shm [shmid] Server.</description>
+      <description>Brief As the name suggests, shared memory is a memory that may be shared by multiple programs with an intent to provide communication among them or avoid redundant copies. Points To Catch shmget() Creates a shared memory segment, The key argument could be semaphore ID shmat(): Shared segment can be attached to a process address space using this API It can be detached using shmdt(), A shared segment can be attached multiple times by the same process The original owner of a shared memory segment can assign ownership to another user with `shmctl() List out shared memory areas by ipcs -m Get more info on the particular shared memory area ipcs -m -i [shmid] Remove shared memory ipcrm shm [shmid] Server.</description>
     </item>
     <item>
       <title>Signal Handling</title>
       <link>http://localhost:1313/posts/signal-handling/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/signal-handling/</guid>
-      <description>Points To Catch&#xA;Signals = software interrupts. The command kill -l on the bash would give us the following. 1) SIGHUP 2) SIGINT 3) SIGQUIT 4) SIGILL 5) SIGTRAP 6) SIGABRT 7) SIGBUS 8) SIGFPE 9) SIGKILL 10) SIGUSR1 11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM 16) SIGSTKFLT 17) SIGCHLD 18) SIGCONT 19) SIGSTOP 20) SIGTSTP 21) SIGTTIN 22) SIGTTOU 23) SIGURG 24) SIGXCPU 25) SIGXFSZ 26) SIGVTALRM 27) SIGPROF 28) SIGWINCH 29) SIGIO 30) SIGPWR 31) SIGSYS 34) SIGRTMIN 35) SIGRTMIN+1 36) SIGRTMIN+2 37) SIGRTMIN+3 38) SIGRTMIN+4 39) SIGRTMIN+5 40) SIGRTMIN+6 41) SIGRTMIN+7 42) SIGRTMIN+8 43) SIGRTMIN+9 44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13 48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9 56) SIGRTMAX-8 57) SIGRTMAX-7 58) SIGRTMAX-6 59) SIGRTMAX-5 60) SIGRTMAX-4 61) SIGRTMAX-3 62) SIGRTMAX-2 63) SIGRTMAX-1 64) SIGRTMAX Signals are also delivered to a process with the help of kill command.</description>
+      <description>Points To Catch
+Signals = software interrupts. The command kill -l on the bash would give us the following. 1) SIGHUP 2) SIGINT 3) SIGQUIT 4) SIGILL 5) SIGTRAP 6) SIGABRT 7) SIGBUS 8) SIGFPE 9) SIGKILL 10) SIGUSR1 11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM 16) SIGSTKFLT 17) SIGCHLD 18) SIGCONT 19) SIGSTOP 20) SIGTSTP 21) SIGTTIN 22) SIGTTOU 23) SIGURG 24) SIGXCPU 25) SIGXFSZ 26) SIGVTALRM 27) SIGPROF 28) SIGWINCH 29) SIGIO 30) SIGPWR 31) SIGSYS 34) SIGRTMIN 35) SIGRTMIN+1 36) SIGRTMIN+2 37) SIGRTMIN+3 38) SIGRTMIN+4 39) SIGRTMIN+5 40) SIGRTMIN+6 41) SIGRTMIN+7 42) SIGRTMIN+8 43) SIGRTMIN+9 44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13 48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9 56) SIGRTMAX-8 57) SIGRTMAX-7 58) SIGRTMAX-6 59) SIGRTMAX-5 60) SIGRTMAX-4 61) SIGRTMAX-3 62) SIGRTMAX-2 63) SIGRTMAX-1 64) SIGRTMAX Signals are also delivered to a process with the help of kill command.</description>
     </item>
     <item>
       <title>Socket Programming</title>
       <link>http://localhost:1313/posts/socket-programming/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/socket-programming/</guid>
-      <description>Points To Catch Link to heading On a single system, Two processes can communicate through Pipes Message queues Shared memory To communicate between two processes over a network, you need Socket Socket = Endpoint of communication between two systems on a network OR Combination of IP &amp;amp; Port Number Server Example Link to heading #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;arpa/inet.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;string.</description>
+      <description>Points To Catch On a single system, Two processes can communicate through Pipes Message queues Shared memory To communicate between two processes over a network, you need Socket Socket = Endpoint of communication between two systems on a network OR Combination of IP &amp;amp; Port Number Server Example #include &amp;lt;sys/socket.h&amp;gt; #include &amp;lt;netinet/in.h&amp;gt; #include &amp;lt;arpa/inet.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;errno.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; void ErrorAndExit(const char *str); #define IP &amp;#34;127.</description>
     </item>
     <item>
       <title>Thread Conditional Wait with Mutex : pthread_cond_t</title>
       <link>http://localhost:1313/posts/thread-conditional-wait-with-mutex-pthread_cond_t/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/thread-conditional-wait-with-mutex-pthread_cond_t/</guid>
-      <description>Brief Link to heading Condition variables provide yet another way for threads to synchronize. While mutexes implement synchronization by controlling thread access to data, condition variables allow threads to synchronize based upon the actual value of data. Without condition variables, the programmer would need to have threads continually polling (possibly in a critical section), to check if the condition is met. This can be very resource consuming since the thread would be continuously busy in this activity.</description>
+      <description>Brief Condition variables provide yet another way for threads to synchronize. While mutexes implement synchronization by controlling thread access to data, condition variables allow threads to synchronize based upon the actual value of data. Without condition variables, the programmer would need to have threads continually polling (possibly in a critical section), to check if the condition is met. This can be very resource consuming since the thread would be continuously busy in this activity.</description>
     </item>
     <item>
       <title>Understand ELF file format</title>
@@ -139,7 +151,7 @@
       <link>http://localhost:1313/posts/unix-domain-socket/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/unix-domain-socket/</guid>
-      <description>Brief Link to heading A Unix domain socket or IPC socket is a data communications endpoint for exchanging data between processes executing on the same host operating system. The API for Unix domain sockets is similar to that of an Internet socket, but rather than using an underlying network protocol, all communication occurs entirely within the operating system kernel. Unix domain sockets use the file system as their address namespace.</description>
+      <description>Brief A Unix domain socket or IPC socket is a data communications endpoint for exchanging data between processes executing on the same host operating system. The API for Unix domain sockets is similar to that of an Internet socket, but rather than using an underlying network protocol, all communication occurs entirely within the operating system kernel. Unix domain sockets use the file system as their address namespace. Processes reference Unix domain sockets as file system inodes, so two processes can communicate by opening the same socket.</description>
     </item>
   </channel>
 </rss>
