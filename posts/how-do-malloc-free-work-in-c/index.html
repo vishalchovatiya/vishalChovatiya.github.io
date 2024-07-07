@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  How Do malloc &amp; free Work in C! · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="As we know, the process can allocate &amp; deallocate memory using malloc &amp; free in C language. But do you ever consider what happens behind the scene ? or How do malloc &amp; free work? Let see
+Allocating Memory on the Heap Link to heading A process can allocate memory by increasing the size of the heap.
+Heap is a variable-size segment of contiguous virtual memory that begins just after the uninitialized data segment of a process and grows &amp; shrinks as memory allocated and freed.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How Do malloc &amp; free Work in C!">
+  <meta name="twitter:description" content="As we know, the process can allocate &amp; deallocate memory using malloc &amp; free in C language. But do you ever consider what happens behind the scene ? or How do malloc &amp; free work? Let see
+Allocating Memory on the Heap Link to heading A process can allocate memory by increasing the size of the heap.
+Heap is a variable-size segment of contiguous virtual memory that begins just after the uninitialized data segment of a process and grows &amp; shrinks as memory allocated and freed.">
+
+<meta property="og:url" content="http://localhost:1313/posts/how-do-malloc-free-work-in-c/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="How Do malloc &amp; free Work in C!">
+  <meta property="og:description" content="As we know, the process can allocate &amp; deallocate memory using malloc &amp; free in C language. But do you ever consider what happens behind the scene ? or How do malloc &amp; free work? Let see
+Allocating Memory on the Heap Link to heading A process can allocate memory by increasing the size of the heap.
+Heap is a variable-size segment of contiguous virtual memory that begins just after the uninitialized data segment of a process and grows &amp; shrinks as memory allocated and freed.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-10-08T00:00:00+00:00">
+    <meta property="article:modified_time" content="2016-10-08T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/how-do-malloc-free-work-in-c/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/how-do-malloc-free-work-in-c/">
+              How Do malloc &amp; free Work in C!
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2016-10-08T00:00:00Z">
+                October 8, 2016
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/c-language/">C-Language</a>
+      <span class="separator">•</span>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/How-do-malloc-free-work-vishal-chovatiya.png" alt="Featured image"/>
+        
+        <p>As we know, the process can allocate &amp; deallocate memory using malloc &amp; free in C language. But do you ever consider what happens behind the scene ? or How do malloc &amp; free work?  Let see</p>
+<h2 id="allocating-memory-on-the-heap">
+  Allocating Memory on the Heap
+  <a class="heading-link" href="#allocating-memory-on-the-heap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><img alt="How do malloc &amp; free work in C" src="/images/program-break-malloc-free-in-c.png"></p>
+<ul>
+<li>
+<p>A process can allocate memory by increasing the size of the heap.</p>
+</li>
+<li>
+<p>Heap is a variable-size segment of contiguous virtual memory that begins just after the uninitialized data segment of a process and grows &amp; shrinks as memory allocated and freed.</p>
+</li>
+<li>
+<p>The current limit of the heap referred to as the program break which is just at the end of the uninitialized data segment in process address space.</p>
+</li>
+<li>
+<p>Resizing the heap (i.e., allocating or de-allocating memory) is as simple as telling the kernel to adjust its idea of where the process’s program break is.</p>
+</li>
+<li>
+<p>To allocate memory, <a href="/posts/how-c-program-converted-into-assembly/" >C programs</a> normally use the malloc family of functions, which we describe shortly. However, we begin with a description of <code>brk()</code>&amp; `sbrk(), upon which the malloc functions are based.</p>
+</li>
+<li>
+<p><strong>Pre-requisites:</strong> <a href="/posts/how-c-program-stored-in-ram-memory/" >Memory layout of C program</a> OR <a href="https://www.kernel.org/doc/gorman/html/understand/understand007.html"  class="external-link" target="_blank" rel="noopener">Understanding of process address space</a></p>
+</li>
+</ul>
+<h3 id="brk-sbrk">
+  <code>brk()</code>&amp; `sbrk()
+  <a class="heading-link" href="#brk-sbrk">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">brk</span>(<span style="color:#66d9ef">void</span> end_data_segment);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sbrk</span>(<span style="color:#66d9ef">intptr_t</span> increment);
+</span></span></code></pre></div><ul>
+<li>The <code>brk()</code>is a system call which sets the program break to the location specified by <code>end_data_segment</code>. Since virtual memory is located in units of pages, <code>end_data_segment</code> is effectively rounded up to the next page boundary.</li>
+<li>A call to <code>sbrk()</code> adjusts the program break by adding an increment to it. On Linux, <code>sbrk()</code> is a library function implemented on top of <code>brk()</code>. On success, <code>sbrk()</code>returns the previous address of the program break. In other words, if we have increased the program break, then the return value is a pointer to the start of the newly allocated block of memory. The call <code>sbrk(0)</code> returns the current setting of the program break without changing it. This can be useful if we want to track the size of the heap, perhaps to monitor the behaviour of a memory allocation package.</li>
+<li>After the program break increased, the program may access any address in the newly allocated area, but no physical memory pages allocated yet. The kernel automatically allocates new physical pages on the first attempt by the process to access addresses in those pages.</li>
+</ul>
+<h2 id="how-does-malloc--free-work">
+  How Does malloc &amp; free Work?
+  <a class="heading-link" href="#how-does-malloc--free-work">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="malloc">
+  malloc
+  <a class="heading-link" href="#malloc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>When you malloc a block, it first checks how much memory you requested.</li>
+<li>There are 2 ways to get memory from the system: 1. <code>mmap()</code>, 2. <code>brk()</code></li>
+<li>When you request some byte to be allocated by malloc it checks for <code>MMAP_THRESHOLD</code> limit(this also depends upon library implementations). If you request more than that limit, then <code>mmap()</code>system call used to obtain the requested memory.</li>
+<li>Else it uses <code>brk()</code>syscall, increments the program break size &amp; gives you a pointer to start of newly allocate contiguous block.</li>
+<li>Whichever procedure it follows, it allocates a bit more memory than you asked for. This extra memory(also known as meta-data) used to store information such as the size of the allocated block. And a link to the next free/used a block in a chain of blocks, and sometimes some guard data(that helps the system to detect if you write past the end of your allocated block).</li>
+<li>Also, most allocators will round-up the total size and/or the start of your part of the memory to a multiple of bytes (e.g. on a 64-bit system may align the data to a multiple of 64 bits (8 bytes) as accessing data from non-aligned addresses can be more difficult and inefficient for the processor/bus), so you may also end up with some &ldquo;padding&rdquo; (unused bytes).</li>
+</ul>
+<h3 id="free">
+  free
+  <a class="heading-link" href="#free">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>As we know so far that we allocate the memory just by increasing the program&rsquo;s break.</li>
+<li>And upon your intellect, you must be thinking that free will lower this program break.</li>
+<li>But it&rsquo;s not, free simply adds the block of memory to list of free blocks that are recycled by future calls to <code>malloc()</code> But why?</li>
+<li>Well, the block of memory being freed is typically somewhere in the middle of the heap, rather than at the end, so that lowering the program break is not possible.</li>
+</ul>
+<h2 id="will-malloc-allocates-contiguously-in-memory-or-it-scattered">
+  Will malloc Allocates Contiguously in Memory or It Scattered?
+  <a class="heading-link" href="#will-malloc-allocates-contiguously-in-memory-or-it-scattered">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Yes &amp; no both, Here is why!</li>
+<li>In a typical OS, there exists the concepts of virtual memory and physical memory.</li>
+<li>Each process has its virtual memory range which is contiguous.</li>
+<li>When you allocate memory through malloc, the program break increased with respect to virtual memory. So your allocated byte is contiguous.</li>
+<li>But the OS, behind the scenes, is busy mapping virtual memory allocations onto real blocks of physical memory which do not be contiguous because this is how VMM(Virtual Memory Manager) works. You can read more about it <a href="/posts/how-does-virtual-memory-work/" >here</a>.</li>
+</ul>
+<h2 id="how-does-free-know-how-much-to-free">
+  How Does free Know How Much to Free?
+  <a class="heading-link" href="#how-does-free-know-how-much-to-free">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>If you still can not figure out the answer to this question, you may read the <a href="#How-do-malloc-&amp;-free-work" >above topics</a> again.</li>
+<li>Anyway. When you call `malloc(), you specify the amount of memory to allocate. The amount of memory used is slightly more than this and includes extra information that records (at least) how big the block is.</li>
+<li>You can&rsquo;t (reliably) access that other information - and nor should you.</li>
+<li>When you call `free(), it simply looks at the extra information to find out how big the block is.</li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  CRTP C&#43;&#43; Examples · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Curiously Recurring Template Pattern(CRTP) in C&#43;&#43; is definitely a powerful technique &amp; static alternative to virtual functions. But at the same time, learning it may seem a bit weird at first. If you are like me who struggled to grasp anything in one go. Then this article might help you to provide a thought process on where CRTP fits in day-to-day coding. And, if you are an Embedded Programmer, you may run into CRTP more often.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CRTP C&#43;&#43; Examples">
+  <meta name="twitter:description" content="Curiously Recurring Template Pattern(CRTP) in C&#43;&#43; is definitely a powerful technique &amp; static alternative to virtual functions. But at the same time, learning it may seem a bit weird at first. If you are like me who struggled to grasp anything in one go. Then this article might help you to provide a thought process on where CRTP fits in day-to-day coding. And, if you are an Embedded Programmer, you may run into CRTP more often.">
+
+<meta property="og:url" content="http://localhost:1313/posts/crtp-c-examples/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="CRTP C&#43;&#43; Examples">
+  <meta property="og:description" content="Curiously Recurring Template Pattern(CRTP) in C&#43;&#43; is definitely a powerful technique &amp; static alternative to virtual functions. But at the same time, learning it may seem a bit weird at first. If you are like me who struggled to grasp anything in one go. Then this article might help you to provide a thought process on where CRTP fits in day-to-day coding. And, if you are an Embedded Programmer, you may run into CRTP more often.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-07-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-07-03T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/crtp-c-examples/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/crtp-c-examples/">
+              CRTP C&#43;&#43; Examples
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-07-03T00:00:00Z">
+                July 3, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              12-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/CRTP-C-Examples.webp" alt="Featured image"/>
+        
+        <p>Curiously Recurring Template Pattern(CRTP) in C++ is definitely a powerful technique &amp; static alternative to virtual functions. But at the same time, learning it may seem a bit weird at first. If you are like me who struggled to grasp anything in one go. Then this article might help you to provide a thought process on where CRTP fits in day-to-day coding. And, if you are an Embedded Programmer, you may run into CRTP more often. Although, <code>std::variant</code> + <code>std::visit</code> will also help but 90% of the compilers for embedded processors are either not up to date with standard or dumb.</p>
+<p>There is various material effectively accessible for &ldquo;How&rdquo; and &ldquo;What&rdquo; on CRTP. So, I won&rsquo;t centre there rather address &ldquo;Where&rdquo; part i.e. CRTP Applicability.</p>
+<h2 id="crtp-and-static-polymorphism-in-c">
+  CRTP and Static Polymorphism In C++
+  <a class="heading-link" href="#crtp-and-static-polymorphism-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> specific_animal<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>specific_animal<span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>)<span style="color:#f92672">-&gt;</span>who(); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> animal<span style="color:#f92672">&lt;</span>dog<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;dog&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> animal<span style="color:#f92672">&lt;</span>cat<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;cat&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> specific_animal<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> who_am_i(animal<span style="color:#f92672">&lt;</span>specific_animal<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>animal) {
+</span></span><span style="display:flex;"><span>    animal.who();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat c;
+</span></span><span style="display:flex;"><span>who_am_i(c); <span style="color:#75715e">// prints `cat`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>dog d;
+</span></span><span style="display:flex;"><span>who_am_i(d); <span style="color:#75715e">// prints `dog`
+</span></span></span></code></pre></div><ul>
+<li><strong><em>Curiously Recurring Template Pattern widely employed for static polymorphism</em></strong> without bearing the cost of virtual dispatch mechanism. Consider the above code, we haven&rsquo;t used virtual keyword &amp; still achieved the functionality of polymorphism.</li>
+<li>How it works is not the topic of this article. So, I am leaving it to you to figure out.</li>
+</ul>
+<h2 id="limiting-object-count-with-crtp">
+  Limiting Object Count with CRTP
+  <a class="heading-link" href="#limiting-object-count-with-crtp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>There are times when you have to manage the critical resource with single or predefined object count. And we have <a href="/posts/singleton-design-pattern-in-modern-cpp/" >Singleton &amp; Monotone Design Patterns</a> for this. But this works as long as your object counts are smaller in number.</li>
+<li><strong><em>When you want to limit the arbitrary type to be limited with an arbitrary number of instances</em></strong>. CRTP will come to rescue:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ToBeLimited</span>, <span style="color:#66d9ef">uint32_t</span> maxInstance<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">LimitNoOfInstances</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">&gt;</span> cnt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	LimitNoOfInstances() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (cnt <span style="color:#f92672">&gt;=</span> maxInstance)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">throw</span> logic_error{<span style="color:#e6db74">&#34;Too Many Instances&#34;</span>};
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">++</span>cnt;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>LimitNoOfInstances() { <span style="color:#f92672">--</span>cnt; }
+</span></span><span style="display:flex;"><span>}; <span style="color:#75715e">// Copy, move &amp; other sanity checks to be complete
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">One</span> <span style="color:#f92672">:</span> LimitNoOfInstances<span style="color:#f92672">&lt;</span>One, <span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span> {};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Two</span> <span style="color:#f92672">:</span> LimitNoOfInstances<span style="color:#f92672">&lt;</span>Two, <span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>, <span style="color:#66d9ef">uint32_t</span> maxNoOfInstace<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>atomic<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">&gt;</span> LimitNoOfInstances<span style="color:#f92672">&lt;</span>T, maxNoOfInstace<span style="color:#f92672">&gt;::</span>cnt(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">use_case</span>() {
+</span></span><span style="display:flex;"><span>	Two _2_0, _2_1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>		One _1_0, _1_1;
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">catch</span> (exception <span style="color:#f92672">&amp;</span>e) {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> e.what() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>You might be wondering that what is the point of the template parameter <code>ToBeLimited</code>, if it isn&rsquo;t used. In that case, you should have brush up your <a href="/posts/c-template-a-quick-uptodate-look/" >C++ Template</a> fundamentals or use <a href="https://cppinsights.io/"  class="external-link" target="_blank" rel="noopener">cppinsights.io</a>. As it isn&rsquo;t useless.</li>
+</ul>
+<h2 id="crtp-to-avoid-code-duplication">
+  CRTP to Avoid Code Duplication
+  <a class="heading-link" href="#crtp-to-avoid-code-duplication">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Let say you have a set of containers that support the functions <code>begin()</code> &amp; <code>end()</code> But, the standard library&rsquo;s requirements for containers require more functionalities like <code>front()</code>, <code>back()</code>, <code>size()</code>, etc.</li>
+<li>We can design such functionalities with a <strong><em>CRTP base class that provides common utilities solely based on derived class member function</em></strong> i.e. <code>begin()</code> &amp; <code>end()</code>in our cases:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Container</span> {
+</span></span><span style="display:flex;"><span>    T <span style="color:#f92672">&amp;</span>actual() { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>T <span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>    T <span style="color:#66d9ef">const</span> <span style="color:#f92672">&amp;</span>actual() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>T <span style="color:#66d9ef">const</span> <span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">decltype</span>(<span style="color:#66d9ef">auto</span>) front() { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">actual</span>().begin(); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">decltype</span>(<span style="color:#66d9ef">auto</span>) back() { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>std<span style="color:#f92672">::</span>prev(actual().end()); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">decltype</span>(<span style="color:#66d9ef">auto</span>) size() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>distance(actual().begin(), actual().end()); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">decltype</span>(<span style="color:#66d9ef">auto</span>) <span style="color:#66d9ef">operator</span>[](size_t i) { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>std<span style="color:#f92672">::</span>next(actual().begin(), i); }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>The above class provides the functions <code>front()</code>, <code>back()</code>, <code>size()</code> and <code>operator[ ]</code> for any subclass that has <code>begin()</code> &amp; <code>end()</code></li>
+<li>For example, subclass could be a simple dynamically allocated array as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DynArray</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Container<span style="color:#f92672">&lt;</span>DynArray<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span> {
+</span></span><span style="display:flex;"><span>	size_t m_size;
+</span></span><span style="display:flex;"><span>	unique_ptr<span style="color:#f92672">&lt;</span>T[]<span style="color:#f92672">&gt;</span> m_data;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	DynArray(size_t s) <span style="color:#f92672">:</span> m_size{s}, m_data{make_unique<span style="color:#f92672">&lt;</span>T[]<span style="color:#f92672">&gt;</span>(s)} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	T <span style="color:#f92672">*</span><span style="color:#a6e22e">begin</span>() { <span style="color:#66d9ef">return</span> m_data.get(); }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> T <span style="color:#f92672">*</span><span style="color:#a6e22e">begin</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_data.get(); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	T <span style="color:#f92672">*</span><span style="color:#a6e22e">end</span>() { <span style="color:#66d9ef">return</span> m_data.get() <span style="color:#f92672">+</span> m_size; }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> T <span style="color:#f92672">*</span><span style="color:#a6e22e">end</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_data.get() <span style="color:#f92672">+</span> m_size; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DynArray<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> arr(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>arr.front() <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>arr[<span style="color:#ae81ff">2</span>]		<span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span>asssert(arr.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>);
+</span></span></code></pre></div><h2 id="modern-c-composite-design-pattern-leveraging-crtp">
+  Modern C++ Composite Design Pattern Leveraging CRTP
+  <a class="heading-link" href="#modern-c-composite-design-pattern-leveraging-crtp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><a href="/posts/composite-design-pattern-in-modern-cpp/" >Composite Design Pattern</a> states that we should <strong><em>treat the group of objects in the same manner as a single object</em></strong>. And to implement such pattern we can leverage the CRTP.</li>
+<li>For example, as a part of machine learning, we have to deal with <code>Neuron</code> which for simplicity defined as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Neuron</span> {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>Neuron<span style="color:#f92672">*&gt;</span>     in, out;    <span style="color:#75715e">// Stores the input-output connnections to other Neurons
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">uint32_t</span>            id;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Neuron() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>id <span style="color:#f92672">=</span> id<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect_to</span>(Neuron <span style="color:#f92672">&amp;</span>other) {
+</span></span><span style="display:flex;"><span>        out.push_back(<span style="color:#f92672">&amp;</span>other);
+</span></span><span style="display:flex;"><span>        other.in.push_back(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">friend</span> ostream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream <span style="color:#f92672">&amp;</span>os, <span style="color:#66d9ef">const</span> Neuron <span style="color:#f92672">&amp;</span>obj) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (Neuron <span style="color:#f92672">*</span>n : obj.in)
+</span></span><span style="display:flex;"><span>            os <span style="color:#f92672">&lt;&lt;</span> n<span style="color:#f92672">-&gt;</span>id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">--&gt;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">[&#34;</span> <span style="color:#f92672">&lt;&lt;</span> obj.id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;]&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (Neuron <span style="color:#f92672">*</span>n : obj.out)
+</span></span><span style="display:flex;"><span>            os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;[&#34;</span> <span style="color:#f92672">&lt;&lt;</span> obj.id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;]</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">--&gt;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> n<span style="color:#f92672">-&gt;</span>id <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> os;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Neuron n1, n2;
+</span></span><span style="display:flex;"><span>n1.connect_to(n2);
+</span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> n1 <span style="color:#f92672">&lt;&lt;</span> n2 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Output
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">[1]	--&gt;	2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1	--&gt;	[2]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>And there is also a <code>NeuronLayer</code> i.e. collection of <code>Neuron</code> which for simplicity defined as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">NeuronLayer</span> <span style="color:#f92672">:</span> vector<span style="color:#f92672">&lt;</span>Neuron<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    NeuronLayer(<span style="color:#66d9ef">int</span> count) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (count <span style="color:#f92672">--&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>            emplace_back(Neuron{});
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">friend</span> ostream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream <span style="color:#f92672">&amp;</span>os, NeuronLayer <span style="color:#f92672">&amp;</span>obj) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>n : obj)
+</span></span><span style="display:flex;"><span>            os <span style="color:#f92672">&lt;&lt;</span> n;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> os;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Now, if you want to connect the <code>Neuron</code> with <code>NeuronLayer</code> and vice-versa. You&rsquo;re going to have a total of four different functions as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Neuron<span style="color:#f92672">::</span>connect_to(Neuron<span style="color:#f92672">&amp;</span>)
+</span></span><span style="display:flex;"><span>Neuron<span style="color:#f92672">::</span>connect_to(NeuronLayer<span style="color:#f92672">&amp;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NeuronLayer<span style="color:#f92672">::</span>connect_to(NeuronLayer<span style="color:#f92672">&amp;</span>)
+</span></span><span style="display:flex;"><span>NeuronLayer<span style="color:#f92672">::</span>connect_to(Neuron<span style="color:#f92672">&amp;</span>)
+</span></span></code></pre></div><ul>
+<li>You see this is state-space explosion(permutation in layman terms) problem and it&rsquo;s not good. Because we want a single function that enumerable both the layer as well as individual neurons. CRTP comes handy here as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> Self<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SomeNeurons</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> connect_to(T <span style="color:#f92672">&amp;</span>other);
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Neuron</span> <span style="color:#f92672">:</span> SomeNeurons<span style="color:#f92672">&lt;</span>Neuron<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>Neuron<span style="color:#f92672">*&gt;</span>     in, out;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span>            id;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Neuron() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>id <span style="color:#f92672">=</span> id<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Neuron<span style="color:#f92672">*</span> <span style="color:#a6e22e">begin</span>() { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>; }
+</span></span><span style="display:flex;"><span>    Neuron<span style="color:#f92672">*</span> <span style="color:#a6e22e">end</span>() { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">NeuronLayer</span> <span style="color:#f92672">:</span> vector<span style="color:#f92672">&lt;</span>Neuron<span style="color:#f92672">&gt;</span>, SomeNeurons<span style="color:#f92672">&lt;</span>NeuronLayer<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    NeuronLayer(<span style="color:#66d9ef">int</span> count) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (count<span style="color:#f92672">--</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>            emplace_back(Neuron{});
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ----------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> Self<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> SomeNeurons<span style="color:#f92672">&lt;</span>Self<span style="color:#f92672">&gt;::</span>connect_to(T <span style="color:#f92672">&amp;</span>other) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (Neuron <span style="color:#f92672">&amp;</span>from : <span style="color:#f92672">*</span><span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>Self <span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (Neuron <span style="color:#f92672">&amp;</span>to : other) {
+</span></span><span style="display:flex;"><span>            from.out.push_back(<span style="color:#f92672">&amp;</span>to);
+</span></span><span style="display:flex;"><span>            to.in.push_back(<span style="color:#f92672">&amp;</span>from);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ----------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> Self<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>ostream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream <span style="color:#f92672">&amp;</span>os, SomeNeurons<span style="color:#f92672">&lt;</span>Self<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>object) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (Neuron <span style="color:#f92672">&amp;</span>obj : <span style="color:#f92672">*</span><span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>Self <span style="color:#f92672">*&gt;</span>(<span style="color:#f92672">&amp;</span>object)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (Neuron <span style="color:#f92672">*</span>n : obj.in)
+</span></span><span style="display:flex;"><span>            os <span style="color:#f92672">&lt;&lt;</span> n<span style="color:#f92672">-&gt;</span>id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">--&gt;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">[&#34;</span> <span style="color:#f92672">&lt;&lt;</span> obj.id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;]&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (Neuron <span style="color:#f92672">*</span>n : obj.out)
+</span></span><span style="display:flex;"><span>            os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;[&#34;</span> <span style="color:#f92672">&lt;&lt;</span> obj.id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;]</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">--&gt;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> n<span style="color:#f92672">-&gt;</span>id <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> os;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Neuron n1, n2;
+</span></span><span style="display:flex;"><span>    NeuronLayer l1{<span style="color:#ae81ff">1</span>}, l2{<span style="color:#ae81ff">2</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    n1.connect_to(l1); <span style="color:#75715e">// Scenario 1: Neuron connects to Layer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    l2.connect_to(n2); <span style="color:#75715e">// Scenario 2: Layer connects to Neuron
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    l1.connect_to(l2); <span style="color:#75715e">// Scenario 3: Layer connects to Layer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    n1.connect_to(n2); <span style="color:#75715e">// Scenario 4: Neuron connects to Neuron
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Neuron &#34;</span> <span style="color:#f92672">&lt;&lt;</span> n1.id <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> n1 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Neuron &#34;</span> <span style="color:#f92672">&lt;&lt;</span> n2.id <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> n2 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Layer &#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> l1 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Layer &#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> l2 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Output
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Neuron 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">[1]    --&gt;    3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">[1]    --&gt;    2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Neuron 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">4    --&gt;    [2]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">5    --&gt;    [2]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1    --&gt;    [2]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Layer 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1    --&gt;    [3]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">[3]    --&gt;    4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">[3]    --&gt;    5
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Layer 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">3    --&gt;    [4]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">[4]    --&gt;    2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">3    --&gt;    [5]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">[5]    --&gt;    2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>As you can see we have covered all four different permutation scenarios using a single <code>SomeNeurons::connect_to</code> method. And both <code>Neuron</code> &amp; <code>NeuronLayer</code> conforms to this interface via self templatization.</li>
+</ul>
+<h2 id="c20-spaceship-operator-with-the-help-of-crtp">
+  C++20 Spaceship Operator With the Help of CRTP
+  <a class="heading-link" href="#c20-spaceship-operator-with-the-help-of-crtp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="problem">
+  <strong>Problem</strong>
+  <a class="heading-link" href="#problem">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_1</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> value <span style="color:#f92672">&amp;</span>rhs) <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_x <span style="color:#f92672">&lt;</span> rhs.m_x; }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// bool operator==(const value &amp;rhs) const;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// bool operator!=(const value &amp;rhs) const;    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// List goes on. . . . . . . . . . . . . . . . . . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// data members to compare
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_2</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> value <span style="color:#f92672">&amp;</span>rhs) <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_x <span style="color:#f92672">&lt;</span> rhs.m_x; }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// bool operator==(const value &amp;rhs) const;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// bool operator!=(const value &amp;rhs) const;    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// List goes on. . . . . . . . . . . . . . . . . . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// data members to compare
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_3</span> { ...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_4</span> { ...
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// List goes on. . . . . . . . . . . . . . . . . . . .
+</span></span></span></code></pre></div><ul>
+<li>For each comparable objects, you need to define respective comparison operators. This is redundant because if we have an <code>operator &lt;</code> , we can overload other operators on the basis of it.</li>
+<li>Thus, <code>operator &lt;</code> is the only one operator having type information, other operators can be made type independent for <strong><em>reusability purpose</em></strong>.</li>
+</ul>
+<h3 id="solution-till-c17-with-crtp">
+  Solution till C++17 with CRTP
+  <a class="heading-link" href="#solution-till-c17-with-crtp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">derived</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">compare</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">:</span> compare<span style="color:#f92672">&lt;</span>value<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m_x;
+</span></span><span style="display:flex;"><span>    value(<span style="color:#66d9ef">int</span> x) <span style="color:#f92672">:</span> m_x(x) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">&lt;</span> (<span style="color:#66d9ef">const</span> value <span style="color:#f92672">&amp;</span>rhs) <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_x <span style="color:#f92672">&lt;</span> rhs.m_x; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">derived</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">&gt;</span> (<span style="color:#66d9ef">const</span> compare<span style="color:#f92672">&lt;</span>derived<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> compare<span style="color:#f92672">&lt;</span>derived<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>rhs) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// static_assert(std::is_base_of_v&lt;compare&lt;derived&gt;, derived&gt;); // Compile time safety measures
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> derived<span style="color:#f92672">&amp;&gt;</span>(rhs) <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> derived<span style="color:#f92672">&amp;&gt;</span>(lhs));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*  Same goes with other operators
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    == :: returns !(lhs &lt; rhs) and !(rhs &lt; lhs)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    != :: returns !(lhs == rhs)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    &gt;= :: returns (rhs &lt; lhs) or (rhs == lhs)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    &lt;= :: returns (lhs &lt; rhs) or (rhs == lhs) 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {   
+</span></span><span style="display:flex;"><span>    value v1{<span style="color:#ae81ff">5</span>}, v2{<span style="color:#ae81ff">10</span>};
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> boolalpha <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;v1 &gt; v2: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (v1 <span style="color:#f92672">&gt;</span> v2) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Now no need to write comparator operators for all the classes, 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Write only type dependent `operator &lt;` &amp; inherit with `compare&lt;T&gt;`
+</span></span></span></code></pre></div><h3 id="c20-solution--spaceship-operator">
+  C++20 Solution : Spaceship Operator
+  <a class="heading-link" href="#c20-solution--spaceship-operator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">value</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m_x;
+</span></span><span style="display:flex;"><span>    value(<span style="color:#66d9ef">int</span> x) <span style="color:#f92672">:</span> m_x(x) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;=&gt;</span>(<span style="color:#66d9ef">const</span> value <span style="color:#f92672">&amp;</span>rhs) <span style="color:#66d9ef">const</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Defaulted equality comparisons
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// More Info: https://en.cppreference.com/w/cpp/language/default_comparisons
+</span></span></span></code></pre></div><h2 id="enabling-polymorphic-method-chaining">
+  Enabling Polymorphic Method Chaining
+  <a class="heading-link" href="#enabling-polymorphic-method-chaining">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><em>Method Chaining</em> is a common syntax for invoking multiple methods on a single object back to back. That too, in a single statement without requiring variables to store the intermediate results. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Printer</span> {
+</span></span><span style="display:flex;"><span>    ostream <span style="color:#f92672">&amp;</span>m_stream;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Printer(ostream <span style="color:#f92672">&amp;</span>s) <span style="color:#f92672">:</span> m_stream(s) { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Printer <span style="color:#f92672">&amp;</span>print(<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;&amp;</span>t) {
+</span></span><span style="display:flex;"><span>        m_stream <span style="color:#f92672">&lt;&lt;</span> t;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Printer <span style="color:#f92672">&amp;</span>println(<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;&amp;</span>t) {
+</span></span><span style="display:flex;"><span>        m_stream <span style="color:#f92672">&lt;&lt;</span> t <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Printer{cout}.println(<span style="color:#e6db74">&#34;hello&#34;</span>).println(<span style="color:#ae81ff">500</span>);     <span style="color:#75715e">// Method Chaining
+</span></span></span></code></pre></div><ul>
+<li>But, when method chaining applied to an object hierarchy, things can go wrong. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColorPrinter</span> <span style="color:#f92672">:</span> Printer {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Color</span>{red, blue, green};
+</span></span><span style="display:flex;"><span>    ColorPrinter(ostream <span style="color:#f92672">&amp;</span>s) <span style="color:#f92672">:</span> Printer(s) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ColorPrinter <span style="color:#f92672">&amp;</span>SetConsoleColor(Color c) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ColorPrinter(cout).print(<span style="color:#e6db74">&#34;Hello&#34;</span>).SetConsoleColor(ColorPrinter<span style="color:#f92672">::</span>Color<span style="color:#f92672">::</span>red).println(<span style="color:#e6db74">&#34;Printer!&#34;</span>); <span style="color:#75715e">// Not OK
+</span></span></span></code></pre></div><ul>
+<li>Compiling above code prompt you with the following error:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>error: <span style="color:#e6db74">&#39;class Printer&#39;</span> has no member named <span style="color:#e6db74">&#39;SetConsoleColor&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ColorPrinter<span style="color:#f92672">(</span>cout<span style="color:#f92672">)</span>.print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello&#34;</span><span style="color:#f92672">)</span>.SetConsoleColor<span style="color:#f92672">(</span>ColorPrinter::Color::red<span style="color:#f92672">)</span>.println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Printer!&#34;</span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>                                  ^
+</span></span><span style="display:flex;"><span>                                  |____________ We have a <span style="color:#e6db74">&#39;Printer&#39;</span> here, not a <span style="color:#e6db74">&#39;ColorPrinter&#39;</span>
+</span></span></code></pre></div><ul>
+<li>This happens because we &ldquo;lose&rdquo; the concrete class as soon as we invoke a function of the base class.</li>
+<li>The CRTP can be useful to avoid such problem and to enable Polymorphic Method Chaining.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> ConcretePrinter<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Printer</span> {
+</span></span><span style="display:flex;"><span>    ostream <span style="color:#f92672">&amp;</span>m_stream;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Printer(ostream <span style="color:#f92672">&amp;</span>s) <span style="color:#f92672">:</span> m_stream(s) { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ConcretePrinter <span style="color:#f92672">&amp;</span>print(<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;&amp;</span>t) {
+</span></span><span style="display:flex;"><span>        m_stream <span style="color:#f92672">&lt;&lt;</span> t;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>ConcretePrinter <span style="color:#f92672">&amp;&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ConcretePrinter <span style="color:#f92672">&amp;</span>println(<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;&amp;</span>t) {
+</span></span><span style="display:flex;"><span>        m_stream <span style="color:#f92672">&lt;&lt;</span> t <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>ConcretePrinter <span style="color:#f92672">&amp;&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColorPrinter</span> <span style="color:#f92672">:</span> Printer<span style="color:#f92672">&lt;</span>ColorPrinter<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Color</span> { red, blue, green };
+</span></span><span style="display:flex;"><span>    ColorPrinter(ostream <span style="color:#f92672">&amp;</span>s) <span style="color:#f92672">:</span> Printer(s) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ColorPrinter <span style="color:#f92672">&amp;</span>SetConsoleColor(Color c) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ColorPrinter(cout).print(<span style="color:#e6db74">&#34;Hello &#34;</span>).SetConsoleColor(ColorPrinter<span style="color:#f92672">::</span>Color<span style="color:#f92672">::</span>red).println(<span style="color:#e6db74">&#34;Printer!&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="enabling-polymorphic-copy-construction-in-c-with-crtp">
+  Enabling Polymorphic Copy Construction in C++ with CRTP
+  <a class="heading-link" href="#enabling-polymorphic-copy-construction-in-c-with-crtp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="problem-1">
+  Problem
+  <a class="heading-link" href="#problem-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>C++ has the support of polymorphic object destruction using it’s base class’s <a href="/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>. But, equivalent support for creation and copying of objects is missing as С++ doesn’t support virtual constructor/<a href="/posts/all-about-copy-constructor-in-cpp-with-example/" >copy-constructors</a>.</li>
+<li>Moreover, you can’t create an object unless you know its static type, because the compiler must know the amount of space it needs to allocate. For the same reason, copy of an object also requires its type to known at compile-time.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {  <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>animal(){ cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;~animal</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; } };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> animal  { <span style="color:#f92672">~</span>dog(){ cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;~dog</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; } };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> animal  { <span style="color:#f92672">~</span>cat(){ cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;~cat</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; } };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who_am_i</span>(animal <span style="color:#f92672">*</span>who) { <span style="color:#75715e">// not sure whether `dog` would be passed here or `cat`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// How to `copy` object of the same type i.e. pointed by who?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> who; <span style="color:#75715e">// you can delete object pointed by who
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="solution-1--dynamic-polymorphism">
+  Solution 1 : Dynamic Polymorphism
+  <a class="heading-link" href="#solution-1--dynamic-polymorphism">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>As the name suggests, we will use virtual methods to delegate the act of copying(and/or creation) of the object as below:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> clone() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> animal {
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> clone() <span style="color:#66d9ef">override</span> { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>dog<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> animal {
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> clone() <span style="color:#66d9ef">override</span> { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>cat<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who_am_i</span>(animal <span style="color:#f92672">*</span>who) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> duplicate_who <span style="color:#f92672">=</span> who<span style="color:#f92672">-&gt;</span>clone(); <span style="color:#75715e">// `copy` object of same type i.e. pointed by who ?    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="solution-2--static-polymorphism">
+  Solution 2 : Static Polymorphism
+  <a class="heading-link" href="#solution-2--static-polymorphism">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Same thing can be accomplished with CRTP as below:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">specific</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> clone() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>specific<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>specific <span style="color:#f92672">&amp;&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span> <span style="color:#75715e">// Forcing animal class to be inherited
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    animal(<span style="color:#66d9ef">const</span> animal <span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> animal<span style="color:#f92672">&lt;</span>dog<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    dog(<span style="color:#66d9ef">const</span> dog <span style="color:#f92672">&amp;</span>) { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;copied dog&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> animal<span style="color:#f92672">&lt;</span>cat<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    cat(<span style="color:#66d9ef">const</span> cat <span style="color:#f92672">&amp;</span>) { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;copied cat&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">specific</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> who_am_i(animal<span style="color:#f92672">&lt;</span>specific<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>who) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> duplicate_who <span style="color:#f92672">=</span> who<span style="color:#f92672">-&gt;</span>clone(); <span style="color:#75715e">// `copy` object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h2 id="wrap-up">
+  Wrap-Up
+  <a class="heading-link" href="#wrap-up">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Everything comes with its own price. And CRTP is no exception. For example, if you are using CRTP with run time object creation, your code may behave weird. Moreover,</p>
+<ul>
+<li>As the base class is templated, you can not point derived class object with the base class pointer.</li>
+<li>Also, you can not create generic container like <code>std::vector&lt;animal*&gt;</code> because <code>animal</code> is not a class, but a template needing specialization. A container defined as <code>std::vector&lt;animal&lt;dog&gt;*&gt;</code> can only store <code>dog</code>s, not <code>cat</code>s. This is because each of the classes derived from the CRTP base class <code>animal</code> is a unique type. A common solution to this problem is to add one more layer of indirection i.e. abstract class with a virtual destructor, like the <code>abstract_animal</code> &amp; inherit <code>animal</code> class, allowing for the creation of a <code>std::vector&lt;`abstract_animal`*&gt;</code>.</li>
+</ul>
+<p>There are other useful application of CRTP as well. If you think I am missing any major one &amp; have any suggestion you can always reach me <a href="/posts/contact-2/" >here</a>.</p>
+<h2 id="references">
+  References
+  <a class="heading-link" href="#references">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><a href="https://www.wikiwand.com/en/Curiously_recurring_template_pattern"  class="external-link" target="_blank" rel="noopener">wikipedia</a></li>
+<li><a href="https://books.goalkicker.com/CPlusPlusBook/"  class="external-link" target="_blank" rel="noopener">C++ Notes for Professionals Stack Overflow Documentation</a></li>
+<li><a href="/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/" >Advanced C++ Concepts</a></li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

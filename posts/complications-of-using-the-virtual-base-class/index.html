@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Complications of Using the Virtual Base Class · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="In the previous article about How Does Virtual Base Class Works Internally? we have seen address resolution of virtual base class &amp; why it&rsquo;s needed. But I have not discussed Complications of Using the Virtual Base Class. Which we will see in this article. This is going to be a bit complex &amp; clumsy then learning the internal working of the virtual base class. But if you are not tired, then read forward.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Complications of Using the Virtual Base Class">
+  <meta name="twitter:description" content="In the previous article about How Does Virtual Base Class Works Internally? we have seen address resolution of virtual base class &amp; why it’s needed. But I have not discussed Complications of Using the Virtual Base Class. Which we will see in this article. This is going to be a bit complex &amp; clumsy then learning the internal working of the virtual base class. But if you are not tired, then read forward.">
+
+<meta property="og:url" content="http://localhost:1313/posts/complications-of-using-the-virtual-base-class/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Complications of Using the Virtual Base Class">
+  <meta property="og:description" content="In the previous article about How Does Virtual Base Class Works Internally? we have seen address resolution of virtual base class &amp; why it’s needed. But I have not discussed Complications of Using the Virtual Base Class. Which we will see in this article. This is going to be a bit complex &amp; clumsy then learning the internal working of the virtual base class. But if you are not tired, then read forward.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-12T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/complications-of-using-the-virtual-base-class/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/complications-of-using-the-virtual-base-class/">
+              Complications of Using the Virtual Base Class
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-12T00:00:00Z">
+                September 12, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              7-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/memory-layout-of-C-objects.png" alt="Featured image"/>
+        
+        <p>In the previous article about <a href="/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/" >How Does Virtual Base Class Works Internally?</a> we have seen address resolution of virtual base class &amp; why it&rsquo;s needed. But I have not discussed Complications of Using the Virtual Base Class. Which we will see in this article. This is going to be a bit complex &amp; clumsy then learning the internal working of the virtual base class. But if you are not tired, then read forward.</p>
+<p>I am re-posting the previous example here to refresh some memory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Top</span> { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> t; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Left</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">public</span> Top { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> l; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Right</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">public</span> Top { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> r; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bottom</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Left, <span style="color:#66d9ef">public</span> Right { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> b; };
+</span></span></code></pre></div><ul>
+<li>Class diagram</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    Top
+</span></span><span style="display:flex;"><span>   /   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>Left   Right
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">\ </span>  /
+</span></span><span style="display:flex;"><span>   Bottom
+</span></span></code></pre></div><h2 id="complications-of-downcasting-while-using-the-virtual-base-class">
+  Complications of Downcasting While Using the Virtual Base Class
+  <a class="heading-link" href="#complications-of-downcasting-while-using-the-virtual-base-class">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>As we have seen, <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >casting</a> of the object <code>Bottom</code> to <code>Right</code>(in other words, upcasting) requires adding offset to a pointer. One might be tempted to think that downcasting can then simply be implemented by subtracting the same offset.</li>
+<li>This process is not easy for the compiler as it seems. To understand this, let us go through an example.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AnotherBottom</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Left, <span style="color:#66d9ef">public</span> Right
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> ab1;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> ab2;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li><code>Bottom</code> &amp; <code>AnotherBottom</code> have the same inheritance hierarchy except for their own data members. Now consider the following code.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom<span style="color:#f92672">*</span> bottom1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom();
+</span></span><span style="display:flex;"><span>AnotherBottom<span style="color:#f92672">*</span> bottom2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AnotherBottom();
+</span></span><span style="display:flex;"><span>Top<span style="color:#f92672">*</span> top1 <span style="color:#f92672">=</span> bottom1;
+</span></span><span style="display:flex;"><span>Top<span style="color:#f92672">*</span> top2 <span style="color:#f92672">=</span> bottom2;
+</span></span><span style="display:flex;"><span>Left<span style="color:#f92672">*</span> left <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>Left<span style="color:#f92672">*&gt;</span>(top1);
+</span></span></code></pre></div><ul>
+<li>Following is memory layout for <code>Bottom</code> &amp; <code>AnotherBottom</code></li>
+</ul>
+<pre tabindex="0"><code>       |                        |                 |                        |
+       |------------------------|&lt;---- Bottom     |------------------------|&lt;---- AnotherBottom
+       |    Left::l             |                 |    Left::l             |
+       |------------------------|                 |------------------------|
+       |    Left::_vptr_Left    |                 |    Left::_vptr_Left    |
+       |------------------------|                 |------------------------|
+       |    Right::r            |                 |    Right::r            |
+       |------------------------|                 |------------------------|
+       |    Right::_vptr_Right  |                 |    Right::_vptr_Right  |
+       |------------------------|                 |------------------------|
+       |    Bottom::b           |                 |    AnotherBottom::ab1  |
+top1--&gt;|------------------------|                 |------------------------|
+       |    Top::t              |                 |    AnotherBottom::ab2  |
+       |------------------------|       top2-----&gt;|------------------------|  
+       |                        |                 |    Top::t              |
+                                                  |------------------------|
+                                                  |                        |
+</code></pre><ul>
+<li>Now consider how to implement the <code>static_cast</code> from <code>top1</code> to <code>left</code>, while taking into account that we do not know whether <code>top1</code> is pointing to an object of type <code>Bottom</code> or an object of type <code>AnotherBottom</code>. It can&rsquo;t be done! The necessary offset depends on the runtime type of <code>top1</code> (20 for <code>Bottom</code> and 24 for <code>AnotherBottom</code>). The compiler will complain:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>error: cannot convert from a pointer to base <span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">Top</span><span style="color:#960050;background-color:#1e0010">&#39;</span> to a pointer to derived <span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">Left</span><span style="color:#960050;background-color:#1e0010">&#39;</span> because the base is <span style="color:#66d9ef">virtual</span>
+</span></span></code></pre></div><ul>
+<li>Since we need runtime information, we need to use a <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >dynamic_cast</a> instead:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Left<span style="color:#f92672">*</span> left <span style="color:#f92672">=</span> <span style="color:#66d9ef">dynamic_cast</span><span style="color:#f92672">&lt;</span>Left<span style="color:#f92672">*&gt;</span>(top1);
+</span></span></code></pre></div><ul>
+<li>However, the compiler is still unhappy:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>error: cannot <span style="color:#66d9ef">dynamic_cast</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>top1<span style="color:#960050;background-color:#1e0010">&#39;</span> (of type <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Top</span><span style="color:#f92672">*</span><span style="color:#960050;background-color:#1e0010">&#39;</span>)to type <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Left</span><span style="color:#f92672">*</span><span style="color:#960050;background-color:#1e0010">&#39;</span> (source type is not polymorphic)
+</span></span></code></pre></div><ul>
+<li>The problem is that a dynamic_cast (as well as the use of <code>typeid</code>) needs <a href="https://en.wikipedia.org/wiki/Run-time_type_information"  class="external-link" target="_blank" rel="noopener">runtime type information</a> about the object pointed to by <code>top1</code>. The compiler did not include that because it did not think that was necessary. To force the compiler to include that, we can add a virtual destructor to <code>Top</code>:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Top</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>Top() {} <span style="color:#75715e">// This line creates magic for us
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">int</span> t;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Thus, for a downcasting object having virtual base class we need to have at least one <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual function</a> in the virtual base class.</li>
+</ul>
+<h2 id="double-pointer-hack">
+  <strong>Double Pointer Hack</strong>
+  <a class="heading-link" href="#double-pointer-hack">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>For below code:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom<span style="color:#f92672">*</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom();
+</span></span><span style="display:flex;"><span>Right<span style="color:#f92672">*</span> r <span style="color:#f92672">=</span> b;
+</span></span></code></pre></div><ul>
+<li>We already know that the value of <code>b</code> gets adjusted by 8 bytes before it is assigned to <code>r</code> so that it points to the <code>Right</code> section of the <code>Bottom</code> object). Thus, we can legally assign a <code>Bottom*</code> to a <code>Right*</code>. What about <code>Bottom**</code> and <code>Right**</code>?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom<span style="color:#f92672">**</span> bb <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>b;
+</span></span><span style="display:flex;"><span>Right<span style="color:#f92672">**</span> rr <span style="color:#f92672">=</span> bb;
+</span></span></code></pre></div><ul>
+<li>Should the compiler accept this? A quick test will show that the compiler will complain:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>error: invalid conversion from <span style="color:#960050;background-color:#1e0010">`</span>Bottom<span style="color:#f92672">**</span><span style="color:#960050;background-color:#1e0010">&#39;</span> to <span style="color:#960050;background-color:#1e0010">`</span>Right<span style="color:#f92672">**</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span></code></pre></div><ul>
+<li>Why? Suppose the compiler would accept the assignment of <code>bb</code> to <code>rr</code>. We can visualise the result as:</li>
+</ul>
+<pre tabindex="0"><code>  |----------| --------&gt; |---------|         |                        | 
+  |    bb    |           |    b    | ------&gt; |------------------------|&lt;---- Bottom
+  |----------|    /----&gt; |---------|         |    Left::l             |            
+                 /                           |------------------------|            
+                /                            |    Left::_vptr_Left    |            
+  |----------| /         |---------| ------&gt; |------------------------|            
+  |    rr    |           |    r    |         |    Right::r            |            
+  |----------|           |---------|         |------------------------|            
+                                             |    Right::_vptr_Right  |            
+                                             |------------------------|            
+                                             |    Bottom::b           |            
+                                             |------------------------|            
+                                             |    Top::t              |            
+                                             |------------------------|           
+                                             |                        |        
+</code></pre><ul>
+<li>So, <code>bb</code> and <code>rr</code> both point to <code>b</code>, and <code>b</code> and <code>r</code> point to the appropriate sections of the <code>Bottom</code> object. Now consider what happens when we assign to <code>*rr</code> (note that the type of <code>*rr</code> is <code>Right*</code>, so this assignment is valid):</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#f92672">*</span>rr <span style="color:#f92672">=</span> b;    
+</span></span></code></pre></div><ul>
+<li>This is essentially the same assignment as the assignment to <code>r</code> above. Thus, the compiler will implement it the same way! In particular, it will adjust the value of <code>b</code> by 8 bytes before it assigns it to <code>*rr</code>. But <code>*rr</code> pointed to <code>b</code>! If we visualise the result again:</li>
+</ul>
+<pre tabindex="0"><code>  |----------| --------&gt; |-----------|           |                        | 
+  |    bb    |           |     b     |           |------------------------|&lt;---- Bottom 
+  |----------|    /----&gt; |-----------|\          |    Left::l             |              
+                 /                     \         |------------------------|              
+                /                       \        |    Left::_vptr_Left    |              
+  |----------| /         |-----------|---\-----&gt; |------------------------|              
+  |    rr    |           |     r     |           |    Right::r            |              
+  |----------|           |-----------|           |------------------------|              
+                                                 |    Right::_vptr_Right  |              
+                                                 |------------------------|              
+                                                 |    Bottom::b           |              
+                                                 |------------------------|              
+                                                 |    Top::t              |              
+                                                 |------------------------|           
+                                                 |                        |  
+</code></pre><ul>
+<li>This is correct as long as we access the <code>Bottom</code> object through <code>*rr</code>, but as soon as we access it through <code>b</code> itself, all memory references will be off by 8 bytes — obviously a very undesirable situation.</li>
+<li>So, in summary, even if <code>*a</code> and <code>*b</code> are related by some subtyping relation, <code>**a</code> and <code>**b</code> are not.</li>
+</ul>
+<h2 id="constructors-of-virtual-bases">
+  <strong>Constructors of Virtual Bases</strong>
+  <a class="heading-link" href="#constructors-of-virtual-bases">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>The compiler must guarantees that the constructor for all virtual bases of a class gets invoked, and get invoked <strong>only once</strong>. If you don&rsquo;t explicitly call the constructors of your virtual base class (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.</li>
+<li>This can lead to some unexpected results. Consider the same class hierarchy again we have been considering so far, extended with constructors:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Top</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   Top() { a <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; } 
+</span></span><span style="display:flex;"><span>   Top(<span style="color:#66d9ef">int</span> _a) { a <span style="color:#f92672">=</span> _a; } 
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> a;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Left</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">public</span> Top
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   Left() { b <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>; }
+</span></span><span style="display:flex;"><span>   Left(<span style="color:#66d9ef">int</span> _a, <span style="color:#66d9ef">int</span> _b) <span style="color:#f92672">:</span> Top(_a) { b <span style="color:#f92672">=</span> _b; }
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> b;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Right</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">public</span> Top
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   Right() { c <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>; }
+</span></span><span style="display:flex;"><span>   Right(<span style="color:#66d9ef">int</span> _a, <span style="color:#66d9ef">int</span> _c) <span style="color:#f92672">:</span> Top(_a) { c <span style="color:#f92672">=</span> _c; }
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> c;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bottom</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Left, <span style="color:#66d9ef">public</span> Right
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   Bottom() { d <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>; } 
+</span></span><span style="display:flex;"><span>   Bottom(<span style="color:#66d9ef">int</span> _a, <span style="color:#66d9ef">int</span> _b, <span style="color:#66d9ef">int</span> _c, <span style="color:#66d9ef">int</span> _d) <span style="color:#f92672">:</span> Left(_a, _b), Right(_a, _c) 
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>      d <span style="color:#f92672">=</span> _d; 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> d;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>What would you expect this to output:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom <span style="color:#a6e22e">bottom</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>printf(<span style="color:#e6db74">&#34;%d %d %d %d %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, bottom.Left<span style="color:#f92672">::</span>a, bottom.Right<span style="color:#f92672">::</span>a, bottom.b, bottom.c, bottom.d);
+</span></span></code></pre></div><ul>
+<li>You would probably get</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span>
+</span></span></code></pre></div><ul>
+<li>I know you were expecting different. But if you trace the execution of the constructors, you will find</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Top<span style="color:#f92672">::</span>Top()
+</span></span><span style="display:flex;"><span>Left<span style="color:#f92672">::</span>Left(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>Right<span style="color:#f92672">::</span>Right(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>Bottom<span style="color:#f92672">::</span>Bottom(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>)
+</span></span></code></pre></div><ul>
+<li>As explained above, the compiler has inserted a call to the default constructor in <code>Bottom</code>, before the execution of the other constructors. Then when Left tries to call its base class constructor(<code>Top</code>), we find that <code>Top</code> has already been initialised and the constructor does not get invoked.</li>
+<li>To avoid this situation, you should explicitly call the constructor of your virtual base(s):</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom(<span style="color:#66d9ef">int</span> _a, <span style="color:#66d9ef">int</span> _b, <span style="color:#66d9ef">int</span> _c, <span style="color:#66d9ef">int</span> _d)<span style="color:#f92672">:</span> Top(_a), Left(_a,_b), Right(_a,_c) 
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>   d <span style="color:#f92672">=</span> _d; 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Pointer Equivalence</strong></p>
+<ul>
+<li>Once again assuming the same (virtual) class hierarchy, would you expect this to print “Equal”?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom<span style="color:#f92672">*</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom(); 
+</span></span><span style="display:flex;"><span>Right<span style="color:#f92672">*</span> r <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(r <span style="color:#f92672">==</span> b)
+</span></span><span style="display:flex;"><span>   printf(<span style="color:#e6db74">&#34;Equal!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span></code></pre></div><ul>
+<li>Bear in mind that the two addresses are not actually equal (<code>r</code> is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from <code>r</code> before comparing it to <code>b</code>; thus, the two addresses are considered equal.</li>
+<li>Although, this also stands true for the following code.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">base1</span>{};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">base2</span>{};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">derived</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> base1, <span style="color:#66d9ef">public</span> base2{};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>derived <span style="color:#f92672">*</span>d <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> derived();
+</span></span><span style="display:flex;"><span>base2 <span style="color:#f92672">*</span>b2 <span style="color:#f92672">=</span> d;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(b2 <span style="color:#f92672">==</span> d)
+</span></span><span style="display:flex;"><span>   printf(<span style="color:#e6db74">&#34;Equal!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span></code></pre></div><h2 id="reference">
+  Reference
+  <a class="heading-link" href="#reference">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><a href="http://www.avabodh.com/cxxin/virtualbase.html"  class="external-link" target="_blank" rel="noopener">http://www.avabodh.com/cxxin/virtualbase.html</a></li>
+<li><a href="https://stackoverflow.com/questions/21558/in-c-what-is-a-virtual-base-class"  class="external-link" target="_blank" rel="noopener">https://stackoverflow.com/questions/21558/in-c-what-is-a-virtual-base-class</a></li>
+<li><a href="https://web.archive.org/web/20160413064252/http://www.phpcompiler.org/articles/virtualinheritance.html"  class="external-link" target="_blank" rel="noopener">https://web.archive.org/web/20160413064252/http://www.phpcompiler.org/articles/virtualinheritance.html</a></li>
+<li>Book: Inside C++ Object Model By Lippman</li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

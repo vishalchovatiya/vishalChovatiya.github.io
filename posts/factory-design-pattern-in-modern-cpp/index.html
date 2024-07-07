@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Factory Design Pattern in Modern C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C&#43;&#43; helps to mitigate this issue by creating objects using separate methods or polymorphic classes.
+By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Factory Design Pattern in Modern C&#43;&#43;">
+  <meta name="twitter:description" content="In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C&#43;&#43; helps to mitigate this issue by creating objects using separate methods or polymorphic classes.
+By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:">
+
+<meta property="og:url" content="http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Factory Design Pattern in Modern C&#43;&#43;">
+  <meta property="og:description" content="In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C&#43;&#43; helps to mitigate this issue by creating objects using separate methods or polymorphic classes.
+By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-06T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/">
+              Factory Design Pattern in Modern C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-06T00:00:00Z">
+                April 6, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              10-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-patterns/">Design-Patterns</a>
+      <span class="separator">•</span>
+    <a href="/categories/software-engineering/">Software-Engineering</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Factory-Design-Pattern-in-Modern-C-vishal-chovatiya.webp" alt="Featured image"/>
+        
+        <p>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C++ helps to mitigate this issue by <strong><em>creating objects using separate methods or polymorphic classes</em></strong>.</p>
+<p>By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</p>
+<ol>
+<li><a href="/posts//factory-design-pattern-in-modern-cpp/" >Factory</a></li>
+<li><a href="/posts//builder-design-pattern-in-modern-cpp/" >Builder</a></li>
+<li><a href="/posts//prototype-design-pattern-in-modern-cpp/" >Prototype</a></li>
+<li><a href="/posts//singleton-design-pattern-in-modern-cpp/" >Singleton</a></li>
+</ol>
+<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
+<p><strong><em>Note:</em></strong></p>
+<ul>
+<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
+<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
+</ul>
+<h2 id="intent">
+  Intent
+  <a class="heading-link" href="#intent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<blockquote>
+<p><strong><em>For the creation of wholesale objects unlike builder(which creates piecewise).</em></strong></p>
+</blockquote>
+<h2 id="motivation">
+  Motivation
+  <a class="heading-link" href="#motivation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Let say you have a <code>Point</code> class having <code>x</code> &amp; <code>y</code> as co-ordinates which can be Cartesian or Polar coordinate as below:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>	Point(<span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">float</span> y){ <span style="color:#75715e">/*...*/</span> } 		<span style="color:#75715e">// Cartesian co-ordinates
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Not OK: Cannot overload with same type of arguments
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// Point(float a, float b){ /*...*/ } 	 // Polar co-ordinates
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ... Implementation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><ul>
+<li>This isn&rsquo;t possible as you might know you can not create two constructors with the same type of arguments.</li>
+<li>Other way around is:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PointType</span>{ cartesian, polar };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    Point(<span style="color:#66d9ef">float</span> a, <span style="color:#66d9ef">float</span> b, PointTypetype <span style="color:#f92672">=</span> PointType<span style="color:#f92672">::</span>cartesian) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (type <span style="color:#f92672">==</span> PointType<span style="color:#f92672">::</span>cartesian) {
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> a; b <span style="color:#f92672">=</span> y;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> cos(b);
+</span></span><span style="display:flex;"><span>            y <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> sin(b);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>But this isn&rsquo;t a sophisticated way of doing this. Rather we should delegate separate instantiation to separate methods.</li>
+</ul>
+<h2 id="factory-design-pattern-examples-in-c">
+  Factory Design Pattern Examples in C++
+  <a class="heading-link" href="#factory-design-pattern-examples-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>So as you can guess. We are going to mitigate constructor limitation by moving the initialization process from constructor to other structure. And we gonna be using the Factory Method for that.</li>
+<li>And just as the name suggests it uses the method or member function to initialize the object.</li>
+</ul>
+<h3 id="factory-method">
+  Factory Method
+  <a class="heading-link" href="#factory-method">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PointType</span> { cartesian, polar };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> 		m_x;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> 		m_y;
+</span></span><span style="display:flex;"><span>	PointType 	m_type;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Private constructor, so that object can&#39;t be created directly
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Point(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> y, PointType t) <span style="color:#f92672">:</span> m_x{x}, m_y{y}, m_type{t} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">friend</span> ostream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream <span style="color:#f92672">&amp;</span>os, <span style="color:#66d9ef">const</span> Point <span style="color:#f92672">&amp;</span>obj) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;x: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> obj.m_x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; y: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> obj.m_y;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Point <span style="color:#a6e22e">NewCartesian</span>(<span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">float</span> y) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> {x, y, PointType<span style="color:#f92672">::</span>cartesian};
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Point <span style="color:#a6e22e">NewPolar</span>(<span style="color:#66d9ef">float</span> a, <span style="color:#66d9ef">float</span> b) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> {a <span style="color:#f92672">*</span> cos(b), a <span style="color:#f92672">*</span> sin(b), PointType<span style="color:#f92672">::</span>polar};
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Point p{ 1,2 };  // will not work
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">auto</span> p <span style="color:#f92672">=</span> Point<span style="color:#f92672">::</span>NewPolar(<span style="color:#ae81ff">5</span>, M_PI_4);
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> p <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#75715e">// x: 3.53553 y: 3.53553
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As you can observe from the implementation. It actually disallows the use of constructor &amp; forcing users to use static methods instead. And this is the essence of the <strong><em>Factory Method i.e. private constructor &amp; static method</em></strong>.</li>
+</ul>
+<h3 id="classical-factory-design-pattern">
+  Classical Factory Design Pattern
+  <a class="heading-link" href="#classical-factory-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>If you have dedicated code for construction then why don&rsquo;t we move it to a dedicated class! And Just to separation the concerns i.e. <a href="/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/" >Single Responsibility Principle</a> from SOLID design principles.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... as it is from above
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">friend</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PointFactory</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PointFactory</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> Point NewCartesian(<span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">float</span> y) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> { x, y };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> Point <span style="color:#a6e22e">NewPolar</span>(<span style="color:#66d9ef">float</span> r, <span style="color:#66d9ef">float</span> theta) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> { r<span style="color:#f92672">*</span>cos(theta), r<span style="color:#f92672">*</span>sin(theta) };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Mind that this is not the abstract factory this is a concrete factory.</li>
+<li>Making the <code>PointFactory</code> friend class of <code>Point</code> we have violated the <a href="/posts/open-closed-principle-in-cpp-solid-as-a-rock/" >Open-Closed Principle</a>(OCP). As friend keyword itself contrary to OCP.</li>
+</ul>
+<h3 id="inner-factory">
+  Inner Factory
+  <a class="heading-link" href="#inner-factory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>There is a critical thing we missed in our Factory that there is no strong link between <code>PointFactory</code> &amp; <code>Point</code> which confuses user to use <code>Point</code> just by seeing everything is <code>private</code>.</li>
+<li>So rather than designing a factory outside the class. We can simply put it in the class which encourage users to use Factory.</li>
+<li>Thus, we also serve the second problem which is breaking the <a href="/posts/open-closed-principle-in-cpp-solid-as-a-rock/" >Open-Closed Principle</a>. And this will be somewhat more intuitive for the user to use Factory.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>   m_x;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>   m_y;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Point(<span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">float</span> y) <span style="color:#f92672">:</span> m_x(x), m_y(y) {}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Factory</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">static</span> Point <span style="color:#a6e22e">NewCartesian</span>(<span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">float</span> y) { <span style="color:#66d9ef">return</span> { x,y }; }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">static</span> Point <span style="color:#a6e22e">NewPolar</span>(<span style="color:#66d9ef">float</span> r, <span style="color:#66d9ef">float</span> theta) { <span style="color:#66d9ef">return</span>{ r<span style="color:#f92672">*</span>cos(theta), r<span style="color:#f92672">*</span>sin(theta) }; }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> p <span style="color:#f92672">=</span> Point<span style="color:#f92672">::</span>Factory<span style="color:#f92672">::</span>NewCartesian(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="abstract-factory">
+  Abstract Factory
+  <a class="heading-link" href="#abstract-factory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="why-do-we-need-an-abstract-factory">
+  Why do we need an Abstract Factory?
+  <a class="heading-link" href="#why-do-we-need-an-abstract-factory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>C++ has the support of polymorphic object destruction using it’s base class’s <a href="/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>. Similarly, equivalent support for creation &amp; copying of objects is missing as C++ doesn&rsquo;t support <a href="/posts/7-advanced-cpp-concepts-idiom-examples-you-should-know/" >virtual constructor</a> &amp; <a href="/posts/all-about-copy-constructor-in-cpp-with-example/" >virtual copy constructors</a>.</li>
+<li>Moreover, you can’t create an object unless you know its static type, because the compiler must know the amount of space it needs to allocate. For the same reason, copy of an object also requires its type to known at compile-time.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>Point(){ cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~Point</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point2D</span> <span style="color:#f92672">:</span> Point {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Point2D(){ cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~Point2D</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point3D</span> <span style="color:#f92672">:</span> Point {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Point3D(){ cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~Point3D</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who_am_i</span>(Point <span style="color:#f92672">*</span>who) { <span style="color:#75715e">// Not sure whether Point2D would be passed here or Point3D
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// How to `create` the object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// How to `copy` object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">delete</span> who; <span style="color:#75715e">// you can delete object pointed by who, thanks to virtual destructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h4 id="example-of-abstract-factory-design-pattern">
+  Example of Abstract Factory Design Pattern
+  <a class="heading-link" href="#example-of-abstract-factory-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>The Abstract Factory is useful in a situation that requires the creation of many different types of objects, all derived from a common base type.</li>
+<li>The Abstract Factory defines a method for creating the objects, which <a href="/posts/memory-layout-of-cpp-object/" >subclasses</a> can then override to specify the derived type that will be created. Thus, at run time, the appropriate Abstract Factory Method will be called depending upon the type of object referenced/pointed &amp; return a base class pointer to a new instance of that object.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>Point() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> create() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> clone()	<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point2D</span> <span style="color:#f92672">:</span> Point {
+</span></span><span style="display:flex;"><span>	unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> create() { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Point2D<span style="color:#f92672">&gt;</span>(); }
+</span></span><span style="display:flex;"><span>	unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> clone() { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Point2D<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point3D</span> <span style="color:#f92672">:</span> Point {
+</span></span><span style="display:flex;"><span>	unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> create() { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Point3D<span style="color:#f92672">&gt;</span>(); }
+</span></span><span style="display:flex;"><span>	unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> clone() { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Point3D<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who_am_i</span>(Point <span style="color:#f92672">*</span>who) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> new_who	   <span style="color:#f92672">=</span> who<span style="color:#f92672">-&gt;</span>create(); <span style="color:#75715e">// `create` the object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">auto</span> duplicate_who <span style="color:#f92672">=</span> who<span style="color:#f92672">-&gt;</span>clone();	<span style="color:#75715e">// `copy` the object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">delete</span> who;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As shown above, we have leveraged polymorphic methods by delegating the act of creation &amp; copying the object to the derived class through the use of pure virtual methods.</li>
+<li>Above code is not only implement <a href="/posts/7-advanced-cpp-concepts-idiom-examples-you-should-know/#Virtual-Constructor" >virtual constructor</a>(i.e. <code>create()</code>) but also implements <a href="/posts/7-advanced-cpp-concepts-idiom-examples-you-should-know/#Virtual-Constructor" >virtual copy constructor</a>(i.e. <code>clone()</code>).</li>
+<li>Make sure while using Abstract Factory you have ensured the <a href="/posts/liskovs-substitution-principle-in-cpp-solid-as-a-rock/" >Liskov&rsquo;s Substitution Principle(LSP)</a>.</li>
+</ul>
+<h3 id="functional-approach-to-factory-design-pattern-using-modern-c">
+  Functional Approach to Factory Design Pattern using Modern C++
+  <a class="heading-link" href="#functional-approach-to-factory-design-pattern-using-modern-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>In our Abstract Factory example, we have followed the object-oriented approach but its equally possible nowadays to a more functional approach.</li>
+<li>So, let&rsquo;s build a similar kind of Factory without relying on polymorphic functionality as it might not suit some time-constrained application like an <a href="https://en.wikipedia.org/wiki/Embedded_system"  class="external-link" target="_blank" rel="noopener">embedded system</a>. Because the <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual table &amp; dynamic dispatch mechanism</a> may troll system during critical functionality.</li>
+<li>This is pretty straight forward as it uses functional &amp; <a href="/posts/learn-lambda-function-in-cpp-with-example/" >lambda functions</a> as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> { <span style="color:#75715e">/* . . . */</span> };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point2D</span> <span style="color:#f92672">:</span> Point {<span style="color:#75715e">/* . . . */</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point3D</span> <span style="color:#f92672">:</span> Point {<span style="color:#75715e">/* . . . */</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PointFunctionalFactory</span> {
+</span></span><span style="display:flex;"><span>    map<span style="color:#f92672">&lt;</span>PointType, function<span style="color:#f92672">&lt;</span>unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span>() <span style="color:#f92672">&gt;&gt;</span>      m_factories;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    PointFunctionalFactory() {
+</span></span><span style="display:flex;"><span>        m_factories[PointType<span style="color:#f92672">::</span>Point2D] <span style="color:#f92672">=</span> [] { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Point2D<span style="color:#f92672">&gt;</span>(); };
+</span></span><span style="display:flex;"><span>        m_factories[PointType<span style="color:#f92672">::</span>Point3D] <span style="color:#f92672">=</span> [] { <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Point3D<span style="color:#f92672">&gt;</span>(); };
+</span></span><span style="display:flex;"><span>    }    
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>Point<span style="color:#f92672">&gt;</span> create(PointType type) { <span style="color:#66d9ef">return</span> m_factories[type](); }  
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    PointFunctionalFactory pf;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> p2D <span style="color:#f92672">=</span> pf.create(PointType<span style="color:#f92672">::</span>Point2D);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>If you are thinking that we are over-engineering, then keep in mind that our object construction is simple here just to demonstrate the technique &amp; so does our lambda function.</li>
+<li>When your object representation increases, it requires a lot of methods to call in order to instantiate object properly, in such case you just need to modify lambda expression of the factory or introduce <a href="/posts/builder-design-pattern-in-modern-cpp/" >Builder Design Pattern</a>.</li>
+</ul>
+<h2 id="benefits-of-factory-design-pattern">
+  Benefits of Factory Design Pattern
+  <a class="heading-link" href="#benefits-of-factory-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>Single point/class for different object creation. Thus easy to maintain &amp; understand software.</li>
+<li>You can create the object without even knowing its type by using Abstract Factory.</li>
+<li>It provides great modularity. Imagine programming a video game, where you would like to add new types of enemies in the future, each of which has different AI functions and can update differently. By using a factory method, the controller of the program can call to the factory to create the enemies, without any dependency or knowledge of the actual types of enemies. Now, future developers can create new enemies, with new AI controls and new drawing member functions, add it to the factory, and create a level which calls the factory, asking for the enemies by name. Combine this method with an XML description of levels, and developers could create new levels without having to recompile their program. All this, thanks to the separation of creation of objects from the usage of objects.</li>
+<li>Allows you to change the design of your application more readily, this is known as loose coupling.</li>
+</ol>
+<h2 id="summary-by-faqs">
+  Summary by FAQs
+  <a class="heading-link" href="#summary-by-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>What is the correct way to implement the Factory Design Pattern in C++?</strong></p>
+<p>Abstract Factory &amp; Functional Factory is always a good choice.</p>
+<p><strong>Factory vs Abstract Factory vs Functional Factory?</strong></p>
+<ul>
+<li>Factory: Create an object with varied instantiation.</li>
+<li>Abstract Factor: Create an object without knowing its type &amp; refer using base class pointer &amp; reference. Access using polymorphic methods.</li>
+<li>Functional Factory: When object creation is more complex. Abstract Factory + <a href="/posts/builder-design-pattern-in-modern-cpp/" >Builder Design Pattern</a>. Although I have not included Builder in Functional Factory example.</li>
+</ul>
+<p><strong>What&rsquo;s the difference between Abstract Factory and Builder Design Pattern?</strong></p>
+<ul>
+<li>Factory produces the objects in wholesale that could be any object from inheritance hierarchy(like Point, Point2D, Point3D). While Builder deals with instantiation of an object that is limited to a single object(Although this statement is still debatable).</li>
+<li>You see Factory is all about wholesale object creation while the builder is piecewise object creation. In both the patterns, you can separate out the mechanism related to object creation in other classes.</li>
+</ul>
+<p><strong>When to use the Factory Design Pattern?</strong></p>
+<p>Employ Factory Design Pattern to create an object of required functionality(s) but the type of object will remain undecided or it will be decided on dynamic parameters being passed.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Memory Layout of C&#43;&#43; Object in Different Scenarios · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="In this article, we will see the memory layout of different C&#43;&#43; Object. And how different storage &amp; access specifiers affect this memory footprint. I am not going to discuss compiler augmented code, name mangling &amp; working of any C&#43;&#43; mechanism related to memory as it is compiler &amp; architecture-dependent. To keep this further simple, I have considered the standard stack growth direction i.e. downwards. And with the same, data members are represented inverted in memory(thanks to Thomas Vermeilh for pointing that out), that too I have ignored for simplicity.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Memory Layout of C&#43;&#43; Object in Different Scenarios">
+  <meta name="twitter:description" content="In this article, we will see the memory layout of different C&#43;&#43; Object. And how different storage &amp; access specifiers affect this memory footprint. I am not going to discuss compiler augmented code, name mangling &amp; working of any C&#43;&#43; mechanism related to memory as it is compiler &amp; architecture-dependent. To keep this further simple, I have considered the standard stack growth direction i.e. downwards. And with the same, data members are represented inverted in memory(thanks to Thomas Vermeilh for pointing that out), that too I have ignored for simplicity.">
+
+<meta property="og:url" content="http://localhost:1313/posts/memory-layout-of-cpp-object/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Memory Layout of C&#43;&#43; Object in Different Scenarios">
+  <meta property="og:description" content="In this article, we will see the memory layout of different C&#43;&#43; Object. And how different storage &amp; access specifiers affect this memory footprint. I am not going to discuss compiler augmented code, name mangling &amp; working of any C&#43;&#43; mechanism related to memory as it is compiler &amp; architecture-dependent. To keep this further simple, I have considered the standard stack growth direction i.e. downwards. And with the same, data members are represented inverted in memory(thanks to Thomas Vermeilh for pointing that out), that too I have ignored for simplicity.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-11T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/memory-layout-of-cpp-object/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/memory-layout-of-cpp-object/">
+              Memory Layout of C&#43;&#43; Object in Different Scenarios
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-11T00:00:00Z">
+                September 11, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              7-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/memory-layout-of-C-objects.png" alt="Featured image"/>
+        
+        <p>In this article, we will see the memory layout of different C++ Object. And how different storage &amp; access specifiers affect this memory footprint. I am not going to discuss compiler augmented code, name mangling &amp; working of any C++ mechanism related to memory as it is compiler &amp; architecture-dependent. To keep this further simple, I have considered the standard <a href="/posts/how-c-program-convert-into-assembly/" >stack growth direction</a> i.e. downwards. And with the same, data members are represented inverted in memory(thanks to Thomas Vermeilh for pointing that out), that too I have ignored for simplicity. Although if you want to play around with the same, you can refer to this <a href="https://godbolt.org/z/NTZ5Z5"  class="external-link" target="_blank" rel="noopener">link</a>.</p>
+<p>So, in nutshell, it&rsquo;s just all about <strong><em>&ldquo;How different objects are laid out in memory?&rdquo;</em></strong></p>
+<h3 id="memory-layout-of-simple--non-polymorphic-object-in-c">
+  Memory Layout of Simple &amp; Non-Polymorphic Object in C++
+  <a class="heading-link" href="#memory-layout-of-simple--non-polymorphic-object-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span>     x;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>   xx;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    X() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>X() {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printInt</span>() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printFloat</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Memory layout:</li>
+</ul>
+<pre tabindex="0"><code>      |                        |          
+      |------------------------| &lt;------ X class object memory layout
+      |        int X::x        |
+      |------------------------|  stack segment
+      |       float X::xx      |       |   
+      |------------------------|       |
+      |                        |      \|/
+      |                        |    
+      |                        |
+------|------------------------|----------------
+      |         X::X()         | 
+      |------------------------|       |   
+      |        X::~X()         |       |
+      |------------------------|      \|/
+      |      X::printInt()     |  text segment
+      |------------------------|
+      |     X::printFloat()    |
+      |------------------------|
+      |                        |            
+</code></pre><ul>
+<li>In conclusion of the above example, only data members got the space in the stack. That too as the same order of their declarations. Because this is guaranteed by most of the compilers, apparently.</li>
+<li>In addition, all other methods, constructor, destructor &amp; <a href="/posts/inside-the-cpp-object-model/" >compiler augmented code</a> goes into the <a href="/posts/how-c-program-stored-in-ram-memory/" >text segment</a>. These methods are then called &amp; passed <code>this</code> pointer implicitly of calling object in its 1st argument which we have already discussed in <a href="/posts/how-cpp-object-used-internally-in-the-executable/" >Inside The C++ Object Model</a>.</li>
+</ul>
+<h3 id="layout-of-an-object-with-virtual-function--static-data-member">
+  Layout of an Object With Virtual Function &amp; Static Data Member
+  <a class="heading-link" href="#layout-of-an-object-with-virtual-function--static-data-member">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span>         x;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>       xx;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span>  count;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    X() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>X() {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printAll</span>() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printInt</span>() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printFloat</span>() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printCount</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Memory layout:</li>
+</ul>
+<pre tabindex="0"><code>      |                        |          
+      |------------------------| &lt;------ X class object memory layout
+      |        int X::x        |
+stack |------------------------|
+  |   |       float X::xx      |                      
+  |   |------------------------|      |-------|--------------------------|
+  |   |         X::_vptr       |------|       |       type_info X        |
+ \|/  |------------------------|              |--------------------------|
+      |           o            |              |    address of X::~X()    |
+      |           o            |              |--------------------------|
+      |           o            |              | address of X::printAll() |
+      |                        |              |--------------------------|
+      |                        |
+------|------------------------|------------
+      |  static int X::count   |      /|\
+      |------------------------|       |
+      |           o            |  data segment           
+      |           o            |       |
+      |                        |      \|/
+------|------------------------|------------
+      |        X::X()          | 
+      |------------------------|       |   
+      |        X::~X()         |       |
+      |------------------------|       | 
+      |      X::printAll()     |      \|/ 
+      |------------------------|  text segment
+      |      X::printInt()     |
+      |------------------------|
+      |     X::printFloat()    |
+      |------------------------|
+      | static X::printCount() |
+      |------------------------|
+      |                        |
+</code></pre><ul>
+<li>As you can see above, all non-static data members got the space into the stack with the same order of their declaration which we have already seen in the previous example.</li>
+<li>And static data member got the space into the data segment of memory. Which access with scope resolution operator(i.e. <code>::</code>). But after compilation, there is nothing like scope &amp; namespace. Because, its just name mangling performed by the compiler, everything referred by its absolute or relative address. You can read more about name mangling in C++ <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjloqrohPToAhXDILcAHU4eC4kQFjABegQIDhAD&amp;url=https%3A%2F%2Fwww.ibm.com%2Fsupport%2Fknowledgecenter%2Fssw_ibm_i_72%2Frzarg%2Fname_mangling.htm&amp;usg=AOvVaw1JsTeSnCRnH6Cm-FjtqOUq"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+<li>Moreover, static methods go into the text segment and called with the scope resolution operator. Except for <code>this</code> pointer which is not passed in its argument.</li>
+<li>For virtual keyword, the compiler automatically inserts pointer(<code>_vptr</code>) to a virtual table into the object memory representation. So it transforms direct function calling in an indirect call(i.e. dynamic dispatch which I have discussed in <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >How Does Virtual Function Works Internally?</a>). Usually, virtual table created statically per class in the data segment, but it also depends on compiler implementation.</li>
+<li>In a virtual table, 1st entry points to a <a href="http://www.cplusplus.com/reference/typeinfo/type_info/"  class="external-link" target="_blank" rel="noopener"><code>type_info</code></a> object which contains information related to current class &amp; DAG(<a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=9&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjO_sWYgPToAhU4yzgGHfyzAGkQFjAIegQIARAB&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FDirected_acyclic_graph&amp;usg=AOvVaw1mxaV0fpCPG1RAZSFIC5oJ"  class="external-link" target="_blank" rel="noopener">Directed Acyclic Graph</a>) of other base classes if it is derived from them.</li>
+<li>I have not mentioned the data type of <code>_vptr</code> because the standard does not mention(even I don&rsquo;t know that).</li>
+</ul>
+<h3 id="layout-of-c-object-with-inheritance">
+  Layout of C++ Object With Inheritance
+  <a class="heading-link" href="#layout-of-c-object-with-inheritance">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span>     x;
+</span></span><span style="display:flex;"><span>    string str;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    X() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>X() {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printAll</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Y</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> X {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span>     y;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Y() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Y() {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printAll</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Memory layout:</li>
+</ul>
+<pre tabindex="0"><code>      |                              |          
+      |------------------------------| &lt;------ Y class object memory layout
+      |          int X::x            |
+stack |------------------------------|
+  |   |              int string::len |
+  |   |string X::str ----------------|
+  |   |            char* string::str |         
+ \|/  |------------------------------|      |-------|--------------------------|
+      |           X::_vptr           |------|       |       type_info Y        |
+      |------------------------------|              |--------------------------|
+      |          int Y::y            |              |    address of Y::~Y()    |
+      |------------------------------|              |--------------------------|
+      |               o              |              | address of Y::printAll() |
+      |               o              |              |--------------------------|
+      |               o              |              
+------|------------------------------|--------
+      |           X::X()             | 
+      |------------------------------|       |   
+      |           X::~X()            |       |
+      |------------------------------|       | 
+      |         X::printAll()        |      \|/ 
+      |------------------------------|  text segment
+      |           Y::Y()             |
+      |------------------------------|
+      |           Y::~Y()            |
+      |------------------------------|
+      |         Y::printAll()        |
+      |------------------------------|
+      |      string::string()        |
+      |------------------------------|
+      |      string::~string()       |
+      |------------------------------|
+      |      string::length()        |
+      |------------------------------|
+      |               o              |
+      |               o              |
+      |               o              |
+      |                              |
+</code></pre><ul>
+<li>In the inheritance model, a base class &amp; data member classes are a subobject of a derived class. So, a resultant memory map looks like the above diagram.</li>
+<li>Virtual table with all overridden virtual functions and code to assign <code>_vptr</code> with the virtual table is generated in the constructor of the class by the compiler. I have written more on this topic in the <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual function series</a>.</li>
+</ul>
+<h3 id="memory-layout-of-an-object-with-multiple-inheritances--virtual-function">
+  Memory Layout of an Object With Multiple Inheritances &amp; Virtual Function
+  <a class="heading-link" href="#memory-layout-of-an-object-with-multiple-inheritances--virtual-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span>     x;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>X() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printX</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Y</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span>     y;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>Y() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printY</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Z</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> X, <span style="color:#66d9ef">public</span> Y {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span>     z;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Z() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printX</span>() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printY</span>() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printZ</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Memory layout:</li>
+</ul>
+<pre tabindex="0"><code>      |                              |          
+      |------------------------------| &lt;------ Z class object memory layout
+stack |          int X::x            |         
+  |   |------------------------------|                  |--------------------------|      
+  |   |          X:: _vptr           |-----------------&gt;|       type_info Z        |
+  |   |------------------------------|                  |--------------------------|
+ \|/  |          int Y::y            |                  |    address of Z::~Z()    |
+      |------------------------------|                  |--------------------------|
+      |          Y:: _vptr           |------|           |   address of Z::printX() |
+      |------------------------------|      |           |--------------------------|
+      |          int Z::z            |      |           |--------GUARD_AREA--------|    
+      |------------------------------|      |           |--------------------------|
+      |              o               |      |----------&gt;|       type_info Z        |
+      |              o               |                  |--------------------------|
+      |              o               |                  |    address of Z::~Z()    |
+      |                              |                  |--------------------------|
+------|------------------------------|--------- |   address of Z::printY() |
+      |           X::~X()            |       |          |--------------------------|  
+      |------------------------------|       |          
+      |          X::printX()         |       |        
+      |------------------------------|       |         
+      |           Y::~Y()            |      \|/        
+      |------------------------------|  text segment
+      |          Y::printY()         |                
+      |------------------------------|                
+      |           Z::~Z()            |                
+      |------------------------------|                
+      |          Z::printX()         |                
+      |------------------------------|                
+      |          Z::printY()         |                
+      |------------------------------|                
+      |          Z::printZ()         |                
+      |------------------------------|                
+      |               o              |                
+      |               o              |                
+      |                              |                
+</code></pre><ul>
+<li>In multiple inheritance hierarchy, an exact number of the virtual table pointer(<code>_vptr</code>) created will be N-1, where N represents the number of classes.</li>
+<li>Now, the rest of the things will be easy to understand for you, I guess so.</li>
+<li>If you try to call a method of class <code>Z</code> using any base class pointer, then it will call using the respective virtual table. As an example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Y <span style="color:#f92672">*</span>y_ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Z;
+</span></span><span style="display:flex;"><span>y_ptr<span style="color:#f92672">-&gt;</span>printY(); <span style="color:#75715e">// OK
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>y_ptr<span style="color:#f92672">-&gt;</span>printZ(); <span style="color:#75715e">// Not OK, as virtual table of class Y doesn&#39;t have address of printZ() method
+</span></span></span></code></pre></div><ul>
+<li>In the above code, <code>y_ptr</code> will point to subobject of class Y within the complete <code>Z</code> object.</li>
+<li>As a result, call to any method for say <code>y_ptr-&gt;printY();</code> using <code>y_ptr</code> will be resolved like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span> ( <span style="color:#f92672">*</span>y_ptr<span style="color:#f92672">-&gt;</span>_vtbl[ <span style="color:#ae81ff">2</span> ] )( y_ptr )
+</span></span></code></pre></div><ul>
+<li>You must be wondering why I have passed <code>y_ptr</code> as an argument here. It&rsquo;s because of an implicit <code>this</code> pointer, you can learn about it <a href="/posts/how-cpp-object-used-internally-in-the-executable/" >here</a>.</li>
+</ul>
+<h3 id="layout-of-object-having-virtual-inheritance">
+  Layout of Object Having Virtual Inheritance
+  <a class="heading-link" href="#layout-of-object-having-virtual-inheritance">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span> { <span style="color:#66d9ef">int</span> x; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Y</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">virtual</span> X { <span style="color:#66d9ef">int</span> y; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Z</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">virtual</span> X { <span style="color:#66d9ef">int</span> z; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Y, <span style="color:#66d9ef">public</span> Z { <span style="color:#66d9ef">int</span> a; };
+</span></span></code></pre></div><ul>
+<li>Memory layout:</li>
+</ul>
+<pre tabindex="0"><code>                  |                |          
+ Y class  ------&gt; |----------------| &lt;------ A class object memory layout
+sub-object        |   Y::y         |          
+                  |----------------|             |------------------| 
+                  |   Y::_vptr_Y   |------|      |    offset of X   | // offset(20) starts from Y 
+ Z class  ------&gt; |----------------|      |----&gt; |------------------|     
+sub-object        |   Z::z         |             |       .....      |     
+                  |----------------|             |------------------|  
+                  |   Z::_vptr_Z   |------|       
+                  |----------------|      |        
+ A sub-object --&gt; |   A::a         |      |      |------------------| 
+                  |----------------|      |      |    offset of X   | // offset(12) starts from Z
+ X class -------&gt; |   X::x         |      |----&gt; |------------------|          
+ shared           |----------------|             |       .....      |           
+ sub-object       |                |             |------------------|           
+</code></pre><ul>
+<li>Memory representation of derived class having one or more virtual base class divides into two regions:
+<ol>
+<li>an invariant region</li>
+<li>a shared region</li>
+</ol>
+</li>
+<li>Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent derivations.</li>
+<li>However, shared region contains a virtual base class and it fluctuates with subsequent derivation &amp; order of derivation. I have discussed more on this in <a href="/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/" >How Does Virtual Inheritance Works?</a>.</li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

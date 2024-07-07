@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Decorator Design Pattern in Modern C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="In software engineering, Structural Design Patterns deal with the relationship between object &amp; classes i.e. how object &amp; classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&rsquo;re going to take a look at the not so complex yet subtle design pattern that is Decorator Design Pattern in Modern C&#43;&#43; due to its extensibility &amp; testability.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Decorator Design Pattern in Modern C&#43;&#43;">
+  <meta name="twitter:description" content="In software engineering, Structural Design Patterns deal with the relationship between object &amp; classes i.e. how object &amp; classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we’re going to take a look at the not so complex yet subtle design pattern that is Decorator Design Pattern in Modern C&#43;&#43; due to its extensibility &amp; testability.">
+
+<meta property="og:url" content="http://localhost:1313/posts/decorator-design-pattern-in-modern-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Decorator Design Pattern in Modern C&#43;&#43;">
+  <meta property="og:description" content="In software engineering, Structural Design Patterns deal with the relationship between object &amp; classes i.e. how object &amp; classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we’re going to take a look at the not so complex yet subtle design pattern that is Decorator Design Pattern in Modern C&#43;&#43; due to its extensibility &amp; testability.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-05T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/decorator-design-pattern-in-modern-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/decorator-design-pattern-in-modern-cpp/">
+              Decorator Design Pattern in Modern C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-05T00:00:00Z">
+                April 5, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-patterns/">Design-Patterns</a>
+      <span class="separator">•</span>
+    <a href="/categories/software-engineering/">Software-Engineering</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Decorator-Design-Pattern-in-Modern-C-vishal-chovatiya.png" alt="Featured image"/>
+        
+        <p>In software engineering, Structural Design Patterns deal with the relationship between object &amp; classes i.e. how object &amp; classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&rsquo;re going to take a look at the not so complex yet subtle design pattern that is Decorator Design Pattern in Modern C++ due to its extensibility &amp; testability. It is also <strong><em>known as Wrapper</em></strong>.</p>
+<p>By the way, If you haven’t check out my other articles on Structural Design Patterns, then here is the list:</p>
+<ol>
+<li><a href="/posts//adapter-design-pattern-in-modern-cpp/" >Adapter</a></li>
+<li><a href="/posts//bridge-design-pattern-in-modern-cpp/" >Bridge</a></li>
+<li><a href="/posts//composite-design-pattern-in-modern-cpp/" >Composite</a></li>
+<li><a href="/posts//decorator-design-pattern-in-modern-cpp/" >Decorator</a></li>
+<li><a href="/posts//facade-design-pattern-in-modern-cpp/" >Facade</a></li>
+<li><a href="/posts//flyweight-design-pattern-in-modern-cpp/" >Flyweight</a></li>
+<li><a href="/posts//proxy-design-pattern-in-modern-cpp/" >Proxy</a></li>
+</ol>
+<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
+<p><strong><em>Note:</em></strong></p>
+<ul>
+<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
+<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
+</ul>
+<h2 id="intent">
+  Intent
+  <a class="heading-link" href="#intent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<blockquote>
+<p><strong><em>To facilitates the additional functionality to objects.</em></strong></p>
+</blockquote>
+<ul>
+<li>Sometimes we have to augment the functionality of existing objects without rewrite or altering existing code, just to stick to the <a href="/posts/open-closed-principle-in-cpp-solid-as-a-rock/" >Open-Closed Principle</a>. This also preserves the <a href="/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/" >Single Responsibility Principle</a> to have extra functionality on the side.</li>
+</ul>
+<h2 id="decorator-design-pattern-examples-in-c">
+  Decorator Design Pattern Examples in C++
+  <a class="heading-link" href="#decorator-design-pattern-examples-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>And to achieve this we have two different variants of Decorator Design Pattern in C++:
+<ol>
+<li><strong>Dynamic Decorator</strong>: Aggregate the decorated object by reference or pointer.</li>
+<li><strong>Static Decorator</strong>: Inherit from the decorated object.</li>
+</ol>
+</li>
+</ul>
+<h3 id="dynamic-decorator">
+  Dynamic Decorator
+  <a class="heading-link" href="#dynamic-decorator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Shape</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">string</span>() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Circle</span> <span style="color:#f92672">:</span> Shape {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>   m_radius;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Circle(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> radius <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">:</span> m_radius{radius} {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">resize</span>(<span style="color:#66d9ef">float</span> factor) { m_radius <span style="color:#f92672">*=</span> factor; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">string</span>() {
+</span></span><span style="display:flex;"><span>        ostringstream oss;
+</span></span><span style="display:flex;"><span>        oss <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;A circle of radius &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_radius;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> oss.str();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Square</span> <span style="color:#f92672">:</span> Shape {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span>   m_side;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Square(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> side <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">:</span> m_side{side} {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">string</span>() {
+</span></span><span style="display:flex;"><span>        ostringstream oss;
+</span></span><span style="display:flex;"><span>        oss <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;A square of side &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_side;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> oss.str();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>So, we have a hierarchy of two different <code>Shape</code>s(i.e. <code>Square</code> &amp; <code>Circle</code>) &amp; we want to enhance this hierarchy by adding colour to it. Now we&rsquo;re suddenly not going to create two other classes e.g. coloured circle &amp; a coloured square. That would be too much &amp; not a scalable option.</li>
+<li>Rather we can just have <code>ColoredShape</code> as follows.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColoredShape</span> <span style="color:#f92672">:</span> Shape {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> Shape<span style="color:#f92672">&amp;</span>    m_shape;
+</span></span><span style="display:flex;"><span>    string          m_color;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ColoredShape(<span style="color:#66d9ef">const</span> Shape <span style="color:#f92672">&amp;</span>s, <span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>c) <span style="color:#f92672">:</span> m_shape{s}, m_color{c} {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">string</span>() {
+</span></span><span style="display:flex;"><span>        ostringstream oss;
+</span></span><span style="display:flex;"><span>        oss <span style="color:#f92672">&lt;&lt;</span> string(<span style="color:#66d9ef">const_cast</span><span style="color:#f92672">&lt;</span>Shape<span style="color:#f92672">&amp;&gt;</span>(m_shape)) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; has the color &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_color;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> oss.str();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// we are not changing the base class of existing objects
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// cannot make, e.g., ColoredSquare, ColoredCircle, etc.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Square square{<span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>    ColoredShape green_square{square, <span style="color:#e6db74">&#34;green&#34;</span>};    
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> string(square) <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> string(green_square) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// green_circle.resize(2); // Not available
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong><em>Why this is a dynamic decorator?</em></strong><br>
+Because you can instantiate the <code>ColoredShape</code> at runtime by providing needed arguments. In other words, you can decide at runtime that which <code>Shape</code>(i.e. <code>Circle</code> or <code>Square</code>) is going to be coloured.</p>
+<ul>
+<li>You can even mix the decorators as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TransparentShape</span> <span style="color:#f92672">:</span> Shape {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> Shape<span style="color:#f92672">&amp;</span>    m_shape;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint8_t</span>         m_transparency;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    TransparentShape(<span style="color:#66d9ef">const</span> Shape<span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint8_t</span> t) <span style="color:#f92672">:</span> m_shape{s}, m_transparency{t} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">string</span>() {
+</span></span><span style="display:flex;"><span>        ostringstream oss;
+</span></span><span style="display:flex;"><span>        oss <span style="color:#f92672">&lt;&lt;</span> string(<span style="color:#66d9ef">const_cast</span><span style="color:#f92672">&lt;</span>Shape<span style="color:#f92672">&amp;&gt;</span>(m_shape)) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; has &#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span>(m_transparency) <span style="color:#f92672">/</span> <span style="color:#ae81ff">255.f</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100.f</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;% transparency&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> oss.str();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    TransparentShape TransparentShape{ColoredShape{Square{<span style="color:#ae81ff">5</span>}, <span style="color:#e6db74">&#34;green&#34;</span>}, <span style="color:#ae81ff">51</span>};
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> string(TransparentShape) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="limitation-of-dynamic-decorator">
+  Limitation of Dynamic Decorator
+  <a class="heading-link" href="#limitation-of-dynamic-decorator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>If you look at the definition of <code>Circle</code>, You can see that the circle has a method called <code>resize()</code> we can not use this method as we did aggregation on-base interface <code>Shape</code> &amp; bound by the only method exposed in it.</p>
+<h3 id="static-decorator">
+  Static Decorator
+  <a class="heading-link" href="#static-decorator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>The dynamic decorator is great if you don&rsquo;t know which object you are going to decorate and you want to be able to pick them at runtime but sometimes you know the decorator you want at compile time in which case you can use a combination of <a href="/posts/c-template-a-quick-uptodate-look/" >C++ templates</a> &amp; inheritance.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>  <span style="color:#75715e">// Note: `class`, not typename
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ColoredShape</span> <span style="color:#f92672">:</span> T {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static_assert</span>(is_base_of<span style="color:#f92672">&lt;</span>Shape, T<span style="color:#f92672">&gt;::</span>value, <span style="color:#e6db74">&#34;Invalid template argument&#34;</span>); <span style="color:#75715e">// Compile time safety
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    string      m_color;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    ColoredShape(<span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>c, Args <span style="color:#f92672">&amp;&amp;</span>... args) <span style="color:#f92672">:</span> m_color(c), T(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>Args<span style="color:#f92672">&gt;</span>(args)...) { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">string</span>() {
+</span></span><span style="display:flex;"><span>        ostringstream oss;
+</span></span><span style="display:flex;"><span>        oss <span style="color:#f92672">&lt;&lt;</span> T<span style="color:#f92672">::</span><span style="color:#66d9ef">operator</span> string() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; has the color &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_color;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> oss.str();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TransparentShape</span> <span style="color:#f92672">:</span> T {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint8_t</span>     m_transparency;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    TransparentShape(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint8_t</span> t, Args... args) <span style="color:#f92672">:</span> m_transparency{t}, T(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>Args<span style="color:#f92672">&gt;</span>(args)...) { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">string</span>() {
+</span></span><span style="display:flex;"><span>        ostringstream oss;
+</span></span><span style="display:flex;"><span>        oss <span style="color:#f92672">&lt;&lt;</span> T<span style="color:#f92672">::</span><span style="color:#66d9ef">operator</span> string() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; has &#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span>(m_transparency) <span style="color:#f92672">/</span> <span style="color:#ae81ff">255.f</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100.f</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;% transparency&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> oss.str();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ColoredShape<span style="color:#f92672">&lt;</span>Circle<span style="color:#f92672">&gt;</span> green_circle{<span style="color:#e6db74">&#34;green&#34;</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>    green_circle.resize(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> string(green_circle) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Mixing decorators
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    TransparentShape<span style="color:#f92672">&lt;</span>ColoredShape<span style="color:#f92672">&lt;</span>Circle<span style="color:#f92672">&gt;&gt;</span> green_trans_circle{<span style="color:#ae81ff">51</span>, <span style="color:#e6db74">&#34;green&#34;</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>    green_trans_circle.resize(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> string(green_trans_circle) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As you can see we can now call the <code>resize()</code>method which was the limitation of Dynamic Decorator. You can even mix the decorators as we did earlier.</li>
+<li>So essentially what this example demonstrates is that if you&rsquo;re prepared to give up on the dynamic composition nature of the decorator and if you&rsquo;re prepared to define all the decorators at compile time you get the added benefit of using inheritance.</li>
+<li>And that way you actually get the members of whatever object you are decorating being accessible through the decorator &amp; mixed decorator.</li>
+</ul>
+<h3 id="functional-approach-to-decorator-design-pattern-using-modern-c">
+  Functional Approach to Decorator Design Pattern using Modern C++
+  <a class="heading-link" href="#functional-approach-to-decorator-design-pattern-using-modern-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Up until now, we were talking about the Decorator Design Pattern which decorates over a class but you can do the same for functions. Following is a typical logger example for the same:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Need partial specialization for this to work
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Logger</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Return type and argument list
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> R, <span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Logger</span><span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    function<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span>    m_func;
+</span></span><span style="display:flex;"><span>    string                  m_name;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Logger(function<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span> f, <span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>n) <span style="color:#f92672">:</span> m_func{f}, m_name{n} { }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    R <span style="color:#a6e22e">operator</span>()(Args... args) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Entering &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        R result <span style="color:#f92672">=</span> m_func(args...);
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Exiting &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> R, <span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> make_logger(R (<span style="color:#f92672">*</span>func)(Args...), <span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>name) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Logger<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span>(std<span style="color:#f92672">::</span>function<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span>(func), name);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">double</span> a, <span style="color:#66d9ef">double</span> b) { <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> logged_add <span style="color:#f92672">=</span> make_logger(add, <span style="color:#e6db74">&#34;Add&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> result <span style="color:#f92672">=</span> logged_add(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Above example may seem a bit complex to you but if you have a clear understanding of <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >variadic template</a> then it won&rsquo;t take more than 30 seconds to understand what&rsquo;s going on here.</li>
+</ul>
+<h2 id="benefits-of-decorator-design-pattern">
+  Benefits of Decorator Design Pattern
+  <a class="heading-link" href="#benefits-of-decorator-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>Decorator facilitates augmentation of the functionality for an existing object at run-time &amp; compile time.</li>
+<li>Decorator also provides flexibility for adding any number of decorators, in any order &amp; mixing it.</li>
+<li>Decorators are a nice solution to permutation issues because you can wrap a component with any number of Decorators.</li>
+<li>It is a wise choice to apply the Decorator Design Pattern for already shipped code. Because it enables backward compatibility of application &amp; less unit level testing as changes do not affect other parts of code.</li>
+</ol>
+<h2 id="summary-by-faqs">
+  Summary by FAQs
+  <a class="heading-link" href="#summary-by-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>When to use the Decorator Design Pattern?</strong></p>
+<ul>
+<li>Employ the Decorator Design Pattern when you need to be able to assign extra behaviours to objects at runtime without breaking the code that uses these objects.</li>
+<li>When the class has <a href="https://en.cppreference.com/w/cpp/keyword/final"  class="external-link" target="_blank" rel="noopener">final</a> keyword which means the class is not further inheritable. In such cases, the Decorator Design Pattern may come to rescue.</li>
+</ul>
+<p><strong>What are the drawbacks of using the Decorator Design Pattern?</strong></p>
+<ul>
+<li>Decorators can complicate the process of instantiating the component because you not only have to instantiate the component but wrap it in a number of Decorators.</li>
+<li>Overuse of Decorator Design Pattern may complicate the system in terms of both i.e. Maintainance &amp; learning curve.</li>
+</ul>
+<p><strong>Difference between Adapter &amp; Decorator Design Pattern?</strong></p>
+<ul>
+<li><strong>Adapter changes the interface</strong> of an existing object</li>
+<li><strong>Decorator enhances the interface</strong> of an existing object</li>
+</ul>
+<p><strong>Difference between Proxy &amp; Decorator Design Pattern?</strong></p>
+<ul>
+<li><strong>Proxy</strong> provides a somewhat same or <strong>easy interface</strong></li>
+<li><strong>Decorator</strong> provides <strong>enhanced interface</strong></li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  State Design Pattern in Modern C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="A State Design Pattern is a type of Behavioural Design Pattern that defines objects behaviour(defined as a state) based on some event happens. And that can be the internal or external event. For example, if you design an ATM machine using the State Design Pattern, the external event could be someone inserted debit/credit card &amp; internal event could be a user timeout. So in nutshell, the State Design Pattern in Modern C&#43;&#43; is a systematic way to implement certain behaviour on a particular event considering the context.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="State Design Pattern in Modern C&#43;&#43;">
+  <meta name="twitter:description" content="A State Design Pattern is a type of Behavioural Design Pattern that defines objects behaviour(defined as a state) based on some event happens. And that can be the internal or external event. For example, if you design an ATM machine using the State Design Pattern, the external event could be someone inserted debit/credit card &amp; internal event could be a user timeout. So in nutshell, the State Design Pattern in Modern C&#43;&#43; is a systematic way to implement certain behaviour on a particular event considering the context.">
+
+<meta property="og:url" content="http://localhost:1313/posts/state-design-pattern-in-modern-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="State Design Pattern in Modern C&#43;&#43;">
+  <meta property="og:description" content="A State Design Pattern is a type of Behavioural Design Pattern that defines objects behaviour(defined as a state) based on some event happens. And that can be the internal or external event. For example, if you design an ATM machine using the State Design Pattern, the external event could be someone inserted debit/credit card &amp; internal event could be a user timeout. So in nutshell, the State Design Pattern in Modern C&#43;&#43; is a systematic way to implement certain behaviour on a particular event considering the context.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-02T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/state-design-pattern-in-modern-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/state-design-pattern-in-modern-cpp/">
+              State Design Pattern in Modern C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-02T00:00:00Z">
+                April 2, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              10-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-patterns/">Design-Patterns</a>
+      <span class="separator">•</span>
+    <a href="/categories/software-engineering/">Software-Engineering</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/State-Design-Pattern-in-Modern-C-vishal-chovatiya.png" alt="Featured image"/>
+        
+        <p>A State Design Pattern is a type of Behavioural Design Pattern that defines objects behaviour(defined as a state) based on some event happens. And that can be the internal or external event. For example, if you design an ATM machine using the State Design Pattern, the external event could be someone inserted debit/credit card &amp; internal event could be a user timeout. So in nutshell, the State Design Pattern in Modern C++ is a <strong><em>systematic way to implement certain behaviour on a particular event considering the context</em></strong>.</p>
+<p>By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</p>
+<ol>
+<li><a href="/posts//chain-of-responsibility-design-pattern-in-modern-cpp/" >Chain of responsibility</a></li>
+<li><a href="/posts//command-design-pattern-in-modern-cpp/" >Command</a></li>
+<li><a href="/posts//interpreter-design-pattern-in-modern-cpp/" >Interpreter</a></li>
+<li><a href="/posts//iterator-design-pattern-in-modern-cpp/" >Iterator</a></li>
+<li><a href="/posts//mediator-design-pattern-in-modern-cpp/" >Mediator</a></li>
+<li><a href="/posts//memento-design-pattern-in-modern-cpp/" >Memento</a></li>
+<li><a href="/posts//observer-design-pattern-in-modern-cpp/" >Observer</a></li>
+<li><a href="/posts//state-design-pattern-in-modern-cpp/" >State</a></li>
+<li><a href="/posts//strategy-design-pattern-in-modern-cpp/" >Strategy</a></li>
+<li><a href="/posts//template-method-design-pattern-in-modern-cpp/" >Template Method</a></li>
+<li><a href="/posts//double-dispatch-visitor-design-pattern-in-modern-cpp/" >Visitor</a></li>
+</ol>
+<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
+<p><strong><em>Note:</em></strong></p>
+<ul>
+<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
+<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
+</ul>
+<h2 id="intent">
+  Intent
+  <a class="heading-link" href="#intent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<blockquote>
+<p><strong><em>To implement the object&rsquo;s behaviour determined by its state.</em></strong></p>
+</blockquote>
+<ul>
+<li>A State Design Pattern is to implement the <a href="/posts/inside-the-cpp-object-model/" >object</a>&rsquo;s behaviour depending upon its state which also clarifies the transition from one state to another state. <strong><em>A formalized construct which manages states &amp; transition is called a state machine</em></strong>.</li>
+<li>The State Design Pattern solves two main problems:
+<ol>
+<li>An object should change its behaviour when its internal state changes.</li>
+<li>State-specific behaviour should define independently(i.e. in class). So, adding new states should not affect the behaviour of existing states.</li>
+</ol>
+</li>
+</ul>
+<h2 id="state-design-pattern-examples-in-c">
+  State Design Pattern Examples in C++
+  <a class="heading-link" href="#state-design-pattern-examples-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><img src="/images/State-Design-Pattern-Example-in-C-www_vishalchovatiya_com.png"></p>
+<ul>
+<li>Consider the above simple diagram to model three different states along with respective triggers for the transition. We will first see the classical approach where we implement state transition using polymorphism &amp; then move to Modern &amp; Modular approach which involves <a href="https://en.cppreference.com/w/cpp/utility/variant"  class="external-link" target="_blank" rel="noopener">std::variant</a> &amp; <a href="https://en.cppreference.com/w/cpp/utility/variant/visit"  class="external-link" target="_blank" rel="noopener">std::visit</a>.</li>
+</ul>
+<h3 id="classical-state-design-pattern">
+  Classical State Design Pattern
+  <a class="heading-link" href="#classical-state-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">/* --------------------------------- Events ------------------------------------------ */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">event</span> { connect, connected, disconnect, timeout };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> ostream <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream <span style="color:#f92672">&amp;</span>os, <span style="color:#66d9ef">const</span> event <span style="color:#f92672">&amp;</span>e) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (e) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> event<span style="color:#f92672">::</span>connect: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;connect&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> event<span style="color:#f92672">::</span>connected: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;connected&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> event<span style="color:#f92672">::</span>disconnect: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;disconnect&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> event<span style="color:#f92672">::</span>timeout: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;timeout&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> os;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> on_event(event e) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* --------------------------------- States ------------------------------------------ */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Idle</span> <span style="color:#f92672">:</span> State {
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> on_event(event e);
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Connecting</span> <span style="color:#f92672">:</span> State {
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> on_event(event e);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span>                    m_trial <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">uint8_t</span>    m_max_trial <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Connected</span> <span style="color:#f92672">:</span> State {
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> on_event(event e);
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------- Transitions ---------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> Idle<span style="color:#f92672">::</span>on_event(event e) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Idle -&gt; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> e <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (e <span style="color:#f92672">==</span> event<span style="color:#f92672">::</span>connect) <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Connecting<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> Connecting<span style="color:#f92672">::</span>on_event(event e) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Connecting -&gt; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> e <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (e) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> event<span style="color:#f92672">::</span>connected: <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Connected<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> event<span style="color:#f92672">::</span>timeout: <span style="color:#66d9ef">return</span> <span style="color:#f92672">++</span>m_trial <span style="color:#f92672">&lt;</span> m_max_trial <span style="color:#f92672">?</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">:</span> make_unique<span style="color:#f92672">&lt;</span>Idle<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> Connected<span style="color:#f92672">::</span>on_event(event e) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Connected -&gt; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> e <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (e <span style="color:#f92672">==</span> event<span style="color:#f92672">::</span>disconnect) <span style="color:#66d9ef">return</span> make_unique<span style="color:#f92672">&lt;</span>Idle<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Bluetooth</span> {
+</span></span><span style="display:flex;"><span>    unique_ptr<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> m_curr_state <span style="color:#f92672">=</span> make_unique<span style="color:#f92672">&lt;</span>Idle<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dispatch</span>(event e) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> new_state <span style="color:#f92672">=</span> m_curr_state<span style="color:#f92672">-&gt;</span>on_event(e);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (new_state)
+</span></span><span style="display:flex;"><span>            m_curr_state <span style="color:#f92672">=</span> move(new_state);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Events<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> establish_connection(Events... e) { (dispatch(e), ...); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Bluetooth bl;
+</span></span><span style="display:flex;"><span>    bl.establish_connection(event<span style="color:#f92672">::</span>connect, event<span style="color:#f92672">::</span>timeout, event<span style="color:#f92672">::</span>connected, event<span style="color:#f92672">::</span>disconnect);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Idle -&gt; connect
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Connecting -&gt; timeout
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Connecting -&gt; connected
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Connected -&gt; disconnect
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>Two subtle part here to take into the account is
+<ol>
+<li>How we modelled triggers(i.e. events) &amp; states, by considering state machine diagram.</li>
+<li>And how we have fired steps to establish the connection using <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >Variadic Template</a> Method &amp; Fold expression.</li>
+</ol>
+</li>
+<li>Rest of the code is self-explainable though.</li>
+</ul>
+<h3 id="functional-approach-to-state-design-pattern">
+  Functional Approach to State Design Pattern
+  <a class="heading-link" href="#functional-approach-to-state-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>State Design Pattern is bizarre design patterns if you look at the classic definition of it. You will see something very different from how we actually build state machines nowadays so it&rsquo;s a completely different paradigm. Now we see more Modern &amp; Functional approach to address this problem.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">/* --------------------------------- Events ------------------------------------------ */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">EventConnect</span> { string m_address; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">EventConnected</span> { };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">EventDisconnect</span> { };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">EventTimeout</span> { };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Event <span style="color:#f92672">=</span> variant<span style="color:#f92672">&lt;</span>EventConnect, EventConnected, EventDisconnect, EventTimeout<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* --------------------------------- States ------------------------------------------ */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Idle</span> { };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Connecting</span> {
+</span></span><span style="display:flex;"><span>    string                      m_address;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span>                    m_trial <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">uint8_t</span>    m_max_trial <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Connected</span> { };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> State <span style="color:#f92672">=</span> variant<span style="color:#f92672">&lt;</span>Idle, Connecting, Connected<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------- Transitions ---------------------------------------- */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Transitions</span> {
+</span></span><span style="display:flex;"><span>    optional<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">operator</span>()(Idle <span style="color:#f92672">&amp;</span>, <span style="color:#66d9ef">const</span> EventConnect <span style="color:#f92672">&amp;</span>e) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Idle -&gt; Connect&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Connecting{e.m_address};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    optional<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">operator</span>()(Connecting <span style="color:#f92672">&amp;</span>, <span style="color:#66d9ef">const</span> EventConnected <span style="color:#f92672">&amp;</span>) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Connecting -&gt; Connected&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Connected{};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    optional<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">operator</span>()(Connecting <span style="color:#f92672">&amp;</span>s, <span style="color:#66d9ef">const</span> EventTimeout <span style="color:#f92672">&amp;</span>) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Connecting -&gt; Timeout&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">++</span>s.m_trial <span style="color:#f92672">&lt;</span> Connecting<span style="color:#f92672">::</span>m_max_trial <span style="color:#f92672">?</span> nullopt : optional<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span>(Idle{});
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    optional<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">operator</span>()(Connected <span style="color:#f92672">&amp;</span>, <span style="color:#66d9ef">const</span> EventDisconnect <span style="color:#f92672">&amp;</span>) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Connected -&gt; Disconnect&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Idle{};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> State_t, <span style="color:#66d9ef">typename</span> Event_t<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    optional<span style="color:#f92672">&lt;</span>State<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">operator</span>()(State_t <span style="color:#f92672">&amp;</span>, <span style="color:#66d9ef">const</span> Event_t <span style="color:#f92672">&amp;</span>) <span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Unkown&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> nullopt;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* ------------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> StateVariant, <span style="color:#66d9ef">typename</span> EventVariant, <span style="color:#66d9ef">typename</span> Transitions<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Bluetooth</span> {
+</span></span><span style="display:flex;"><span>    StateVariant m_curr_state;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dispatch</span>(<span style="color:#66d9ef">const</span> EventVariant <span style="color:#f92672">&amp;</span>Event)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        optional<span style="color:#f92672">&lt;</span>StateVariant<span style="color:#f92672">&gt;</span> new_state <span style="color:#f92672">=</span> visit(Transitions{}, m_curr_state, Event);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (new_state)
+</span></span><span style="display:flex;"><span>            m_curr_state <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>move(new_state);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Events<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> establish_connection(Events... e) { (dispatch(e), ...); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Bluetooth<span style="color:#f92672">&lt;</span>State, Event, Transitions<span style="color:#f92672">&gt;</span> bl;
+</span></span><span style="display:flex;"><span>    bl.establish_connection(EventConnect{<span style="color:#e6db74">&#34;AA:BB:CC:DD&#34;</span>},
+</span></span><span style="display:flex;"><span>                            EventTimeout{},
+</span></span><span style="display:flex;"><span>                            EventConnected{},
+</span></span><span style="display:flex;"><span>                            EventDisconnect{});
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Idle -&gt; Connect
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Connecting -&gt; Timeout
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Connecting -&gt; Connected
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Connected -&gt; Disconnect
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>A classical approach is not loosely coupled between events &amp; states if you compare the above example. The changes in the sequence of events or adding new events will impact the condition part of states implemented in <code>on_event()</code>which violates the <a href="/posts/open-closed-principle-in-cpp-solid-as-a-rock/" >Open-Closed Principle</a>.</li>
+<li>But in the case of Functional approach events &amp; states are not related or coupled. Rather it works in combination defined in the transition class. This gives a lot of flexibility along with preserving the <a href="/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/" >Single Responsibility Principle</a> &amp; <a href="/posts/open-closed-principle-in-cpp-solid-as-a-rock/" >Open-Closed Principle</a>.</li>
+</ul>
+<h3 id="modular-approach-to-state-design-pattern">
+  Modular Approach to State Design Pattern
+  <a class="heading-link" href="#modular-approach-to-state-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>We have already seen the Functional approach to State Design Pattern with Modern C++ above which is very practical &amp; scalable. But still, there are some of the devs who are not using C++17 yet.</li>
+<li>So we will consider a modular approach to this by implementing the transition table with different example this time. I&rsquo;m going to model a phone call &amp; phone can be in several different states. And I&rsquo;m going to model those states not as entire types but just as members.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">State</span> { OffHook, Connecting, Connected, OnHold, OnHook };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> ostream<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream<span style="color:#f92672">&amp;</span> os, State<span style="color:#f92672">&amp;</span> s) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (s) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> State<span style="color:#f92672">::</span>OffHook: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;off the hook&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> State<span style="color:#f92672">::</span>Connecting: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;connecting&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> State<span style="color:#f92672">::</span>Connected: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;connected&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> State<span style="color:#f92672">::</span>OnHold: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;on hold&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> State<span style="color:#f92672">::</span>OnHook: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;on the hook&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> os;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Trigger</span> { CallDialed, HungUp, CallConnected, PlacedOnHold, TakenOffHold, LeftMessage, StopUsingPhone };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> ostream<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(ostream<span style="color:#f92672">&amp;</span> os, Trigger<span style="color:#f92672">&amp;</span> t) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (t) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> Trigger<span style="color:#f92672">::</span>CallDialed: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;call dialed&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> Trigger<span style="color:#f92672">::</span>HungUp: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;hung up&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> Trigger<span style="color:#f92672">::</span>CallConnected: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;call connected&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> Trigger<span style="color:#f92672">::</span>PlacedOnHold: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;placed on hold&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> Trigger<span style="color:#f92672">::</span>TakenOffHold: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;taken off hold&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> Trigger<span style="color:#f92672">::</span>LeftMessage: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;left message&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> Trigger<span style="color:#f92672">::</span>StopUsingPhone: os <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;putting phone on hook&#34;</span>; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> os;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    map<span style="color:#f92672">&lt;</span>State, vector<span style="color:#f92672">&lt;</span>pair<span style="color:#f92672">&lt;</span>Trigger, State<span style="color:#f92672">&gt;&gt;&gt;</span>    transition_table;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    transition_table[State<span style="color:#f92672">::</span>OffHook] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>CallDialed, State<span style="color:#f92672">::</span>Connecting },
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>StopUsingPhone, State<span style="color:#f92672">::</span>OnHook }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    transition_table[State<span style="color:#f92672">::</span>Connecting] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>HungUp, State<span style="color:#f92672">::</span>OffHook },
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>CallConnected, State<span style="color:#f92672">::</span>Connected }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    transition_table[State<span style="color:#f92672">::</span>Connected] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>LeftMessage, State<span style="color:#f92672">::</span>OffHook },
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>HungUp, State<span style="color:#f92672">::</span>OffHook },
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>PlacedOnHold, State<span style="color:#f92672">::</span>OnHold }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    transition_table[State<span style="color:#f92672">::</span>OnHold] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>TakenOffHold, State<span style="color:#f92672">::</span>Connected },
+</span></span><span style="display:flex;"><span>        { Trigger<span style="color:#f92672">::</span>HungUp, State<span style="color:#f92672">::</span>OffHook }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    State currentState{State<span style="color:#f92672">::</span>OffHook};
+</span></span><span style="display:flex;"><span>    State exitState{State<span style="color:#f92672">::</span>OnHook};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (;;) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;The phone is currently &#34;</span> <span style="color:#f92672">&lt;&lt;</span> currentState <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Select a trigger:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">uint32_t</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> item: transition_table[currentState])
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> i<span style="color:#f92672">++</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;. &#34;</span> <span style="color:#f92672">&lt;&lt;</span> item.first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">uint32_t</span> input;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> input;
+</span></span><span style="display:flex;"><span>        currentState <span style="color:#f92672">=</span> transition_table[currentState][input].second; <span style="color:#75715e">// Caution: index out of range not checked
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (currentState <span style="color:#f92672">==</span> exitState) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;We are done using the phone&#34;</span><span style="color:#f92672">&lt;&lt;</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">The phone is currently off the hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Select a trigger:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">0. call dialed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1. putting phone on hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">0 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; INPUT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">The phone is currently connecting
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Select a trigger:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">0. hung up
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1. call connected
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; INPUT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">The phone is currently connected
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Select a trigger:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">0. left message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1. hung up
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">2. placed on hold
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">0 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; INPUT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">The phone is currently off the hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Select a trigger:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">0. call dialed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1. putting phone on hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">1 &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; INPUT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">We are done using the phone
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>So as you can see, we have modelled state &amp; triggers as enums with the overloaded streaming operator. A typical phone call process changes the states in the following fashion; if the phone is off the hook; it can connecting; connected to somebody, or it can on-hold. Once connected, you left the message &amp; you put the phone back on the hook when you&rsquo;re done talking.</li>
+<li>Now we need an essential part i.e. triggers to drive the show, you can think of them as events which cause you to transition from one state to another.</li>
+<li>And to connect these states &amp; triggers, we have done its mapping as <code>std::map</code> named as <code>transition_table</code>. You can consider it as rules of the game.</li>
+<li>So this is how you can very quickly hand-roll your own state machine by simply defining a set of states. Similarly, a set of triggers &amp; transition table which kind of relates the rules for going from one state to another state using a particular trigger. And then you orchestrate that state machine and you get your results.</li>
+</ul>
+<h2 id="benefits-of-state-design-pattern">
+  Benefits of State Design Pattern
+  <a class="heading-link" href="#benefits-of-state-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>The State Design Pattern minimizes conditional complexity, eliminating the need for if/else-if and switch statements in objects that have different behaviour requirements unique to different state transitions.</li>
+<li>As we have seen, If you are able to represent the <a href="/posts/inside-the-cpp-object-model/" >object</a>&rsquo;s state machine diagram. It&rsquo;s fairly easy to convert the diagram into the Finite State Machine using Functional &amp; Modular approach.</li>
+<li>The State Design Pattern also improves Cohesion. Since state-specific behaviours aggregated into the separate classes &amp; placed in one location in the code.</li>
+<li>Moreover, the State Design Pattern also helps in unit testing as adding new behaviour/states won&rsquo;t affect existing behaviours/states, you do not need to retest the whole system. This is a very helpful case in agile development models.</li>
+</ol>
+<h2 id="summary-by-faqs">
+  Summary by FAQs
+  <a class="heading-link" href="#summary-by-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>Difference between switch case statement &amp; state machine implemented by switch case syntax.</strong></p>
+<p>Ordinary switch case statement does not handle transition rather it just to particular activity based on case type.</p>
+<p><strong>Most of the object&rsquo;s behaviour determined by its data member. Then why is this a separate design pattern?</strong></p>
+<p>Well in the representation of the Gang of Four the State Design Pattern basically suggests that the state of the system kind of controls the way that it operates and it also ties to this idea of Finite State Machine. And as I said earlier State Design Pattern is a systematic &amp; sophisticated way to implement Finite State Machine.</p>
+<p><strong>Use cases of State Design Pattern.</strong></p>
+<p>ATM machine, Timers, TV remote, Protocols, etc. Basically, anything that reflects different behaviour on different inputs.</p>
+<p><strong>How to use state pattern rapidly &amp; correctly?</strong></p>
+<p>Functional approach seen above is the best way which treats states, events, transitions as a completely separate component.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

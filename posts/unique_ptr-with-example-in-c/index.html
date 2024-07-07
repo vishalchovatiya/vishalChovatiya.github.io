@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Understanding unique_ptr with Example in C&#43;&#43;11 · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="The smart pointers are a really good mechanism to manage dynamically allocated resources. In this article, we will see unique_ptr with example in C&#43;&#43;11. But we don&rsquo;t discuss standard smart pointers from a library. Rather, we implement our own smart pointer equivalent to it. This will give us an idea of inside working of smart pointers.
+Brief Link to heading Prior to C&#43;&#43;11, the standard provided std::auto_ptr. Which had some limitations.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Understanding unique_ptr with Example in C&#43;&#43;11">
+  <meta name="twitter:description" content="The smart pointers are a really good mechanism to manage dynamically allocated resources. In this article, we will see unique_ptr with example in C&#43;&#43;11. But we don’t discuss standard smart pointers from a library. Rather, we implement our own smart pointer equivalent to it. This will give us an idea of inside working of smart pointers.
+Brief Link to heading Prior to C&#43;&#43;11, the standard provided std::auto_ptr. Which had some limitations.">
+
+<meta property="og:url" content="http://localhost:1313/posts/unique_ptr-with-example-in-c/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Understanding unique_ptr with Example in C&#43;&#43;11">
+  <meta property="og:description" content="The smart pointers are a really good mechanism to manage dynamically allocated resources. In this article, we will see unique_ptr with example in C&#43;&#43;11. But we don’t discuss standard smart pointers from a library. Rather, we implement our own smart pointer equivalent to it. This will give us an idea of inside working of smart pointers.
+Brief Link to heading Prior to C&#43;&#43;11, the standard provided std::auto_ptr. Which had some limitations.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-15T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/unique_ptr-with-example-in-c/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/unique_ptr-with-example-in-c/">
+              Understanding unique_ptr with Example in C&#43;&#43;11
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-15T00:00:00Z">
+                September 15, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              7-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/20-new-features-of-Modern-C-to-use-in-your-project.png" alt="Featured image"/>
+        
+        <p>The smart pointers are a really good mechanism to manage dynamically allocated resources. In this article, we will see unique_ptr with example in C++11. But we don&rsquo;t discuss standard smart pointers from a library. Rather, we implement our own smart pointer equivalent to it. This will give us an idea of inside working of smart pointers.</p>
+<h3 id="brief">
+  Brief
+  <a class="heading-link" href="#brief">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Prior to C++11, the standard provided <code>std::auto_ptr</code>. Which had some limitations. But from C++11, standard provided many smart pointers classes. Understanding unique_ptr with example in C++ requires an understanding of move semantics which I have discussed <a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >here</a> &amp; <a href="/posts/move-constructor-assignment-operator-with-shared_ptr/" >here</a>.</p>
+<p>But before all these nuisances, we will see &ldquo;Why do we need smart pointer in 1st place?&rdquo;:</p>
+<h3 id="why-do-we-need-smart-pointers">
+  Why do we need smart pointers?
+  <a class="heading-link" href="#why-do-we-need-smart-pointers">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Resource <span style="color:#f92672">*</span>ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Resource;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> x;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Enter an integer: &#34;</span>;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cin <span style="color:#f92672">&gt;&gt;</span> x;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// the function returns early, and ptr won&#39;t be deleted!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>; <span style="color:#75715e">// the function returns early, and ptr won&#39;t be deleted!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do stuff with ptr here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>In the above code, the early <code>return</code> or <code>throw</code> statement, causing the function to terminate without variable <code>ptr</code> being deleted.</li>
+<li>Consequently, the memory allocated for variable <code>ptr</code> is now leaked (and leaked again every time this function is called and returns early).</li>
+<li>These kinds of issues occur because pointer variables have no inherent mechanism to clean up after themselves.</li>
+<li>Following class cleans-up automatically when sources are no longer in use:</li>
+</ul>
+<h3 id="smart_ptr-aka-stdauto_ptr-from-c98">
+  <code>smart_ptr</code> aka <code>std::auto_ptr</code> from C++98
+  <a class="heading-link" href="#smart_ptr-aka-stdauto_ptr-from-c98">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">smart_ptr</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> m_ptr;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    smart_ptr(T<span style="color:#f92672">*</span> ptr<span style="color:#f92672">=</span><span style="color:#66d9ef">nullptr</span>)<span style="color:#f92672">:</span>m_ptr(ptr){}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>smart_ptr()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">delete</span> m_ptr;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>m_ptr; }
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_ptr; }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Now, let&rsquo;s go back to our <code>func()</code>example above, and show how a smart pointer class can solve our challenge:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Resource</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Resource() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Resource acquired</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Resource() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Resource destroyed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> ptr(<span style="color:#66d9ef">new</span> Resource); <span style="color:#75715e">// ptr now owns the Resource
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> x;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Enter an integer: &#34;</span>;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cin <span style="color:#f92672">&gt;&gt;</span> x;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do stuff with ptr here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// dont care about deallocation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>      func();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span>(<span style="color:#66d9ef">int</span> val){}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Output</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Resource acquired
+</span></span><span style="display:flex;"><span>Hi!
+</span></span><span style="display:flex;"><span>Resource destroyed
+</span></span></code></pre></div><ul>
+<li>Note that even in the case where the user enters zero and the function terminates early, the <code>Resource</code> is still properly deallocated.</li>
+<li>Because of the <code>ptr</code> variable is a local variable. <code>ptr</code> destroys when the function terminates (regardless of how it terminates). And because of the <code>smart_ptr</code> destructor will clean up the <code>Resource</code>, we are assured that the <code>Resource</code> will be properly cleaned up.</li>
+<li>There is still some problem with our code. Like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> res1(<span style="color:#66d9ef">new</span> Resource);
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> res2(res1); <span style="color:#75715e">// Alternatively, don&#39;t initialize res2 and then assign res2 = res1;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Output</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Resource acquired
+</span></span><span style="display:flex;"><span>Resource destroyed
+</span></span><span style="display:flex;"><span>Resource destroyed
+</span></span></code></pre></div><ul>
+<li>In this case destructor of our <code>Resource</code> object will be called twice which can crash the program.</li>
+<li>What if, instead of having our copy constructor and assignment operator copy the pointer (&ldquo;copy semantics&rdquo;), we instead transfer/move ownership of the pointer from the source to the destination object? This is the core idea behind move semantics. Move semantics means the class will transfer ownership of the object rather than making a copy.</li>
+<li>Let&rsquo;s update our <code>smart_ptr</code> class to show how this can be done:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">smart_ptr</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> m_ptr;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    smart_ptr(T<span style="color:#f92672">*</span> ptr<span style="color:#f92672">=</span><span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span>m_ptr(ptr) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>smart_ptr()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">delete</span> m_ptr;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// copy constructor that implements move semantics
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    smart_ptr(smart_ptr<span style="color:#f92672">&amp;</span> a) <span style="color:#75715e">// note: not const
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
+</span></span><span style="display:flex;"><span>        m_ptr <span style="color:#f92672">=</span> a.m_ptr; <span style="color:#75715e">// transfer our dumb pointer from the source to our local object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        a.m_ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>; <span style="color:#75715e">// make sure the source no longer owns the pointer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// assignment operator that implements move semantics
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    smart_ptr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(smart_ptr<span style="color:#f92672">&amp;</span> a) <span style="color:#75715e">// note: not const
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">&amp;</span>a <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">delete</span> m_ptr; <span style="color:#75715e">// make sure we deallocate any pointer the destination is already holding first
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        m_ptr <span style="color:#f92672">=</span> a.m_ptr; <span style="color:#75715e">// then transfer our dumb pointer from the source to the local object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        a.m_ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>; <span style="color:#75715e">// make sure the source no longer owns the pointer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>m_ptr; }
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_ptr; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Resource</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Resource() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Resource acquired</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Resource() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Resource destroyed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> res1(<span style="color:#66d9ef">new</span> Resource);
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> res2(res1);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Output</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Resource acquired
+</span></span><span style="display:flex;"><span>Resource destroyed
+</span></span></code></pre></div><h3 id="stdauto_ptr-and-why-to-avoid-it">
+  <code>std::auto_ptr</code>, and why to avoid it
+  <a class="heading-link" href="#stdauto_ptr-and-why-to-avoid-it">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>What we have seen above as <code>smart_ptr</code> is basically an <code>std::auto_ptr</code> which was introduced in C++98, was C++&rsquo;s first attempt at a standardized smart pointer.</li>
+<li>However, <code>std::auto_ptr</code> (and our <code>smart_ptr</code> class) has a number of problems that make using it dangerous.</li>
+</ul>
+<ol>
+<li>Because <code>std::auto_ptr</code> implements move semantics through the copy constructor and assignment operator, passing an <code>std::auto_ptr</code> by value to a function will cause your resource to get moved to the function parameter (and be destroyed at the end of the function when the function parameters go out of scope). Then when you go to access your <code>std::auto_ptr</code> argument from the caller (not realizing it was transferred and deleted), you&rsquo;re suddenly dereferencing a null pointer. Crash!</li>
+<li><code>std::auto_ptr</code> always deletes its contents using non-array delete. This means <code>std::auto_ptr</code> won&rsquo;t work correctly with dynamically allocated arrays, because it uses the wrong kind of deallocation. Worse, it won&rsquo;t prevent you from passing it a dynamic array, which it will then mismanage, leading to memory leaks.</li>
+</ol>
+<ul>
+<li>Because of the above-mentioned shortcomings, <code>std::auto_ptr</code> has been deprecated in C++11, and it should not used. In fact, <code>std::auto_ptr</code> slated for complete removal from the standard library as part of C++17!</li>
+<li>Overriding the copy semantics to implement move semantics leads to weird edge cases and inadvertent bugs. Because of this, in C++11, the concept of &ldquo;move&rdquo; formally defined. And &ldquo;move semantics&rdquo; added to the language to properly differentiate copying from moving. In C++11, <code>std::auto_ptr</code> has been replaced by a bunch of other types of &ldquo;move-aware&rdquo; smart pointers: <code>std::scoped_ptr</code>, <code>std::unique_ptr</code>, <code>std::weak_ptr</code>, and <code>std::shared_ptr</code>.</li>
+<li>We&rsquo;ll also explore the two most popular of these: <code>std::unique_ptr</code> (which is a direct replacement for <code>std::auto_ptr</code>) and <code>std::shared_ptr</code>.</li>
+</ul>
+<h3 id="stdunique_ptr-with-example-in-c11">
+  std::unique_ptr with example in C++11
+  <a class="heading-link" href="#stdunique_ptr-with-example-in-c11">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><code>std::unique_ptr</code> is the C++11 replacement for <code>std::auto_ptr</code>. It is used to manage use to manage any dynamically allocated object not shared by multiple objects. That is, <code>std::unique_ptr</code> should completely own the object it manages, not share that ownership with other classes.</li>
+<li>We can convert our <code>smart_ptr</code> we designed above into <code>std::unique_ptr</code>. And for that one thing, we can do is delete the copy constructor &amp; assignment operator so that no one can copy smart pointer.</li>
+<li>As we are not allowing a copy of smart pointer we can&rsquo;t pass our smart pointer to any function by value or return by value. And this is not good design.</li>
+<li>To pass or return by value, we can add move constructor &amp; move assignment operator, so that while passing or returning by value, we would have to transfer ownership through move semantics. This way we can also ensure single ownership throughout the lifetime of the object.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">smart_ptr</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> m_ptr;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    smart_ptr(T<span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span> m_ptr(ptr){}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>smart_ptr()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">delete</span> m_ptr;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    smart_ptr(<span style="color:#66d9ef">const</span> smart_ptr<span style="color:#f92672">&amp;</span> a) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    smart_ptr(smart_ptr<span style="color:#f92672">&amp;&amp;</span> a) <span style="color:#f92672">:</span> m_ptr(a.m_ptr)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        a.m_ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    smart_ptr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> smart_ptr<span style="color:#f92672">&amp;</span> a) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Move assignment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    smart_ptr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(smart_ptr<span style="color:#f92672">&amp;&amp;</span> a)
+</span></span><span style="display:flex;"><span>    {        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">&amp;</span>a <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">delete</span> m_ptr;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        m_ptr <span style="color:#f92672">=</span> a.m_ptr;
+</span></span><span style="display:flex;"><span>        a.m_ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>m_ptr; }
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_ptr; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Resource</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Resource() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Resource acquired</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Resource() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Resource destroyed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> func(smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> temp) 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> temp;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> res1(<span style="color:#66d9ef">new</span> Resource);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// smart_ptr&lt;Resource&gt; res3 = res1; // Won&#39;t compile, as copy contructor is deleted
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    smart_ptr<span style="color:#f92672">&lt;</span>Resource<span style="color:#f92672">&gt;</span> res3 <span style="color:#f92672">=</span> func(std<span style="color:#f92672">::</span>move(res1)); <span style="color:#75715e">// calls move semantics
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Output</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Resource acquired
+</span></span><span style="display:flex;"><span>Resource destroyed
+</span></span></code></pre></div><ul>
+<li>This is not the exact implementation of <code>std::unique_ptr</code> as there is deleter, implicit cast to bool &amp; other security features included in an actual implementation, but this gives you a bigger picture of how <code>std::unique_ptr</code> is implemented.</li>
+</ul>
+<h3 id="references">
+  References
+  <a class="heading-link" href="#references">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><a href="https://www.learncpp.com/cpp-tutorial/15-1-intro-to-smart-pointers-move-semantics/"  class="external-link" target="_blank" rel="noopener">https://www.learncpp.com/cpp-tutorial/15-1-intro-to-smart-pointers-move-semantics/</a></li>
+<li><a href="https://stackoverflow.com/questions/106508/what-is-a-smart-pointer-and-when-should-i-use-one"  class="external-link" target="_blank" rel="noopener">https://stackoverflow.com/questions/106508/what-is-a-smart-pointer-and-when-should-i-use-one</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cpp/cpp/smart-pointers-modern-cpp?view=vs-2017"  class="external-link" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/cpp/cpp/smart-pointers-modern-cpp?view=vs-2017</a></li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  C&#43;&#43; Exception Handling Best Practices: 7 Things To Know · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Exception handling in C&#43;&#43; is a well-unschooled topic if you observe initial stages of the learning curve. There are numerous tutorials available online on exception handling in C&#43;&#43;. But few explains what you should not do &amp; intricacies around it. So here I am to bridge the gap &amp; show you some intricacies, from where &amp; why you should not throw an exception and C&#43;&#43; exception handling best practices. Along with some newer features introduced for exception handling in Modern C&#43;&#43; with example.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43; Exception Handling Best Practices: 7 Things To Know">
+  <meta name="twitter:description" content="Exception handling in C&#43;&#43; is a well-unschooled topic if you observe initial stages of the learning curve. There are numerous tutorials available online on exception handling in C&#43;&#43;. But few explains what you should not do &amp; intricacies around it. So here I am to bridge the gap &amp; show you some intricacies, from where &amp; why you should not throw an exception and C&#43;&#43; exception handling best practices. Along with some newer features introduced for exception handling in Modern C&#43;&#43; with example.">
+
+<meta property="og:url" content="http://localhost:1313/posts/7-best-practices-for-exception-handling-in-cpp-with-example/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="C&#43;&#43; Exception Handling Best Practices: 7 Things To Know">
+  <meta property="og:description" content="Exception handling in C&#43;&#43; is a well-unschooled topic if you observe initial stages of the learning curve. There are numerous tutorials available online on exception handling in C&#43;&#43;. But few explains what you should not do &amp; intricacies around it. So here I am to bridge the gap &amp; show you some intricacies, from where &amp; why you should not throw an exception and C&#43;&#43; exception handling best practices. Along with some newer features introduced for exception handling in Modern C&#43;&#43; with example.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-11-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-11-03T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/7-best-practices-for-exception-handling-in-cpp-with-example/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/7-best-practices-for-exception-handling-in-cpp-with-example/">
+              C&#43;&#43; Exception Handling Best Practices: 7 Things To Know
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-11-03T00:00:00Z">
+                November 3, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              13-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/exception.jpg" alt="Featured image"/>
+        
+        <p>Exception handling in C++ is a well-unschooled topic if you observe initial stages of the learning curve. There are numerous tutorials available online on exception handling in C++. But few explains what you should not do &amp; intricacies around it. So here I am to bridge the gap &amp; show you some intricacies, from where &amp; why you should not throw an exception and C++ exception handling best practices. Along with some newer features introduced for exception handling in <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> with example.</p>
+<p>In the end, we will see the <a href="#Runtime-cost-of-exceptions-with-quick-benchmark" >performance cost of using an exception</a> by a quick benchmark code. Finally, we will close the article with a summary of <a href="#Best-practices-&amp;-some-CPP-Core-Guidelines-on-exception-handling" >Best practices &amp; some C++ Core Guidelines on exception handling</a>.</p>
+<p><strong><em>Note</em></strong><em>: I would not cover anything regarding a dynamic exception as it deprecated from C++11 and removed in C++17.</em></p>
+<h2 id="terminologyjargonidiom-you-may-face">
+  Terminology/Jargon/Idiom You May Face
+  <a class="heading-link" href="#terminologyjargonidiom-you-may-face">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><strong>potentially throwing</strong>: may or may not throw an exception.</li>
+<li><strong>noexcept</strong>: this is specifier as well as operator depending upon where &amp; how you use it. Will see that <a href="#noexcept-specifier-vs-operator" >later</a>.</li>
+<li><strong><a href="/posts/7-advanced-cpp-programming-styles-and-idiom-examples-you-should-know/#RAII" >RAII</a></strong>: <strong>R</strong>esource <strong>A</strong>cquisition <strong>I</strong>s <strong>I</strong>nitialization is a scope-bound resource management mechanism. Which means resource allocation done with the constructor &amp; resource deallocation with the destructor during the defined scope of the object. I know it&rsquo;s a terrible name but very powerful concept.</li>
+<li><strong><a href="https://stackoverflow.com/questions/11671282/implicitly-declared-special-member-functions"  class="external-link" target="_blank" rel="noopener">Implicitly-declared special member functions</a></strong>: I think this need not require any introduction.</li>
+</ul>
+<h2 id="1-implement-copy-andor-move-constructor-while-throwing-user-defined-type-object">
+  1. Implement Copy And/Or Move Constructor While Throwing User-Defined Type Object
+  <a class="heading-link" href="#1-implement-copy-andor-move-constructor-while-throwing-user-defined-type-object">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    demo() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>    demo(demo <span style="color:#f92672">&amp;&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>    demo(<span style="color:#66d9ef">const</span> demo <span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> demo{};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Upon throw expression, a copy of the exception object created as the original object goes out of the scope during the stack unwinding process.</li>
+<li>During that initialization, we may expect <a href="https://en.wikipedia.org/wiki/Copy_elision"  class="external-link" target="_blank" rel="noopener">copy elision</a> (see <a href="https://wg21.cmeerw.net/cwg/issue1493"  class="external-link" target="_blank" rel="noopener">this</a>) – omits <a href="/posts/move-constructor-assignment-operator-with-shared-ptr/" >copy or move constructors</a> (object constructed directly into the storage of the target object).</li>
+<li>But even though copy elision may or may not apply you should provide proper copy constructor and/or move constructor which is what <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4296.pdf"  class="external-link" target="_blank" rel="noopener">C++ standard mandates(see 15.1)</a>. See below compilation error for reference.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>error: call to deleted constructor of <span style="color:#e6db74">&#39;demo&#39;</span>
+</span></span><span style="display:flex;"><span>    throw demo<span style="color:#f92672">{}</span>;
+</span></span><span style="display:flex;"><span>          ^~~~~~
+</span></span><span style="display:flex;"><span>note: <span style="color:#e6db74">&#39;demo&#39;</span> has been explicitly marked deleted here
+</span></span><span style="display:flex;"><span>    demo<span style="color:#f92672">(</span>demo <span style="color:#f92672">&amp;&amp;)</span> <span style="color:#f92672">=</span> delete;
+</span></span><span style="display:flex;"><span>    ^
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> error generated.
+</span></span><span style="display:flex;"><span>compiler exit status <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><ul>
+<li>Above error stands true till C++14. Since C++17, If the thrown object is a prvalue, the copy/move elision is guaranteed.</li>
+<li>If we catch an exception by value, we may also expect copy elision(compilers permitted to do so, but it is not mandatory). The exception object is an lvalue argument when initializing catch clause parameters.</li>
+</ul>
+<p><strong>TL;DR</strong><br>
+class used for throwing the exception object needs copy and/or move constructors</p>
+<h2 id="2-be-cautious-while-throwing-an-exception-from-the-constructor">
+  2. Be Cautious While Throwing an Exception From the Constructor
+  <a class="heading-link" href="#2-be-cautious-while-throwing-an-exception-from-the-constructor">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    base(){cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;base</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>base(){cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~base</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">derive</span> <span style="color:#f92672">:</span> base
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    derive(){cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;derive</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">throw</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>derive(){cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~derive</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>        derive{};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (...){}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>When an exception is thrown from a constructor, stack unwinding begins, destructors for the object will only be called, if an object creation is successful. So be caution with dynamic memory allocation here. In such cases, you should use <a href="/posts/7-advanced-cpp-programming-styles-and-idiom-examples-you-should-know/#RAII" >RAII</a>.</li>
+</ul>
+<pre tabindex="0"><code>base
+derive
+~base
+</code></pre><ul>
+<li>As you can see in the above case, the destructor of <code>derive</code> is not executed, Because, it is not created successfully.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    base() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;base</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>base() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;~base</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">derive</span> <span style="color:#f92672">:</span> base
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    derive() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>    derive(<span style="color:#66d9ef">int</span>) <span style="color:#f92672">:</span> derive{}
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;derive</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>derive() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;~derive</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>        derive{<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (...){}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>In the case of constructor delegation, it is considered as the creation of object hence destructor of <code>derive</code> will be called.</li>
+</ul>
+<pre tabindex="0"><code>base
+derive
+~derive
+~base
+</code></pre><p><strong>TL;DR</strong><br>
+When an exception is thrown from a constructor, destructors for the object will be called only &amp; only if an object is created successfully</p>
+<h2 id="3-avoid-throwing-exceptions-out-of-a-destructor">
+  3. Avoid Throwing Exceptions out of a Destructor
+  <a class="heading-link" href="#3-avoid-throwing-exceptions-out-of-a-destructor">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>demo() { <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>exception{}; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>        demo d;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>exception <span style="color:#f92672">&amp;</span>){}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Above code seems straight forward but when you run it, it terminates as shown below rather than catching the exception. Reason for this is destructors are by default <code>noexcept</code> (i.e. non-throwing)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ clang++-7 -o main main.cpp
+</span></span><span style="display:flex;"><span>warning: <span style="color:#e6db74">&#39;~demo&#39;</span> has a non-throwing exception specification but can still
+</span></span><span style="display:flex;"><span>      throw <span style="color:#f92672">[</span>-Wexceptions<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    ~demo<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> throw std::exception<span style="color:#f92672">{}</span>; <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              ^
+</span></span><span style="display:flex;"><span>note: destructor has a implicit non-throwing exception specification
+</span></span><span style="display:flex;"><span>    ~demo<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> throw std::exception<span style="color:#f92672">{}</span>; <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    ^
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> warning generated.
+</span></span><span style="display:flex;"><span>$
+</span></span><span style="display:flex;"><span>$ ./main
+</span></span><span style="display:flex;"><span>terminate called after throwing an instance of <span style="color:#e6db74">&#39;std::exception&#39;</span>
+</span></span><span style="display:flex;"><span>  what<span style="color:#f92672">()</span>:  std::exception
+</span></span><span style="display:flex;"><span>exited, aborted
+</span></span></code></pre></div><ul>
+<li>`noexcept(false) will solve our problem as below</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">X</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>X() <span style="color:#66d9ef">noexcept</span>(false) { <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>exception{}; } 
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>But don’t do it. Destructors are by default non-throwing for a reason, and we must not throw exceptions in destructors unless we catch them inside the destructor.</li>
+</ul>
+<p><strong>Why you should not throw an exception from a destructor?</strong></p>
+<p>Because destructors are called during stack unwinding when an exception is thrown, and we are not allowed to throw another exception while the previous one is not caught – in such a case <code>std::terminate</code> will be called.</p>
+<ul>
+<li>Consider the following example for more clarity.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>base() <span style="color:#66d9ef">noexcept</span>(false) { <span style="color:#66d9ef">throw</span> <span style="color:#ae81ff">1</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">derive</span> <span style="color:#f92672">:</span> base
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>derive() <span style="color:#66d9ef">noexcept</span>(false) { <span style="color:#66d9ef">throw</span> <span style="color:#ae81ff">2</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>        derive d;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (...){ }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>An exception will be thrown when the object <code>d</code> will be destroyed as a result of <a href="/posts/7-advanced-cpp-programming-styles-and-idiom-examples-you-should-know/#RAII" >RAII</a>. But at the same time destructor of <code>base</code> will also be called as it is <a href="/posts/memory-layout-of-cpp-object/" >sub-object</a> of <code>derive</code> which will again throw an exception. Now we have two exceptions at the same time which is invalid scenario &amp; <code>std::terminate</code> will be called.</li>
+</ul>
+<p>There are some type trait utilities like <code>std::is_nothrow_destructible</code>, <code>std::is_nothrow_constructible</code>, etc. from <code>#include&lt;type_traits&gt;</code> by which you can check whether the special member functions are exception-safe or not.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>boolalpha <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>is_nothrow_destructible<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>string<span style="color:#f92672">&gt;::</span>value <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>boolalpha <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>is_nothrow_constructible<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>string<span style="color:#f92672">&gt;::</span>value <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>TL;DR</strong><br>
+1. Destructors are by default <code>noexcept</code> (i.e. non-throwing).<br>
+2. You should not throw exception out of destructors because destructors are called during stack unwinding when an exception is thrown, and we are not allowed to throw another exception while the previous one is not caught – in such a case <code>std::terminate</code> will be called.</p>
+<h2 id="4-nested-exception-handling-best-practice-with-stdexception_ptr-c11-example">
+  4. Nested Exception Handling Best Practice With std::exception_ptr( C++11) Example
+  <a class="heading-link" href="#4-nested-exception-handling-best-practice-with-stdexception_ptr-c11-example">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>This is more of a demonstration rather the best practice of the nested exception scenario using <code>std::exception_ptr</code>. Although you can simply use <code>std::exception</code> without complicating things much but <code>std::exception_ptr</code> will provide us with the leverage of handling exception out of <code>try</code> / <code>catch</code> clause.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_nested_exception</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>exception_ptr <span style="color:#f92672">&amp;</span>eptr<span style="color:#f92672">=</span>std<span style="color:#f92672">::</span>current_exception(), size_t level<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">auto</span> get_nested <span style="color:#f92672">=</span> [](<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>e) <span style="color:#f92672">-&gt;</span> std<span style="color:#f92672">::</span>exception_ptr {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">dynamic_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>nested_exception <span style="color:#f92672">&amp;&gt;</span>(e).nested_ptr(); }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">catch</span> (<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>bad_cast<span style="color:#f92672">&amp;</span>) { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>; }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (eptr) std<span style="color:#f92672">::</span>rethrow_exception(eptr);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>exception <span style="color:#f92672">&amp;</span>e){
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>string(level, <span style="color:#e6db74">&#39; &#39;</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;exception: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> e.what() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>        print_nested_exception(get_nested(e), level <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);<span style="color:#75715e">// rewind all nested exception
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// -----------------------------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func2</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>         { <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>runtime_error(<span style="color:#e6db74">&#34;TESTING NESTED EXCEPTION SUCCESS&#34;</span>); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (...) { std<span style="color:#f92672">::</span>throw_with_nested(std<span style="color:#f92672">::</span>runtime_error(<span style="color:#e6db74">&#34;func2() failed&#34;</span>)); }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func1</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>         { func2(); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (...) { std<span style="color:#f92672">::</span>throw_with_nested(std<span style="color:#f92672">::</span>runtime_error(<span style="color:#e6db74">&#34;func1() failed&#34;</span>)); }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>                             { func1(); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">catch</span> (<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>exception<span style="color:#f92672">&amp;</span>)   { print_nested_exception(); }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Will only work with C++14 or above
+</span></span></span></code></pre></div><ul>
+<li>Above example looks complicated at first, but once you have implemented nested exception handler(i.e. <code>print_nested_exception</code>). Then you only need to focus on throwing the exception using <code>std::throw_with_nested</code> function.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exception: func1<span style="color:#f92672">()</span> failed
+</span></span><span style="display:flex;"><span> exception: func2<span style="color:#f92672">()</span> failed
+</span></span><span style="display:flex;"><span>  exception: TESTING NESTED EXCEPTION SUCCESS
+</span></span></code></pre></div><ul>
+<li>The main thing to focus here is <code>print_nested_exception</code> function in which we are rewinding nested exception using <code>std::rethrow_exception</code> &amp; <code>std::exception_ptr</code>.</li>
+<li><code>std::exception_ptr</code> is a <a href="/posts/move-constructor-assignment-operator-with-shared-ptr" >shared pointer</a> like type though dereferencing it is undefined behaviour. It can hold <a href="/posts/what-exactly-nullptr-is-in-cpp/" >nullptr</a> or point to an exception object and can be constructed as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>exception_ptr e1;                                             <span style="color:#75715e">// null
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>std<span style="color:#f92672">::</span>exception_ptr e2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>current_exception();                  <span style="color:#75715e">// null or a current exception
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>std<span style="color:#f92672">::</span>exception_ptr e3 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_exception_ptr(std<span style="color:#f92672">::</span>exception{}); <span style="color:#75715e">// std::exception
+</span></span></span></code></pre></div><ul>
+<li>Once <code>std::exception_ptr</code> is created, we can use it to throw or re-throw exceptions by calling `std::rethrow_exception(exception_ptr) as we did above, which throws the pointed exception object.</li>
+</ul>
+<p><strong>TL;DR</strong><br>
+1. <code>std::exception_ptr</code> extends the lifetime of a pointed exception object beyond a catch clause.<br>
+2. We may use <code>std::exception_ptr</code> to delay the handling of a current exception and transfer it to some other palaces. Though, practical usecase of <code>std::exception_ptr</code> is between threads.</p>
+<h2 id="5-use-noexcept-specifier-vs-operator-appropriately">
+  5. Use noexcept `Specifier` vs `Operator` Appropriately
+  <a class="heading-link" href="#5-use-noexcept-specifier-vs-operator-appropriately">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>I think this is an oblivious concept among the other concepts of the C++ exceptions.</li>
+<li><code>noexcept</code> <a href="https://en.cppreference.com/w/cpp/language/noexcept_spec"  class="external-link" target="_blank" rel="noopener">specifier</a> &amp; <a href="https://en.cppreference.com/w/cpp/language/noexcept"  class="external-link" target="_blank" rel="noopener">operator</a> came in C++11 to replace deprecated(removed from C++17) dynamic exception specification.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>() <span style="color:#66d9ef">throw</span>(std<span style="color:#f92672">::</span>exception);                   <span style="color:#75715e">// dynamic excpetions, removed from C++17
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">potentially_throwing</span>();                         <span style="color:#75715e">// may throw
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">non_throwing</span>() <span style="color:#66d9ef">noexcept</span>;                        <span style="color:#75715e">// &#34;specifier&#34; specifying non-throwing function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() {}                                  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>func_ptr)() <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">=</span> print;                 <span style="color:#75715e">// Not OK from C++17, `print()`should be noexcept too, works in C++11/14
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">debug_deep</span>() <span style="color:#66d9ef">noexcept</span>(false) {}                 <span style="color:#75715e">// specifier specifying throw
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">debug</span>() <span style="color:#66d9ef">noexcept</span>(<span style="color:#66d9ef">noexcept</span>(debug_deep())) {}     <span style="color:#75715e">// specifier &amp; operator, will follow exception rule of `debug_deep`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> l_non_throwing <span style="color:#f92672">=</span> []() <span style="color:#66d9ef">noexcept</span> {};              <span style="color:#75715e">// Yeah..! lambdas are also in party
+</span></span></span></code></pre></div><h3 id="noexcept-specifier">
+  noexcept Specifier
+  <a class="heading-link" href="#noexcept-specifier">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>I think this needs no introduction it does what its name suggests. So let&rsquo;s quickly go through some pointers:</p>
+<ul>
+<li>Can use for normal functions, methods, <a href="/posts/learn-lambda-function-in-cpp-with-example/" >lambda functions</a> &amp; function pointer.</li>
+<li>From C++17, function pointer with noexcept can not points to potentially throwing function.</li>
+<li>Finally, don’t use <code>noexcept</code> specifier for <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual functions</a> in a base class/interface because it enforces restriction for all overrides.</li>
+<li>Don’t use noexcept unless you really need it. &ldquo;Specify it when it is useful and correct&rdquo; - <a href="https://google.github.io/styleguide/cppguide.html#noexcept"  class="external-link" target="_blank" rel="noopener">Google’s cppguide</a>.</li>
+</ul>
+<h3 id="noexcept-operator--what-is-it-use-for">
+  noexcept Operator &amp; What Is It Use For?
+  <a class="heading-link" href="#noexcept-operator--what-is-it-use-for">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Added in C++11, <code>noexcept</code> operator takes an expression (not necessarily constant) and performs a compile-time check determining if that expression is non-throwing (<code>noexcept</code>) or potentially throwing.</li>
+<li>The result of such compile-time check can be used, for example, to add <code>noexcept</code>specifier to the same category, higher-level function `(noexcept(noexcept(expr))) or in if <a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" >constexpr</a>.</li>
+<li>We can use noexcept operator to check if some class has noexcept constructor, noexcept copy constructor, noexcept move constructor, and so on as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    demo() {}
+</span></span><span style="display:flex;"><span>    demo(<span style="color:#66d9ef">const</span> demo <span style="color:#f92672">&amp;</span>) {}
+</span></span><span style="display:flex;"><span>    demo(demo <span style="color:#f92672">&amp;&amp;</span>) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>boolalpha <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">noexcept</span>(demo()) <span style="color:#f92672">&lt;&lt;</span> endl;                        <span style="color:#75715e">// C
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>boolalpha <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">noexcept</span>(demo(demo())) <span style="color:#f92672">&lt;&lt;</span> endl;                  <span style="color:#75715e">// CC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>boolalpha <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">noexcept</span>(demo(std<span style="color:#f92672">::</span>declval<span style="color:#f92672">&lt;</span>demo<span style="color:#f92672">&gt;</span>())) <span style="color:#f92672">&lt;&lt;</span> endl;    <span style="color:#75715e">// MC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>boolalpha <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">noexcept</span>(std<span style="color:#f92672">::</span>declval<span style="color:#f92672">&lt;</span>demo<span style="color:#f92672">&gt;</span>().method()) <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// Methods
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// std::declval&lt;T&gt; returns an rvalue reference to a type
+</span></span></span></code></pre></div><ul>
+<li>You must be wondering why &amp; how this information will be useful?<br>
+This is more useful when you are using library functions inside your function to suggest compiler that your function is throwing or non-throwing depending upon library implementation.</li>
+<li>If you remove constructor, <a href="/posts/all-about-copy-constructor-in-cpp/" >copy constructor</a> &amp; <a href="/posts/move-constructor-assignment-operator-with-shared-ptr/" >move constructor</a>, it will print <code>true</code> reason being implicitly-declared special member functions are always non-throwing.</li>
+</ul>
+<p><strong>TL;DR</strong><br>
+<code>noexcept</code> specifier &amp; operator are two different things. <code>noexcept</code> operator performs a compile-time check &amp; doesn’t evaluate the expression. While <code>noexcept</code> specifier can take only constant expressions that evaluate to either true or false.</p>
+<h2 id="6-move-exception-safe-with-stdmove_if_noexcept">
+  6. Move Exception-Safe with std::move_if_noexcept
+  <a class="heading-link" href="#6-move-exception-safe-with-stdmove_if_noexcept">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    demo() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>    demo(<span style="color:#66d9ef">const</span> demo <span style="color:#f92672">&amp;</span>) { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Copying</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Exception safe move constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    demo(demo <span style="color:#f92672">&amp;&amp;</span>) <span style="color:#66d9ef">noexcept</span> { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Moving</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>    m_v;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    demo obj1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">noexcept</span>(demo(std<span style="color:#f92672">::</span>declval<span style="color:#f92672">&lt;</span>demo<span style="color:#f92672">&gt;</span>()))){  <span style="color:#75715e">// if moving safe
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        demo obj2(std<span style="color:#f92672">::</span>move(obj1));             <span style="color:#75715e">// then move it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>        demo obj2(obj1);                        <span style="color:#75715e">// otherwise copy it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    demo obj3(std<span style="color:#f92672">::</span>move_if_noexcept(obj1));     <span style="color:#75715e">// Alternatively you can do this----------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>We can use <code>noexcept(T(std::declval&lt;T&gt;()</code>) to check if <code>T</code>’s move constructor exists and is <code>noexcept</code> in order to decide if we want to create an instance of <code>T</code> by moving another instance of <code>T</code> (using <code>std::move</code>).</li>
+<li>Alternatively, we can use <code>std::move_if_noexcept</code>, which uses <code>noexcept</code> operator and casts to either <a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >rvalue or lvalue</a>. Such checks are used in <code>std::vector</code> and other containers.</li>
+<li>This will be useful while you are processing critical data which you don&rsquo;t want to lose. For example, we have critical data received from the server that we do not want to lose it at any cost while processing. In such a case, we should use <code>std::move_if_noexcept</code> which will move ownership of critical data only and only if move constructor is exception-safe.</li>
+</ul>
+<p><strong>TL;DR</strong><br>
+Move critical object safely with <code>std::move_if_noexcept</code></p>
+<h2 id="7-real-cost-of-c-exception-handling-with-benchmark">
+  7. Real Cost of C++ Exception Handling With Benchmark
+  <a class="heading-link" href="#7-real-cost-of-c-exception-handling-with-benchmark">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Despite many benefits, most people still do not prefer to use exceptions due to its overhead. So let&rsquo;s clear it out of the way:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">without_exception</span>(benchmark<span style="color:#f92672">::</span>State <span style="color:#f92672">&amp;</span>state){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> _ : state){
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">&gt;</span> v(<span style="color:#ae81ff">10000</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">uint32_t</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10000</span>; i<span style="color:#f92672">++</span>) v.at(i) <span style="color:#f92672">=</span> i;        
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>BENCHMARK(without_exception);<span style="color:#75715e">//----------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">with_exception</span>(benchmark<span style="color:#f92672">::</span>State <span style="color:#f92672">&amp;</span>state){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> _ : state){
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">&gt;</span> v(<span style="color:#ae81ff">10000</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">uint32_t</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10000</span>; i<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>                v.at(i) <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">catch</span> (<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>out_of_range <span style="color:#f92672">&amp;</span>oor){}
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>BENCHMARK(with_exception);<span style="color:#75715e">//--------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">throwing_exception</span>(benchmark<span style="color:#f92672">::</span>State <span style="color:#f92672">&amp;</span>state){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> _ : state){
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">&gt;</span> v(<span style="color:#ae81ff">10000</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">uint32_t</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10001</span>; i<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>                v.at(i) <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">catch</span> (<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>out_of_range <span style="color:#f92672">&amp;</span>oor){}
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>BENCHMARK(throwing_exception);<span style="color:#75715e">//-----------------------------------------
+</span></span></span></code></pre></div><ul>
+<li>As you can see above, <code>with_exception</code> &amp; <code>without_exception</code> has only a single difference i.e. exception syntax. But none of them throws any exceptions.</li>
+<li>While <code>throwing_exception</code> does the same task except it throws an exception of type <code>std::out_of_range</code> in the last iteration.</li>
+<li>As you can see in below bar graph, the last bar is slightly high as compared to the previous two which shows the cost of throwing an exception.</li>
+<li>But the <strong>cost of using exception is zero</strong> here, as the previous two bars are identical.</li>
+<li>I am not considering the optimization here which is the separate case as it trims some of the assembly instructions completely. Also, implementation of compiler &amp; ABI plays a crucial role. But still, it is far better than losing time by setting up a guard(`if(error) strategy) and explicitly checking for the presence of error everywhere.</li>
+<li>While in case of exception, the compiler generates a side table that maps any point that may throw an exception (program counter) to the list of handlers. When an exception is thrown, this list consults to pick the right handler (if any) and the stack unwound. See <a href="https://monoinfinito.wordpress.com/series/exception-handling-in-c/"  class="external-link" target="_blank" rel="noopener">this</a> for in-depth knowledge.</li>
+<li>By the way, I am using a <a href="http://quick-bench.com/qgpMiwVmHomfDmoLsPkb_i-Qw7M"  class="external-link" target="_blank" rel="noopener">quick benchmark</a> &amp; which internally uses <a href="https://github.com/google/benchmark"  class="external-link" target="_blank" rel="noopener">Google Benchmark</a>, if you want to explore more.</li>
+</ul>
+<p><img src="/images/C-exception-bench-mark-without-optimization-1.png"></p>
+<ul>
+<li>First and foremost, remember that using <code>try</code> and <code>catch</code> doesn&rsquo;t actually decrease performance unless an exception is thrown.</li>
+<li>It&rsquo;s &ldquo;zero cost&rdquo; exception handling; no instruction related to exception handling executes until one is thrown.</li>
+<li>But, at the same time, it contributes to the size of executable due to unwinding routines, which may be important to consider for embedded systems.</li>
+</ul>
+<p><strong>TL;DR</strong><br>
+No instruction related to exception handling is executed until one is thrown so using <code>try</code> / <code>catch</code> doesn&rsquo;t actually decrease performance.</p>
+<h2 id="best-practices--some-c-core-guidelines-on-exception-handling">
+  Best Practices &amp; Some C++ Core Guidelines on Exception Handling
+  <a class="heading-link" href="#best-practices--some-c-core-guidelines-on-exception-handling">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>C++ Exception Handling Best Practices</p>
+<ul>
+<li>
+<p><strong>Ideally, you should not throw an exception from the destructor, move constructor or <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-throwing_swap"  class="external-link" target="_blank" rel="noopener">swap</a> like functions.</strong></p>
+</li>
+<li>
+<p><strong>Prefer <a href="/posts/7-advanced-cpp-programming-styles-and-idiom-examples-you-should-know/#RAII" >RAII</a> idiom for the exception safety because in case of exception you might be left with</strong></p>
+<p>- data in an invalid state, i.e. data that cannot be further read &amp; used;<br>
+- leaked resources such as memory, files, ids, or anything else that needs to be allocated and released;<br>
+- corrupted memory;<br>
+- broken invariants, e.g. size function returns more elements than actually held in a container.</p>
+</li>
+<li>
+<p><strong>Avoid using <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-new"  class="external-link" target="_blank" rel="noopener">raw</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-new"  class="external-link" target="_blank" rel="noopener">new</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-new"  class="external-link" target="_blank" rel="noopener">&amp;</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-new"  class="external-link" target="_blank" rel="noopener">delete</a>. Use solutions from the standard library, e.g. <a href="/posts/understanding-unique-ptr-with-example-in-cpp11/" >std::unique_pointer</a>, <code>std::make_unique</code>, <code>std::fstream</code>, <code>std::lock_guard</code>, etc.</strong></p>
+</li>
+<li>
+<p><strong>Moreover, it is useful to split your code into modifying and non-modifying parts, where only the non-modifying part can throw exceptions.</strong></p>
+</li>
+<li>
+<p><strong>Never throw exceptions while owing some resource.</strong></p>
+</li>
+</ul>
+<p><strong>Some CPP Core Guidelines</strong></p>
+<ul>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-design"  class="external-link" target="_blank" rel="noopener">E.1: Develop an error-handling strategy early in a design</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-errors"  class="external-link" target="_blank" rel="noopener">E.3: Use exceptions for error handling only</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-raii"  class="external-link" target="_blank" rel="noopener">E.6: Use RAII to prevent leaks</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-never-throw"  class="external-link" target="_blank" rel="noopener">E.13: Never throw while being the direct owner of an object</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-never-fail"  class="external-link" target="_blank" rel="noopener">E.16: Destructors, deallocation, and</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-never-fail"  class="external-link" target="_blank" rel="noopener">swap</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-never-fail"  class="external-link" target="_blank" rel="noopener">must never fail</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-not-always"  class="external-link" target="_blank" rel="noopener">E.17: Don’t try to catch every exception in every function</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-catch"  class="external-link" target="_blank" rel="noopener">E.18: Minimize the use of explicit</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-catch"  class="external-link" target="_blank" rel="noopener">try</a><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-catch"  class="external-link" target="_blank" rel="noopener">/</a><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-catch"  class="external-link" target="_blank" rel="noopener">catch</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re-no-throw-crash"  class="external-link" target="_blank" rel="noopener">26: If you can’t throw exceptions, consider failing fast</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re_catch"  class="external-link" target="_blank" rel="noopener">E.31: Properly order your</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re_catch"  class="external-link" target="_blank" rel="noopener">catch</a><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Re_catch"  class="external-link" target="_blank" rel="noopener">-clauses</a></li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

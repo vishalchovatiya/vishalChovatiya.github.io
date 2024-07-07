@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Part 1: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Function Works Internally? · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="&ldquo;All About Virtual Keyword in C&#43;&#43;&rdquo; is a series of articles(total of three, PART 1, PART 2, PART 3) describe working of the virtual keyword in different scenarios. This article mostly focuses on &ldquo;How Does Virtual Function Works Internally?&rdquo;. In other words, How dynamic dispatch done in C&#43;&#43;! Although I am not a compiler writer, but this is what I have learned so far from various sources, courses, books &amp; disassembly of C&#43;&#43; program.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Part 1: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Function Works Internally?">
+  <meta name="twitter:description" content="“All About Virtual Keyword in C&#43;&#43;” is a series of articles(total of three, PART 1, PART 2, PART 3) describe working of the virtual keyword in different scenarios. This article mostly focuses on “How Does Virtual Function Works Internally?”. In other words, How dynamic dispatch done in C&#43;&#43;! Although I am not a compiler writer, but this is what I have learned so far from various sources, courses, books &amp; disassembly of C&#43;&#43; program.">
+
+<meta property="og:url" content="http://localhost:1313/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Part 1: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Function Works Internally?">
+  <meta property="og:description" content="“All About Virtual Keyword in C&#43;&#43;” is a series of articles(total of three, PART 1, PART 2, PART 3) describe working of the virtual keyword in different scenarios. This article mostly focuses on “How Does Virtual Function Works Internally?”. In other words, How dynamic dispatch done in C&#43;&#43;! Although I am not a compiler writer, but this is what I have learned so far from various sources, courses, books &amp; disassembly of C&#43;&#43; program.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-11T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/">
+              Part 1: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Function Works Internally?
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-11T00:00:00Z">
+                September 11, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/memory-layout-of-C-objects.png" alt="Featured image"/>
+        
+        <p>&ldquo;All About Virtual Keyword in C++&rdquo; is a series of articles(total of three, <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >PART 1</a>, <a href="/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/" >PART 2</a>, <a href="/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >PART 3</a>) describe working of the virtual keyword in different scenarios. This article mostly focuses on &ldquo;How Does Virtual Function Works Internally?&rdquo;. In other words, How dynamic dispatch done in C++! Although I am not a compiler writer, but this is what I have learned so far from various sources, courses, books &amp; disassembly of C++ program.</p>
+<p>Before diving into the How virtual function works internally!, I would like to clarify two things</p>
+<ol>
+<li>Implementation of dynamic dispatch(i.e. virtual function) is purely compiler dependent.</li>
+<li>C++ standard does not define the implementation. It only states the behaviour.</li>
+</ol>
+<p>I always ask my self before learning anything new &ldquo;Why do we need it in the first place?&rdquo;. So, let&rsquo;s start there:</p>
+<h2 id="why-do-we-need-a-virtual-function">
+  Why Do We Need a Virtual Function?
+  <a class="heading-link" href="#why-do-we-need-a-virtual-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Let&rsquo;s understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.</li>
+<li>So, you have two choices Bluetooth or Wifi. Although these two are completely different technologies, still some things are common in them at an abstract/behavioural level like both are communication protocol, both need authentication, etc.</li>
+<li>For example, we have a class of them as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">wifi_t</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> _pass[<span style="color:#ae81ff">15</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> authenticate();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">bluetooth_t</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> _pass[<span style="color:#ae81ff">15</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> authenticate();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><ul>
+<li>Now, below is the main application in which you want to connect your device to others.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    wifi_t          <span style="color:#f92672">*</span>wifi <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> wifi_t;
+</span></span><span style="display:flex;"><span>    bluetooth_t     <span style="color:#f92672">*</span>bluetooth <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> bluetooth_t;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> pt <span style="color:#f92672">=</span> selectProtocol();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(pt <span style="color:#f92672">==</span> BLUETOOTH){
+</span></span><span style="display:flex;"><span>        bluetooth<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span><span style="display:flex;"><span>        bluetooth<span style="color:#f92672">-&gt;</span>connect();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(pt <span style="color:#f92672">==</span> WIFI){
+</span></span><span style="display:flex;"><span>        wifi<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span><span style="display:flex;"><span>        wifi<span style="color:#f92672">-&gt;</span>connect();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>If you observe above code then you will find that despite selecting any protocol some steps are the same.</li>
+<li>In such case, you can leverage virtual functions of C++ as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">protocol_t</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">uint8_t</span> _type;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> authenticate(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">wifi_t</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> protocol_t {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> _pass[<span style="color:#ae81ff">15</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> authenticate(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">bluetooth_t</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> protocol_t {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> _pass[<span style="color:#ae81ff">15</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> authenticate(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">makeConnection</span>(protocol_t <span style="color:#f92672">*</span>protocol) {
+</span></span><span style="display:flex;"><span>    protocol<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span><span style="display:flex;"><span>    protocol<span style="color:#f92672">-&gt;</span>connect();
+</span></span><span style="display:flex;"><span>}    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> pt <span style="color:#f92672">=</span> selectProtocol();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// You can not compile this line, but i have kept it that way for simplicity
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    makeConnection( (pt <span style="color:#f92672">==</span> WIFI) <span style="color:#f92672">?</span> <span style="color:#66d9ef">new</span> wifi_t : <span style="color:#66d9ef">new</span> bluetooth_t);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Following are the benefits we have achieved through virtual keywords:</p>
+<ol>
+<li><strong>Run time polymorphism</strong>: Behavioural functions identified automatically at runtime &amp; would called by their type like if <code>protocol</code> is wifi then execute <code>wifi_t::authenticate() &amp; </code>wifi_t::connect()`</li>
+<li><strong>Reusability of code</strong>: Observe <code>makeConnection</code> function there is an only single call to behavioural functions we have removed the redundant code from main.</li>
+<li><strong>Code would be compact</strong>: Observe earlier <code>main</code> function &amp; newer one.</li>
+</ol>
+<h2 id="how-does-virtual-function-works-internally">
+  How Does Virtual Function Works Internally?
+  <a class="heading-link" href="#how-does-virtual-function-works-internally">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>When you declare any function virtual, the compiler will transform(augment is the precise word here) some of your code at compile time.</li>
+<li>For instance, in our case class <code>protocol_t</code> the class object will be augmented by a pointer called <code>_vptr</code> which points to the virtual table.</li>
+<li>In other words, this is nothing but a pointer(<code>_vptr</code>) which points to an array of a function pointer. That includes offset/address of your virtual functions. So that it can call your function through that table rather than calling it directly.</li>
+</ul>
+<p>So if you call the function <code>authenticate()</code>using a pointer of type <code>protocol_t</code> as below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>protocol_t <span style="color:#f92672">*</span>protocol;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// .... assignment to `protocol`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>protocol<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span></code></pre></div><p>then it would probably augmented by a compiler like this</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>(<span style="color:#f92672">*</span>protocol<span style="color:#f92672">-&gt;</span>vptr[ <span style="color:#ae81ff">1</span> ])( protocol ); 
+</span></span></code></pre></div><p>Where the following holds:</p>
+<ol>
+<li><code>_vptr</code> represents the internally generated virtual table pointer inserted within each object whose class<br>
+declares or inherits one or more virtual functions. In practice, its name mangled. There may be multiple _vptrs within a complex class derivation.</li>
+<li>1 in _vptr[ 1 ] is the index into the virtual table slot associated with <code>authenticate()</code> This index is decided by compiler &amp; fixed throughout the inheritance tree.</li>
+<li><code>protocol</code> in its second occurrence(i.e. in the argument) represents the <code>this</code> pointer.</li>
+</ol>
+<p>When we inherit <code>wifi_t</code> class from <code>protocol_t</code> class, a new virtual table will be created by the compiler with overridden polymorphic function slot. Each virtual function has a fixed index in the virtual table, no matter how long the inheritance hierarchy is.</p>
+<p>If <code>derived</code> class introduce a new virtual function not present in the base class, the virtual table will be grown by a slot and the address of the function is placed within that slot.</p>
+<p>If you want to summarize virtual keyword functionality in two words then its <code>indirect calling</code> of a polymorphic function. And to visualize virtual function footprint you can take a look at my earlier article <a href="/posts/memory-layout-of-cpp-object/" >memory layout of a C++ object</a>.</p>
+<h3 id="lets-address-some-of-the-faqs-around-virtual-function--virtual-table">
+  Let&rsquo;s Address Some of the FAQs Around Virtual Function &amp; Virtual Table
+  <a class="heading-link" href="#lets-address-some-of-the-faqs-around-virtual-function--virtual-table">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>Q. Is virtual table per object or per class?</strong></p>
+<ul>
+<li>This usually depends on compiler implementation.</li>
+<li>But Generally, a <strong><em>virtual table is per class</em></strong> and the <strong><em>virtual table pointers(<code>_vptr</code>) is to object</em></strong>.</li>
+<li>There might be more than one virtual table pointers too depending upon type of inheritance.</li>
+</ul>
+<p><strong>Q. Where &amp; how does virtual table/pointer code augments by the compiler?</strong></p>
+<ul>
+<li>The code necessary to fill/override virtual table slot generated by the compiler at the time of compilation. To reiterate it in short, the <strong><em>virtual table is generated statically at the compile time</em></strong> by the compiler.<br>
+in constructors right before user-written code.</li>
+<li>Virtual table pointer(i.e. <code>_vptr</code>) has fixed offset. And the <strong><em>code to override</em></strong> <code>_**_vptr**_</code> <strong><em>is generated at the time of object construction</em></strong> by the compiler.</li>
+<li>This is the reason that you should not call the virtual function in constructor. Read more about it <a href="https://stackoverflow.com/questions/962132/calling-virtual-functions-inside-constructors"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<p><strong>Q. How do we know at runtime that pointer <code>protocol</code> will execute a right function(of the object pointed to)?</strong></p>
+<ul>
+<li>In general, we don&rsquo;t know the exact type of the object <code>protocol</code> addresses at each invocation of <code>authenticate()</code> However, we do know the virtual table pointer(<code>_vptr</code>) offset(which is fixed) associated with the object&rsquo;s class.</li>
+<li>And using this <code>_vptr</code>, we can access the virtual table of the object pointed by <code>protocol</code> pointer. Again the index of function <code>authenticate() in a virtual table fixed throughout the inheritance hierarchy. This way right </code>authenticate()`function execution guaranteed.</li>
+</ul>
+<h2 id="how-pure-virtual-function-works">
+  How `Pure` Virtual Function Works?
+  <a class="heading-link" href="#how-pure-virtual-function-works">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>When you declare any function as pure virtual, the compiler automatically fills the slot of that pure virtual function with dummy function or so-called place holder <code>pure_virtual_called()</code>library instance. And the run-time exception placed if somehow this place holder called.</li>
+<li>In addition, rest of calling &amp; virtual table slot mechanism would be the same as a normal virtual function.</li>
+</ul>
+<h2 id="virtual-function-support-under-multiple-inheritances">
+  Virtual Function Support Under Multiple Inheritances
+  <a class="heading-link" href="#virtual-function-support-under-multiple-inheritances">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Now with multiple inheritance things will get a little bit tricky. To understand this behaviour let us take another simplified example as follow :</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base1</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> base1_var;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">base1_func</span>() { }            
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() { }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base2</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> base2_var;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">base2_func</span>() { }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() { }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">derived</span> <span style="color:#f92672">:</span> base1, base2 {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> derived_var;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() { }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Here we have <code>derived</code> class with two base classes. In such a case, when we declare an object of the <code>derived</code> class, two virtual table pointers(<code>_vptr</code>) created in the <code>derived</code> class object. One for <code>base1</code> &amp; other for <code>base2</code>, which are overridden with the address of <code>derived</code> class virtual table.</li>
+</ul>
+<pre tabindex="0"><code>|                        |          
+|------------------------| &lt;------ derived object memory layout
+|  base1::base1_var      |          
+|------------------------|          |---------&gt;|----------------------|
+|  base1::_vptr_base1    |----------|          |   type_info derived  |
+|------------------------|                     |----------------------|
+|  base2::base2_var      |                     |   base1::base1_func  |
+|------------------------|                     |----------------------|
+|  base2::_vptr_base2    |----------|          |    derived:::print   |
+|------------------------|          |          |----------------------|
+|  derived::derived_var  |          |          |------GUARD_AREA------|
+|------------------------|          |---------&gt;|----------------------|
+|                        |                     |   type_info derived  |
+|                        |                     |----------------------|
+|                        |                     |   base2::base2_func  |
+|                        |                     |----------------------|
+                                               |    derived::print    |
+                                               |----------------------|
+</code></pre><ul>
+<li>To understand that, first, let&rsquo;s assign a <code>base2</code> pointer with the address of a <code>derived</code> class object allocated on the heap:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>base2 <span style="color:#f92672">*</span>pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> derived;
+</span></span></code></pre></div><ul>
+<li>The address of the new <code>derived</code> object must be adjusted to address its <code>base2</code> <a href="/posts/memory-layout-of-cpp-object/" >subobject</a>. The code augmentation done by compiler would look like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>base2<span style="color:#f92672">*</span> pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>base2 <span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">new</span> derived()); 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Equivalent to &#34;address of derived object + sizeof(base1)&#34;
+</span></span></span></code></pre></div><ul>
+<li>Visualizing memory object of above adjustment.</li>
+</ul>
+<pre tabindex="0"><code>        |                        |          
+        |------------------------| &lt;------ derived object memory layout
+        |  base1::base1_var      |          
+        |------------------------|          |---------&gt;|----------------------|
+        |  base1::_vptr_base1    |----------|          |   type_info derived  |
+pb ---&gt; |------------------------|                     |----------------------|
+        |  base2::base2_var      |                     |   base1::base1_func  |
+        |------------------------|                     |----------------------|
+        |  base2::_vptr_base2    |----------|          |    derived:::print   |
+        |------------------------|          |          |----------------------|
+        |  derived::derived_var  |          |          |------GUARD_AREA------|
+        |------------------------|          |---------&gt;|----------------------|
+        |                        |                     |   type_info derived  |
+        |                        |                     |----------------------|
+        |                        |                     |   base2::base2_func  |
+        |                        |                     |----------------------|
+                                                       |    derived:::print   |
+                                                       |----------------------|
+</code></pre><ul>
+<li>Without this adjustment, any nonpolymorphic use of the pointer would fail, such as</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>pb<span style="color:#f92672">-&gt;</span>base2_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span></code></pre></div><ul>
+<li>And the call to the polymorphic function `print()</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>pb<span style="color:#f92672">-&gt;</span>print();
+</span></span></code></pre></div><p>would probably transforms into</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>( <span style="color:#f92672">*</span> pb<span style="color:#f92672">-&gt;</span>_vptr_base2[ <span style="color:#ae81ff">2</span> ])( pb ); 
+</span></span></code></pre></div><h2 id="summary">
+  Summary
+  <a class="heading-link" href="#summary">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I hope you liked this material &amp; helps you to clarify many doubt around virtual function. There is one extraordinary case of <a href="/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a> which we will see in-depth in PART-3 of this series. Followings are the points which sum up this article in concise way:</p>
+<ol>
+<li>C++ standard does not define implementation &amp; it only states the behaviour of the dynamic dispatch(i.e. virtual function)</li>
+<li>virtual table pointers(<code>_vptr</code>) is to object</li>
+<li>virtual table pointer(<code>_vptr</code>) has fixed offset</li>
+<li>code to override <code>_vptr</code> is generated at the time of object construction</li>
+<li>virtual table is per class</li>
+<li>virtual table is generated statically at the compile time</li>
+</ol>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

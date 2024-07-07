@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Vishal Chovatiya</title>
+    <link>http://localhost:1313/pages/</link>
+    <description>Recent content in Pages on Vishal Chovatiya</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/pages/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Start Here</title>
+      <link>http://localhost:1313/pages/start-here/</link>
+      <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/pages/start-here/</guid>
+      <description>This page gives you a quick start index for entire blog, segregated topic-wise:&#xA;C++ Link to heading Fundamentals Link to heading Memory Layout of C++ Object in Different Scenarios Inside the C++ Object Model Part 1: All About Virtual Keyword in C++: How Does Virtual Function Works Internally? Part 2: All About Virtual Keyword in C++: How Does Virtual Base Class Works Internally? Part 3: All About Virtual Keyword in C++: How Does Virtual Destructor Works?</description>
+    </item>
+    <item>
+      <title>Curriculum Vitae</title>
+      <link>http://localhost:1313/pages/curriculum-vitae/</link>
+      <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/pages/curriculum-vitae/</guid>
+      <description>Hi, I&amp;rsquo;m Vishal — Experienced Enthusiast For: C++, System Software, Firmware, SoC Modeling &amp;amp; Leadership.&#xA;I am a techie who writes software in Assembly/C/C++(11/14/17)/SystemC/Python along with any other technologies that are needed to get things done. I also dabble in blogging, leadership, technical writing &amp;amp; application programming when time permits.&#xA;At present, leading a team on a technical front along with non-technical nuisances, to create a high impact on individual team member’s career growth while considering corporate accountability also.</description>
+    </item>
+    <item>
+      <title>About Me</title>
+      <link>http://localhost:1313/pages/vishal-chovatiya/</link>
+      <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/pages/vishal-chovatiya/</guid>
+      <description>Hey there&amp;hellip;! I am Vishal.&#xA;I live in Bangalore(India).&#xA;I write articles here about the things I&amp;rsquo;m interested in.&#xA;I watch a lot of sci-fi movies &amp;amp; never miss the iron-man/transformer like series.&#xA;I write code &amp;amp; preserve it if it is helpful to others &amp;amp; me in the future.&#xA;At present, leading a team on a technical front along with non-technical nuisances, to create a high impact on individual team member’s career growth while considering corporate accountability also.</description>
+    </item>
+  </channel>
+</rss>

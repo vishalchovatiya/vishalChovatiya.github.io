@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stl on Vishal Chovatiya</title>
+    <link>http://localhost:1313/categories/stl/</link>
+    <description>Recent content in Stl on Vishal Chovatiya</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 08 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/stl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using std::map Wisely With Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/using-std-map-wisely-with-modern-cpp/</link>
+      <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/using-std-map-wisely-with-modern-cpp/</guid>
+      <description>std::map and its siblings(std::multimap, std::unordered_map/multimap) used to be my favourite containers when I was doing competitive programming. In fact, I still like them(though using less frequently nowadays). And with Modern C++, we now have more reasons to use std::map. That&amp;rsquo;s why I have decided to address this topic by writing an article summarizing these new features. So, without much gibberish, let&amp;rsquo;s dive-in directly.&#xA;std::map::contains(C++20) Link to heading std::map::contains member function is a good step towards code expressiveness.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Iterator Design Pattern in Modern C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Iterator Design Pattern in Modern C&#43;&#43; is a heavily used pattern i.e. provides facility to traverse data containers sophistically. For simplicity, you can consider a pointer moving across an array, but the real magic comes when you get to the next element of a container, in that case, you need not know anything about how the container is constructed(like sequential(not necessarily be contiguous), associative or hashed). This is handled by the iterator.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Iterator Design Pattern in Modern C&#43;&#43;">
+  <meta name="twitter:description" content="Iterator Design Pattern in Modern C&#43;&#43; is a heavily used pattern i.e. provides facility to traverse data containers sophistically. For simplicity, you can consider a pointer moving across an array, but the real magic comes when you get to the next element of a container, in that case, you need not know anything about how the container is constructed(like sequential(not necessarily be contiguous), associative or hashed). This is handled by the iterator.">
+
+<meta property="og:url" content="http://localhost:1313/posts/iterator-design-pattern-in-modern-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Iterator Design Pattern in Modern C&#43;&#43;">
+  <meta property="og:description" content="Iterator Design Pattern in Modern C&#43;&#43; is a heavily used pattern i.e. provides facility to traverse data containers sophistically. For simplicity, you can consider a pointer moving across an array, but the real magic comes when you get to the next element of a container, in that case, you need not know anything about how the container is constructed(like sequential(not necessarily be contiguous), associative or hashed). This is handled by the iterator.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-03T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/iterator-design-pattern-in-modern-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/iterator-design-pattern-in-modern-cpp/">
+              Iterator Design Pattern in Modern C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-03T00:00:00Z">
+                April 3, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-patterns/">Design-Patterns</a>
+      <span class="separator">•</span>
+    <a href="/categories/software-engineering/">Software-Engineering</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Iterator-Design-Pattern-in-Modern-C-vishal-chovatiya.png" alt="Featured image"/>
+        
+        <p>Iterator Design Pattern in Modern C++ is a heavily used pattern i.e. <strong><em>provides facility to traverse data containers sophistically</em></strong>. For simplicity, you can consider a pointer moving across an array, but the real magic comes when you get to the next element of a container, in that case, you need not know anything about how the container is constructed(like sequential(not necessarily be contiguous), associative or hashed). This is handled by the iterator.</p>
+<p>By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</p>
+<ol>
+<li><a href="/posts//chain-of-responsibility-design-pattern-in-modern-cpp/" >Chain of responsibility</a></li>
+<li><a href="/posts//command-design-pattern-in-modern-cpp/" >Command</a></li>
+<li><a href="/posts//interpreter-design-pattern-in-modern-cpp/" >Interpreter</a></li>
+<li><a href="/posts//iterator-design-pattern-in-modern-cpp/" >Iterator</a></li>
+<li><a href="/posts//mediator-design-pattern-in-modern-cpp/" >Mediator</a></li>
+<li><a href="/posts//memento-design-pattern-in-modern-cpp/" >Memento</a></li>
+<li><a href="/posts//observer-design-pattern-in-modern-cpp/" >Observer</a></li>
+<li><a href="/posts//state-design-pattern-in-modern-cpp/" >State</a></li>
+<li><a href="/posts//strategy-design-pattern-in-modern-cpp/" >Strategy</a></li>
+<li><a href="/posts//template-method-design-pattern-in-modern-cpp/" >Template Method</a></li>
+<li><a href="/posts//double-dispatch-visitor-design-pattern-in-modern-cpp/" >Visitor</a></li>
+</ol>
+<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
+<p><strong><em>Note:</em></strong></p>
+<ul>
+<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
+<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
+</ul>
+<h2 id="intent">
+  Intent
+  <a class="heading-link" href="#intent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<blockquote>
+<p><strong><em>To facilitate the traversal of data structure.</em></strong></p>
+</blockquote>
+<ul>
+<li>Iterator is a core functionality of various containers provided in the standard C++ library. There are lots of cases where you&rsquo;re using iterators without really knowing what you&rsquo;re using them. For instance, if you use a <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/#Range-based-for-loops" >range-based for-loop</a> what you&rsquo;re essentially using is begin, end &amp; operator++ but you don&rsquo;t see any of it.</li>
+<li>Another example is coroutines that&rsquo;s also something where you have a method which returns a generator but the generator actually gives you the ability to iterate itself and you don&rsquo;t see the iterators explicitly in this case either.</li>
+</ul>
+<h2 id="iterator-design-pattern-examples-in-c">
+  Iterator Design Pattern Examples in C++
+  <a class="heading-link" href="#iterator-design-pattern-examples-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>A typical example to illustrate iterator is to use single dimensional array &amp; traverse it using pointer(with the same <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >type</a> as the element of the array). But this is a very simple &amp; straight forward scenario where you can not imagine how important iterators are? So we will see the example of basic associative container i.e. Binary Tree.</li>
+</ul>
+<h3 id="binary-tree-iterator">
+  Binary Tree Iterator
+  <a class="heading-link" href="#binary-tree-iterator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BinaryTree</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+</span></span><span style="display:flex;"><span>    T                   m_value <span style="color:#f92672">=</span> T();
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>            m_parent{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>            m_left{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>            m_right{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>    BinaryTree<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>      m_tree{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> v)<span style="color:#f92672">:</span> m_value(v) {}
+</span></span><span style="display:flex;"><span>    Node(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> v, Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> l, Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> r)<span style="color:#f92672">:</span> m_value(v), m_left(l), m_right(r) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_left<span style="color:#f92672">-&gt;</span>m_tree <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_right<span style="color:#f92672">-&gt;</span>m_tree <span style="color:#f92672">=</span> m_tree;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_left<span style="color:#f92672">-&gt;</span>m_parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_right<span style="color:#f92672">-&gt;</span>m_parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Node() { <span style="color:#66d9ef">delete</span> m_left; <span style="color:#66d9ef">delete</span> m_right; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_tree</span>(BinaryTree<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>t) {
+</span></span><span style="display:flex;"><span>        m_tree <span style="color:#f92672">=</span> t;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (m_left) m_left<span style="color:#f92672">-&gt;</span>set_tree(t);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (m_right) m_right<span style="color:#f92672">-&gt;</span>set_tree(t);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BinaryTree</span> {
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>        m_root <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    BinaryTree(Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> r) <span style="color:#f92672">:</span> m_root{r} {
+</span></span><span style="display:flex;"><span>        m_root<span style="color:#f92672">-&gt;</span>set_tree(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>BinaryTree() { <span style="color:#66d9ef">delete</span> m_root; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ---------------------------- Iterator Implementation ----------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> U<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">PreOrderIterator</span> {
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        PreOrderIterator(Node<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>c)<span style="color:#f92672">:</span> current(c) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">!=</span>(<span style="color:#66d9ef">const</span> PreOrderIterator<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;&amp;</span> rhs) { <span style="color:#66d9ef">return</span> current <span style="color:#f92672">!=</span> rhs.current; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        PreOrderIterator<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">++</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (current<span style="color:#f92672">-&gt;</span>m_right) {
+</span></span><span style="display:flex;"><span>                current <span style="color:#f92672">=</span> current<span style="color:#f92672">-&gt;</span>m_right;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> (current<span style="color:#f92672">-&gt;</span>m_left)
+</span></span><span style="display:flex;"><span>                    current <span style="color:#f92672">=</span> current<span style="color:#f92672">-&gt;</span>m_left;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> current<span style="color:#f92672">-&gt;</span>m_parent;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&amp;&amp;</span> current <span style="color:#f92672">==</span> p<span style="color:#f92672">-&gt;</span>m_right) {
+</span></span><span style="display:flex;"><span>                    current <span style="color:#f92672">=</span> p;
+</span></span><span style="display:flex;"><span>                    p <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>m_parent;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                current <span style="color:#f92672">=</span> p;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>current; }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> iterator <span style="color:#f92672">=</span> PreOrderIterator<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    iterator <span style="color:#a6e22e">begin</span>() {
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>n <span style="color:#f92672">=</span> m_root;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (n)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (n<span style="color:#f92672">-&gt;</span>m_left)
+</span></span><span style="display:flex;"><span>                n <span style="color:#f92672">=</span> n<span style="color:#f92672">-&gt;</span>m_left;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> iterator{n};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    iterator <span style="color:#a6e22e">end</span>() { <span style="color:#66d9ef">return</span> iterator{<span style="color:#66d9ef">nullptr</span>}; }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ---------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//         me
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//        /  \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    //   mother   father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//      / \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    //   m&#39;m   m&#39;f
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    BinaryTree<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> family {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;me&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;mother&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;mother&#39;s mother&#34;</span>},
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;mother&#39;s father&#34;</span>}
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;father&#34;</span>}
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    for_each(begin(family), end(family), <span style="color:#75715e">// Works with STL algo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    [](<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;&amp;</span> n) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> n.m_value <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> it: family) <span style="color:#75715e">// Works with range-based for loop as well
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> it.m_value <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother&#39;s mother
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother&#39;s father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">me
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother&#39;s mother
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother&#39;s father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">me
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>The most difficult thing in the above example is implementing <code>PreOrderIterator::operator++</code>. So when we&rsquo;re traversing the tree in pre-order. What&rsquo;s happening is every time somebody calls plus-plus we need to move to the subsequent elements of the tree and this is a particularly tricky operation.</li>
+<li>So as you can see because we don&rsquo;t have any way of asynchronously yielding the elements. It becomes a really ugly chunk of code. I mean I can go through this particular implementation. But essentially it&rsquo;s just the preorder traversal as we use to do.</li>
+</ul>
+<h3 id="binary-tree-iterator-with-c20-co-routines">
+  Binary Tree Iterator with C++20 Co-routines
+  <a class="heading-link" href="#binary-tree-iterator-with-c20-co-routines">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>In a previous example, I&rsquo;ve deliberately skipped talking about how the traversal was actually implemented. Because if you go up and look at the <code>PreOrderIterator::operator++</code>, you can see that it&rsquo;s a lot of manipulations around the <code>current</code> pointer &amp; is very ugly.</li>
+<li>If you ever came across recursive pre-order traversal, you know that it is very intuitive &amp; concise as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">pre_order</span>(root) { 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> NULL) <span style="color:#66d9ef">return</span>;    
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>root <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    pre_order(root<span style="color:#f92672">-&gt;</span>left);
+</span></span><span style="display:flex;"><span>    pre_order(root<span style="color:#f92672">-&gt;</span>right);
+</span></span><span style="display:flex;"><span>} 
+</span></span></code></pre></div><ul>
+<li>Now the problem here for not having recursion is that you simply have an operator plus-plus. That gets executed at a time and you need to somehow preserve the state between those consecutive executions.</li>
+<li>But there was no way of suspending execution and then resuming till C++20. Because if you could do that, you could write a proper recursive algorithm that people could actually read. And instead, we have this monstrosity which I&rsquo;m not going to go through.</li>
+<li>Since C++20, we have a feature in C++ by which we can write above algorithm in an idiomatic way where you can actually read the algorithm and it looks like the algorithm that reflects what you read in Wikipedia or computer science books and the way this is made possible is thanks to C++ coroutines[TODO].</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;experimental/coroutine&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Note:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">include file https://github.com/lewissbaker/cppcoro/blob/master/include/cppcoro/generator.hpp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">if you are not able to use `experimental::generator`.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">I have used clang 9.0.0 with cppcoro library for compilation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BinaryTree</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+</span></span><span style="display:flex;"><span>    T                   m_value <span style="color:#f92672">=</span> T();
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>            m_parent{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>            m_left{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>            m_right{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>    BinaryTree<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span>      m_tree{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> v)<span style="color:#f92672">:</span> m_value(v) {}
+</span></span><span style="display:flex;"><span>    Node(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> v, Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> l, Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> r)<span style="color:#f92672">:</span> m_value(v), m_left(l), m_right(r) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_left<span style="color:#f92672">-&gt;</span>m_tree <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_right<span style="color:#f92672">-&gt;</span>m_tree <span style="color:#f92672">=</span> m_tree;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_left<span style="color:#f92672">-&gt;</span>m_parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_right<span style="color:#f92672">-&gt;</span>m_parent <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Node() { <span style="color:#66d9ef">delete</span> m_left; <span style="color:#66d9ef">delete</span> m_right; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_tree</span>(BinaryTree<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>t) {
+</span></span><span style="display:flex;"><span>        m_tree <span style="color:#f92672">=</span> t;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (m_left) m_left<span style="color:#f92672">-&gt;</span>set_tree(t);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (m_right) m_right<span style="color:#f92672">-&gt;</span>set_tree(t);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BinaryTree</span> {
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>root <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    BinaryTree(Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> r) <span style="color:#f92672">:</span> root{r} {
+</span></span><span style="display:flex;"><span>        root<span style="color:#f92672">-&gt;</span>set_tree(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>BinaryTree() { <span style="color:#66d9ef">delete</span> root; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ------------------------------- C++ co-routines -------------------------------- */</span>
+</span></span><span style="display:flex;"><span>    experimental<span style="color:#f92672">::</span>generator<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*&gt;</span> pre_order() { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">pre_order_impl</span>(root); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    experimental<span style="color:#f92672">::</span>generator<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*&gt;</span> pre_order_impl(Node<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*</span> node) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (node) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> x : pre_order_impl(node<span style="color:#f92672">-&gt;</span>m_left))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">co_yield</span> x;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> y : pre_order_impl(node<span style="color:#f92672">-&gt;</span>m_right))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">co_yield</span> y;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">co_yield</span> node;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ---------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//         me
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//        /  \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    //   mother   father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//      / \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    //   m&#39;m   m&#39;f
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    BinaryTree<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> family {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;me&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;mother&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;mother&#39;s mother&#34;</span>},
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;mother&#39;s father&#34;</span>}
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span>{<span style="color:#e6db74">&#34;father&#34;</span>}
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> it: family.pre_order())
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> it<span style="color:#f92672">-&gt;</span>m_value <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother&#39;s mother
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother&#39;s father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">mother
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">father
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">me
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>If you are unable to understand <code>pre_order_impl</code>, I would suggest you go through <a href="https://www.youtube.com/watch?v=ZTqHjjm86Bw&amp;t=1431s"  class="external-link" target="_blank" rel="noopener">this talk</a>. After that <code>pre_order_impl</code> would be self explainable.</li>
+<li>Moreover, I have compiled above snipped using <a href="https://github.com/lewissbaker/cppcoro"  class="external-link" target="_blank" rel="noopener">cppcoro library</a> with clang 9.0.0 on <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">wandbox</a>.</li>
+</ul>
+<h3 id="boost-iterator-facade-design-pattern-in-c">
+  Boost Iterator Facade Design Pattern in C++
+  <a class="heading-link" href="#boost-iterator-facade-design-pattern-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>If you have gone through my <a href="/posts/facade-design-pattern-in-modern-cpp/" >Facade Design Pattern</a> article, you know that the first word in the above title i.e. Facade pronounces as `fa;sa;d`.</li>
+<li>Boost Iterator Facade is quite simply a very useful base class that you can add to an iterator very quickly and intuitively i.e. define the operations which make up that iterator. And to explain that I have taken a simple singly-linked list example as below:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;boost/iterator/iterator_facade.hpp&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+</span></span><span style="display:flex;"><span>    string      m_value;
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">*</span>       m_next <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Node(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> v)<span style="color:#f92672">:</span> m_value(v) {}
+</span></span><span style="display:flex;"><span>    Node(<span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>v, Node <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> parent)<span style="color:#f92672">:</span> m_value(v) { parent<span style="color:#f92672">-&gt;</span>m_next <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ListIterator</span><span style="color:#f92672">:</span> boost<span style="color:#f92672">::</span>iterator_facade<span style="color:#f92672">&lt;</span>ListIterator, Node, boost<span style="color:#f92672">::</span>forward_traversal_tag<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">*</span>       m_current;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ListIterator(Node <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> c <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>)<span style="color:#f92672">:</span> m_current(c) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">friend</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">boost</span><span style="color:#f92672">::</span>iterator_core_access;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">increment</span>() { m_current <span style="color:#f92672">=</span> m_current<span style="color:#f92672">-&gt;</span>m_next; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">equal</span>(<span style="color:#66d9ef">const</span> ListIterator <span style="color:#f92672">&amp;</span>other) <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> other.m_current <span style="color:#f92672">==</span> m_current; };
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">&amp;</span> dereference() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>m_current; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Node alpha { <span style="color:#e6db74">&#34;alpha&#34;</span> };
+</span></span><span style="display:flex;"><span>    Node beta { <span style="color:#e6db74">&#34;beta&#34;</span>, <span style="color:#f92672">&amp;</span>alpha };
+</span></span><span style="display:flex;"><span>    Node gamma { <span style="color:#e6db74">&#34;gamma&#34;</span>, <span style="color:#f92672">&amp;</span>beta };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    for_each(ListIterator{<span style="color:#f92672">&amp;</span>alpha}, ListIterator{}, 
+</span></span><span style="display:flex;"><span>	[ ](<span style="color:#66d9ef">const</span> Node<span style="color:#f92672">&amp;</span> n) {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> n.m_value <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Some quick things to note here:
+<ul>
+<li>Inheritance mention the type of traversal by <code>boost::forward_traversal_tag</code>.</li>
+<li>We have some override methods like <code>increment()</code>, <code>equal()</code>, <code>dereference()</code>, etc.</li>
+</ul>
+</li>
+</ul>
+<p>You can read more about it in boost <a href="https://www.boost.org/doc/libs/1_65_0/libs/iterator/doc/iterator_facade.html"  class="external-link" target="_blank" rel="noopener">Iterator Facade Documentation</a>.</p>
+<h2 id="benefits-of-iterator-design-pattern">
+  Benefits of Iterator Design Pattern
+  <a class="heading-link" href="#benefits-of-iterator-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>Maintains good cohesion which means code is easier to understand, use &amp; test since the iterator uses the <a href="/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/" >Single Responsibility Principle</a> and <a href="/posts/open-closed-principle-in-cpp-solid-as-a-rock/" >Open-Closed Principle</a>.</li>
+<li>Loose coupling between data structures &amp; algorithm as an algorithm does not have to know the way of traversal &amp; even underlying data structure in some cases.</li>
+<li>You can extend the Iterators to traverse collection &amp; collection of the collections.</li>
+<li>You can combine the Visitor &amp; Iterator Design Pattern to traverse &amp; execute some operation over the collection of different types.</li>
+</ol>
+<h2 id="summary-by-faqs">
+  Summary by FAQs
+  <a class="heading-link" href="#summary-by-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>What is the purpose of Iterator Design Pattern?</strong></p>
+<p>To abstract away the underlying structure in which the data are kept for traversal &amp; operations.</p>
+<p><strong>How do I use Iterator for traversing the collection of the collections?</strong></p>
+<p><a href="/posts/composite-design-pattern-in-modern-cpp/" >Composite design pattern</a></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

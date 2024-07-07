@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Coroutine in C Language · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="It&rsquo;s been quite a while that I haven&rsquo;t published anything on my blog. But that&rsquo;s due to the job change. I hope you understand that it has never been easy to re-settle in a new environment with new people while maintaining a steep technical learning curve. It takes time to tune yourself accordingly. Anyways, I wrote on &ldquo;Coroutine in C Language&rdquo; as a pre-pend to my upcoming post on C&#43;&#43;20 Coroutine.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Coroutine in C Language">
+  <meta name="twitter:description" content="It’s been quite a while that I haven’t published anything on my blog. But that’s due to the job change. I hope you understand that it has never been easy to re-settle in a new environment with new people while maintaining a steep technical learning curve. It takes time to tune yourself accordingly. Anyways, I wrote on “Coroutine in C Language” as a pre-pend to my upcoming post on C&#43;&#43;20 Coroutine.">
+
+<meta property="og:url" content="http://localhost:1313/posts/coroutine-in-c-language/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Coroutine in C Language">
+  <meta property="og:description" content="It’s been quite a while that I haven’t published anything on my blog. But that’s due to the job change. I hope you understand that it has never been easy to re-settle in a new environment with new people while maintaining a steep technical learning curve. It takes time to tune yourself accordingly. Anyways, I wrote on “Coroutine in C Language” as a pre-pend to my upcoming post on C&#43;&#43;20 Coroutine.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-04-24T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-04-24T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/coroutine-in-c-language/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/coroutine-in-c-language/">
+              Coroutine in C Language
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-04-24T00:00:00Z">
+                April 24, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              11-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/c-language/">C-Language</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/coroutine-in-c.png" alt="Featured image"/>
+        
+        <p>It&rsquo;s been quite a while that I haven&rsquo;t published anything on my blog. But that&rsquo;s due to the job change. I hope you understand that it has never been easy to re-settle in a new environment with new people while maintaining a steep technical learning curve. It takes time to tune yourself accordingly. Anyways, I wrote on &ldquo;Coroutine in C Language&rdquo; as a pre-pend to my upcoming post on <a href="/posts/cpp20-coroutine-under-the-hood/" >C++20 Coroutine</a>. Today we will see &ldquo;How Coroutine Works Internally?&rdquo;.</p>
+<h2 id="prologue">
+  Prologue
+  <a class="heading-link" href="#prologue">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>If you are an absolute beginner, then go through the below pre-requisites. And if you are not a beginner, you better know what to skip!</p>
+<ol>
+<li><a href="/posts/how-c-program-convert-into-assembly/" >How C Program Gets Converted To Assembly!</a></li>
+<li><a href="/posts/how-c-program-stored-in-ram-memory/" >Memory Layout Of C Program</a></li>
+</ol>
+<p><strong>Note:</strong> Context switching APIs <code>getcontext</code>, <code>setcontext</code>, <code>makecontext</code> and <code>swapcontext</code> were obsoleted in POSIX.1-2004 and removed in POSIX.1-2008 citing portability issues. So, please do not use it. Here I have used it for demonstration purpose.</p>
+<h2 id="coroutine-basics">
+  Coroutine Basics
+  <a class="heading-link" href="#coroutine-basics">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="what-is-coroutine">
+  What Is Coroutine?
+  <a class="heading-link" href="#what-is-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>A coroutine is a function/sub-routine(co-operative sub-routine to be precise) that can be suspended and resumed.</li>
+<li>In other words, You can think of coroutine as an in-between solution of normal function &amp; thread. Because, once function/sub-routine called, it executes till the end. On other hand, a thread can be blocked by synchronization primitives(like mutex, semaphores, etc) or suspended by an OS scheduler. But again you can not decide on suspension &amp; resumption on it. As it is done by the OS scheduler.</li>
+<li>While coroutine on other hand, can be suspended on a pre-defined point &amp; resumed later on a need basis by the programmer. So here programmer will be having complete control of execution flow. That too with minimal overhead as compared to thread.</li>
+<li>A coroutine is also known as native threads, fibres(in windows), lightweight threads, green threads(in java), etc.</li>
+</ul>
+<h3 id="why-do-we-need-coroutine">
+  Why Do We Need Coroutine?
+  <a class="heading-link" href="#why-do-we-need-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>As I usually do, before learning anything new, you should be asking this question to yourself. But, let me answer it:</li>
+<li>Coroutines can provide a very high level of <a href="https://en.wikipedia.org/wiki/Concurrency_%28computer_science%29"  class="external-link" target="_blank" rel="noopener">concurrency</a> with very little overhead. As it doesn&rsquo;t need OS intervention in scheduling. While in a threaded environment, you have to bear the OS scheduling overhead.</li>
+<li>A coroutine can suspend on a pre-determined point, so you can also avoid locking on shared data structures. Because you would never tell your code to switch to another coroutine in the middle of a critical section.</li>
+<li>With the threads, each thread needs its own stack with thread local storage &amp; other things. So your memory usage grows linearly with the number of threads you have. While with co-routines, the number of routines you have doesn&rsquo;t have a direct relationship with your memory usage.</li>
+<li>For most use cases coroutine is a more optimal choice as it is faster as compared to thread.</li>
+<li>And if you are still not convinced then wait for my <a href="/posts/cpp20-coroutine-under-the-hood/" >C++20 Coroutine</a> post.</li>
+</ul>
+<h2 id="to-the-point-context-switching-api-theory">
+  To-the-point Context Switching API Theory
+  <a class="heading-link" href="#to-the-point-context-switching-api-theory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Before we dive into a implementation of Coroutine in C, we need to understand the below foundation functions/APIs for context switching. Off-course, as we do, with less to-the-point theory &amp; with more code examples.
+<ol>
+<li><code>setcontext</code></li>
+<li><code>getcontext</code></li>
+<li><code>makecontext</code></li>
+<li><code>swapcontext</code></li>
+</ol>
+</li>
+<li>If you are already familiar with <a href="/posts/error-handling-setjmp-longjmp/" ><code>setjmp</code>/<code>longjmp</code></a>, then you might have ease in understanding these functions. You can consider these functions as an advanced version of <a href="/posts/error-handling-setjmp-longjmp/" ><code>setjmp</code>/<code>longjmp</code></a>.</li>
+<li>The only difference is <a href="/posts/error-handling-setjmp-longjmp/" ><code>setjmp</code>/<code>longjmp</code></a> allows only a single non-local jump up the stack. Whereas, these APIs allows the creation of multiple cooperative threads of control, each with its own stack or entry point.</li>
+</ul>
+<h3 id="data-strucutre-to-store-execution-context">
+  Data Strucutre To Store Execution Context
+  <a class="heading-link" href="#data-strucutre-to-store-execution-context">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><code>ucontext_t</code> type structure that defined as below is used to store the execution context.</li>
+<li>All four(<code>setcontext</code>, <code>getcontext</code>, <code>makecontext</code> &amp; <code>swapcontext</code>) control flow functions operates on this structure.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ucontext_t</span> <span style="color:#f92672">*</span>uc_link;    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">stack_t</span>     uc_stack;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">mcontext_t</span>  uc_mcontext;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">sigset_t</span>    uc_sigmask;
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">ucontext_t</span>;
+</span></span></code></pre></div><ul>
+<li><code>uc_link</code> points to the context which will be resumed when the current context exits, if the context was created with <code>makecontext</code> (a secondary context).</li>
+<li>uc_stack is the stack used by the context.</li>
+<li>uc_mcontext stores execution state, including all registers and CPU flags, frame/base pointer(i.e. indicates current execution frame), instruction pointer(i.e. program counter), link register(i.e. stores return address) and the stack pointer(i.e. indicates current stack limit or end of current frame). <code>mcontext_t</code> is an <a href="https://en.wikipedia.org/wiki/Opaque_data_type"  class="external-link" target="_blank" rel="noopener">opaque type</a>.</li>
+<li><code>uc_sigmask</code> is used to store the set of signals blocked in the context. Which isn&rsquo;t the focus for today.</li>
+</ul>
+<h3 id="int-setcontextconst-ucontext_t-ucp">
+  <code>int setcontext(const ucontext_t *ucp)</code>
+  <a class="heading-link" href="#int-setcontextconst-ucontext_t-ucp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>This function transfers control to the context in <code>ucp</code>. Execution continues from the point at which the context was stored in <code>ucp</code>. <code>setcontext</code> does not return.</li>
+</ul>
+<h3 id="int-getcontextucontext_t-ucp">
+  <code>int getcontext(ucontext_t *ucp)</code>
+  <a class="heading-link" href="#int-getcontextucontext_t-ucp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Saves current context into <code>ucp</code>. This function returns in two possible cases:
+<ol>
+<li>after the initial call,</li>
+<li>or when a thread switches to the context in <code>ucp</code> via <code>setcontext</code> or <code>swapcontext</code>.</li>
+</ol>
+</li>
+<li>The <code>getcontext</code> function does not provide a return value to distinguish the cases (its return value is used solely to signal error), so the programmer must use an explicit flag variable, which must not be a register variable and must be declared <code>volatile</code> to avoid constant propagation or other compiler optimisations.</li>
+</ul>
+<h3 id="void-makecontextucontext_t-ucp-void-func-int-argc-">
+  <code>void makecontext(ucontext_t *ucp, void (*func)(), int argc, ...)</code>
+  <a class="heading-link" href="#void-makecontextucontext_t-ucp-void-func-int-argc-">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>The <code>makecontext</code> function sets up an alternate thread of control in <code>ucp</code> , which has previously been initialised using <code>getcontext</code>.</li>
+<li>The <code>ucp.uc_stack</code> member should be pointed to an appropriately sized stack; the constant <code>SIGSTKSZ</code> or <code>MINSIGSTKSZ</code> is commonly used.</li>
+<li>When <code>ucp</code> is jumped to using <code>setcontext</code> or <code>swapcontext</code>, execution will begin at the entry point to the function pointed to by <code>func</code>, with <code>argc</code> arguments as specified. When <code>func</code> terminates, control is returned to the context specified in <code>ucp.uc_link</code>.</li>
+</ul>
+<h3 id="int-swapcontextucontext_t-oucp-ucontext_t-ucp">
+  <code>int swapcontext(ucontext_t *oucp, ucontext_t *ucp)</code>
+  <a class="heading-link" href="#int-swapcontextucontext_t-oucp-ucontext_t-ucp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Saves the current execution state into <code>oucp</code> and then transfers the execution control to <code>ucp</code>.</li>
+</ul>
+<h2 id="example-1-understanding-context-switching-withsetcontextgetcontextfunctions">
+  [Example 1]: Understanding Context Switching With <code>setcontext</code> &amp; <code>getcontext</code> Functions
+  <a class="heading-link" href="#example-1-understanding-context-switching-withsetcontextgetcontextfunctions">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Now, that we have read lot of theory. Let&rsquo;s create meaningful out of it.</li>
+<li>Consider below program that implements plain infinite loop printing &ldquo;Hello world&rdquo; every second.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ucontext.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>( ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ucontext_t</span> ctx <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">getcontext</span>(<span style="color:#f92672">&amp;</span>ctx);   <span style="color:#75715e">// Loop start
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;Hello world&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setcontext</span>(<span style="color:#f92672">&amp;</span>ctx);   <span style="color:#75715e">// Loop end 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Here, <code>getcontext</code> is returning with both possible cases as we have mentioned earlier i.e.:
+<ol>
+<li>after the initial call,</li>
+<li>when a thread switches to the context via <code>setcontext</code>.</li>
+</ol>
+</li>
+<li>Rest is I think self-explanatory.</li>
+</ul>
+<h2 id="example-2-understanding-control-flow-withmakecontext-swapcontext-functions">
+  [Example 2]: Understanding Control Flow With <code>makecontext</code> &amp; <code>swapcontext</code> Functions
+  <a class="heading-link" href="#example-2-understanding-control-flow-withmakecontext-swapcontext-functions">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdint.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;signal.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ucontext.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">assign</span>(<span style="color:#66d9ef">uint32_t</span> <span style="color:#f92672">*</span>var, <span style="color:#66d9ef">uint32_t</span> val) { 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>var <span style="color:#f92672">=</span> val; 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>( ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ucontext_t</span> ctx <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>}, back <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">getcontext</span>(<span style="color:#f92672">&amp;</span>ctx);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ctx.uc_stack.ss_sp <span style="color:#f92672">=</span> <span style="color:#a6e22e">calloc</span>(<span style="color:#ae81ff">1</span>, MINSIGSTKSZ);
+</span></span><span style="display:flex;"><span>    ctx.uc_stack.ss_size <span style="color:#f92672">=</span> MINSIGSTKSZ;
+</span></span><span style="display:flex;"><span>    ctx.uc_stack.ss_flags <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ctx.uc_link <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>back; <span style="color:#75715e">// Will get back to main as `swapcontext` call will populate `back` with current context
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ctx.uc_link = 0;  // Will exit directly after `swapcontext` call
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">makecontext</span>(<span style="color:#f92672">&amp;</span>ctx, (<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>)())assign, <span style="color:#ae81ff">2</span>, <span style="color:#f92672">&amp;</span>var, <span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">swapcontext</span>(<span style="color:#f92672">&amp;</span>back, <span style="color:#f92672">&amp;</span>ctx);    <span style="color:#75715e">// Calling `assign` by switching context
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, var);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Here, the <code>makecontext</code> function sets up an alternate thread of control in <code>ctx</code>. And when jump made with <code>ctx</code> by using <code>swapcontext</code>, execution will begin at <code>assign</code>, with respective arguments as specified.</li>
+<li>When <code>assign</code> terminates, control will be switch to <code>ctx.uc_link</code>. Which points to <code>back</code> &amp; will be populated by <code>swapcontext</code> before jump/context-switch.</li>
+<li>If the <code>ctx.uc_link</code> is made to 0, then current execution context is considered as the main context, and the thread will exit when <code>assign</code> context gets over.</li>
+<li>Before a call is made to <code>makecontext</code>, the application/developer needs to ensure that the context being modified has a pre-allocated stack. And <code>argc</code> matches the number of arguments of type <code>int</code> passed to <code>func</code>. Otherwise, the behavior is undefined.</li>
+</ul>
+<h2 id="coroutine-in-c-language">
+  Coroutine in C Language
+  <a class="heading-link" href="#coroutine-in-c-language">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Initially, I have created single file to demonstrate the example. But then I realised It will be too much to stuff into the single file. Hence, I splited implementation &amp; usage example into different file which will make the example more comprehensible &amp; easy to understand.</li>
+</ul>
+<h3 id="implementation-of-coroutine-in-c">
+  Implementation of Coroutine in C
+  <a class="heading-link" href="#implementation-of-coroutine-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>So, here is the simplest coroutine in c language:</li>
+</ul>
+<h4 id="coroutineh">
+  coroutine.h
+  <a class="heading-link" href="#coroutineh">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#pragma once
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdint.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ucontext.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdbool.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> coro_t_ <span style="color:#66d9ef">coro_t</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span><span style="color:#66d9ef">coro_function_t</span>)(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    Coroutine handler
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> coro_t_ {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">coro_function_t</span>     function;           <span style="color:#75715e">// Actual co-routine function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">ucontext_t</span>          suspend_context;    <span style="color:#75715e">// Stores context previous to coroutine jump
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">ucontext_t</span>          resume_context;     <span style="color:#75715e">// Stores coroutine context
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span>                 yield_value;        <span style="color:#75715e">// Coroutine return/yield value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">bool</span>                is_coro_finished;   <span style="color:#75715e">// To indicate the current coroutine status
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    Coroutine APIs for users
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">coro_new</span>(<span style="color:#66d9ef">coro_function_t</span> function);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">coro_resume</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro);    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">coro_yield</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro, <span style="color:#66d9ef">int</span> value);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">coro_free</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro);
+</span></span></code></pre></div><ul>
+<li>Just ignore the coroutine APIs as of now.</li>
+<li>The main thing to focus here is coroutine handler that has following field
+<ul>
+<li><code>function</code> : That holds the address of actual coroutine function supplied by user.</li>
+<li><code>suspend_context</code> : That used to suspend the coroutine function.</li>
+<li><code>resume_context</code> : That holds the context of actual coroutine function.</li>
+<li><code>yield_value</code>: To store the return value between intermediate suspension point &amp; also final return value.</li>
+<li><code>is_coro_finished</code> : An indicator to check status on coroutine lifetime.</li>
+</ul>
+</li>
+</ul>
+<h4 id="coroutinec">
+  coroutine.c
+  <a class="heading-link" href="#coroutinec">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;signal.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;coroutine.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_coro_entry_point</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> return_value <span style="color:#f92672">=</span> coro<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">function</span>(coro);
+</span></span><span style="display:flex;"><span>    coro<span style="color:#f92672">-&gt;</span>is_coro_finished <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">coro_yield</span>(coro, return_value);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">coro_new</span>(<span style="color:#66d9ef">coro_function_t</span> function) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro <span style="color:#f92672">=</span> <span style="color:#a6e22e">calloc</span>(<span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(<span style="color:#f92672">*</span>coro));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    coro<span style="color:#f92672">-&gt;</span>is_coro_finished <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>    coro<span style="color:#f92672">-&gt;</span>function <span style="color:#f92672">=</span> function;
+</span></span><span style="display:flex;"><span>    coro<span style="color:#f92672">-&gt;</span>resume_context.uc_stack.ss_sp <span style="color:#f92672">=</span> <span style="color:#a6e22e">calloc</span>(<span style="color:#ae81ff">1</span>, MINSIGSTKSZ);
+</span></span><span style="display:flex;"><span>    coro<span style="color:#f92672">-&gt;</span>resume_context.uc_stack.ss_size <span style="color:#f92672">=</span> MINSIGSTKSZ;
+</span></span><span style="display:flex;"><span>    coro<span style="color:#f92672">-&gt;</span>resume_context.uc_link <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">getcontext</span>(<span style="color:#f92672">&amp;</span>coro<span style="color:#f92672">-&gt;</span>resume_context);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">makecontext</span>(<span style="color:#f92672">&amp;</span>coro<span style="color:#f92672">-&gt;</span>resume_context, (<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>)())_coro_entry_point, <span style="color:#ae81ff">1</span>, coro);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> coro;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">coro_resume</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro) {    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (coro<span style="color:#f92672">-&gt;</span>is_coro_finished) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">swapcontext</span>(<span style="color:#f92672">&amp;</span>coro<span style="color:#f92672">-&gt;</span>suspend_context, <span style="color:#f92672">&amp;</span>coro<span style="color:#f92672">-&gt;</span>resume_context);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> coro<span style="color:#f92672">-&gt;</span>yield_value;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">coro_yield</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro, <span style="color:#66d9ef">int</span> value) {
+</span></span><span style="display:flex;"><span>    coro<span style="color:#f92672">-&gt;</span>yield_value <span style="color:#f92672">=</span> value;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">swapcontext</span>(<span style="color:#f92672">&amp;</span>coro<span style="color:#f92672">-&gt;</span>resume_context, <span style="color:#f92672">&amp;</span>coro<span style="color:#f92672">-&gt;</span>suspend_context);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">coro_free</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(coro<span style="color:#f92672">-&gt;</span>resume_context.uc_stack.ss_sp);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(coro);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>The most used APIs for coroutine is <code>coro_resume</code> &amp; <code>coro_yield</code> that drags the actual work of suspension &amp; resumption.</li>
+<li>If you already have consciously gone through the above Context Switching API Examples, then I don&rsquo;t think there is much to explain for <code>coro_resume</code> &amp; <code>coro_yield</code>. It&rsquo;s just <code>coro_yield</code> jumps to <code>coro_resume</code> &amp; vice-versa. Except for the first call to <code>coro_resume</code> which jumps to <code>_coro_entry_point</code>.</li>
+<li>coro_new function allocates memory for the handler as well as stack &amp; then populates the handler members. Again <code>getcontext</code> &amp; <code>makecontext</code> should be clear by this point. If not then please re-read the above section on Context Switching API Examples.</li>
+<li>If you genuinely understand the above coroutine API implementation, then the obvious question would be why do we even need <code>_coro_entry_point</code>? Why can&rsquo;t we directly jump to the actual coroutine function?.
+<ul>
+<li>But then my argument will be &ldquo;How do you ensure the lifetime of coroutine?&rdquo;.</li>
+<li>Which technically means, number of call to coro_resume should be similar/valid to number of call to <code>coro_yield</code> plus one(for actual return).</li>
+<li>Otherwise, you can not keep track of yields. And behaviour will become undefined.</li>
+</ul>
+</li>
+<li>Nonetheless, <code>_coro_entry_point</code> function is needed otherwise there is no way by which you can deduce the coroutine execution finished completely. And next/subsequent call to coro_resume is not valid anymore.</li>
+</ul>
+<h4 id="coroutine-lifetime">
+  Coroutine Lifetime
+  <a class="heading-link" href="#coroutine-lifetime">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>By the above implementation, <strong>using the coroutine handler</strong>, you should only be able to execute coroutine function completely once throughout program/application life.</li>
+<li>If you want to call the coroutine function again, then you need to create a new coroutine handler. And rest of the process will remain the same.</li>
+</ul>
+<h3 id="coroutine-usage-example">
+  Coroutine Usage Example
+  <a class="heading-link" href="#coroutine-usage-example">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="coroutine_examplec">
+  coroutine_example.c
+  <a class="heading-link" href="#coroutine_examplec">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;assert.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;coroutine.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">hello_world</span>(<span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro) {    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">coro_yield</span>(coro, <span style="color:#ae81ff">1</span>);    <span style="color:#75715e">// Suspension point that returns the value `1`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;World&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">coro_t</span> <span style="color:#f92672">*</span>coro <span style="color:#f92672">=</span> <span style="color:#a6e22e">coro_new</span>(hello_world);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">coro_resume</span>(coro) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>);     <span style="color:#75715e">// Verifying return value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">coro_resume</span>(coro) <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>);     <span style="color:#75715e">// Verifying return value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">assert</span>(<span style="color:#a6e22e">coro_resume</span>(coro) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);    <span style="color:#75715e">// Invalid call
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">coro_free</span>(coro);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Usecase is pretty straight forward:
+<ul>
+<li>First, you create a coroutine handler.</li>
+<li>Then, you start/resume the actual coroutine function with the help of the same coroutine handler.</li>
+<li>And, whenever your actual coroutine function encounters a call the <code>coro_yield</code>, it will suspend the execution &amp; return the value passed in the 2nd argument of coro_yield.</li>
+</ul>
+</li>
+<li>And when actual coroutine function execution finishes completely. The call to coro_resume will return -1 to indicate that the coroutine handler object is no more valid &amp; the lifetime is expired.</li>
+<li>So, you see coro_resume is a wrapper to our coroutine <code>hello_world</code> which executes <code>hello_world</code> in parts(obviously by context switching).</li>
+</ul>
+<h4 id="compiling">
+  Compiling
+  <a class="heading-link" href="#compiling">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>I have tested this example in WSL with gcc 9.3.0 &amp; glibc 2.31.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ gcc -I./ coroutine_example.c coroutine.c  -o myapp <span style="color:#f92672">&amp;&amp;</span> ./myapp 
+</span></span><span style="display:flex;"><span>Hello
+</span></span><span style="display:flex;"><span>World
+</span></span></code></pre></div><h2 id="parting-words">
+  Parting Words
+  <a class="heading-link" href="#parting-words">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>You see there is no magic if you understand &ldquo;How CPU Executes The Code..!&rdquo; well-given Glibc provided a rich set of context switching API. And, from the perspective of low-level developers, it&rsquo;s merely a well-arranged &amp; difficult to organize/maintain(if used raw) context switching function calls. My intention here was to put the foundation for C++20 Coroutine. Because I believe, if you see the code from CPU &amp; compiler&rsquo;s point of view, then everything becomes easy to reason about in C++. See you next time with my <a href="/posts/cpp20-coroutine-under-the-hood/" >C++20 Coroutine</a> post.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

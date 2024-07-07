@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Lvalue Rvalue and Their References With Example in C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="This topic might be a piece of cake for every experienced C&#43;&#43; veteran. But I remember back in the days when I was a novice &amp; introducing myself with Modern C&#43;&#43;, I was really irritated by C&#43;&#43; compiler messages saying this is lvalue &amp; that is rvalue kind of jargons. And even if you are not using C&#43;&#43;, you may have faced compiler error in C language saying &ldquo;lvalue required as left operand of assignment&rdquo;.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Lvalue Rvalue and Their References With Example in C&#43;&#43;">
+  <meta name="twitter:description" content="This topic might be a piece of cake for every experienced C&#43;&#43; veteran. But I remember back in the days when I was a novice &amp; introducing myself with Modern C&#43;&#43;, I was really irritated by C&#43;&#43; compiler messages saying this is lvalue &amp; that is rvalue kind of jargons. And even if you are not using C&#43;&#43;, you may have faced compiler error in C language saying “lvalue required as left operand of assignment”.">
+
+<meta property="og:url" content="http://localhost:1313/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Lvalue Rvalue and Their References With Example in C&#43;&#43;">
+  <meta property="og:description" content="This topic might be a piece of cake for every experienced C&#43;&#43; veteran. But I remember back in the days when I was a novice &amp; introducing myself with Modern C&#43;&#43;, I was really irritated by C&#43;&#43; compiler messages saying this is lvalue &amp; that is rvalue kind of jargons. And even if you are not using C&#43;&#43;, you may have faced compiler error in C language saying “lvalue required as left operand of assignment”.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-15T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/">
+              Lvalue Rvalue and Their References With Example in C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-15T00:00:00Z">
+                September 15, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/20-new-features-of-Modern-C-to-use-in-your-project.png" alt="Featured image"/>
+        
+        <p>This topic might be a piece of cake for every experienced C++ veteran. But I remember back in the days when I was a novice &amp; introducing myself with <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a>, I was really irritated by C++ compiler messages saying this is lvalue &amp; that is rvalue kind of jargons. And even if you are not using C++, you may have faced compiler error in C language saying <em>&ldquo;lvalue required as left operand of assignment&rdquo;</em>.</p>
+<p>So I was getting difficulties in understanding this un-schooled topic &ldquo;lvalue rvalue and their references with example in C++&rdquo; until I have googled a bit for the same. This is my habit to preserve knowledge in term of an article. So here is a bit about things I had learned so far. I always start with &ldquo;Why do we need that?&rdquo; So let&rsquo;s start from there.</p>
+<h2 id="why-do-we-need-lvalue--rvalue-kind-of-jargons">
+  Why Do We Need Lvalue &amp; Rvalue Kind of Jargons?
+  <a class="heading-link" href="#why-do-we-need-lvalue--rvalue-kind-of-jargons">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>If you are using C++ prior to C++11 then you don&rsquo;t need these jargons to write code. But yes it is still useful to understand compilation errors.</li>
+<li>The compiler sees things by expression &amp; to evaluate expression it identify operand &amp; operation. Let&rsquo;s understand this by example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span></code></pre></div><ul>
+<li>Here compiler identifies <code>a</code> &amp; <code>5</code> as <a href="https://en.wikipedia.org/wiki/Operand"  class="external-link" target="_blank" rel="noopener">operand</a> and <code>=</code>(assignment) as operation. Furthermore, compiler divides operand in subcategory named as <code>rvalues</code>, <code>lvalues</code>, <code>xvalues</code>, <code>glvalues</code>, and <code>prvalues</code> to distinguish between them(see heading <a href="http://secureservercdn.net/160.153.137.218/bkh.972.myftpupload.com/wp-content/uploads/20-new-features-of-Modern-C-to-use-in-your-project.png"  class="external-link" target="_blank" rel="noopener">image</a> for hierarchy). This different value type tells the compiler about the source, destination, the scope of information, etc.</li>
+<li>In the above expression <code>a</code> is lvalue as it indicates destination memory where rvalue i.e. <code>5</code> will be stored.</li>
+<li>When you compile &amp; see above statement in assembly, it would probably look like :</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">movl</span>    <span style="color:#66d9ef">$5</span>, -<span style="color:#ae81ff">4</span>(%ebp)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">...</span>
+</span></span></code></pre></div><ul>
+<li>Here, <code>(%ebp) is current frame pointer which pulls down by 4 bytes which indicate [space allocated by the compiler for a variable in a stack](/posts/how-c-program-convert-into-assembly/). And </code>movl<code>instruction store</code>5` to that memory location directly.</li>
+<li>This is straight forward as long as we are using primitive data types like <code>int</code>, <code>double</code>, <code>char</code>, etc. So compiler will store raw value directly in instruction code itself like in our case its <code>$5</code>. After the execution of that instruction, <code>$5</code> is not used, so it has an expression scope, in other words, it is temporary.</li>
+<li>But when we use class &amp; struct which are the user-defined type, things get bit complex &amp; compiler introduce temporary object instead of directly storing the value in instruction code itself.</li>
+</ul>
+<p><strong>TL;DR</strong><br>
+We need this kind of jargons to understand compilation error &amp; to see things from a compilers perspective. And yes! if you are using C++11 or above, you need to understand these jargons to write robust, fast &amp; optimize code.</p>
+<h2 id="lvalue-rvalue-and-their-references-with-example">
+  Lvalue Rvalue and Their References With Example
+  <a class="heading-link" href="#lvalue-rvalue-and-their-references-with-example">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="what-are-lvalue--rvalue">
+  <strong>What Are Lvalue &amp; Rvalue?</strong>
+  <a class="heading-link" href="#what-are-lvalue--rvalue">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>lvalue &amp; rvalue is compiler identifiers to evaluate the expression.</li>
+<li>Any compiler identifier which represents memory location is an lvalue.</li>
+<li>Any compiler identifier which represents data value on the right-hand side of an <a href="/posts/2-wrong-way-to-learn-copy-assignment-operator-in-cpp-with-example/" >assignment operator</a>(=) is rvalue.</li>
+</ul>
+<h3 id="examples-of-lvalue">
+  <strong>Examples of Lvalue</strong>
+  <a class="heading-link" href="#examples-of-lvalue">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>There are two types of lvalue modifiable &amp; non-modifiable(which are <code>const</code>).</li>
+</ul>
+<ol>
+<li><strong>Modifiable lvalue</strong>:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a = 1;</code></td>
+<td><code>a</code> is lvalue as it represents memory</td>
+</tr>
+<tr>
+<td><code>int b = a;</code></td>
+<td><code>b</code> &amp; <code>a</code> is an lvalue, when <code>a</code> is assigned to <code>b</code>. It becomes an implicit rvalue because a copy of <code>a</code> is stored in <code>b</code>, not <code>a</code> itself</td>
+</tr>
+<tr>
+<td><code>struct S* ptr = &amp;obj;</code></td>
+<td><code>ptr</code> is lvalue</td>
+</tr>
+<tr>
+<td><code>arr[20] = 5;</code></td>
+<td>location index 20 in <code>arr</code> is lvalue</td>
+</tr>
+<tr>
+<td><code>int *pi = &amp;i;</code> <!-- raw HTML omitted --> <code>*pi = 10;</code></td>
+<td><code>i</code> is lvalue as it is addressable. <code>*pi</code> is lvalue as it points to <code>i</code></td>
+</tr>
+<tr>
+<td><code>class MyClass {}; MyClass X;</code></td>
+<td><code>X</code> is lvalue as it represents the memory of user-defined type</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li><strong>Non-modifiable lvalue</strong>:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>const int a=1;</code></td>
+<td><code>a</code> is non-modifiable lvalue</td>
+</tr>
+<tr>
+<td><code>const int *p=&amp;a;</code></td>
+<td><code>p</code> is non-modifiable lvalue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples-of-rvalue">
+  <strong>Examples of Rvalue</strong>
+  <a class="heading-link" href="#examples-of-rvalue">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<table>
+<thead>
+<tr>
+<th>Expression</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int a = 1;</code></td>
+<td><code>1</code> is rvalue</td>
+</tr>
+<tr>
+<td><code>int b = a;</code></td>
+<td><code>a</code> is implicit rvalue in this case (as discussed in the 2nd point of &ldquo;Examples of lvalue&rdquo;)</td>
+</tr>
+<tr>
+<td><code>q = p + 5;</code></td>
+<td><code>p + 5</code> is an rvalue</td>
+</tr>
+<tr>
+<td><code>int result = getInteger();</code></td>
+<td>The value returned by <code>getInteger()</code> is rvalue</td>
+</tr>
+<tr>
+<td><code>class cat {}; c = cat();</code></td>
+<td><code>cat()</code> is an rvalue</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>rvalue could be a function on the right-hand side of = assignment operator which eventually evaluate to object(primitive or user-defined).</li>
+<li>rvalues are typically evaluated for their values, have expression scope (they die at the end of the expression they are in) most of the time, and cannot be assigned to. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#ae81ff">5</span> <span style="color:#f92672">=</span> a; <span style="color:#75715e">// invalid
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>getInt() <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; <span style="color:#75715e">// invalid
+</span></span></span></code></pre></div><h3 id="lvalue-rvalue-references-with-example">
+  Lvalue Rvalue References With Example
+  <a class="heading-link" href="#lvalue-rvalue-references-with-example">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>lvalue reference</strong></p>
+<ul>
+<li>An lvalue reference is a reference that binds to an lvalue.</li>
+<li>lvalue references are marked with one ampersand <code>&amp;</code>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>lref <span style="color:#f92672">=</span> x; <span style="color:#75715e">// lvalue reference initialized with lvalue x
+</span></span></span></code></pre></div><ul>
+<li>Prior to C++11, only one type of reference existed in C++, and so it was just called a “reference”. However, in C++11, it’s sometimes called an lvalue reference.</li>
+<li>lvalue references can only be initialized with modifiable lvalues.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>ref <span style="color:#f92672">=</span> a; <span style="color:#75715e">// Invalid &amp; error will be thrown by compiler
+</span></span></span></code></pre></div><p><strong>Exception</strong></p>
+<ul>
+<li>We cannot bind lvalue reference to an rvalue</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// error: lvalue cannot be bound to rvalue 5
+</span></span></span></code></pre></div><p>However, we can bind an rvalue to a const lvalue reference (<a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" >const</a> reference):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;  <span style="color:#75715e">// Valid
+</span></span></span></code></pre></div><ul>
+<li>In this case, the compiler converts <code>5</code> into lvalue first &amp; then it assigns memory location to a const reference.</li>
+</ul>
+<p><strong>rvalue reference</strong></p>
+<ul>
+<li>This is by far the most useful &amp; bit complex thing you will learn.</li>
+<li>An rvalue reference is a reference that binds to an rvalue. rvalue references are marked with two ampersand <code>&amp;&amp;</code>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;&amp;</span>rref <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// rvalue reference initialized with rvalue 5
+</span></span></span></code></pre></div><ul>
+<li>rvalues references cannot be initialized with lvalues i.e.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;&amp;</span>ref <span style="color:#f92672">=</span> a; <span style="color:#75715e">// Invalid &amp; error will be thrown by compiler
+</span></span></span></code></pre></div><ul>
+<li>rvalue references are more often used as function parameters. This is most useful for function overloads when you want to have different behaviour for lvalue and rvalue arguments.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fun</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>lref) <span style="color:#75715e">// lvalue arguments will select this function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;lvalue reference to const</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fun</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;&amp;</span>rref) <span style="color:#75715e">// rvalue arguments will select this function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;rvalue reference</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span>    fun(x); <span style="color:#75715e">// lvalue argument calls lvalue version of function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    fun(<span style="color:#ae81ff">5</span>); <span style="color:#75715e">// rvalue argument calls rvalue version of function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="why-do-we-need-rvalue-references">
+  Why Do We Need Rvalue References?
+  <a class="heading-link" href="#why-do-we-need-rvalue-references">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>If you observe the <a href="/posts/all-about-copy-constructor-in-cpp-with-example/?preview=true&amp;_thumbnail_id=1695" >copy constructor</a> &amp; <a href="/posts/2-wrong-way-to-learn-copy-assignment-operator-in-cpp-with-example/" >copy assignment operator</a> prototype, it always takes <code>const</code> reference object as an argument. Because their primary work is to copy the object. And while copying we don&rsquo;t want to modify the object we have provided on the right-hand side of the expression.</li>
+<li>But there are some scenarios where we don&rsquo;t care about the right-hand side object we have provided to copy from. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IntArray</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>m_arr;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m_len;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    IntArray(<span style="color:#66d9ef">int</span> len) <span style="color:#f92672">:</span> m_len(len), m_arr(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[len]){}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>IntArray(){<span style="color:#66d9ef">delete</span> [] m_arr;}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy Constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    IntArray(<span style="color:#66d9ef">const</span> IntArray<span style="color:#f92672">&amp;</span> rhs){
+</span></span><span style="display:flex;"><span>      m_arr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[rhs.m_len];
+</span></span><span style="display:flex;"><span>      m_len <span style="color:#f92672">=</span> rhs.m_len;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span>m_len;i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        m_arr[i] <span style="color:#f92672">=</span> rhs.m_arr[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>IntArray <span style="color:#a6e22e">func</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    IntArray obj(<span style="color:#ae81ff">5</span>);    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// process obj    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> obj;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  IntArray arr <span style="color:#f92672">=</span> func();   
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Note: use &#34;-fno-elide-constructors&#34; option while compiling otherwise it will create copy elision 
+</span></span></span></code></pre></div><ul>
+<li>By observing this code we conclude that <code>obj</code> is not useful after the return of <code>func() function. But when you return an [object](/posts/inside-the-cpp-object-model/) by the value it will invoke copy constructor &amp; which will copy all the content from </code>obj<code>to</code>arr<code>(declared in </code>main()<code>by allocating new resource for</code>arr<code>. And when </code>obj` goes out of scope it will deallocate its resources.</li>
+<li>Rather than allocating new resources &amp; copying data into it why don&rsquo;t we simply use those existing <code>obj</code>&rsquo;s resources? Let&rsquo;s do that:</li>
+</ul>
+<h3 id="move-constructor">
+  Move Constructor
+  <a class="heading-link" href="#move-constructor">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>IntArray(IntArray<span style="color:#f92672">&amp;&amp;</span> rhs){
+</span></span><span style="display:flex;"><span>    m_arr <span style="color:#f92672">=</span> rhs.m_arr;
+</span></span><span style="display:flex;"><span>    m_len <span style="color:#f92672">=</span> rhs.m_len;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    rhs.m_arr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>; <span style="color:#75715e">// To prevent code crashing 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>I have just modified copy constructor code as above which accept rvalue reference as an argument rather than lvalue so that our overloaded copy constructor will only be called when there is an rvalue is used on the right-hand side.</li>
+<li>Which simply means this constructor will only be called when right-hand side object is temporary or programmer is no longer care about that object.</li>
+<li>The implementation simply took ownership of resources from <code>obj</code> to <code>arr</code> and set right-hand side object&rsquo;s pointer to <code>NULL</code> so that its destructor won&rsquo;t deallocate resource which it is no longer owning.</li>
+<li>In fact, this is move constructor, not a copy constructor. Whose primary task is to take/move ownership of resources.</li>
+<li>Consider following move constructor prototype for more solid understanding:</li>
+</ul>
+<h2 id="catching-rvalue-reference">
+  Catching Rvalue Reference
+  <a class="heading-link" href="#catching-rvalue-reference">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>IntArray(IntArray<span style="color:#f92672">&amp;&amp;</span> rhs)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>The message of this code is this: &ldquo;The object that <code>rhs</code> binds to is YOURS. Do whatever you like with it, no one will care anyway.&rdquo; It&rsquo;s a bit like giving a copy to <code>IntArray</code> but without making a copy.</li>
+</ul>
+<p><strong>Why do we need move constructor?</strong></p>
+<p>This can be interesting for two purposes:</p>
+<ul>
+<li>
+<p>improving performance (as we are not allocating new resources &amp; transferring content).</p>
+</li>
+<li>
+<p>taking over ownership (since the object the reference binds to has been abandoned by the caller).</p>
+</li>
+<li>
+<p>I know you might be thinking that why just we don&rsquo;t modify copy constructor by removing <code>const</code> keyword from it. Let&rsquo;s do that as well</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>IntArray(IntArray<span style="color:#f92672">&amp;</span> rhs){
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Compilation error</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exit status <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>error: no matching constructor <span style="color:#66d9ef">for</span> initialization of <span style="color:#e6db74">&#39;IntArray&#39;</span>
+</span></span><span style="display:flex;"><span>  IntArray arr <span style="color:#f92672">=</span> func<span style="color:#f92672">()</span>;
+</span></span><span style="display:flex;"><span>           ^     ~~~~~~
+</span></span><span style="display:flex;"><span>note: candidate constructor not viable: expects an lvalue <span style="color:#66d9ef">for</span> 1st argument
+</span></span><span style="display:flex;"><span>    IntArray<span style="color:#f92672">(</span>IntArray&amp; rhs<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>    ^
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> error generated.
+</span></span></code></pre></div><ul>
+<li>If you see the <code>note</code> above, our overloaded copy constructor asking for lvalue. What we are doing is providing rvalue. As when we return an object by value, temporary(which falls under rvalue category) object will be created and supplied to our copy constructor. And as we have already seen above lvalue reference cannot bind to rvalue object.</li>
+<li>Don&rsquo;t think about changing your copy constructor&rsquo;s argument as <code>const</code> lvalue reference, I know we have seen that its exception &amp; we can bind <code>const</code> lvalue reference to rvalue/temporary object. But in that case, you can not move/transfer resource as it is <code>const</code>.</li>
+</ul>
+<p>So, this is it for &ldquo;lvalue rvalue and their references with example&rdquo;, in the <a href="/posts/understanding-unique-ptr-with-example-in-cpp11/" >next</a> article we will design <a href="/posts/move-constructor-assignment-operator-with-shared-ptr/" >smart pointer</a> using rvalue reference &amp; other concepts gained here.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

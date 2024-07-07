@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  C&#43;&#43; Type Casting With Example for C Developers · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="The typecasting is the feature which makes C&#43;&#43; more type-safe, robust &amp; may convince you to use it over C. But this is also a more underrated topic when you are a newbie or moving from C background. Hence, I come up with an article on it. Here, we will not only see the C&#43;&#43; type casting with example but we will also cover Why do we need typecasting? &amp; C&#43;&#43; type casting cheat codes for C developers to remember &amp; employ it easily.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43; Type Casting With Example for C Developers">
+  <meta name="twitter:description" content="The typecasting is the feature which makes C&#43;&#43; more type-safe, robust &amp; may convince you to use it over C. But this is also a more underrated topic when you are a newbie or moving from C background. Hence, I come up with an article on it. Here, we will not only see the C&#43;&#43; type casting with example but we will also cover Why do we need typecasting? &amp; C&#43;&#43; type casting cheat codes for C developers to remember &amp; employ it easily.">
+
+<meta property="og:url" content="http://localhost:1313/posts/cpp-type-casting-with-example-for-c-developers/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="C&#43;&#43; Type Casting With Example for C Developers">
+  <meta property="og:description" content="The typecasting is the feature which makes C&#43;&#43; more type-safe, robust &amp; may convince you to use it over C. But this is also a more underrated topic when you are a newbie or moving from C background. Hence, I come up with an article on it. Here, we will not only see the C&#43;&#43; type casting with example but we will also cover Why do we need typecasting? &amp; C&#43;&#43; type casting cheat codes for C developers to remember &amp; employ it easily.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-12T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/cpp-type-casting-with-example-for-c-developers/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/cpp-type-casting-with-example-for-c-developers/">
+              C&#43;&#43; Type Casting With Example for C Developers
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-12T00:00:00Z">
+                September 12, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/C-type-casting-with-example-for-C-developers.png" alt="Featured image"/>
+        
+        <p>The typecasting is the feature which makes C++ more type-safe, robust &amp; may convince you to use it over C. But this is also a more underrated topic when you are a newbie or moving from C background. Hence, I come up with an article on it. Here, we will not only see the C++ type casting with example but we will also cover <a href="#Why-do-we-need-typecasting" >Why do we need typecasting?</a> &amp; <a href="#Cheat-code-for-C-developers-moving-to-C&#43;&#43;-on-type-casting" >C++ type casting cheat codes for C developers</a> to remember &amp; employ it easily. Although I am not an expert but this is what I have learned so far from various sources &amp; 5+ yrs of industry experience.</p>
+<p>In C++, there are 5 different types of casts: C-style casts, <code>static_cast</code>, <code>const_cast</code>, <code>dynamic_cast</code>, and <code>reinterpret_cast</code>.</p>
+<p>I usually start with &ldquo;Why do we need it?&rdquo;, but this time first we quickly go through some jargons &amp; I will end this article with <a href="#Some-of-the-C&#43;&#43;-core-guidelines-on-typecasting" >some of CPP core guidelines on typecasting</a>.</p>
+<h3 id="jargons-you-need-to-face">
+  Jargons You Need to Face
+  <a class="heading-link" href="#jargons-you-need-to-face">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ol>
+<li><strong>Implicit conversion:</strong> where the compiler automatically typecast. Like <code>float f = 3;</code>, here compiler will not complain but directly transform <code>3</code> which is of type integer into <code>float</code> &amp; assign to <code>f</code>.</li>
+<li><strong>Explicit conversions</strong>: where the developer uses a casting operator to direct the conversion. All types of manual casting fall under the explicit type conversions category. Like <code>int * p = (int*)std::malloc(10);</code>, here we explicitly casting <code>void*</code> to <code>int*</code>.</li>
+<li><strong><code>l-value</code></strong>: an identifier which represents memory location. For example, variable name, <code>*ptr</code> where <code>ptr</code> points to a memory location, etc.</li>
+<li><strong><code>r-value</code></strong>: a value which is not <code>l-value</code>, <code>r-value</code> appear on the right-hand side of the assignment(<code>=</code>) operator. Like</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// 5 = r-value, 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>q <span style="color:#f92672">=</span> p <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// p + 5 is r-value
+</span></span></span></code></pre></div><p>Note: Although there are some exceptions &amp; more to learn on <a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >lvalue, rvalue and their references in C++</a>.</p>
+<h3 id="why-do-we-need-typecasting">
+  Why Do We Need Typecasting?
+  <a class="heading-link" href="#why-do-we-need-typecasting">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Data is a representation of the bits(<code>0</code>s &amp; <code>1</code>s) in memory.</li>
+<li>Data-type is compiler directive which tells the compiler how to store &amp; process particular data.</li>
+<li><code>uint32_t a = 5;</code> by this statement you can presume that 4 bytes will be reserved in your memory &amp; upon execution, it will store <code>0000 0000 0000 0000 0000 0000 0000 0101</code> data bits in that memory location. This was plain &amp; simple.</li>
+<li>Let&rsquo;s go a bit further, <code>float f = 3.0;</code> this statement will also reserve 4 bytes in memory &amp; store data bits in the form of 1). the sign bit, 2). exponent &amp; 3). mantissa. Recall <a href="/posts/how-floating-point-no-is-stored-memory/" >how floating-point numbers are stored in memory</a>.</li>
+<li>But when you write like <code>float f = 3;</code>, the compiler will be confused that how to store an integer value in float type of memory.</li>
+<li>So it will <strong>automatically presume(Implicit conversion</strong> here) that you want to store <code>3.0</code> rather than <code>3</code> which is technically same from the human point of view but it&rsquo;s different when you think from <a href="/posts/memory-layout-of-cpp-object/" >computer memory perspective</a> cause they stored differently.</li>
+<li>There are many such scenarios where you provide data to store in memory which used to represent different data type.</li>
+<li>For example, in the following example, you are trying to assign an object of type <code>B</code> into an object of type <code>A</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>{};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span>{};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span> ()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  B b;
+</span></span><span style="display:flex;"><span>  A a <span style="color:#f92672">=</span> b; 
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>In such scenario compiler can not presume anything &amp; simply throws a compilation error:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>exit status <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>error: no viable conversion from <span style="color:#e6db74">&#39;B&#39;</span> to <span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>  A a <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">^</span>   <span style="color:#f92672">~</span>
+</span></span><span style="display:flex;"><span>note: candidate constructor (the implicit copy constructor) not viable: no known conversion from <span style="color:#e6db74">&#39;B&#39;</span> to <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">const</span> A <span style="color:#f92672">&amp;</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">1</span>st argument
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>{};
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">^</span>
+</span></span><span style="display:flex;"><span>note: candidate constructor (the implicit move constructor) not viable: no known conversion from <span style="color:#e6db74">&#39;B&#39;</span> to <span style="color:#960050;background-color:#1e0010">&#39;</span>A <span style="color:#f92672">&amp;&amp;</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">1</span>st argument
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>{};
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">^</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> error generated.
+</span></span></code></pre></div><ul>
+<li>But when you define a conversion operator as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">operator</span> A(){
+</span></span><span style="display:flex;"><span>    cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;CONVERSION OPERATOR</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">A</span>();
+</span></span><span style="display:flex;"><span>  } 
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>The compiler will simply call this member function &amp; won&rsquo;t throw any error because programmer explicitly mentioning that this is how he/she wants to convert.</li>
+</ul>
+<h3 id="c-type-casting-with-example-for-c-developers">
+  C++ Type Casting With Example for C Developers
+  <a class="heading-link" href="#c-type-casting-with-example-for-c-developers">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h3 id="c-style-casts">
+  <code>C-style casts</code>
+  <a class="heading-link" href="#c-style-casts">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() { 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>    cout<span style="color:#f92672">&lt;&lt;</span>res<span style="color:#f92672">&lt;&lt;</span>endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>; 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>When you will try to run the above code, you will get <code>2</code> as output which we didn&rsquo;t expect. To initialize <code>res</code> variable correctly we need to typecast using float as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> res <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span>)<span style="color:#ae81ff">10</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>;
+</span></span></code></pre></div><ul>
+<li>Now your answer will be <code>2.5</code>. This type of casting is very simple &amp; straight forward as it appears.</li>
+<li>You can also write above casting in C++ as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> res <span style="color:#f92672">=</span> <span style="color:#66d9ef">float</span>(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>;
+</span></span></code></pre></div><ul>
+<li>C-style casts can change a data type without changing the underlying memory representation which may lead to garbage results.</li>
+</ul>
+<h3 id="static_cast">
+  <code>static_cast</code>
+  <a class="heading-link" href="#static_cast">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>If you are C developer like me, then this will be your <strong>best goto C++ cast</strong> which fits in most of the example like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>malloc(<span style="color:#ae81ff">10</span>);
+</span></span></code></pre></div><ul>
+<li>When you try to compile above code using C compiler it works fine. But C++ compiler is not kind enough. It will throw an error as follows :</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>exit status <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>error: cannot initialize a variable of type <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span><span style="color:#960050;background-color:#1e0010">&#39;</span> with an rvalue of type <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>malloc(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">^</span>   <span style="color:#f92672">~~~~~~~~~~</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> error generated.
+</span></span></code></pre></div><ul>
+<li>The first thing that comes to your mind is the C-style cast:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>)std<span style="color:#f92672">::</span>malloc(<span style="color:#ae81ff">10</span>);
+</span></span></code></pre></div><ul>
+<li>This will work, but <strong>C-style cast is not recommended in C++.</strong> <code>static_cast</code> handles implicit conversions like this. We will primarily use it for converting in places where implicit conversions fail, such as std::malloc.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">*&gt;</span>(std<span style="color:#f92672">::</span>malloc(<span style="color:#ae81ff">10</span>));
+</span></span></code></pre></div><ul>
+<li>The main advantage of <code>static_cast</code> is that it provides compile-time type checking, making it harder to make an inadvertent error. Let&rsquo;s understand this with C++ example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span> {};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">D</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> B {};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  D<span style="color:#f92672">*</span> d <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> D;
+</span></span><span style="display:flex;"><span>  B<span style="color:#f92672">*</span> b <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">*&gt;</span>(d); <span style="color:#75715e">// this works
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  X<span style="color:#f92672">*</span> x <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>X<span style="color:#f92672">*&gt;</span>(d); <span style="color:#75715e">// ERROR - Won&#39;t compile
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As you can see, there is no easy way to distinguish between the two situations without knowing a lot about all the classes involved.</li>
+<li>Another problem with the C-style casts is that it is too hard to locate. In complex expressions, it can be very hard to see C-style casts e.g. <code>T(something) syntax is equivalent to </code>(T)something`.</li>
+</ul>
+<h3 id="const_cast">
+  <code>const_cast</code>
+  <a class="heading-link" href="#const_cast">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Now we will directly jump to example. No theory can explain this better than example.</li>
+</ul>
+<p><strong>1. Ignore constness</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> ref <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>i;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">*</span>ptr <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; <span style="color:#75715e">// Not OK
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;&gt;</span>(ref) <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;  <span style="color:#75715e">//OK
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">*</span><span style="color:#66d9ef">const_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">*&gt;</span>(ptr) <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; <span style="color:#75715e">//OK
+</span></span></span></code></pre></div><ul>
+<li>You are allowed to modify <code>i</code>, because of the object(<code>i</code> here) being assigned to, is not <code>const</code>. If you add const qualifier to <code>i</code>, code will compile, but its behaviour will be undefined (which can mean anything from &ldquo;it works just fine&rdquo; to &ldquo;the program will crash&rdquo;.)</li>
+</ul>
+<p><strong>2. Modifying data member using <code>const</code> <code>this</code> pointer</strong></p>
+<ul>
+<li><code>const_cast</code> can be used to change non-const class members by a method in which this pointer declared as const. - This can also be useful when overloading member functions based on <code>const</code>, for instance:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> var;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeAndPrint</span>(<span style="color:#66d9ef">int</span> temp) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> temp;                    <span style="color:#75715e">// Throw compilation error
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        (<span style="color:#66d9ef">const_cast</span><span style="color:#f92672">&lt;</span>X <span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>))<span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> temp; <span style="color:#75715e">// Works fine
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeAndPrint</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>temp)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Do some stuff
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>    X x;
+</span></span><span style="display:flex;"><span>    x.changeAndPrint(<span style="color:#f92672">&amp;</span>a);
+</span></span><span style="display:flex;"><span>    x.changeAndPrint(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x.var <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>3. Pass <code>const</code> argument to a function which accepts only non-const argument</strong></p>
+<ul>
+<li><code>const_cast</code> can also be used to pass const data to a function that doesn’t receive const argument. See the following code:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fun</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> ptr) 
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (<span style="color:#f92672">*</span>ptr <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span>); 
+</span></span><span style="display:flex;"><span>} 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) 
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>; 
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> fun(<span style="color:#66d9ef">const_cast</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*&gt;</span>(<span style="color:#f92672">&amp;</span>val)); 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>; 
+</span></span><span style="display:flex;"><span>} 
+</span></span></code></pre></div><p><strong>4. Castaway <code>volatile</code> attribute</strong></p>
+<ul>
+<li><code>const_cast</code> can also be used to cast away <code>volatile</code> attribute. Whatever we discussed above in <code>const_cast</code> is also valid for <code>volatile</code> keyword.</li>
+</ul>
+<h3 id="dynamic_cast">
+  <code>dynamic_cast</code>
+  <a class="heading-link" href="#dynamic_cast">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><code>**dynamic_cast**</code> <strong>uses the type checking at runtime</strong> in contrary to <code>static_cast</code> which does it at compile time. <code>dynamic_cast</code> is more useful when you don&rsquo;t know the type of input which it represents. Let assume:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Base<span style="color:#f92672">*</span> <span style="color:#a6e22e">CreateRandom</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>( (rand()<span style="color:#f92672">%</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> )
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Derived1;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Derived2;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Base<span style="color:#f92672">*</span> base <span style="color:#f92672">=</span> CreateRandom();
+</span></span></code></pre></div><ul>
+<li>As you can see, we don&rsquo;t know which object will be returned by <code>CreateRandom() at run time but you want to execute </code>Method1()<code>of </code>Derived1<code>if it returns</code>Derived1<code>. So in this scenario, you can use </code>dynamic_cast` as follows</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Derived1 <span style="color:#f92672">*</span>pD1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">dynamic_cast</span><span style="color:#f92672">&lt;</span>Derived1 <span style="color:#f92672">*&gt;</span>(base);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (pD1){
+</span></span><span style="display:flex;"><span>    pD1<span style="color:#f92672">-&gt;</span>Method1();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>In case, if the input of <code>dynamic_cast</code> does not point to valid data, it will return <code>nullptr</code> for pointers or throw a <code>std::bad_cast</code> exception for references. In order to work with <code>dynamic_cast</code>, your classes must be polymorphic type i.e. must include at least one virtual methods.</li>
+<li><code>**dynamic_cast**</code> <strong>take advantage of</strong> <code>**RTTI**</code>(<a href="https://en.wikipedia.org/wiki/Run-time_type_information"  class="external-link" target="_blank" rel="noopener">Run Time Type Identification</a>) mechanism.</li>
+</ul>
+<h3 id="reinterpret_cast">
+  <code>reinterpret_cast</code>
+  <a class="heading-link" href="#reinterpret_cast">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><code>reinterpret_cast</code> <strong>converts between types</strong> by reinterpreting the underlying bit pattern.</li>
+<li>You can use <code>reinterpret_cast</code> to cast any pointer or integral type to any other pointer or integral type.</li>
+<li>This can lead to dangerous situations: nothing will stop you from converting an <code>int</code> to an <code>std::string*</code>.</li>
+<li>You will <strong>use</strong> <code>reinterpret_cast</code> <strong>in your embedded systems</strong>. A common scenario where <code>reinterpret_cast</code> applies is converting between <code>uintptr_t</code> and an actual pointer or between:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>error: <span style="color:#66d9ef">static_cast</span> from <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span><span style="color:#960050;background-color:#1e0010">&#39;</span> to <span style="color:#960050;background-color:#1e0010">&#39;</span>uintptr_t<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>      (aka <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span><span style="color:#960050;background-color:#1e0010">&#39;</span>) is not allowed
+</span></span><span style="display:flex;"><span>        uintptr_t ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>uintptr_t<span style="color:#f92672">&gt;</span>(p);
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">^~~~~~~~~~~~~~~~~~~~~~~~~</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> error generated.
+</span></span></code></pre></div><ul>
+<li>Instead, use this:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>uintptr_t ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">reinterpret_cast</span><span style="color:#f92672">&lt;</span>uintptr_t<span style="color:#f92672">&gt;</span>(p);
+</span></span></code></pre></div><p>I have tried to cover most of the intricacies to clear the main concept behind different typecasting, but still, there might be a chance that I may miss some. So, this is it for C++ type casting with example for C developers. Let&rsquo;s quickly recap:</p>
+<h3 id="cheat-code-for-c-developers-moving-to-c-on-type-casting">
+  Cheat Code for C Developers Moving to C++ on Type Casting
+  <a class="heading-link" href="#cheat-code-for-c-developers-moving-to-c-on-type-casting">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>After reading all this you may confuse on what to use &amp; when! That&rsquo;s why I have created this cheat code</p>
+<ul>
+<li><strong>Avoid C-style casts</strong>. Be sure about what you want while casting.</li>
+<li>Use <code>static_cast</code> <strong>wherever you were using C-style cast</strong>.</li>
+<li>Use <code>dynamic_cast</code> <strong>with polymorphic classes</strong>. Keep in mind that only use <code>dynamic_cast</code> on classes with at least one virtual member in the inheritance hierarchy.</li>
+<li>Use <code>const_cast</code> when you need to remove <code>const</code> or <code>volatile</code> qualifiers.</li>
+<li>Use <code>reinterpret_cast</code> when you have no options.</li>
+</ul>
+<p>Note: <code>const_cast</code> <strong>and</strong> <code>reinterpret_cast</code> <strong>should generally be avoided</strong> because they can be harmful if used incorrectly. Don&rsquo;t use it unless you have a very good reason to use them.</p>
+<h3 id="some-of-the-c-core-guidelines-on-typecasting">
+  Some of the C++ Core Guidelines on Typecasting
+  <a class="heading-link" href="#some-of-the-c-core-guidelines-on-typecasting">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#p4-ideally-a-program-should-be-statically-type-safe"  class="external-link" target="_blank" rel="noopener">P.4: Ideally, a program should be statically (compile-time) type safe</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-casts"  class="external-link" target="_blank" rel="noopener">ES.48: Avoid casts</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-casts-named"  class="external-link" target="_blank" rel="noopener">ES.49: If you must use a cast, use a named cast</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-casts-const"  class="external-link" target="_blank" rel="noopener">ES.50: Don’t cast away</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-casts-const"  class="external-link" target="_blank" rel="noopener"><code>const</code></a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-dynamic_cast"  class="external-link" target="_blank" rel="noopener">C.146: Use</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-dynamic_cast"  class="external-link" target="_blank" rel="noopener"><code>dynamic_cast</code></a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-dynamic_cast"  class="external-link" target="_blank" rel="noopener">where class hierarchy navigation is unavoidable</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-ref-cast"  class="external-link" target="_blank" rel="noopener">C.147: Use</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-ref-cast"  class="external-link" target="_blank" rel="noopener"><code>dynamic_cast</code></a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-ref-cast"  class="external-link" target="_blank" rel="noopener">to a reference type when failure to find the required class is considered an error</a></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-ptr-cast"  class="external-link" target="_blank" rel="noopener">C.148: Use</a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-ptr-cast"  class="external-link" target="_blank" rel="noopener"><code>dynamic_cast</code></a> <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rh-ptr-cast"  class="external-link" target="_blank" rel="noopener">to a pointer type when failure to find the required class is considered a valid alternative</a></li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

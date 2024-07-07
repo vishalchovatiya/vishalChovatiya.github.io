@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  All About Lambda Function in C&#43;&#43;(From C&#43;&#43;11 to C&#43;&#43;20) · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Lambda function is quite an intuitive &amp; widely loved feature introduced in C&#43;&#43;11. And, there are tons of articles &amp; tutorials already available on the topic. But, there are very few or none of them touched upon things like IIFE, types of lambda and newer updates on lambda by subsequent standard releases. So, I got the opportunity to fill the blank. I will start this article with what is lambda function!">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="All About Lambda Function in C&#43;&#43;(From C&#43;&#43;11 to C&#43;&#43;20)">
+  <meta name="twitter:description" content="Lambda function is quite an intuitive &amp; widely loved feature introduced in C&#43;&#43;11. And, there are tons of articles &amp; tutorials already available on the topic. But, there are very few or none of them touched upon things like IIFE, types of lambda and newer updates on lambda by subsequent standard releases. So, I got the opportunity to fill the blank. I will start this article with what is lambda function!">
+
+<meta property="og:url" content="http://localhost:1313/posts/learn-lambda-function-in-cpp-with-example/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="All About Lambda Function in C&#43;&#43;(From C&#43;&#43;11 to C&#43;&#43;20)">
+  <meta property="og:description" content="Lambda function is quite an intuitive &amp; widely loved feature introduced in C&#43;&#43;11. And, there are tons of articles &amp; tutorials already available on the topic. But, there are very few or none of them touched upon things like IIFE, types of lambda and newer updates on lambda by subsequent standard releases. So, I got the opportunity to fill the blank. I will start this article with what is lambda function!">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-19T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-19T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/learn-lambda-function-in-cpp-with-example/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/learn-lambda-function-in-cpp-with-example/">
+              All About Lambda Function in C&#43;&#43;(From C&#43;&#43;11 to C&#43;&#43;20)
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-19T00:00:00Z">
+                September 19, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Learn-lambda-function-in-C-with-example.png" alt="Featured image"/>
+        
+        <p>Lambda function is quite an intuitive &amp; widely loved feature introduced in C++11. And, there are tons of articles &amp; tutorials already available on the topic. But, there are very few or none of them touched upon things like IIFE, types of lambda and newer updates on lambda by subsequent standard releases. So, I got the opportunity to fill the blank. I will start this article with what is lambda function! And as we move along will show you how it works internally! &amp; different variations of it. My focus here would be to give you a pragmatic overview. If you are in search of deep dive, I would suggest you read <a href="https://leanpub.com/cpplambda"  class="external-link" target="_blank" rel="noopener">C++ Lambda Story</a> by <a href="https://www.linkedin.com/in/bartlomiejfilipek/"  class="external-link" target="_blank" rel="noopener">Bartłomiej Filipek</a>.</p>
+<p>Title of this article is a bit misleading. Because <strong><em>lambda doesn&rsquo;t always synthesize to function pointer</em></strong>. It&rsquo;s an expression (precisely unique closure). But I have kept it that way for simplicity. So from now on, I might use them interchangeably.</p>
+<h2 id="what-is-lambda-function">
+  What is lambda function?
+  <a class="heading-link" href="#what-is-lambda-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>A lambda function is short snippets of code that</p>
+<ul>
+<li>not worth naming(unnamed, anonymous, disposable, etc. whatever you can call it),</li>
+<li>and also not reused.</li>
+</ul>
+<p>In other words, it&rsquo;s just syntactic sugar. lambda function syntax is defined as:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>[ capture list ] (parameters) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">return</span><span style="color:#f92672">-</span>type  
+</span></span><span style="display:flex;"><span>{   
+</span></span><span style="display:flex;"><span>    method definition
+</span></span><span style="display:flex;"><span>} 
+</span></span></code></pre></div><ul>
+<li>Usually, <strong><em>compiler evaluates a return type of a lambda function itself</em></strong>. So we don&rsquo;t need to specify a trailing return type explicitly i.e. <code>-&gt; return-type</code>.</li>
+<li>But in some complex cases, the compiler unable to deduce the return type and we need to specify that.</li>
+</ul>
+<h2 id="why-should-we-use-a-lambda-function">
+  Why Should We Use a Lambda Function?
+  <a class="heading-link" href="#why-should-we-use-a-lambda-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>C++ includes many useful generic functions like <code>std::for_each</code>, which can be handy. Unfortunately, they can also be quite cumbersome to use, particularly if the functor you would like to apply is unique to the particular function. Consider the following code for an example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">print</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">operator</span>()(<span style="color:#66d9ef">int</span> element) {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> element <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>	for_each(v.begin(), v.end(), print());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>If you use <code>print</code> once, in that specific place, it seems overkill to be writing a whole class just to do something trivial and one-off.</li>
+<li>However, for this kind of situation inline code would be more suitable &amp; appropriate which can be achieved by lambda function as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>for_each(v.begin(), v.end(), [](<span style="color:#66d9ef">int</span> element) { cout <span style="color:#f92672">&lt;&lt;</span> element <span style="color:#f92672">&lt;&lt;</span> endl; });
+</span></span></code></pre></div><h2 id="how-does-lambda-functions-works-internally">
+  How Does Lambda Functions Works Internally?
+  <a class="heading-link" href="#how-does-lambda-functions-works-internally">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>[<span style="color:#f92672">&amp;</span>i] ( ) { cout <span style="color:#f92672">&lt;&lt;</span> i; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// is equivalent to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">anonymous</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>m_i;
+</span></span><span style="display:flex;"><span>    anonymous(<span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>i) <span style="color:#f92672">:</span> m_i(i) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">auto</span> <span style="color:#a6e22e">operator</span>()() <span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> m_i;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>The <strong><em>compiler generates unique closure as above for each lambda function</em></strong>. Finally, the secret revealed. Unique closure is nothing but a class(or struct depending upon compiler developer).</li>
+<li>Capture list will become a constructor argument in closure, If you capture argument as value then corresponding type data member is created within the closure.</li>
+<li>Moreover, you can declare variable/object in the lambda function argument, which will become an argument to call operator i.e. `operator()``</li>
+</ul>
+<h2 id="benefits-of-using-a-lambda-function">
+  Benefits of Using a Lambda Function
+  <a class="heading-link" href="#benefits-of-using-a-lambda-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Zero cost abstraction. Yes! you read it right. <strong><em>lambda doesn&rsquo;t cost you performance &amp; as fast as a normal function</em></strong>.</li>
+<li>In addition, code becomes compact, structured &amp; expressive.</li>
+</ul>
+<h2 id="learning-lambda-expression-syntax">
+  Learning Lambda Expression Syntax
+  <a class="heading-link" href="#learning-lambda-expression-syntax">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="capture-by-referencevalue">
+  Capture by Reference/Value
+  <a class="heading-link" href="#capture-by-referencevalue">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> print <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>] { <span style="color:#75715e">// Capturing everything by reference(not recommended though)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		cout <span style="color:#f92672">&lt;&lt;</span> __PRETTY_FUNCTION__ <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; : &#34;</span> <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; , &#34;</span> <span style="color:#f92672">&lt;&lt;</span> y <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	print();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Output
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">main()::&lt;lambda()&gt; : 100 , 200
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>In the above example, I have mentioned <code>&amp;</code> in capture list. which captures variable <code>x</code> &amp; <code>y</code> as reference. Similarly, <code>=</code> denotes captured by value, which will create data member of the same type within the closure and copy assignment will take place.</li>
+<li>In addition, the parameter list is optional, <strong><em>you can omit the empty parentheses if you do not pass arguments</em></strong> to the lambda expression.</li>
+</ul>
+<h3 id="lambda-capture-list">
+  Lambda Capture List
+  <a class="heading-link" href="#lambda-capture-list">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>The following table shows different use cases for the same:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[](){}</code></td>
+<td>no captures</td>
+</tr>
+<tr>
+<td><code>[=](){}</code></td>
+<td>captures everything by copy (not recommended)</td>
+</tr>
+<tr>
+<td><code>[&amp;](){}</code></td>
+<td>captures everything by reference (not recommended)</td>
+</tr>
+<tr>
+<td><code>[x](){}</code></td>
+<td>captures x by copy</td>
+</tr>
+<tr>
+<td><code>[&amp;x](){}</code></td>
+<td>captures x by reference</td>
+</tr>
+<tr>
+<td><code>[&amp;, x](){}</code></td>
+<td>captures x by copy, everything else by reference</td>
+</tr>
+<tr>
+<td><code>[=, &amp;x](){}</code></td>
+<td>captures x by reference, everything else by copy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="passing-lambda-as-parameter">
+  Passing Lambda as Parameter
+  <a class="heading-link" href="#passing-lambda-as-parameter">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> Functor<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> f(Functor functor) {
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> __PRETTY_FUNCTION__ <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Or alternatively you can use this
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">void f(function&lt;int(int)&gt; functor) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; endl;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">g</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> i<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> lambda_func <span style="color:#f92672">=</span> [i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>]() <span style="color:#66d9ef">mutable</span> { <span style="color:#66d9ef">return</span> i<span style="color:#f92672">++</span>; };
+</span></span><span style="display:flex;"><span>	f(lambda_func); <span style="color:#75715e">// Pass lambda
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	f(g);			<span style="color:#75715e">// Pass function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* Output
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Function Type : void f(Functor) [with Functor = main()::&lt;lambda(int)&gt;]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Function Type : void f(Functor) [with Functor = int (*)(int)]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>As you can see, you can also pass lambda function as an argument to other function just like a normal function.</li>
+<li>So, if you see, here I have declared variable <code>i</code> in capture list which will become data member. As a result, every time you call <code>lambda_func</code>, it will be returned and incremented.</li>
+</ul>
+<h3 id="capture-member-variable-in-lambda-or-this-pointer">
+  Capture Member Variable in Lambda or This Pointer
+  <a class="heading-link" href="#capture-member-variable-in-lambda-or-this-pointer">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> m_var;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	Example() <span style="color:#f92672">:</span> m_var(<span style="color:#ae81ff">10</span>) {}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>() {
+</span></span><span style="display:flex;"><span>		[<span style="color:#f92672">=</span>]() { cout <span style="color:#f92672">&lt;&lt;</span> m_var <span style="color:#f92672">&lt;&lt;</span> endl; }(); <span style="color:#75715e">// IIFE
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	Example e;
+</span></span><span style="display:flex;"><span>	e.func();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><em><code>this</code></em> pointer can also be captured using [this]<code>, [=]</code> or [&amp;]`. In any of these cases, class data members(including <em>private</em>) can be accessed as you do in a normal method.</li>
+<li>If you see the lambda expression line, I have used extra `() at the end of the lambda function declaration which used to calls it right thereafter declaration. It is called <a href="https://stackoverflow.com/questions/44868369/how-to-immediately-invoke-a-c-lambda"  class="external-link" target="_blank" rel="noopener">IIFE</a> (<strong><em>Immediately Invoked Function Expression</em></strong>).</li>
+</ul>
+<h2 id="lambda-function-variations-in-modern-c">
+  Lambda Function Variations in Modern C++
+  <a class="heading-link" href="#lambda-function-variations-in-modern-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="generic-lambdac14">
+  Generic Lambda(C++14)
+  <a class="heading-link" href="#generic-lambdac14">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> l <span style="color:#f92672">=</span> [](<span style="color:#66d9ef">auto</span> a, <span style="color:#66d9ef">auto</span> b, <span style="color:#66d9ef">auto</span> c) {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// is equivalent to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">anonymous</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T0</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T1</span>, <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T2</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> <span style="color:#66d9ef">operator</span>()(T0 a, T1 b, T2 c) <span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Generic lambda introduced in C++14 which can captures parameters with <code>auto</code> specifier.</li>
+</ul>
+<h3 id="variadic-generic-lambdac14">
+  Variadic Generic Lambda(C++14)
+  <a class="heading-link" href="#variadic-generic-lambdac14">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(Args <span style="color:#f92672">&amp;&amp;</span>... args) {
+</span></span><span style="display:flex;"><span>	(<span style="color:#66d9ef">void</span>(cout <span style="color:#f92672">&lt;&lt;</span> forward<span style="color:#f92672">&lt;</span>Args<span style="color:#f92672">&gt;</span>(args) <span style="color:#f92672">&lt;&lt;</span> endl), ...);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> variadic_generic_lambda <span style="color:#f92672">=</span> [](<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;&amp;</span>... param) {
+</span></span><span style="display:flex;"><span>		print(forward<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">decltype</span>(param)<span style="color:#f92672">&gt;</span>(param)...);
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	variadic_generic_lambda(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;lol&#34;</span>, <span style="color:#ae81ff">1.1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Lambda with <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >variadic template</a>(C++11) will be useful in many scenarios like debugging, repeated operation with different data input, etc.</li>
+</ul>
+<h3 id="mutable-lambda-functionc11">
+  Mutable Lambda Function(C++11)
+  <a class="heading-link" href="#mutable-lambda-functionc11">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Typically, a lambda&rsquo;s function call operator is const-by-value which means <strong><em>lambda requires <code>mutable</code>  keyword if you are capturing anything by-value</em></strong>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>[]() <span style="color:#66d9ef">mutable</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// is equivalent to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">anonymous</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> <span style="color:#a6e22e">operator</span>()() { <span style="color:#75715e">// call operator
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>We have already seen an example of this above. I hope you <a href="#lambda-as-parameter" >noticed</a> it.</li>
+</ul>
+<h3 id="lambda-as-a-function-pointerc11">
+  Lambda as a Function Pointer(C++11)
+  <a class="heading-link" href="#lambda-as-a-function-pointerc11">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> funcPtr <span style="color:#f92672">=</span> <span style="color:#f92672">+</span>[] {};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static_assert</span>(is_same<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">decltype</span>(funcPtr), <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>)()<span style="color:#f92672">&gt;::</span>value);
+</span></span></code></pre></div><ul>
+<li>You can force the compiler to generate lambda as a function pointer rather than closure by adding <code>+</code> in front of it as above.</li>
+</ul>
+<h3 id="higher-order-returning-lambda-functionsc11">
+  Higher-Order Returning Lambda Functions(C++11)
+  <a class="heading-link" href="#higher-order-returning-lambda-functionsc11">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> less_than <span style="color:#f92672">=</span> [](<span style="color:#66d9ef">auto</span> x) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> [x](<span style="color:#66d9ef">auto</span> y) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> y <span style="color:#f92672">&lt;</span> x;
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> less_than_five <span style="color:#f92672">=</span> less_than(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> less_than_five(<span style="color:#ae81ff">3</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> less_than_five(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Going a bit further, lambda function can also return another lambda function. This will open the doors of endless possibility for customization, code expressiveness &amp; compactibility(BTW, there is no word like this) of code.</li>
+</ul>
+<h3 id="constexpr-lambda-expressionc17">
+  constexpr Lambda Expression(C++17)
+  <a class="heading-link" href="#constexpr-lambda-expressionc17">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Since C++17, a lambda expression can be declared as <a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" >constexpr</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">auto</span> sum <span style="color:#f92672">=</span> [](<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>a, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>b) { <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b; };
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    is equivalent to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    constexpr struct anonymous
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        template &lt;class T1, class T2&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        constexpr auto operator()(T1 a, T2 b) const
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            return a + b;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    };
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static_assert</span>(sum(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">20</span>);
+</span></span></code></pre></div><ul>
+<li>Even if you don&rsquo;t specify <code>constexpr</code> , the function call operator will be  <code>constexpr</code> anyway, if it happens to satisfy all <a href="https://en.cppreference.com/w/cpp/language/constexpr"  class="external-link" target="_blank" rel="noopener">constexpr function requirements</a>.</li>
+</ul>
+<h3 id="template-lambda-expressionc20">
+  Template Lambda Expression(C++20)
+  <a class="heading-link" href="#template-lambda-expressionc20">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>As we saw above in generic lambda function, we can declare parameters as <code>auto</code>. That in turn templatized by compiler &amp; deduce the appropriate template type. But there was no way to change this template parameter and use real <a href="/posts/c-template-a-quick-uptodate-look/" >C++ template</a> arguments. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> f(vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span>	vec){
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//. . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>How do you write the lambda for the above function which takes <code>std::vector</code> of type <code>T</code>? This was the limitation till C++17, but with C++20 it is possible as below:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> f <span style="color:#f92672">=</span> []<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>(vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span>  vec){
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
+</span></span><span style="display:flex;"><span>f(v);
+</span></span></code></pre></div><ul>
+<li>There are other small changes as well regarding the same that you can read <a href="https://en.cppreference.com/w/cpp/language/lambda"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<h2 id="parting-words">
+  Parting Words
+  <a class="heading-link" href="#parting-words">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I hope you enjoyed this article. I have tried to cover most of the fundamentals around lambda function with a couple of unsophisticate &amp; small examples. You should use lambda wherever it strikes in your mind considering code expressiveness &amp; easy maintainability. For example, you can use it in custom deleters for smart pointers, to avoid code repetition &amp; with most of the STL algorithms.</p>
+<p>Learn lambda function in C++ with example</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

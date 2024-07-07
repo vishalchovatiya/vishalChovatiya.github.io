@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  2 Wrong Way to Learn Copy Assignment Operator in C&#43;&#43; With Example · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="While I was introducing myself to C&#43;&#43;, I was confused about the syntax of the copy assignment operator in C&#43;&#43; &amp; some of its use-cases. I have learned those lessons the hard way. And so I have decided to write this article, where we see 2 wrong way to learn copy assignment operator in C&#43;&#43; with example. And we also see why we need it &amp; why its syntax like that only.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="2 Wrong Way to Learn Copy Assignment Operator in C&#43;&#43; With Example">
+  <meta name="twitter:description" content="While I was introducing myself to C&#43;&#43;, I was confused about the syntax of the copy assignment operator in C&#43;&#43; &amp; some of its use-cases. I have learned those lessons the hard way. And so I have decided to write this article, where we see 2 wrong way to learn copy assignment operator in C&#43;&#43; with example. And we also see why we need it &amp; why its syntax like that only.">
+
+<meta property="og:url" content="http://localhost:1313/posts/2-wrong-way-to-learn-copy-assignment-operator-in-cpp-with-example/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="2 Wrong Way to Learn Copy Assignment Operator in C&#43;&#43; With Example">
+  <meta property="og:description" content="While I was introducing myself to C&#43;&#43;, I was confused about the syntax of the copy assignment operator in C&#43;&#43; &amp; some of its use-cases. I have learned those lessons the hard way. And so I have decided to write this article, where we see 2 wrong way to learn copy assignment operator in C&#43;&#43; with example. And we also see why we need it &amp; why its syntax like that only.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-11T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/2-wrong-way-to-learn-copy-assignment-operator-in-cpp-with-example/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/2-wrong-way-to-learn-copy-assignment-operator-in-cpp-with-example/">
+              2 Wrong Way to Learn Copy Assignment Operator in C&#43;&#43; With Example
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-11T00:00:00Z">
+                September 11, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/2-wrong-way-to-learn-copy-assignment-operator-in-c.png" alt="Featured image"/>
+        
+        <p>While I was introducing myself to C++, I was confused about the syntax of the copy assignment operator in C++ &amp; some of its use-cases. I have learned those lessons the hard way. And so I have decided to write this article, where we see 2 wrong way to learn copy assignment operator in C++ with example. And we also see why we need it &amp; why its syntax like that only. Although I am not an expert or pro but this what I have learned so far from various sources.</p>
+<h2 id="why-do-we-need-copy-assignment-operator-in-c">
+  Why Do We Need Copy Assignment Operator in C++?
+  <a class="heading-link" href="#why-do-we-need-copy-assignment-operator-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>The simple answer is just to assign data. As we do an assignment in primitive data types like <code>int a; a = 5</code>. Sometimes we also need to do this in our user-defined data type i.e. class/struct. The answer would be the same as copy constructor which I have given <a href="/posts/all-about-copy-constructor-in-cpp/" >here</a>.</li>
+<li>A class could be a complex entity so that we need a special function which does this task. Although compiler provides a default one. But in some cases, you have to define your own copy assignment operation such as:
+<ol>
+<li>Write your own assignment operator that does the deep copy if you are using dynamic memory.</li>
+<li>Do not allow the assignment of one <a href="/posts/inside-the-c-object-model/" >object</a> to another object or <a href="/posts/memory-layout-of-cpp-object/" >sub-object</a>(object slicing). We can create our own dummy assignment operator and make it <code>private</code> or simply <code>delete</code> it.</li>
+</ol>
+</li>
+</ul>
+<h2 id="why-do-we-need-to-return-something-from-the-copy-assignment-operator">
+  Why Do We Need to Return Something From the Copy Assignment Operator?
+  <a class="heading-link" href="#why-do-we-need-to-return-something-from-the-copy-assignment-operator">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>While I was learning about the copy assignment operator, I always had a doubt that why do we need to return value from the copy assignment operator function. Let&rsquo;s consider following example:</li>
+</ul>
+<h3 id="copy-assignment-operator-in-c-with-example">
+  Copy Assignment Operator in C++ With Example
+  <a class="heading-link" href="#copy-assignment-operator-in-c-with-example">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> var;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    X(<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> x; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    X <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> X <span style="color:#f92672">&amp;</span>rhs)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> rhs.var;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>X <span style="color:#a6e22e">x1</span>(<span style="color:#ae81ff">1</span>), x2(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>x2 <span style="color:#f92672">=</span> x1; <span style="color:#75715e">// Compiler augments into X::x2.operator=(x1);
+</span></span></span></code></pre></div><ul>
+<li>Actually, we don&rsquo;t need to, if you look at the above code we are already assigning to a current object i.e. <code>x2</code> using <code>this</code> pointer who called copy assignment operator function.</li>
+<li>I can understand the need for <a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" ><code>const</code></a> in the argument of the copy assignment operator function. But the return value was not justifiable to me until I saw the following code:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>X <span style="color:#a6e22e">x1</span>(<span style="color:#ae81ff">1</span>), x2(<span style="color:#ae81ff">2</span>), x3(<span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>x3 <span style="color:#f92672">=</span> x2 <span style="color:#f92672">=</span> x1;
+</span></span></code></pre></div><ul>
+<li>If you make return type of copy assignment operator function as <code>void</code>, the compiler won&rsquo;t throw error till you are using <code>x2 = x1;</code>.</li>
+<li>But when assignment chain will be created like <code>x3 = x2 = x1;</code> you have to return something so that it can be an argument on further call to copy assignment operator.</li>
+<li>So we have to return something from the copy assignment operator to support assignment chaining feature. But what should be the appropriate return type? This will lead us to our next point.</li>
+</ul>
+<h2 id="what-should-be-the-appropriate-return-type">
+  What Should Be the Appropriate Return Type?
+  <a class="heading-link" href="#what-should-be-the-appropriate-return-type">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I know, you will say we have to return a reference to the current object. Yeh! that&rsquo;s correct also but why not <code>return by value</code> or <code>pointer</code>? Ok, then, let&rsquo;s see 2 wrong way to learn copy assignment operator in C++</p>
+<h3 id="no-1-lets-try-return-by-value">
+  No. 1: <strong>Let&rsquo;s try <code>return by value</code></strong>
+  <a class="heading-link" href="#no-1-lets-try-return-by-value">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> var;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    X(<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> x; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    X <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(X <span style="color:#f92672">&amp;</span>rhs)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> rhs.var;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    X x1(<span style="color:#ae81ff">1</span>), x2(<span style="color:#ae81ff">2</span>), x3(<span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x2 <span style="color:#f92672">=</span> x1;        <span style="color:#75715e">// Statement 1: Works fine
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    (x3 <span style="color:#f92672">=</span> x2) <span style="color:#f92672">=</span> x1; <span style="color:#75715e">// Statement 2: Correct, but meaning less statement
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    x3 <span style="color:#f92672">=</span> (x2 <span style="color:#f92672">=</span> x1); <span style="color:#75715e">// Statement 3: Meaningful but compiler won&#39;t alllow us
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    x3 <span style="color:#f92672">=</span> x2 <span style="color:#f92672">=</span> x1;   <span style="color:#75715e">// Statement 4: Meaningful but compiler won&#39;t alllow us
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x1.var <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x2.var <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x3.var <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Note that I have not taken an argument as <a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" >const</a> in copy assignment operator.</p>
+<ul>
+<li>When you will compile the above code, GCC will throw an error as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>error: no viable overloaded <span style="color:#e6db74">&#39;=&#39;</span>
+</span></span><span style="display:flex;"><span>  x3 <span style="color:#f92672">=</span> (x2 <span style="color:#f92672">=</span> x1);   <span style="color:#75715e">// Statement 3: Meaningful but compiler won&#39;t alllow us
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#f92672">~~</span> <span style="color:#f92672">^</span> <span style="color:#f92672">~~~~~~~~~</span>
+</span></span><span style="display:flex;"><span>note: candidate function not viable: expects an l<span style="color:#f92672">-</span>value <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">1</span>st argument
+</span></span><span style="display:flex;"><span>  X <span style="color:#66d9ef">operator</span> <span style="color:#f92672">=</span> (X <span style="color:#f92672">&amp;</span>rhs){
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">^</span>
+</span></span></code></pre></div><ul>
+<li>Let&rsquo;s understand all these statements one-by-one</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>x2 <span style="color:#f92672">=</span> x1;          <span style="color:#75715e">// Statement 1: Works fine
+</span></span></span></code></pre></div><ul>
+<li>Above statement is correct &amp; works fine as we are not utilising return value provided by the copy assignment operator.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>(x3 <span style="color:#f92672">=</span> x2) <span style="color:#f92672">=</span> x1;   <span style="color:#75715e">// Statement 2: Correct, but meaningless statement
+</span></span></span></code></pre></div><ul>
+<li>This statements is perfectly fine &amp; have no problem in a compilation. But <code>Statement 2</code> is meaningless as we are first assigning <code>x2</code> into <code>x3</code> which returns a temporary(AKA anonymous) object which again calls a copy assignment operator with <code>x1</code> as an argument. This works fine but at the end call of the copy assignment operator, we are assigning the value of <code>x1</code> to a temporary object which is meaningless.</li>
+<li>Probable transformation of <code>Statement 2</code> by the compiler would be</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>(X<span style="color:#f92672">::</span>x3.<span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(x2)).<span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(x1);
+</span></span></code></pre></div><ul>
+<li>With more simplicity</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>X temp <span style="color:#f92672">=</span> X<span style="color:#f92672">::</span>x3.<span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(x2);
+</span></span><span style="display:flex;"><span>X<span style="color:#f92672">::</span>temp.<span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(x1);
+</span></span></code></pre></div><ul>
+<li>As you can see I have taken <code>temp</code> object which usually created by the compiler as we are returning an object by value. So this way output would be <code>1 2 2</code> which is not correct.</li>
+<li>Now we will observe <code>Statement 3</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>x3 <span style="color:#f92672">=</span> (x2 <span style="color:#f92672">=</span> x1);   <span style="color:#75715e">// Statement 3: Meaningful but compiler won&#39;t allow us
+</span></span></span></code></pre></div><ul>
+<li>Probable transformation of <code>Statement 3</code> by the compiler would be</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>(X<span style="color:#f92672">::</span>x3.<span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>((x2 <span style="color:#f92672">=</span> x1));
+</span></span></code></pre></div><ul>
+<li>Code till operation <code>x2 = x1</code> is fine we have seen it earlier but when the result of that operation becomes an argument to another copy assignment operator function, it will again create the problem of temporary object binding to a non-const reference.</li>
+<li>If you don&rsquo;t know about &ldquo;<a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >temporary object binding to non-const reference</a>&rdquo; then you should find out the reason behind why the following program is not working, you will understand everything you wanted to know for <code>Statement 3</code>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>val1 <span style="color:#f92672">=</span> string(<span style="color:#e6db74">&#34;123&#34;</span>); <span style="color:#75715e">// Works fine
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    string <span style="color:#f92672">&amp;</span>val2 <span style="color:#f92672">=</span> string(<span style="color:#e6db74">&#34;123&#34;</span>);       <span style="color:#75715e">// Will throw error
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Error:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>clang version <span style="color:#ae81ff">6.0.0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1u</span>buntu2 (tags<span style="color:#f92672">/</span>RELEASE_600<span style="color:#f92672">/</span><span style="color:#66d9ef">final</span>)
+</span></span><span style="display:flex;"><span>exit status <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>error: non<span style="color:#f92672">-</span><span style="color:#66d9ef">const</span> lvalue reference to type <span style="color:#960050;background-color:#1e0010">&#39;</span>basic_string<span style="color:#f92672">&lt;</span>...<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">&#39;</span> cannot bind to a temporary of type <span style="color:#960050;background-color:#1e0010">&#39;</span>basic_string<span style="color:#f92672">&lt;</span>...<span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span>  string<span style="color:#f92672">&amp;</span> val2 <span style="color:#f92672">=</span> string(<span style="color:#e6db74">&#34;123&#34;</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">^</span>      <span style="color:#f92672">~~~~~~~~~~~~~</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> error generated.
+</span></span></code></pre></div><ul>
+<li>Note that the above code will work in some of the old compilers like VC2012, etc. Now we will move to <code>Statement 4</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>x3 <span style="color:#f92672">=</span> x2 <span style="color:#f92672">=</span> x1;     <span style="color:#75715e">// Statement 4: Meaningful but compiler won&#39;t allow us
+</span></span></span></code></pre></div><ul>
+<li>This will also throw the same error as <code>Statement 3</code> because conceptually both are same. Although <code>Statement 3</code> &amp; <code>Statement 4</code> can also be valid if you modify argument of copy assignment operator from <code>pass by reference</code> to <code>pass by value</code> which we know adds the unnecessary overhead of calling copy constructor which also stands true for the return type.</li>
+</ul>
+<h3 id="no-2-lets-try-return-by-pointer">
+  No. 2: <strong>Let&rsquo;s try <code>return by pointer</code></strong>
+  <a class="heading-link" href="#no-2-lets-try-return-by-pointer">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> var;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    X(<span style="color:#66d9ef">int</span> x) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> x; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    X <span style="color:#f92672">*</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(X <span style="color:#f92672">&amp;</span>rhs)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> rhs.var;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    X x1(<span style="color:#ae81ff">1</span>), x2(<span style="color:#ae81ff">2</span>), x3(<span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x2 <span style="color:#f92672">=</span> x1;      <span style="color:#75715e">// Statement 1: Works fine
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    x3 <span style="color:#f92672">=</span> x2 <span style="color:#f92672">=</span> x1; <span style="color:#75715e">// Statement 4: Meaningful but compiler won&#39;t alllow us
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x1.var <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x2.var <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> x3.var <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>This time we will not observe all four statements rather will go for 2 basic statement which is also valid for primitive data types.</li>
+<li><code>Statement 1</code> is not correct but still works fine. While <code>Statement 4</code> throws an error</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>clang version <span style="color:#ae81ff">6.0.0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1u</span>buntu2 (tags<span style="color:#f92672">/</span>RELEASE_600<span style="color:#f92672">/</span><span style="color:#66d9ef">final</span>)
+</span></span><span style="display:flex;"><span>exit status <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>error: no viable overloaded <span style="color:#e6db74">&#39;=&#39;</span>
+</span></span><span style="display:flex;"><span>  x3 <span style="color:#f92672">=</span> x2 <span style="color:#f92672">=</span> x1;     <span style="color:#75715e">// Statement 4: Meaningful but compiler wont alllow us
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#f92672">~~</span> <span style="color:#f92672">^</span> <span style="color:#f92672">~~~~~~~</span>
+</span></span><span style="display:flex;"><span>note: candidate function not viable: no known conversion from <span style="color:#960050;background-color:#1e0010">&#39;</span>X <span style="color:#f92672">*</span><span style="color:#960050;background-color:#1e0010">&#39;</span> to <span style="color:#960050;background-color:#1e0010">&#39;</span>X <span style="color:#f92672">&amp;</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">1</span>st argument; dereference the argument with <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>  X<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">=</span> (X <span style="color:#f92672">&amp;</span>rhs){
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">^</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> error generated.
+</span></span></code></pre></div><ul>
+<li>Probable transformation of <code>Statement 4</code> by the compiler would be</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>(X<span style="color:#f92672">::</span>x3.<span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>( ( x2 <span style="color:#f92672">=</span> x1 ) );
+</span></span></code></pre></div><ul>
+<li>This will not work simply because of the result of an operation `( x2 = x1 ) is pointer &amp; copy assignment operator function wants a reference as an argument.</li>
+<li>Now you will say that why we just not change argument with pointer rather than accepting it as a reference. Nice idea! I would say</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>X <span style="color:#f92672">*</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(X <span style="color:#f92672">*</span>rhs)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;THIS</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>var <span style="color:#f92672">=</span> rhs<span style="color:#f92672">-&gt;</span>var;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Now to call above copy assignment operator you need to use the following operation</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>x2 <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>x1;
+</span></span></code></pre></div><ul>
+<li>Because we are expecting pointer as an argument in copy assignment operator. <code>x1 = x2</code> or <code>x3 = x2 = x1</code> won&rsquo;t work anymore.</li>
+<li>If you are still getting the correct answer as <code>1 1 1</code> in your output window then just consider print from <code>cout</code>. You are getting the correct answer <code>1 1 1</code> because default copy constructor provided by the compiler is getting called every time. Technically, we have just overloaded copy constructor by changing its return type &amp; argument as a pointer.</li>
+</ul>
+<h2 id="conclusion">
+  <strong>Conclusion</strong>
+  <a class="heading-link" href="#conclusion">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Above are the reason why it is not feasible to use <code>pass by value</code> or <code>pointer</code> an argument or <a href="https://stackoverflow.com/questions/3105798/why-must-the-copy-assignment-operator-return-a-reference-const-reference"  class="external-link" target="_blank" rel="noopener">return type of copy assignment operator</a>.</li>
+<li><strong><em>Compiler designer have designed standard in such a way that your class object operation should also work same as primitive type operations</em></strong> like</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Primitive type &amp; operations
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, b, c;
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> b <span style="color:#f92672">=</span> c;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// User defined type &amp; operations
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>X <span style="color:#a6e22e">x1</span>(<span style="color:#ae81ff">5</span>), x2, x3;
+</span></span><span style="display:flex;"><span>x3 <span style="color:#f92672">=</span> x2 <span style="color:#f92672">=</span> x1;
+</span></span></code></pre></div><p>assignment operator in C++ with example</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

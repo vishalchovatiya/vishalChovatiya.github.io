@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  21 New Features of Modern C&#43;&#43; to Use in Your Project · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="So, you came across the Modern C&#43;&#43; &amp; overwhelmed by its features in terms of performance, convenience &amp; code expressiveness. But in a dilemma that how you can spot where you can enforce Modern C&#43;&#43; features in your day to day coding job. No worries, here we will see 21 new features of Modern C&#43;&#43; you can use in your project.
+C&#43;&#43; community releasing new standards more frequently than iPhone releases.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="21 New Features of Modern C&#43;&#43; to Use in Your Project">
+  <meta name="twitter:description" content="So, you came across the Modern C&#43;&#43; &amp; overwhelmed by its features in terms of performance, convenience &amp; code expressiveness. But in a dilemma that how you can spot where you can enforce Modern C&#43;&#43; features in your day to day coding job. No worries, here we will see 21 new features of Modern C&#43;&#43; you can use in your project.
+C&#43;&#43; community releasing new standards more frequently than iPhone releases.">
+
+<meta property="og:url" content="http://localhost:1313/posts/21-new-features-of-modern-cpp-to-use-in-your-project/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="21 New Features of Modern C&#43;&#43; to Use in Your Project">
+  <meta property="og:description" content="So, you came across the Modern C&#43;&#43; &amp; overwhelmed by its features in terms of performance, convenience &amp; code expressiveness. But in a dilemma that how you can spot where you can enforce Modern C&#43;&#43; features in your day to day coding job. No worries, here we will see 21 new features of Modern C&#43;&#43; you can use in your project.
+C&#43;&#43; community releasing new standards more frequently than iPhone releases.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-10-13T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-10-13T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/21-new-features-of-modern-cpp-to-use-in-your-project/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/21-new-features-of-modern-cpp-to-use-in-your-project/">
+              21 New Features of Modern C&#43;&#43; to Use in Your Project
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-10-13T00:00:00Z">
+                October 13, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              12-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/20-new-features-of-Modern-C-to-use-in-your-project.png" alt="Featured image"/>
+        
+        <p>So, you came across the Modern C++ &amp; overwhelmed by its features in terms of performance, convenience &amp; code expressiveness. But in a dilemma that how you can spot where you can enforce Modern C++ features in your day to day coding job. No worries, here we will see 21 new features of Modern C++ you can use in your project.</p>
+<p>C++ community releasing new standards more frequently than iPhone releases. Due to this, C++ now becomes like an elephant and it is impossible to eat the whole elephant in one go. That is why I have written this post to kick start your Modern C++ journey. Here my intended audience is peeps who are moving from older(i.e. 98/03) C++ to Modern(i.e. 2011 onwards) C++.</p>
+<p>I have chosen some of the Modern C++ features &amp; explained it with the minimalistic example to make you aware that how you can spot the places where you can employ new features.</p>
+<h2 id="digit-separators">
+  Digit separators
+  <a class="heading-link" href="#digit-separators">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> no <span style="color:#f92672">=</span> <span style="color:#ae81ff">1&#39;000&#39;000</span>;                      <span style="color:#75715e">// separate units like, thousand, lac, million, etc.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">long</span> addr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xA000&#39;EFFF</span>;                 <span style="color:#75715e">// separate 32 bit address
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">uint32_t</span> binary <span style="color:#f92672">=</span> <span style="color:#ae81ff">0b0001&#39;0010&#39;0111&#39;1111</span>; <span style="color:#75715e">// now, explanation is not needed i guess
+</span></span></span></code></pre></div><ul>
+<li>Earlier you have to count digits or zeros, but now not anymore from C++14.</li>
+<li>This will be useful while counting address in word, half-word or digit boundary or let say you have a credit card or social security number.</li>
+<li>By grouping digits, your code would become more expressive.</li>
+</ul>
+<h2 id="type-aliases">
+  Type aliases
+  <a class="heading-link" href="#type-aliases">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> dyn_arr <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>dyn_arr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums; <span style="color:#75715e">// equivalent to std::vector&lt;int&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> func_ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>)(<span style="color:#66d9ef">int</span>);
+</span></span></code></pre></div><ul>
+<li>Semantically similar to using a <code>typedef</code> , however, type aliases are easier to read and are compatible with <a href="/posts/c-template-a-quick-uptodate-look/" >C++ templates</a> types also. Thanks to C++11.</li>
+</ul>
+<h2 id="user-defined-literals">
+  User-defined literals
+  <a class="heading-link" href="#user-defined-literals">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> ull <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> ull <span style="color:#66d9ef">operator</span><span style="color:#e6db74">&#34;&#34;</span> _KB(ull no)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> no <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> ull <span style="color:#66d9ef">operator</span><span style="color:#e6db74">&#34;&#34;</span> _MB(ull no)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> no <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1024</span>_KB);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>_KB<span style="color:#f92672">&lt;&lt;</span>endl;
+</span></span><span style="display:flex;"><span>cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">5</span>_MB<span style="color:#f92672">&lt;&lt;</span>endl;
+</span></span></code></pre></div><ul>
+<li>Most of the times you have to deal with real-world jargons like KB, MB, km, cm, rupees, dollars, euros, etc. rather defining functions which do the unit conversion on run-time, you can now treat it as user-defined literals as you do with other primitive types.</li>
+<li>Very convenient for units &amp; measurement.</li>
+<li>Adding constexpr will serve zero cost run-time performance impact which we will see later in this article &amp; I have written a more detailed article on <a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" >when to use const vs constexpr in c++</a>.</li>
+</ul>
+<h2 id="uniform-initialization--non-static-member-initialization">
+  Uniform initialization &amp; Non-static member initialization
+  <a class="heading-link" href="#uniform-initialization--non-static-member-initialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Earlier, you have to initialize data members with its default values in the constructor or in the member initialization list. But from C++11, it’s possible to give normal class member variables (those that don’t use the <code>static</code> keyword) a default initialization value directly as shown below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> m_var_1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> m_var_2 <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>    string m_var_3 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> m_var_4 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    demo(<span style="color:#66d9ef">uint32_t</span> var_1, <span style="color:#66d9ef">bool</span> var_2, string var_3, <span style="color:#66d9ef">float</span> var_4)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> m_var_1(var_1),
+</span></span><span style="display:flex;"><span>          m_var_2(var_2),
+</span></span><span style="display:flex;"><span>          m_var_3(var_3),
+</span></span><span style="display:flex;"><span>          m_var_4(var_4) {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>demo obj{<span style="color:#ae81ff">123</span>, true, <span style="color:#e6db74">&#34;lol&#34;</span>, <span style="color:#ae81ff">1.1</span>};
+</span></span></code></pre></div><ul>
+<li>This is more useful when there are multiple <a href="/posts/memory-layout-of-cpp-object/" >sub-object</a>s defined as data members as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">computer</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    cpu_t           m_cpu{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3.2</span>_GHz};
+</span></span><span style="display:flex;"><span>    ram_t           m_ram{<span style="color:#ae81ff">4</span>_GB, RAM<span style="color:#f92672">::</span>TYPE<span style="color:#f92672">::</span>DDR4};
+</span></span><span style="display:flex;"><span>    hard_disk_t     m_ssd{<span style="color:#ae81ff">1</span>_TB, HDD<span style="color:#f92672">::</span>TYPE<span style="color:#f92672">::</span>SSD};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><ul>
+<li>In this case, you do not need to initialize it in initializer list, rather you can directly give default initialization at the time of declaration.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">X</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> m_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// int X::m_var = 0; // not needed for constant static data members
+</span></span></span></code></pre></div><ul>
+<li>You can also provide initialization at the time of declaration if members are <code>const</code> &amp; <code>static</code> as above.</li>
+</ul>
+<h2 id="stdinitializer_list">
+  std::initializer_list
+  <a class="heading-link" href="#stdinitializer_list">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>};
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> t <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>};
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> s <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;</span> a <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Wont work for adapters
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// std::stack&lt;int&gt; s = {1, 2, 3, 4, 5};
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// std::queue&lt;int&gt; q = {1, 2, 3, 4, 5};
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// std::priority_queue&lt;int&gt; pq = {1, 2, 3, 4, 5};
+</span></span></span></code></pre></div><ul>
+<li>Assign values to containers directly by initializer list as do with C-style arrays.</li>
+<li>This is also true for nested containers. Thanks to C++11.</li>
+</ul>
+<h2 id="auto--decltype">
+  auto &amp; decltype
+  <a class="heading-link" href="#auto--decltype">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.14</span>; <span style="color:#75715e">// double
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> c <span style="color:#f92672">=</span> b; <span style="color:#75715e">// int&amp;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> g <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">auto</span>(<span style="color:#ae81ff">123</span>); <span style="color:#75715e">// int*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> x; <span style="color:#75715e">// error -- `x` requires initializer
+</span></span></span></code></pre></div><ul>
+<li><code>auto</code>-typed variables are deduced by the compiler according to the type of their initializer.</li>
+<li>Extremely useful for readability, especially for complicated types:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// std::vector&lt;int&gt;::const_iterator cit = v.cbegin();
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> cit <span style="color:#f92672">=</span> v.cbegin(); <span style="color:#75715e">// alternatively
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// std::shared_ptr&lt;vector&lt;uint32_t&gt;&gt; demo_ptr(new vector&lt;uint32_t&gt;(0);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> demo_ptr <span style="color:#f92672">=</span> make_shared<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">&gt;&gt;</span>(<span style="color:#ae81ff">0</span>); <span style="color:#75715e">// alternatively
+</span></span></span></code></pre></div><ul>
+<li>Functions can also deduce the return type using <code>auto</code>. In C++11, a return type must be specified either explicitly, or using <code>decltype</code> like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> X, <span style="color:#66d9ef">typename</span> Y<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> add(X x, Y y) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">decltype</span>(x <span style="color:#f92672">+</span> y)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>add(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>);     <span style="color:#75715e">// == 3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>add(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2.0</span>);   <span style="color:#75715e">// == 3.0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>add(<span style="color:#ae81ff">1.5</span>, <span style="color:#ae81ff">1.5</span>); <span style="color:#75715e">// == 3.0
+</span></span></span></code></pre></div><ul>
+<li>Defining return type as above called trailing return type i.e. <code>-&gt; return-type</code>.</li>
+</ul>
+<h2 id="range-based-for-loops">
+  Range-based for-loops
+  <a class="heading-link" href="#range-based-for-loops">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Syntactic sugar for iterating over a container&rsquo;s elements.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;</span> a {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> x : a) x <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// a == { 2, 4, 6, 8, 10 }
+</span></span></span></code></pre></div><ul>
+<li>Note the difference when using <code>int</code> as opposed to <code>int&amp;</code>:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;</span> a {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x : a) x <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// a == { 1, 2, 3, 4, 5 }
+</span></span></span></code></pre></div><h2 id="smart-pointers">
+  Smart pointers
+  <a class="heading-link" href="#smart-pointers">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>C++11 introduces new smart(er) pointers: <code>std::unique_ptr</code>, <code>std::shared_ptr</code>, <code>std::weak_ptr</code>. </li>
+<li>And <code>std::auto_ptr</code> now become deprecated and then eventually removed in C++17.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> i_ptr1{<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">5</span>}}; <span style="color:#75715e">// Not recommendate
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> i_ptr2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">5</span>);  <span style="color:#75715e">// More conviniently
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    T m_var;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    demo(T var) <span style="color:#f92672">:</span> m_var(var){};
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> i_ptr3 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_shared<span style="color:#f92672">&lt;</span>demo<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span><span style="color:#f92672">&gt;&gt;</span>(<span style="color:#ae81ff">4</span>);
+</span></span></code></pre></div><ul>
+<li>ISO CPP guidelines suggest avoiding the call of <code>new</code> and <code>delete</code> explicitly by the rule of <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Res-new"  class="external-link" target="_blank" rel="noopener">no naked new</a>.</li>
+<li>I have already written an article on <a href="/posts/understanding-unique-ptr-with-example-in-cpp11/" >understanding unique_ptr with example in C++ here</a>.</li>
+</ul>
+<h2 id="nullptrpostswhat-exactly-nullptr-is-in-cpp">
+  <a href="/posts/what-exactly-nullptr-is-in-cpp/" >nullptr</a>
+  <a class="heading-link" href="#nullptrpostswhat-exactly-nullptr-is-in-cpp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>C++11 introduces a new null pointer type designed to replace C&rsquo;s <code>NULL</code> macro.</li>
+<li><a href="/posts/what-exactly-nullptr-is-in-cpp/" ><code>nullptr</code></a> itself is of type <code>std::nullptr_t</code> and can be implicitly converted into pointer types, and unlike <code>NULL</code>, not convertible to integral types except <code>bool</code>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">foo</span>(<span style="color:#66d9ef">int</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">foo</span>(<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>);
+</span></span><span style="display:flex;"><span>foo(NULL); <span style="color:#75715e">// error -- ambiguous
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>foo(<span style="color:#66d9ef">nullptr</span>); <span style="color:#75715e">// calls foo(char*)
+</span></span></span></code></pre></div><h2 id="strongly-typed-enums">
+  Strongly-typed enums
+  <a class="heading-link" href="#strongly-typed-enums">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">STATUS_t</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">uint32_t</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    PASS <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    FAIL,
+</span></span><span style="display:flex;"><span>    HUNG
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>STATUS_t STATUS <span style="color:#f92672">=</span> STATUS_t<span style="color:#f92672">::</span>PASS;
+</span></span><span style="display:flex;"><span>STATUS <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// not valid anymore from C++11
+</span></span></span></code></pre></div><ul>
+<li>Type-safe enums that solve a variety of problems with C-style enums including implicit conversions, arithmetic operations, inability to specify the underlying type, scope pollution, etc.</li>
+</ul>
+<h2 id="typecasting">
+  Typecasting
+  <a class="heading-link" href="#typecasting">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>C style casting only change the type without touching underlying data. While older C++ was a bit type-safe and has a feature of specifying type conversion operator/function. But it was implicit type conversion, from C++11, conversion functions can now be made explicit using the <code>explicit</code> specifier as follows.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">explicit</span> <span style="color:#66d9ef">operator</span> <span style="color:#a6e22e">bool</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> true; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>demo d;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (d);                             <span style="color:#75715e">// OK calls demo::operator bool()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> b_d <span style="color:#f92672">=</span> d;                       <span style="color:#75715e">// error: cannot convert &#39;demo&#39; to &#39;bool&#39; in initialization
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> b_d <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>(d);    <span style="color:#75715e">// OK, explicit conversion, you know what you are doing
+</span></span></span></code></pre></div><ul>
+<li>If the above code looks alien to you, I have written a more detailed article on <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >C++ typecasting here</a>.</li>
+</ul>
+<h2 id="move-semantics">
+  Move semantics
+  <a class="heading-link" href="#move-semantics">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>When an object is going to be destroyed or unused after expression execution, then it is more feasible to move resource rather than copying it.</li>
+<li>Copying includes unnecessary overheads like memory allocation, deallocation &amp; copying memory content, etc.</li>
+<li>Consider the following swap function:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>swap(T<span style="color:#f92672">&amp;</span> a, T<span style="color:#f92672">&amp;</span> b) {
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">tmp</span>(a);   <span style="color:#75715e">// we now have two copies of a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    a <span style="color:#f92672">=</span> b;      <span style="color:#75715e">// we now have two copies of b (+ discarded a copy of a)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    b <span style="color:#f92672">=</span> tmp;    <span style="color:#75715e">// we now have two copies of tmp (+ discarded a copy of b)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>using move allows you to swap the resources instead of copying them around:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>swap(T<span style="color:#f92672">&amp;</span> a, T<span style="color:#f92672">&amp;</span> b) {
+</span></span><span style="display:flex;"><span>    T <span style="color:#a6e22e">tmp</span>(std<span style="color:#f92672">::</span>move(a));
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(b);   
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(tmp);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Think of what happens when <code>T</code> is, say, <code>vector&lt;int&gt;</code> of size n. And n is too big.</li>
+<li>In the first version, you read and write 3*n elements, in the second version you basically read and write just the 3 pointers to the vectors&rsquo; buffers, plus the 3 buffers&rsquo; sizes.</li>
+<li>Of course, class <code>T</code> needs to know how to do the moving; your class should have a <a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >move-assignment operator and a move-constructor</a> for class <code>T</code> for this to work.</li>
+<li>This feature will give you a significant boost in the performance which is why people use C++ for(i.e. last 2-3 drops of speed).</li>
+</ul>
+<h2 id="forwarding-references">
+  Forwarding references
+  <a class="heading-link" href="#forwarding-references">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Also known (unofficially) as <em>universal references</em>. A forwarding reference is created with the syntax <code>T&amp;&amp;</code> where <code>T</code> is a template type parameter, or using <code>auto&amp;&amp;</code>. This enables two major features
+<ul>
+<li>move semantics</li>
+<li>And <em><a href="https://en.cppreference.com/w/cpp/utility/forward#Example"  class="external-link" target="_blank" rel="noopener">perfect forwarding</a></em>, the ability to pass arguments that are either lvalues or rvalues.</li>
+</ul>
+</li>
+</ul>
+<p>Forwarding references allow a reference to binding to either an lvalue or rvalue depending on the type. Forwarding references follow the rules of <em>reference collapsing</em>:</p>
+<ol>
+<li><code>T&amp; &amp;</code> becomes <code>T&amp;</code></li>
+<li><code>T&amp; &amp;&amp;</code> become <code>T&amp;</code></li>
+<li><code>T&amp;&amp; &amp;</code> becomes <code>T&amp;</code></li>
+<li><code>T&amp;&amp; &amp;&amp;</code> becomes <code>T&amp;&amp;</code></li>
+</ol>
+<p>Template type parameter deduction with lvalues and rvalues:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Since C++14 or later:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">f</span>(<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;&amp;</span> t) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Since C++11 or later:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> f(T<span style="color:#f92672">&amp;&amp;</span> t) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>f(<span style="color:#ae81ff">0</span>); <span style="color:#75715e">// deduces as f(int&amp;&amp;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>f(x); <span style="color:#75715e">// deduces as f(int&amp;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> y <span style="color:#f92672">=</span> x;
+</span></span><span style="display:flex;"><span>f(y); <span style="color:#75715e">// deduces as f(int&amp; &amp;&amp;) =&gt; f(int&amp;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;&amp;</span> z <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// NOTE: `z` is an lvalue with type `int&amp;&amp;`.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>f(z); <span style="color:#75715e">// deduces as f(int&amp;&amp; &amp;) =&gt; f(int&amp;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>f(std<span style="color:#f92672">::</span>move(z)); <span style="color:#75715e">// deduces as f(int&amp;&amp; &amp;&amp;) =&gt; f(int&amp;&amp;)
+</span></span></span></code></pre></div><ul>
+<li>If this seems complex &amp; weird to you then <a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >read this first</a> &amp; then come back here.</li>
+</ul>
+<h2 id="variadic-templates">
+  Variadic templates
+  <a class="heading-link" href="#variadic-templates">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> First, <span style="color:#66d9ef">typename</span>... Rest<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(<span style="color:#66d9ef">const</span> First <span style="color:#f92672">&amp;</span>first, Rest <span style="color:#f92672">&amp;&amp;</span>... args)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> first <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    print(args...);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;lol&#34;</span>, <span style="color:#ae81ff">1.1</span>);
+</span></span></code></pre></div><ul>
+<li>The <code>...</code> syntax creates a <em><a href="https://en.cppreference.com/w/cpp/language/parameter_pack"  class="external-link" target="_blank" rel="noopener">parameter pack</a></em> or expands one. A template <em>parameter pack</em> is a template parameter that accepts zero or more template arguments (non-types, types, or templates). A <a href="/posts/c-template-a-quick-uptodate-look/" >C++ template</a> with at least one parameter pack is called a <em>variadic template</em>.</li>
+</ul>
+<h2 id="constexpr">
+  constexpr
+  <a class="heading-link" href="#constexpr">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">fibonacci</span>(<span style="color:#66d9ef">uint32_t</span> i)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1u</span>) <span style="color:#f92672">?</span> i : (fibonacci(i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> fibonacci(i <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">auto</span> fib_5th_term <span style="color:#f92672">=</span> fibonacci(<span style="color:#ae81ff">6</span>); <span style="color:#75715e">// equal to `auto fib_5th_term = 8`
+</span></span></span></code></pre></div><ul>
+<li>Constant expressions are expressions evaluated by the compiler at compile-time. In the above case, <code>fibonacci</code> the function is executed/evaluated by the compiler at the time of compilation &amp; result will be substituted at calling the place.</li>
+<li>I have written a detailed article on <a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" >when to use const vs constexpr in C++</a>.</li>
+</ul>
+<h2 id="deleted--defaulted-functions">
+  Deleted &amp; Defaulted functions
+  <a class="heading-link" href="#deleted--defaulted-functions">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    demo() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>demo d;
+</span></span></code></pre></div><ul>
+<li>Now you might be wondering that rather than writing 8+ letters(i.e. <code>= default;</code>), I could simply use {} i.e. empty constructor. That&rsquo;s true! but think about <a href="/posts/all-about-copy-constructor-in-cpp/" >copy constructor</a>, <a href="/posts/2-wrong-way-to-learn-copy-assignment-operator-in-c/" >copy assignment operator</a>, etc.</li>
+<li>An empty <a href="/posts/all-about-copy-constructor-in-cpp/" >copy constructor</a>, for example, will not do the same as a defaulted c<a href="/posts/all-about-copy-constructor-in-cpp/" >opy constructor</a> (which will perform a member-wise copy of its members).</li>
+</ul>
+<p>You can limit certain operation or way of <a href="/posts/inside-the-c-object-model/" >object instantiation</a> by simply deleting the respective method as follows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m_x;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    demo(<span style="color:#66d9ef">int</span> x) <span style="color:#f92672">:</span> m_x(x){};
+</span></span><span style="display:flex;"><span>    demo(<span style="color:#66d9ef">const</span> demo <span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>    demo <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> demo <span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>demo obj1{<span style="color:#ae81ff">123</span>};
+</span></span><span style="display:flex;"><span>demo obj2 <span style="color:#f92672">=</span> obj1; <span style="color:#75715e">// error -- call to deleted copy constructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>obj2 <span style="color:#f92672">=</span> obj1;      <span style="color:#75715e">// error -- operator= deleted
+</span></span></span></code></pre></div><p>In older C++ you have to make it private. But now you have <code>delete</code> compiler directive.</p>
+<h2 id="delegating-constructors">
+  Delegating constructors
+  <a class="heading-link" href="#delegating-constructors">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">demo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m_var;
+</span></span><span style="display:flex;"><span>    demo(<span style="color:#66d9ef">int</span> var) <span style="color:#f92672">:</span> m_var(var) {}
+</span></span><span style="display:flex;"><span>    demo() <span style="color:#f92672">:</span> demo(<span style="color:#ae81ff">0</span>) {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>demo d;
+</span></span></code></pre></div><ul>
+<li>In older C++, you have to create common initialization member function &amp; need to call it from all the constructor to achieve the common initialization.</li>
+<li>But from C++11, now constructors can call other constructors in the same class using an initializer list.</li>
+</ul>
+<h2 id="lambda-expression">
+  Lambda expression
+  <a class="heading-link" href="#lambda-expression">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> generator <span style="color:#f92672">=</span> [i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>]() <span style="color:#66d9ef">mutable</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">++</span>i; };
+</span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> generator() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> generator() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> generator() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// 3
+</span></span></span></code></pre></div><ul>
+<li>I think this feature no need any introduction &amp; hot favourite among other features.</li>
+<li>Now you can declare functions wherever you want. That too with zero cost performance impact. </li>
+<li>I wrote a separate article to <a href="/posts/learn-lambda-function-in-cpp-with-example/" >learn lambda expression in C++ with example</a>.</li>
+</ul>
+<h2 id="selection-statements-with-initializer">
+  Selection statements with initializer
+  <a class="heading-link" href="#selection-statements-with-initializer">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>In earlier C++, the initializer is either declared before the statement and leaked into the ambient scope, or an explicit scope is used.</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0305r1.html"  class="external-link" target="_blank" rel="noopener">With C++17, the new form of</a> <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0305r1.html"  class="external-link" target="_blank" rel="noopener">if/switch</a> can be written more compactly, and the improved scope control makes some erstwhile error-prone constructions a bit more robust:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">switch</span> (<span style="color:#66d9ef">auto</span> STATUS <span style="color:#f92672">=</span> window.status()) <span style="color:#75715e">// Declare the object right within selection statement
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> PASS:<span style="color:#75715e">// do this
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> FAIL:<span style="color:#75715e">// do that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>How it works</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> STATUS <span style="color:#f92672">=</span> window.status();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (STATUS)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> PASS: <span style="color:#75715e">// do this
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> FAIL: <span style="color:#75715e">// do that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="stdtuple">
+  std::tuple
+  <a class="heading-link" href="#stdtuple">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> employee <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_tuple(<span style="color:#ae81ff">32</span>, <span style="color:#e6db74">&#34; Vishal Chovatiya&#34;</span>, <span style="color:#e6db74">&#34;Bangalore&#34;</span>);
+</span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>(employee) <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// 32
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>(employee) <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// &#34;Vishal Chovatiya&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>get<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span>(employee) <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// &#34;Bangalore&#34;
+</span></span></span></code></pre></div><ul>
+<li>Tuples are a fixed-size collection of heterogeneous values. Access the elements of a <code>std::tuple</code> by unpacking using <code>std::tie</code>, or using <code>std::get</code>.</li>
+<li>You can also catch arbitrary &amp; heterogeneous return values as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> <span style="color:#a6e22e">get_employee_detail</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do something . . . 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>make_tuple(<span style="color:#ae81ff">32</span>, <span style="color:#e6db74">&#34; Vishal Chovatiya&#34;</span>, <span style="color:#e6db74">&#34;Bangalore&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>string name;
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>tie(std<span style="color:#f92672">::</span>ignore, name, std<span style="color:#f92672">::</span>ignore) <span style="color:#f92672">=</span> get_employee_detail();
+</span></span></code></pre></div><ul>
+<li>Use <code>std::ignore</code> as a placeholder for ignored values. In C++17, <a href="https://stackoverflow.com/questions/40673080/stdignore-with-structured-bindings"  class="external-link" target="_blank" rel="noopener">structured bindings</a> should be used instead.</li>
+</ul>
+<h2 id="class-template-argument-deduction">
+  Class template argument deduction
+  <a class="heading-link" href="#class-template-argument-deduction">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>pair<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>string, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> user <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;M&#34;</span>, <span style="color:#ae81ff">25</span>}; <span style="color:#75715e">// previous
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>std<span style="color:#f92672">::</span>pair user <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;M&#34;</span>, <span style="color:#ae81ff">25</span>};                   <span style="color:#75715e">// C++17
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>string, std<span style="color:#f92672">::</span>string, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> user(<span style="color:#e6db74">&#34;M&#34;</span>, <span style="color:#e6db74">&#34;Chy&#34;</span>, <span style="color:#ae81ff">25</span>); <span style="color:#75715e">// previous
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>std<span style="color:#f92672">::</span>tuple user2(<span style="color:#e6db74">&#34;M&#34;</span>, <span style="color:#e6db74">&#34;Chy&#34;</span>, <span style="color:#ae81ff">25</span>);                               <span style="color:#75715e">// deduction in action!
+</span></span></span></code></pre></div><ul>
+<li>Automatic template argument deduction much likes how it&rsquo;s done for functions, but now including class constructors as well.</li>
+</ul>
+<h2 id="closing-words">
+  Closing words
+  <a class="heading-link" href="#closing-words">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Here, we have just scratched the surface in terms of <a href="https://github.com/AnthonyCalandra/modern-cpp-features"  class="external-link" target="_blank" rel="noopener">new feature</a> &amp; the possibility of its application. There are many things to learn in Modern C++, but still, you can consider this as a good starting point. Modern C++ is not only expanding in terms of syntax but there is lot more other features are also added like unordered containers, threads, regex, Chrono, random number generator/distributor, <a href="/posts/7-best-practices-for-exception-handling-in-cpp-with-example/" >exception handling</a> and many new STL algos(like <code>all_of()</code>, <code>any_of()</code> and <code>none_of()</code>, etc).</p>
+<p>Happy Modern C++ Coding&hellip;!</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

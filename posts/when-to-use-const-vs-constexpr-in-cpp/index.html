@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  When to Use const vs constexpr in C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="While introducing myself to Modern C&#43;&#43; &amp; its new features introduced in C&#43;&#43;11 &amp; C&#43;&#43;14, I have completely neglected this keyword constexpr. Initially, I was confused about when to use const vs constexpr in C&#43;&#43; &amp; how this constexpr works &amp; differ with const. So, I have studied this from different sources &amp; here is the consolidation of it:
+Primitive constexpr Variables Link to heading int varA = 3; const int varB = 5; constexpr int varC = 7; All of the above variable having a value which is known at compile time.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="When to Use const vs constexpr in C&#43;&#43;">
+  <meta name="twitter:description" content="While introducing myself to Modern C&#43;&#43; &amp; its new features introduced in C&#43;&#43;11 &amp; C&#43;&#43;14, I have completely neglected this keyword constexpr. Initially, I was confused about when to use const vs constexpr in C&#43;&#43; &amp; how this constexpr works &amp; differ with const. So, I have studied this from different sources &amp; here is the consolidation of it:
+Primitive constexpr Variables Link to heading int varA = 3; const int varB = 5; constexpr int varC = 7; All of the above variable having a value which is known at compile time.">
+
+<meta property="og:url" content="http://localhost:1313/posts/when-to-use-const-vs-constexpr-in-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="When to Use const vs constexpr in C&#43;&#43;">
+  <meta property="og:description" content="While introducing myself to Modern C&#43;&#43; &amp; its new features introduced in C&#43;&#43;11 &amp; C&#43;&#43;14, I have completely neglected this keyword constexpr. Initially, I was confused about when to use const vs constexpr in C&#43;&#43; &amp; how this constexpr works &amp; differ with const. So, I have studied this from different sources &amp; here is the consolidation of it:
+Primitive constexpr Variables Link to heading int varA = 3; const int varB = 5; constexpr int varC = 7; All of the above variable having a value which is known at compile time.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-12T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/when-to-use-const-vs-constexpr-in-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/when-to-use-const-vs-constexpr-in-cpp/">
+              When to Use const vs constexpr in C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-12T00:00:00Z">
+                September 12, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p>While introducing myself to <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> &amp; its new features introduced in C++11 &amp; C++14, I have completely neglected this keyword <code>constexpr</code>. Initially, I was confused about when to use const vs constexpr in C++ &amp; how this <code>constexpr</code> works &amp; differ with <code>const</code>. So, I have studied this from different sources &amp; here is the consolidation of it:</p>
+<h3 id="primitive-constexpr-variables">
+  Primitive constexpr Variables
+  <a class="heading-link" href="#primitive-constexpr-variables">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> varA <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> varB <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> varC <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>;
+</span></span></code></pre></div><ul>
+<li>All of the above variable having a value which is known at compile time. <code>varA</code> is a normal scenario while <code>varB</code> &amp; <code>varC</code> will not take further value or assignment. <code>varB</code> &amp; <code>varC</code> are fixed at compile time if we have defined them like above.</li>
+<li>But, <code>varB</code> is not the right way(in some situation) of declaring the constant value at compile time. For example, if I declare them as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getRandomNo</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> rand() <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> varB <span style="color:#f92672">=</span> getRandomNo();       <span style="color:#75715e">// OK
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> varC <span style="color:#f92672">=</span> getRandomNo();   <span style="color:#75715e">// not OK! compilation error
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Value of <code>varB</code> would not anymore compile time. While statement with <code>varC</code> will throw compilation error. <strong><em>The reason is constexpr will always accept a strictly compile-time value.</em></strong></li>
+</ul>
+<h3 id="constexpr-functions">
+  constexpr Functions
+  <a class="heading-link" href="#constexpr-functions">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sum</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> sum(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>);     <span style="color:#75715e">// Here, you can use constexpr as well
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> result;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><code>constexpr</code> specifies that the value of an object, variable and a function can be evaluated strictly at compile-time. And an expression can use in other constant expressions.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">+--------------------------------+-----------------------------------+</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>   <span style="color:#a6e22e">int</span> <span style="color:#66d9ef">result</span> <span style="color:#960050;background-color:#1e0010">=</span> <span style="color:#66d9ef">sum</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>)<span style="color:#75715e">;    |  const int result = sum(10, 20);  |
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">+--------------------------------+-----------------------------------+</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>  main:                         <span style="color:#960050;background-color:#1e0010">|</span>     main:                         <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>  <span style="color:#a6e22e">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>  <span style="color:#a6e22e">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>  <span style="color:#a6e22e">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">subl</span>    <span style="color:#66d9ef">$20</span>, %esp       <span style="color:#960050;background-color:#1e0010">|</span>           <span style="color:#66d9ef">subl</span>    <span style="color:#66d9ef">$20</span>, %esp       <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">subl</span>    <span style="color:#66d9ef">$8</span>, %esp        <span style="color:#960050;background-color:#1e0010">|</span>           <span style="color:#66d9ef">movl</span>    <span style="color:#66d9ef">$30</span>, -<span style="color:#ae81ff">12</span>(%ebp)  <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#960050;background-color:#1e0010">&lt;</span>-- <span style="color:#66d9ef">Direct</span> 
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#66d9ef">pushl</span>   <span style="color:#66d9ef">$20</span>             <span style="color:#960050;background-color:#1e0010">|</span>           <span style="color:#66d9ef">subl</span>    <span style="color:#66d9ef">$8</span>, %esp        <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">result</span> 
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#66d9ef">pushl</span>   <span style="color:#66d9ef">$10</span>             <span style="color:#960050;background-color:#1e0010">|</span>           <span style="color:#66d9ef">pushl</span>   <span style="color:#66d9ef">$30</span>             <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">substitution</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">call</span>    <span style="color:#66d9ef">_Z3sumii</span>        <span style="color:#960050;background-color:#1e0010">|</span>           <span style="color:#66d9ef">pushl</span>   <span style="color:#66d9ef">$_ZSt4cout</span>      <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">addl</span>    <span style="color:#66d9ef">$16</span>, %esp       <span style="color:#960050;background-color:#1e0010">|</span>           <span style="color:#66d9ef">call</span>    <span style="color:#66d9ef">_ZNSolsEi</span>       <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">movl</span>    %eax, -<span style="color:#ae81ff">12</span>(%ebp) <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">subl</span>    <span style="color:#66d9ef">$8</span>, %esp        <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">pushl</span>   -<span style="color:#ae81ff">12</span>(%ebp)       <span style="color:#960050;background-color:#1e0010">|</span>     <span style="color:#66d9ef">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">pushl</span>   <span style="color:#66d9ef">$_ZSt4cout</span>      <span style="color:#960050;background-color:#1e0010">|</span>                                   <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>        <span style="color:#a6e22e">call</span>    <span style="color:#66d9ef">_ZNSolsEi</span>       <span style="color:#960050;background-color:#1e0010">|</span>                                   <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>  <span style="color:#a6e22e">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>                                   <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>  <span style="color:#a6e22e">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>                                   <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">|</span>  <span style="color:#a6e22e">....</span>                          <span style="color:#960050;background-color:#1e0010">|</span>                                   <span style="color:#960050;background-color:#1e0010">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">+--------------------------------+-----------------------------------+</span>
+</span></span></code></pre></div><ul>
+<li>If you observe above code, you can see that when you catch result as <code>const</code> or <code>constexpr</code>, call to the function <code>sum</code> is not there in assembly rather compiler will execute that function by itself at compile time &amp; substitute the result with function.</li>
+<li>By specifying <code>constexpr</code>, we suggest compiler to evaluate the function <code>sum</code> at compile time.</li>
+</ul>
+<h3 id="constexpr-constructors">
+  constexpr Constructors
+  <a class="heading-link" href="#constexpr-constructors">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">INT</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> _no;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">constexpr</span> INT(<span style="color:#66d9ef">int</span> no) <span style="color:#f92672">:</span> _no(no) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getInt</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> _no; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">constexpr</span> INT obj(INT(<span style="color:#ae81ff">5</span>).getInt());
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> obj.getInt();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Above code is simple &amp; self-explanatory. If it isn&rsquo;t to you, then play with it <a href="https://godbolt.org/"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<h3 id="const-vs-constexpr-in-c">
+  const vs constexpr in C++
+  <a class="heading-link" href="#const-vs-constexpr-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>They serve different purposes. <code>constexpr</code> is mainly for optimization while <code>const</code> is for practically <code>const</code> objects like the value of <code>Pi</code>.</li>
+<li><code>const</code> &amp; <code>constexpr</code> both can be applied to member methods. Member methods are made <code>const</code> to make sure that there are no accidental changes by the method. On the other hand, the idea of using <code>constexpr</code> is to compute expressions at compile time so that time can be saved when the code is running.</li>
+<li><code>const</code> can only be used with non-static member function whereas <code>constexpr</code> can be used with member and non-member functions, even with constructors but with condition that argument and return type must be of literal types. You read about more limitations <a href="https://en.cppreference.com/w/cpp/language/constexpr"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<h3 id="where-to-use-what">
+  Where to Use What?
+  <a class="heading-link" href="#where-to-use-what">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Where you need a value not often &amp; calculating it would be a bit complex, then that is the place you need constexpr. Otherwise, things are fine with an older buddy <code>const</code>. For example, Fibonacci number, factorial, etc.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">factorial</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> n)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> (n <span style="color:#f92672">*</span> factorial(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">auto</span> magic_value <span style="color:#f92672">=</span> factorial(<span style="color:#ae81ff">5</span>);
+</span></span></code></pre></div><ul>
+<li>Often programmer would suggest using <strong><em>constexpr instead of a macro</em></strong>.</li>
+<li>Sometimes you have an expression, that evaluated down to a constant, while maintaining good readability and allowing slightly more complex processing than just setting a constant to a number. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">typename</span> Type <span style="color:#f92672">&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> Type max( Type a, Type b ) 
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">&lt;</span> b <span style="color:#f92672">?</span> b : a; 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Its a pretty simple choice there but it does mean that if you call <code>max</code> with constant values, it is explicitly calculated at compile time and not at runtime.</p>
+<ul>
+<li>Another good example is converting units like</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> ull <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> ull <span style="color:#66d9ef">operator</span><span style="color:#e6db74">&#34;&#34;</span> _KB(ull no)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> no <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> ull <span style="color:#66d9ef">operator</span><span style="color:#e6db74">&#34;&#34;</span> _MB(ull no)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> no <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1024</span>_KB);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>_KB <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> hex <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>_MB <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here you can use <code>constexpr</code>.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

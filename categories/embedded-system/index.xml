@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Embedded-System on Vishal Chovatiya</title>
+    <link>http://localhost:1313/categories/embedded-system/</link>
+    <description>Recent content in Embedded-System on Vishal Chovatiya</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 May 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/embedded-system/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Watchdog Timer(WDT) &amp; Window Watchdog Timer(WWDT)</title>
+      <link>http://localhost:1313/posts/watchdog-timer/</link>
+      <pubDate>Sun, 17 May 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/watchdog-timer/</guid>
+      <description>In the embedded systems/SoCs, Watchdog Timer(WDT) is the basic, subtle and essential circuit/ic. No matter, how good you write your firmware/software. There are always unexpected situations like your program may stick in an infinite loop, hung somewhere or hardware burn-out/failure. To combat these unexpected situations, we need some circuitry that keeps monitoring the main system/application and in case of unexpected events, it restarts the system. Even the windows-like operating system use the watchdog timer.</description>
+    </item>
+  </channel>
+</rss>

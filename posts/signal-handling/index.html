@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Signal Handling · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Points To Catch
+Signals = software interrupts. The command kill -l on the bash would give us the following. 1) SIGHUP 2) SIGINT 3) SIGQUIT 4) SIGILL 5) SIGTRAP 6) SIGABRT 7) SIGBUS 8) SIGFPE 9) SIGKILL 10) SIGUSR1 11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM 16) SIGSTKFLT 17) SIGCHLD 18) SIGCONT 19) SIGSTOP 20) SIGTSTP 21) SIGTTIN 22) SIGTTOU 23) SIGURG 24) SIGXCPU 25) SIGXFSZ 26) SIGVTALRM 27) SIGPROF 28) SIGWINCH 29) SIGIO 30) SIGPWR 31) SIGSYS 34) SIGRTMIN 35) SIGRTMIN&#43;1 36) SIGRTMIN&#43;2 37) SIGRTMIN&#43;3 38) SIGRTMIN&#43;4 39) SIGRTMIN&#43;5 40) SIGRTMIN&#43;6 41) SIGRTMIN&#43;7 42) SIGRTMIN&#43;8 43) SIGRTMIN&#43;9 44) SIGRTMIN&#43;10 45) SIGRTMIN&#43;11 46) SIGRTMIN&#43;12 47) SIGRTMIN&#43;13 48) SIGRTMIN&#43;14 49) SIGRTMIN&#43;15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9 56) SIGRTMAX-8 57) SIGRTMAX-7 58) SIGRTMAX-6 59) SIGRTMAX-5 60) SIGRTMAX-4 61) SIGRTMAX-3 62) SIGRTMAX-2 63) SIGRTMAX-1 64) SIGRTMAX Signals are also delivered to a process with the help of kill command.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Signal Handling">
+  <meta name="twitter:description" content="Points To Catch
+Signals = software interrupts. The command kill -l on the bash would give us the following. 1) SIGHUP 2) SIGINT 3) SIGQUIT 4) SIGILL 5) SIGTRAP 6) SIGABRT 7) SIGBUS 8) SIGFPE 9) SIGKILL 10) SIGUSR1 11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM 16) SIGSTKFLT 17) SIGCHLD 18) SIGCONT 19) SIGSTOP 20) SIGTSTP 21) SIGTTIN 22) SIGTTOU 23) SIGURG 24) SIGXCPU 25) SIGXFSZ 26) SIGVTALRM 27) SIGPROF 28) SIGWINCH 29) SIGIO 30) SIGPWR 31) SIGSYS 34) SIGRTMIN 35) SIGRTMIN&#43;1 36) SIGRTMIN&#43;2 37) SIGRTMIN&#43;3 38) SIGRTMIN&#43;4 39) SIGRTMIN&#43;5 40) SIGRTMIN&#43;6 41) SIGRTMIN&#43;7 42) SIGRTMIN&#43;8 43) SIGRTMIN&#43;9 44) SIGRTMIN&#43;10 45) SIGRTMIN&#43;11 46) SIGRTMIN&#43;12 47) SIGRTMIN&#43;13 48) SIGRTMIN&#43;14 49) SIGRTMIN&#43;15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9 56) SIGRTMAX-8 57) SIGRTMAX-7 58) SIGRTMAX-6 59) SIGRTMAX-5 60) SIGRTMAX-4 61) SIGRTMAX-3 62) SIGRTMAX-2 63) SIGRTMAX-1 64) SIGRTMAX Signals are also delivered to a process with the help of kill command.">
+
+<meta property="og:url" content="http://localhost:1313/posts/signal-handling/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Signal Handling">
+  <meta property="og:description" content="Points To Catch
+Signals = software interrupts. The command kill -l on the bash would give us the following. 1) SIGHUP 2) SIGINT 3) SIGQUIT 4) SIGILL 5) SIGTRAP 6) SIGABRT 7) SIGBUS 8) SIGFPE 9) SIGKILL 10) SIGUSR1 11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM 16) SIGSTKFLT 17) SIGCHLD 18) SIGCONT 19) SIGSTOP 20) SIGTSTP 21) SIGTTIN 22) SIGTTOU 23) SIGURG 24) SIGXCPU 25) SIGXFSZ 26) SIGVTALRM 27) SIGPROF 28) SIGWINCH 29) SIGIO 30) SIGPWR 31) SIGSYS 34) SIGRTMIN 35) SIGRTMIN&#43;1 36) SIGRTMIN&#43;2 37) SIGRTMIN&#43;3 38) SIGRTMIN&#43;4 39) SIGRTMIN&#43;5 40) SIGRTMIN&#43;6 41) SIGRTMIN&#43;7 42) SIGRTMIN&#43;8 43) SIGRTMIN&#43;9 44) SIGRTMIN&#43;10 45) SIGRTMIN&#43;11 46) SIGRTMIN&#43;12 47) SIGRTMIN&#43;13 48) SIGRTMIN&#43;14 49) SIGRTMIN&#43;15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9 56) SIGRTMAX-8 57) SIGRTMAX-7 58) SIGRTMAX-6 59) SIGRTMAX-5 60) SIGRTMAX-4 61) SIGRTMAX-3 62) SIGRTMAX-2 63) SIGRTMAX-1 64) SIGRTMAX Signals are also delivered to a process with the help of kill command.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-09-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2016-09-10T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/signal-handling/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/signal-handling/">
+              Signal Handling
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2016-09-10T00:00:00Z">
+                September 10, 2016
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              2-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/linux-system-programming/">Linux-System-Programming</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <p><strong>Points To Catch</strong></p>
+<ul>
+<li>Signals = software interrupts.</li>
+<li>The command kill -l on the bash would give us the following.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> 1<span style="color:#f92672">)</span> SIGHUP            2<span style="color:#f92672">)</span> SIGINT         3<span style="color:#f92672">)</span> SIGQUIT     4<span style="color:#f92672">)</span> SIGILL     5<span style="color:#f92672">)</span> SIGTRAP
+</span></span><span style="display:flex;"><span> 6<span style="color:#f92672">)</span> SIGABRT           7<span style="color:#f92672">)</span> SIGBUS         8<span style="color:#f92672">)</span> SIGFPE      9<span style="color:#f92672">)</span> SIGKILL   10<span style="color:#f92672">)</span> SIGUSR1
+</span></span><span style="display:flex;"><span>11<span style="color:#f92672">)</span> SIGSEGV          12<span style="color:#f92672">)</span> SIGUSR2       13<span style="color:#f92672">)</span> SIGPIPE    14<span style="color:#f92672">)</span> SIGALRM   15<span style="color:#f92672">)</span> SIGTERM
+</span></span><span style="display:flex;"><span>16<span style="color:#f92672">)</span> SIGSTKFLT        17<span style="color:#f92672">)</span> SIGCHLD       18<span style="color:#f92672">)</span> SIGCONT    19<span style="color:#f92672">)</span> SIGSTOP   20<span style="color:#f92672">)</span> SIGTSTP
+</span></span><span style="display:flex;"><span>21<span style="color:#f92672">)</span> SIGTTIN          22<span style="color:#f92672">)</span> SIGTTOU       23<span style="color:#f92672">)</span> SIGURG     24<span style="color:#f92672">)</span> SIGXCPU   25<span style="color:#f92672">)</span> SIGXFSZ
+</span></span><span style="display:flex;"><span>26<span style="color:#f92672">)</span> SIGVTALRM        27<span style="color:#f92672">)</span> SIGPROF       28<span style="color:#f92672">)</span> SIGWINCH   29<span style="color:#f92672">)</span> SIGIO     30<span style="color:#f92672">)</span> SIGPWR
+</span></span><span style="display:flex;"><span>31<span style="color:#f92672">)</span> SIGSYS           34<span style="color:#f92672">)</span> SIGRTMIN      35<span style="color:#f92672">)</span> SIGRTMIN+1 36<span style="color:#f92672">)</span> SIGRTMIN+2 37<span style="color:#f92672">)</span> SIGRTMIN+3
+</span></span><span style="display:flex;"><span>38<span style="color:#f92672">)</span> SIGRTMIN+4       39<span style="color:#f92672">)</span> SIGRTMIN+5    40<span style="color:#f92672">)</span> SIGRTMIN+6 41<span style="color:#f92672">)</span> SIGRTMIN+7 42<span style="color:#f92672">)</span> SIGRTMIN+8
+</span></span><span style="display:flex;"><span>43<span style="color:#f92672">)</span> SIGRTMIN+9       44<span style="color:#f92672">)</span> SIGRTMIN+10   45<span style="color:#f92672">)</span> SIGRTMIN+11 46<span style="color:#f92672">)</span> SIGRTMIN+12 47<span style="color:#f92672">)</span> SIGRTMIN+13
+</span></span><span style="display:flex;"><span>48<span style="color:#f92672">)</span> SIGRTMIN+14      49<span style="color:#f92672">)</span> SIGRTMIN+15   50<span style="color:#f92672">)</span> SIGRTMAX-14 51<span style="color:#f92672">)</span> SIGRTMAX-13 52<span style="color:#f92672">)</span> SIGRTMAX-12
+</span></span><span style="display:flex;"><span>53<span style="color:#f92672">)</span> SIGRTMAX-11      54<span style="color:#f92672">)</span> SIGRTMAX-10   55<span style="color:#f92672">)</span> SIGRTMAX-9  56<span style="color:#f92672">)</span> SIGRTMAX-8  57<span style="color:#f92672">)</span> SIGRTMAX-7
+</span></span><span style="display:flex;"><span>58<span style="color:#f92672">)</span> SIGRTMAX-6       59<span style="color:#f92672">)</span> SIGRTMAX-5    60<span style="color:#f92672">)</span> SIGRTMAX-4  61<span style="color:#f92672">)</span> SIGRTMAX-3  62<span style="color:#f92672">)</span> SIGRTMAX-2
+</span></span><span style="display:flex;"><span>63<span style="color:#f92672">)</span> SIGRTMAX-1       64<span style="color:#f92672">)</span> SIGRTMAX
+</span></span></code></pre></div><ul>
+<li>Signals are also delivered to a process with the help of kill command. The manual page (man kill) of kill command says that the default and easier version of kill command is the kill PID. Where PID is the process ID that is found via the ps command. The default signal is SIGTERM (15). Alternatively, a signal number is specified to the kill command such as kill -2 1291 making a delivery of SIGINT(2) signal to the process ID 1291</li>
+<li>Every thread has its own private signal mask(APIs like pthread_sigmask() etc) can be used to capture or block particular signal</li>
+<li>Some of the most important APIs to implement signal mechanisms are <code>sigaction</code>, signal and <code>signalfd</code>.</li>
+<li>signal() does not block other signals from arriving while the current signal is being executed. Thus when more than one signal occur at the same time, it becomes more problematic to understand and perform actions. If it is on the same data, this might even get more complex. The <code>sigaction()</code>blocks the other signals while the handler is being executed.</li>
+</ul>
+<h3 id="example">
+  <strong>Example</strong>
+  <a class="heading-link" href="#example">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;signal.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sig_handler</span>(<span style="color:#66d9ef">int</span> signo)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (signo <span style="color:#f92672">==</span> SIGINT)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;received SIGINT</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">signal</span>(SIGINT, sig_handler) <span style="color:#f92672">==</span> SIG_ERR)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">can&#39;t catch SIGINT</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

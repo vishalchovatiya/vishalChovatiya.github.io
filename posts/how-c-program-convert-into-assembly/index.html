@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  How C Program Converts Into Assembly! · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="In an earlier article, we have seen C runtime: before starting main &amp; How C program stored in RAM memory. Here we will see &ldquo;How C program converts into assembly?&rdquo; and different aspect of its working at the machine level.
+A Bit About Functions Stack Frames Link to heading During function code execution, a new stack frame is created in stack memory to allow access to function parameters and local variables.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How C Program Converts Into Assembly!">
+  <meta name="twitter:description" content="In an earlier article, we have seen C runtime: before starting main &amp; How C program stored in RAM memory. Here we will see “How C program converts into assembly?” and different aspect of its working at the machine level.
+A Bit About Functions Stack Frames Link to heading During function code execution, a new stack frame is created in stack memory to allow access to function parameters and local variables.">
+
+<meta property="og:url" content="http://localhost:1313/posts/how-c-program-convert-into-assembly/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="How C Program Converts Into Assembly!">
+  <meta property="og:description" content="In an earlier article, we have seen C runtime: before starting main &amp; How C program stored in RAM memory. Here we will see “How C program converts into assembly?” and different aspect of its working at the machine level.
+A Bit About Functions Stack Frames Link to heading During function code execution, a new stack frame is created in stack memory to allow access to function parameters and local variables.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-16T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/how-c-program-convert-into-assembly/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/how-c-program-convert-into-assembly/">
+              How C Program Converts Into Assembly!
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-16T00:00:00Z">
+                September 16, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/c-language/">C-Language</a>
+      <span class="separator">•</span>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/How-C-program-converted-into-assembly.png" alt="Featured image"/>
+        
+        <p>In an earlier article, we have seen <a href="/posts/before-starting-main-c-runtime/" >C runtime: before starting main</a> &amp; <a href="/posts/how-c-program-stored-in-ram-memory/" >How C program stored in RAM memory</a>. Here we will see &ldquo;How C program converts into assembly?&rdquo; and different aspect of its working at the machine level.</p>
+<h2 id="a-bit-about-functions-stack-frames">
+  A Bit About Functions Stack Frames
+  <a class="heading-link" href="#a-bit-about-functions-stack-frames">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>During function code execution, a new stack frame is created in stack memory to allow access to function parameters and local variables.</li>
+<li>The direction of stack frame growth totally depends on compiler ABI which is out of our scope for this article.</li>
+<li>The complete information on stack frame size, memory allocation, returning from stack frame is decided at compile time.</li>
+<li>Before diving into assembly code you should be aware of two things :
+<ol>
+<li>CPU registers of x86 machine.</li>
+<li>x86 assembly instructions: As this is a very vast topic &amp; updating quite frequently, we will only see the instructions needed for our examples.</li>
+</ol>
+</li>
+</ul>
+<h2 id="x86-cpu-registers">
+  x86 CPU Registers
+  <a class="heading-link" href="#x86-cpu-registers">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="general-purpose-registers">
+  General Purpose Registers:
+  <a class="heading-link" href="#general-purpose-registers">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<table>
+<thead>
+<tr>
+<th>32-bit SFR</th>
+<th>64-bit SFR</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eax</td>
+<td>rax</td>
+<td>Accumulator uses for arithmetic</td>
+</tr>
+<tr>
+<td>ebx</td>
+<td>rbx</td>
+<td>Base uses for memory address calculations</td>
+</tr>
+<tr>
+<td>ecx</td>
+<td>rcx</td>
+<td>Counter uses to hold loop count</td>
+</tr>
+<tr>
+<td>edx</td>
+<td>rdx</td>
+<td>Double-word Accumulator or data register use for I/O port access</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pointer-register">
+  Pointer Register:
+  <a class="heading-link" href="#pointer-register">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<table>
+<thead>
+<tr>
+<th>32-bit SFR</th>
+<th>64-bit SFR</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esp</td>
+<td>rsp</td>
+<td>Stack pointer</td>
+</tr>
+<tr>
+<td>ebp</td>
+<td>rbp</td>
+<td>Frame/base pointer points current stack frame</td>
+</tr>
+<tr>
+<td>eip</td>
+<td>rip</td>
+<td>Instruction pointer points to the next instruction to execute</td>
+</tr>
+</tbody>
+</table>
+<h3 id="segment-register">
+  Segment Register:
+  <a class="heading-link" href="#segment-register">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<table>
+<thead>
+<tr>
+<th>SFR</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cs</td>
+<td>Code segment</td>
+</tr>
+<tr>
+<td>ds</td>
+<td>Data segment</td>
+</tr>
+<tr>
+<td>ss</td>
+<td>Stack segment</td>
+</tr>
+<tr>
+<td>es</td>
+<td>Extra segment</td>
+</tr>
+</tbody>
+</table>
+<h3 id="index-registers">
+  Index Registers:
+  <a class="heading-link" href="#index-registers">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<table>
+<thead>
+<tr>
+<th>32-bit SFR</th>
+<th>64-bit SFR</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esi</td>
+<td>rsi</td>
+<td>Source Index uses to point index in sequential memory operations</td>
+</tr>
+<tr>
+<td>edi</td>
+<td>rdi</td>
+<td>Destination Index uses to point index in sequential memory operations</td>
+</tr>
+</tbody>
+</table>
+<p>Apart from all these, there are many other registers as well which even I don&rsquo;t know about. But above-mentioned registers are sufficient to understand the subsequent topics.</p>
+<h2 id="how-c-program-converts-into-assembly">
+  How C Program Converts Into Assembly?
+  <a class="heading-link" href="#how-c-program-converts-into-assembly">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>We will consider the following example with its disassembly inlined to understand its different aspect of working at machine level :</p>
+<p><img alt="How C program converted into assembly?" src="/images/How-C-program-converted-into-assembly-1024x441.png"></p>
+<p>We will focus on a stack frame of the function <code>func()</code> But before analysing stack frame of it, we will see how the calling of function happens:</p>
+<h3 id="function-calling">
+  Function calling
+  <a class="heading-link" href="#function-calling">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Function calling is done by <code>call</code> instruction(see Line 15) which is subroutine instruction equivalent to :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">push</span> <span style="color:#66d9ef">rip</span> <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e">; return address is address of next instructions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">jmp</span> <span style="color:#66d9ef">func</span>
+</span></span></code></pre></div><p>Here, <code>call</code> store the <code>rip+1</code>(not that +1 is just for simplicity, technically this will be substituted by the size of instruction) in the stack which is return address once call to <code>func()</code>ends.</p>
+<h3 id="function-stack-frame">
+  Function Stack Frame
+  <a class="heading-link" href="#function-stack-frame">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>A function stack frame is divided into three parts</p>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Function_prologue"  class="external-link" target="_blank" rel="noopener">Prologue</a>/Entry</li>
+<li>User code</li>
+<li><a href="https://en.wikipedia.org/wiki/Function_prologue#Epilogue"  class="external-link" target="_blank" rel="noopener">Epilogue</a>/Exit</li>
+</ol>
+<p><strong>1. Prologue/Entry:</strong> As you can see instructions(line 2 to 4) generated against start bracket <code>{</code> is prologue which is setting up the stack frame for `func(), Line 2 is pushing the previous frame pointer into the stack &amp; Line 3 is updating the current frame pointer with stack end which is going to be a new frame start.</p>
+<p><code>push</code> is basically equivalent to :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">esp</span>, <span style="color:#ae81ff">4</span>   <span style="color:#75715e">; decrements ESP by 4 which is kind of space allocation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">esp</span>], <span style="color:#66d9ef">X</span> <span style="color:#75715e">; put new stack item value X in
+</span></span></span></code></pre></div><h3 id="parameter-passing">
+  Parameter Passing
+  <a class="heading-link" href="#parameter-passing">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Argument of <code>func()</code> is stored in <code>edi</code> register on Line 14 before calling <code>call</code> instruction. If there is more argument then it will be stored in a subsequent register or stack &amp; address will be used. Line 4 in <code>func()</code>is reserving space by pulling frame pointer(pointed by <code>rbp</code> register) down by 4 bytes for the parameter <code>arg</code> as it is of type <code>int</code>. Then <code>mov</code> instruction will initialize it with value store in<code>edi</code>. This is how parameters are passed &amp; stored in the current stack frame.</p>
+<pre tabindex="0"><code>          ---|-------------------------|--- main()
+             |                         |          
+             |                         |          
+             |                         |          
+             |-------------------------|          
+             |    main frame pointer   |          
+rbp &amp; rsp ---|-------------------------|--- func()
+in func()    |           arg           |          
+             |-------------------------|          
+             |            a            |          
+             |-------------------------|    stack 
+             |            +            |      |   
+             |            +            |      |   
+             |            +            |      |   
+          ---|-------------------------|--- \|/  
+             |                         |          
+             |                         |          
+                                                   
+</code></pre><h3 id="allocating-space-for-local-variables">
+  Allocating Space for Local Variables
+  <a class="heading-link" href="#allocating-space-for-local-variables">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>2.</strong> <strong>User</strong> <strong>code:</strong> Line 5 is reserving space for a local variable <code>a</code>, again by pulling frame pointer further down by 4 bytes. <code>mov</code> instruction will initialize that memory with a value <code>5</code>.</p>
+<h3 id="accessing-global--local-static-variables">
+  Accessing Global &amp; Local Static Variables
+  <a class="heading-link" href="#accessing-global--local-static-variables">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>As you can see above, <code>g</code> is addressed directly with its absolute addressing because its address is fixed which lies in the data segment.</li>
+<li>This is not the case all the time. Here we have compiled our code for  x86 mode, that&rsquo;s why it is accessing it with an absolute address.</li>
+<li>In the case of x64 mode, the address is resolved using <code>rip</code> register which meant that the assembler and linker should cooperate to compute the offset of <code>g</code> from the ultimate location of the current instruction which is pointed by <code>rip</code> register.</li>
+<li>The same statement stands true for the local static variables also.</li>
+</ul>
+<p><strong>3. Epilogue/Exit:</strong> After the user code execution, the previous frame pointer is retrieved from the stack by <code>pop</code> instruction which we have stored in Line 2. <code>pop</code> is equivalent to:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">X</span>, [<span style="color:#66d9ef">esp</span>] <span style="color:#75715e">; put top stack item value into X 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">add</span> <span style="color:#66d9ef">esp</span>, <span style="color:#ae81ff">4</span>   <span style="color:#75715e">; increments ESP by 4 which is kind of deallocation
+</span></span></span></code></pre></div><h3 id="return-from-function">
+  <strong>Return From Function</strong>
+  <a class="heading-link" href="#return-from-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><code>ret</code> instruction jumps back to the next instruction from where <code>func()</code>called by retrieving the jump address from stack stored by <code>call</code> instruction. <code>ret</code> is subroutine instruction which is equivalent to:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#a6e22e">pop</span> <span style="color:#66d9ef">rip</span> <span style="color:#75715e">; 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">jmp</span> <span style="color:#66d9ef">rip</span> <span style="color:#75715e">;
+</span></span></span></code></pre></div><p>If any return value specified then it will be stored in <code>eax</code> register which you can see in Line 16.</p>
+<p>So, this is it for &ldquo;How C program converts into assembly?&rdquo;. Although this kind of information is strictly coupled with compiler &amp; ABI. But most of the compilers, ABI &amp; instruction set architecture follows the same more or less. In case, you have not gone through <a href="/posts/category/c-language/" >my previous articles</a>, here are simple FAQs helps you to understand better:</p>
+<h2 id="faqs">
+  FAQs
+  <a class="heading-link" href="#faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>Q. How do you determine the stack growth direction</strong></p>
+<p><strong>A.</strong> Simple&hellip;! by comparing the address of two different function&rsquo;s local variables.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>main_ptr <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>func_ptr <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>() { <span style="color:#66d9ef">int</span> a; func_ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a; main_ptr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">func</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    (main_ptr <span style="color:#f92672">&gt;</span> func_ptr) <span style="color:#f92672">?</span> <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;DOWN</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>) <span style="color:#f92672">:</span> <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;UP</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Q. How do you corrupt stack deliberately</strong></p>
+<p><strong>A.</strong> Corrupt the SFR values stored in the stack frame.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">memset</span>(<span style="color:#f92672">&amp;</span>a, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>); <span style="color:#75715e">// Corrupt SFR values stored in stack frame
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">func</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Q. How you can increase stack frame size</strong></p>
+<p><strong>A.</strong> <code>alloca()</code>is the answer. Google about it or see <a href="http://man7.org/linux/man-pages/man3/alloca.3.html"  class="external-link" target="_blank" rel="noopener">this</a>. Although this is not recommended.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

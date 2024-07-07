@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  C&#43;&#43; Template: A Quick UpToDate Look(C&#43;&#43;11/14/17/20) · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="I know, it’s been a while since the last time I published something newbies-friendly on my blog. The main reason is that most of my readers are either experienced devs or from C background having modest C&#43;&#43; encounter. But while programming in C&#43;&#43; you need a completely different mindset as both C &amp; C&#43;&#43; belongs to different programming paradigm. And I always strive to show them a better way of doing things in C&#43;&#43;.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43; Template: A Quick UpToDate Look(C&#43;&#43;11/14/17/20)">
+  <meta name="twitter:description" content="I know, it’s been a while since the last time I published something newbies-friendly on my blog. The main reason is that most of my readers are either experienced devs or from C background having modest C&#43;&#43; encounter. But while programming in C&#43;&#43; you need a completely different mindset as both C &amp; C&#43;&#43; belongs to different programming paradigm. And I always strive to show them a better way of doing things in C&#43;&#43;.">
+
+<meta property="og:url" content="http://localhost:1313/posts/c-template-a-quick-uptodate-look/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="C&#43;&#43; Template: A Quick UpToDate Look(C&#43;&#43;11/14/17/20)">
+  <meta property="og:description" content="I know, it’s been a while since the last time I published something newbies-friendly on my blog. The main reason is that most of my readers are either experienced devs or from C background having modest C&#43;&#43; encounter. But while programming in C&#43;&#43; you need a completely different mindset as both C &amp; C&#43;&#43; belongs to different programming paradigm. And I always strive to show them a better way of doing things in C&#43;&#43;.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-05-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-05-17T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/c-template-a-quick-uptodate-look/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/c-template-a-quick-uptodate-look/">
+              C&#43;&#43; Template: A Quick UpToDate Look(C&#43;&#43;11/14/17/20)
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-05-17T00:00:00Z">
+                May 17, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              22-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Cpp-Template-Vishal-Chovatiya.webp" alt="Featured image"/>
+        
+        <p>I know, it’s been a while since the last time I published something newbies-friendly on my blog. The main reason is that most of my readers are either experienced devs or from C background having modest C++ encounter. But while programming in C++ you need a completely different mindset as both C &amp; C++ belongs to different programming paradigm. And I always strive to show them a better way of doing things in C++. Anyway, I found the topic which is lengthy, reasonably complex(at least it was for me), newbies-friendly as well as energizing for experienced folks(if <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> jargons, rules &amp; features added) i.e. C++ Template.</p>
+<p>I will start with a simple class/function template and as we move along, will increase the complexity. And also cover the advance topics like the <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >variadic template</a>, nested template, CRTP, template vs fold-expression, etc. But, yes! we would not take deeper dive otherwise this would become a book rather than an article.</p>
+<p><em><strong>Note:</strong> I would recommend you to use <a href="https://cppinsights.io/"  class="external-link" target="_blank" rel="noopener">cppinsights</a> online tool wherever you feel confused. It helps you to see Template Instances, Template Argument Deduction, etc. Basically, it helps you to see code from the compiler&rsquo;s perspective.</em></p>
+<h2 id="terminologyjargonidiom-you-may-face">
+  Terminology/Jargon/Idiom You May Face
+  <a class="heading-link" href="#terminologyjargonidiom-you-may-face">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><strong>Template Instantiation</strong>: It is a process of generating a concrete class/struct/union/function out of templated class/struct/union/function for a particular combination of template arguments. For example, if you use <code>vector&lt;int&gt;</code> &amp; <code>vector&lt;char&gt;</code>, it will create two different concrete classes during compilation. This process of creating concrete classes is known as Template Instantiation.</li>
+<li><strong>Template Instances</strong>: Outcome of Template Instantiation is Template Instances i.e. concrete classes.</li>
+<li><strong>Explicit Template Instantiation</strong>: Usually template instantiation done at the time of object declaration. But you can also force the compiler to instantiate class/struct/union/function with particular type without even creating the object. It may appear in the program anywhere after the template definition, and for a given argument-list. Will see this later in the article.</li>
+<li><strong>Template Argument vs Template Parameter</strong>: In expression <code>template&lt;typename _T_&gt; void print(_T a_){ };</code>, <code>T</code> is parameter &amp; when you call <code>print(5);</code>, <code>5</code> which is of type <code>int</code> is template argument. This is a trivial thing for some pips. But not for non-native English speaker or beginners. So, this ambiguity has to be clear.</li>
+</ul>
+<h2 id="c-template-types">
+  C++ Template Types
+  <a class="heading-link" href="#c-template-types">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="class-template">
+  Class Template
+  <a class="heading-link" href="#class-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T1, <span style="color:#66d9ef">typename</span> T2<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">pair</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    T1  first;
+</span></span><span style="display:flex;"><span>    T2  second;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> p1;
+</span></span><span style="display:flex;"><span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span>, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span> p2;
+</span></span></code></pre></div><ul>
+<li>The basic idea of a class template is that the template parameter i.e. <code>T1</code> &amp; <code>T2</code> gets substituted by an appropriate deduced type at compile time. The result is that the same class can be reused for multiple types.</li>
+<li>And the user has to specify which type they want to use when an object of the class is declared.</li>
+</ul>
+<h3 id="function-template">
+  Function Template
+  <a class="heading-link" href="#function-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T min(T a, T b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">&lt;</span> b <span style="color:#f92672">?</span> a : b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>min<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>);              <span style="color:#75715e">// Case 1 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>min<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">4.1f</span>, <span style="color:#ae81ff">5.1f</span>);      <span style="color:#75715e">// Case 2
+</span></span></span></code></pre></div><ul>
+<li>In both of the above case, the template arguments used to replace the types of the parameters i.e. <code>T</code>.</li>
+<li>One additional property of template functions (unlike class template till C++17) is that the compiler can infer the template parameters based on the parameters passed to the function. So, passing <code>&lt;int&gt;</code> &amp; <code>&lt;float&gt;</code> after the function name is redundant.</li>
+</ul>
+<h3 id="union-template">
+  Union Template
+  <a class="heading-link" href="#union-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Yes! a union can also be templatized. In fact, the standard library provides some utilities like <a href="https://en.cppreference.com/w/cpp/utility/optional"  class="external-link" target="_blank" rel="noopener"><code>std::optional</code></a>, <a href="https://en.cppreference.com/w/cpp/utility/variant"  class="external-link" target="_blank" rel="noopener"><code>std::variant</code></a>, etc. which directly or indirectly uses templatized union.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">union</span> <span style="color:#a6e22e">test</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint8_t</span>     ch[<span style="color:#66d9ef">sizeof</span>(T)];
+</span></span><span style="display:flex;"><span>    T           variable;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>As you can see above, <strong><em>templatized unions are also particularly useful to represent a type simultaneously as a byte array</em></strong>.</li>
+</ul>
+<h3 id="variable-template">
+  Variable Template
+  <a class="heading-link" href="#variable-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Yes! This may a bit socking. But, <strong><em>you can templatise the variable also since C++14</em></strong>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> T pi <span style="color:#f92672">=</span> T(<span style="color:#ae81ff">3.1415926535897932385</span>L); <span style="color:#75715e">// variable template
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> pi<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// 3.14159
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> pi<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;&lt;</span> endl;   <span style="color:#75715e">// 3
+</span></span></span></code></pre></div><ul>
+<li>Now, you might be wondering that what is the point of the templatizing variable. But, consider the following example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">uint32_t</span> val<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">auto</span> fib <span style="color:#f92672">=</span> fib<span style="color:#f92672">&lt;</span>val <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> fib<span style="color:#f92672">&lt;</span>val <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">auto</span> fib<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">auto</span> fib<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> fib<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">10</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;&lt;</span> endl;    <span style="color:#75715e">// 55
+</span></span></span></code></pre></div><ul>
+<li>Above code gives you 10th Fibonacci term at compile time, without even creating class or function.</li>
+</ul>
+<h2 id="c-template-argument">
+  C++ Template Argument
+  <a class="heading-link" href="#c-template-argument">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="overriding-template-argument-deduction">
+  Overriding Template Argument Deduction
+  <a class="heading-link" href="#overriding-template-argument-deduction">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T min(T a, T b) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">typeid</span>(T).name() <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// T will be deduce as `int`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">&lt;</span> b <span style="color:#f92672">?</span> a : b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>min<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">5.5f</span>, <span style="color:#ae81ff">6.6f</span>);     <span style="color:#75715e">// Implicit conversion happens here
+</span></span></span></code></pre></div><h3 id="default-template-arguments">
+  Default Template Arguments
+  <a class="heading-link" href="#default-template-arguments">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>, size_t N <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">array</span> {
+</span></span><span style="display:flex;"><span>    T arr[N];
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>array<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> arr;
+</span></span></code></pre></div><ul>
+<li>Just like in case of the function arguments, template parameters can also have their default values.</li>
+<li>All template parameters with a default value have to be declared at the end of the template parameter list.</li>
+</ul>
+<h3 id="template-argument-deduction">
+  Template Argument Deduction
+  <a class="heading-link" href="#template-argument-deduction">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="function-template-argument-deduction">
+  Function Template Argument Deduction
+  <a class="heading-link" href="#function-template-argument-deduction">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Function template argument deduction is done by comparing the types of function arguments to function parameters, according to rules in the <a href="https://en.cppreference.com/w/cpp/language/template_argument_deduction"  class="external-link" target="_blank" rel="noopener">Standard</a>. Which makes function templates far more usable than they would otherwise be. For example, given a function template like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> RanIt<span style="color:#f92672">&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> sort(RanIt first, RanIt last){
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>You can and should sort a <code>std::vector&lt;int&gt;</code> without explicitly specifying that <code>RanIt</code> is <code>std::vector&lt;int&gt;::iterator</code>. When the compiler sees <code>sort(v.begin(), v.end());</code>, it knows what the types of <code>v.begin() and </code>v.end()<code>are, so it can determine what </code>RanIt` should be.</li>
+</ul>
+<h4 id="class-template-argument-deductionctad">
+  Class Template Argument Deduction(CTAD)
+  <a class="heading-link" href="#class-template-argument-deductionctad">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Until C++17, template classes could not apply type deduction in their initialization as template function do. For example</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>pair p4{<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;A&#39;</span>};               <span style="color:#75715e">// Not OK until C++17: Can&#39;t deduce type in initialization 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span></code></pre></div><ul>
+<li>But <strong><em>from C++17, the compiler can deduce types in class/struct initialization</em></strong> &amp; this to work, class/struct must have an appropriate constructor. But this limitation is also relaxed in C++20. So technically <strong><em>from C++20, you can construct the object with <a href="https://en.cppreference.com/w/cpp/language/aggregate_initialization"  class="external-link" target="_blank" rel="noopener">aggregate initialization</a> &amp; without specifying types explicitly</em></strong>.</li>
+<li>Until C++17, the standard provided some <code>std::make_</code> utility functions to counter such situations as below.</li>
+</ul>
+<h5 id="inferring-template-argument-through-function-template">
+  Inferring Template Argument Through Function Template
+  <a class="heading-link" href="#inferring-template-argument-through-function-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li>You might have seen many functions like <code>std::make_pair(), </code>std::make_unique(), `std::make_share(), etc. Which can typically &amp; unsophistically implement as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T1, <span style="color:#66d9ef">typename</span> T2<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>pair<span style="color:#f92672">&lt;</span>T1, T2<span style="color:#f92672">&gt;</span> make_pair(T1<span style="color:#f92672">&amp;&amp;</span> t1, T2<span style="color:#f92672">&amp;&amp;</span> t2) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {forward<span style="color:#f92672">&lt;</span>T1<span style="color:#f92672">&gt;</span>(t1), forward<span style="color:#f92672">&lt;</span>T2<span style="color:#f92672">&gt;</span>(t2)};
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>But have you ever wonder why these helper functions are there in the standard library? How does this even help?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> p1{<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;A&#39;</span>};          <span style="color:#75715e">// Rather using this
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> p2 <span style="color:#f92672">=</span> make_pair(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>);           <span style="color:#75715e">// Use this instead
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">auto</span> p3 <span style="color:#f92672">=</span> make_pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2.4f</span>); <span style="color:#75715e">// Or specify types explicitly
+</span></span></span></code></pre></div><ul>
+<li>Rather than specifying the arguments explicitly, you can leverage the feature of inferring template argument from function template to construct the object. In the above case, template argument deduction is done by the utility function <code>make_pair</code>. As a result, we have created the object of pair without specifying the type explicitly.</li>
+<li>And as discussed earlier from C++17, you can construct the object without even specifying types explicitly so <code>std::vector v{1,2,3,4};</code> is perfectly valid statement.</li>
+</ul>
+<h3 id="template-argument-forwarding">
+  Template Argument Forwarding
+  <a class="heading-link" href="#template-argument-forwarding">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="c-template-reference-collapsing-rules">
+  C++ Template Reference Collapsing Rules
+  <a class="heading-link" href="#c-template-reference-collapsing-rules">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Apart from accepting type &amp; value in the template parameter. You can enable the template to accept both <a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >lvalue and rvalue references</a>. And to do this you need to adhere to the rules of reference collapsing as follows:
+<ol>
+<li><code>T&amp; &amp;</code> becomes <code>T&amp;</code></li>
+<li><code>T&amp; &amp;&amp;</code> become <code>T&amp;</code></li>
+<li><code>T&amp;&amp; &amp;</code> becomes <code>T&amp;</code></li>
+<li><code>T&amp;&amp; &amp;&amp;</code> becomes <code>T&amp;&amp;</code></li>
+</ol>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> f(T <span style="color:#f92672">&amp;&amp;</span>t);
+</span></span></code></pre></div><ul>
+<li>In the above case, the real type of <code>t</code> depends on the context. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>f(<span style="color:#ae81ff">0</span>); <span style="color:#75715e">// deduces as rvalue reference i.e. f(int&amp;&amp;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>f(x); <span style="color:#75715e">// deduces as lvalue reference i.e. f(int&amp;)
+</span></span></span></code></pre></div><ul>
+<li>In case of <code>f(0);</code>, <code>0</code> is rvalue of type <code>int</code>, hence <code>T = int&amp;&amp;</code>, thus <code>f(int&amp;&amp; &amp;&amp;t) becomes </code>f(int&amp;&amp; t).</li>
+<li>In case of <code>f(x);</code>, <code>x</code> is lvalue of type <code>int</code>, hence <code>T = int&amp;</code>, thus <code>f(int&amp; &amp;&amp;t) becomes </code>f(int&amp; t).</li>
+</ul>
+<h4 id="perfect-forwarding--forwarding-reference--universal-reference">
+  Perfect Forwarding | Forwarding Reference | Universal Reference
+  <a class="heading-link" href="#perfect-forwarding--forwarding-reference--universal-reference">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>In order to perfectly forward <code>t</code> to another function<a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" ></a>, one must use <code>std::forward</code> as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> func1(T <span style="color:#f92672">&amp;&amp;</span>t) {
+</span></span><span style="display:flex;"><span>    func2(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(t));  <span style="color:#75715e">// Forward appropriate lvalue or rvalue reference to another function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>Forwarding references can also be used with variadic templates:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> func1(Args<span style="color:#f92672">&amp;&amp;</span>... args) {
+</span></span><span style="display:flex;"><span>    func2(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>Args<span style="color:#f92672">&gt;</span>(args)...);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="why-do-we-need-forwarding-reference-in-first-place">
+  Why Do We Need Forwarding Reference in First Place?
+  <a class="heading-link" href="#why-do-we-need-forwarding-reference-in-first-place">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Answer to this question lies in <a href="/posts/move-constructor-assignment-operator-with-shared-ptr/" >move semantics</a>. Though, short answer to this question is &ldquo;To perform copy/move depending upon value category type&rdquo;.</li>
+</ul>
+<h2 id="c-template-category">
+  C++ Template Category
+  <a class="heading-link" href="#c-template-category">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="full-template-specialization">
+  Full Template Specialization
+  <a class="heading-link" href="#full-template-specialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Template has a facility to define implementation for specific instantiations of a template class/struct/union/function/method.</li>
+</ul>
+<h4 id="function-template-specialization">
+  Function Template Specialization
+  <a class="heading-link" href="#function-template-specialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T sqrt(T t) { <span style="color:#75715e">/* Some generic implementation */</span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> sqrt<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">int</span> i) { <span style="color:#75715e">/* Highly optimized integer implementation */</span> }
+</span></span></code></pre></div><ul>
+<li>In the above case, a user that writes <code>sqrt(4.0) will get the generic implementation whereas </code>sqrt(4) will get the specialized implementation.</li>
+</ul>
+<h4 id="class-template-specialization">
+  Class Template Specialization
+  <a class="heading-link" href="#class-template-specialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>       <span style="color:#75715e">// Common case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Vector</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;&gt;</span>                 <span style="color:#75715e">// Special case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Vector</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_bool</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1;
+</span></span><span style="display:flex;"><span>v1.print_bool();    <span style="color:#75715e">// Not OK: Chose common case Vector&lt;T&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>v1.print()          <span style="color:#75715e">// OK
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>Vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> v2;    <span style="color:#75715e">// OK : Chose special case Vector&lt;bool&gt;
+</span></span></span></code></pre></div><h3 id="partial-template-specialization">
+  Partial Template Specialization
+  <a class="heading-link" href="#partial-template-specialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="partial-class-template-specialization">
+  Partial Class Template Specialization
+  <a class="heading-link" href="#partial-class-template-specialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>In contrast of a full template specialization, you can also specialise template partially with some of the arguments of existing template fixed. Partial template specialization is only available for template class/structs/union:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T1, <span style="color:#66d9ef">typename</span> T2<span style="color:#f92672">&gt;</span>     <span style="color:#75715e">// Common case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Pair</span> {
+</span></span><span style="display:flex;"><span>    T1 first;
+</span></span><span style="display:flex;"><span>    T2 second;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_first</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>    <span style="color:#75715e">// Partial specialization on first argument as int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Pair</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, T<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Use case 1 ----------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span> p1;    <span style="color:#75715e">// Chose common case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>p1.print_first();        <span style="color:#75715e">// OK
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// p1.print();           // Not OK: p1 is common case &amp; it doesn&#39;t have print() method
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Use case 2 ----------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span> p2;     <span style="color:#75715e">// Chose special case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>p2.print();              <span style="color:#75715e">// OK
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// p2.print_first();     // Not OK: p2 is special case &amp; it does not have print_first()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Use case 3 ----------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Pair&lt;int&gt; p3;         // Not OK: Number of argument should be same as Primary template
+</span></span></span></code></pre></div><h4 id="partial-function-template-specialization">
+  Partial Function Template Specialization
+  <a class="heading-link" href="#partial-function-template-specialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li><strong><em>You cannot partially specialize method/function</em></strong>. Function templates may only be fully specialized</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, <span style="color:#66d9ef">typename</span> U<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> foo(T t, U u) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Common case&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// OK.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> foo<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">int</span> a1, <span style="color:#66d9ef">int</span> a2) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Fully specialized case&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Compilation error: partial function specialization is not allowed.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> U<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> foo<span style="color:#f92672">&lt;</span>string, U<span style="color:#f92672">&gt;</span>(string t, U u) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Partial specialized case&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>foo(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2.1</span>); <span style="color:#75715e">// Common case
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>foo(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>);   <span style="color:#75715e">// Fully specialized case
+</span></span></span></code></pre></div><h5 id="alternative-to-partial-function-template-specialization">
+  Alternative To Partial Function Template Specialization
+  <a class="heading-link" href="#alternative-to-partial-function-template-specialization">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li>As I have mentioned earlier, partial specialization of function templates is not allowed. You can use <a href="/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/" >SFINAE</a> with <code>std::enable_if</code> for work around as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, <span style="color:#66d9ef">typename</span> std<span style="color:#f92672">::</span>enable_if_t<span style="color:#f92672">&lt;!</span>std<span style="color:#f92672">::</span>is_pointer<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;::</span>value<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> func(T val) {  
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Value&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, <span style="color:#66d9ef">typename</span> std<span style="color:#f92672">::</span>enable_if_t<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>is_pointer<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;::</span>value<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> func(T val) {  <span style="color:#75715e">// NOTE: function signature is NOT-MODIFIED
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Pointer&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>func(a);
+</span></span><span style="display:flex;"><span>func(<span style="color:#f92672">&amp;</span>a);
+</span></span></code></pre></div><h3 id="non-type-template-parameter">
+  Non-Type Template Parameter
+  <a class="heading-link" href="#non-type-template-parameter">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>As the name suggests, apart from types, you can also declare the template parameter as constant expressions like addresses, <a href="/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/" >references</a>, integrals, <a href="/posts/what-exactly-nullptr-is-in-cpp/" >std::nullptr_t</a>, enums, etc.</li>
+<li>Like all other template parameters, non-type template parameters can be explicitly specified, defaulted, or derived implicitly via Template Argument Deduction.</li>
+<li>The <strong><em>more specific use case of a non-type template is passing a plain array into a function without specifying its size explicitly</em></strong>. A more relevant example of this is <code>std::begin</code> &amp; <code>std::end</code> specialisation for array literal from the standard library:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span>  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>, 
+</span></span><span style="display:flex;"><span>            size_t size<span style="color:#f92672">&gt;</span>     <span style="color:#75715e">// Non Type Template
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>T<span style="color:#f92672">*</span> begin(T (<span style="color:#f92672">&amp;</span>arr)[size]) {   <span style="color:#75715e">// Array size deduced implicitly
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> arr;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> arr[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>};
+</span></span><span style="display:flex;"><span>begin(arr);                  <span style="color:#75715e">// Do not have to pass size explicitly 
+</span></span></span></code></pre></div><ul>
+<li>Non-type template parameters are one of the ways to achieve template recurrence &amp; enables <a href="https://en.wikipedia.org/wiki/Template_metaprogramming"  class="external-link" target="_blank" rel="noopener">Template Meta-programming</a>.</li>
+</ul>
+<h3 id="nested-template-template-template-parameter">
+  Nested Template: Template Template Parameter
+  <a class="heading-link" href="#nested-template-template-template-parameter">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Sometimes we have to pass templated type into another templated type. And in such case, you not only have to take care of main template type but also a nested template type. Very simple template- template parameter examples is:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>   
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(C<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>c) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">My_Type</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>My_Type<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> t;
+</span></span><span style="display:flex;"><span>print_container(t);
+</span></span></code></pre></div><h3 id="variadic-template">
+  Variadic Template
+  <a class="heading-link" href="#variadic-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>It is often useful to define class/struct/union/function that accepts a variable number and type of arguments.</li>
+<li>If you have already used C you&rsquo;ll know that <code>printf</code> function can accept any number of arguments. Such functions are entirely implemented through macros or <a href="https://stackoverflow.com/questions/3792761/what-is-ellipsis-operator-in-c"  class="external-link" target="_blank" rel="noopener">ellipses operator</a>. And because of that it has several disadvantages like <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >type-safety</a>, cannot accept references as arguments, etc.</li>
+</ul>
+<h4 id="variadic-class-template">
+  Variadic Class Template
+  <a class="heading-link" href="#variadic-class-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="implementing-unsophisticated-tuple-classc14">
+  Implementing Unsophisticated Tuple Class(&gt;=C++14)
+  <a class="heading-link" href="#implementing-unsophisticated-tuple-classc14">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li>Since C++11 standard library introduced <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" ><code>std::tuple</code></a> class that accept variable data members at compile time using the variadic template. And to understand its working, we will build our own ADT same as <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" ><code>std::tuple</code></a> ``</li>
+<li>The variadic template usually starts with the general (empty) definition, that also serves as the base-case for recursion termination in the later specialisation:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tuple</span> { };
+</span></span></code></pre></div><ul>
+<li>This already allows us to define an empty structure i.e. <code>Tuple&lt;&gt; object;</code>, albeit that isn&rsquo;t very useful yet. Next comes the recursive case specialisation:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Tuple</span><span style="color:#f92672">&lt;</span>T, Rest...<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    T               first;
+</span></span><span style="display:flex;"><span>    Tuple<span style="color:#f92672">&lt;</span>Rest...<span style="color:#f92672">&gt;</span>  rest;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Tuple(<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> f, <span style="color:#66d9ef">const</span> Rest<span style="color:#f92672">&amp;</span> ... r)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> first(f)
+</span></span><span style="display:flex;"><span>        , rest(r...) {
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> t1(false);                      <span style="color:#75715e">// Case 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span>, string<span style="color:#f92672">&gt;</span> t2(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#34;ABC&#34;</span>); <span style="color:#75715e">// Case 2
+</span></span></span></code></pre></div><h5 id="how-does-variadic-class-template-works">
+  How Does Variadic Class Template Works?
+  <a class="heading-link" href="#how-does-variadic-class-template-works">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<p>To understand variadic class template, consider use case 2 above i.e. <code>Tuple&lt;int, char, string&gt; t2(1, 'a', &quot;ABC&quot;);</code></p>
+<ul>
+<li>The declaration first matches against the specialization, yielding a structure with <code>int first;</code> and <code>Tuple&lt;char, string&gt; rest;</code> data members.</li>
+<li>The rest definition again matches with specialization, yielding a structure with <code>char first;</code> and <code>Tuple&lt;string&gt; rest;</code> data members.</li>
+<li>The rest definition again matches this specialization, creating its own <code>string first;</code> and <code>Tuple&lt;&gt; rest;</code> members.</li>
+<li>Finally, this last rest matches against the base-case definition, producing an empty structure.</li>
+</ul>
+<p>You can visualize this as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">char</span>, string<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">int</span> first
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-&gt;</span> Tuple<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, string<span style="color:#f92672">&gt;</span> rest
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">char</span> first
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-&gt;</span> Tuple<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> rest
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">-&gt;</span> string first
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">-&gt;</span> Tuple<span style="color:#f92672">&lt;&gt;</span> rest
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">-&gt;</span> (empty)
+</span></span></code></pre></div><p>I have written a separate article on <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >Variadic Template C++: Implementing Unsophisticated Tuple</a>, if you are interested more in the variadic temple.</p>
+<h4 id="variadic-function-template">
+  Variadic Function Template
+  <a class="heading-link" href="#variadic-function-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>As we have seen earlier, variadic template starts with empty definition i.e. base case for recursion.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>() {}
+</span></span></code></pre></div><ul>
+<li>Then the recursive case specialisation:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>   
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> First, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest                    <span style="color:#75715e">// Template parameter pack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">&gt;</span>     
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(First first, Rest... rest) {         <span style="color:#75715e">// Function parameter pack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> first <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    print(rest...);                             <span style="color:#75715e">// Parameter pack expansion
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} 
+</span></span></code></pre></div><ul>
+<li>This is now sufficient for us to use the print function with variable number and type of arguments. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>print(<span style="color:#ae81ff">500</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#34;ABC&#34;</span>);
+</span></span></code></pre></div><ul>
+<li>You can further optimize the print function with forwarding reference, <code>if constexpr() &amp; </code>sizeof()`operator as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>   
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> First, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Rest
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>     
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(First<span style="color:#f92672">&amp;&amp;</span> first, Rest<span style="color:#f92672">&amp;&amp;</span>... rest) {         
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">constexpr</span>(<span style="color:#66d9ef">sizeof</span>...(rest) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {             <span style="color:#75715e">// Size of parameter pack
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> first <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        print(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>Rest<span style="color:#f92672">&gt;</span>(rest)...);         <span style="color:#75715e">// Forwarding reference
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> first <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>} 
+</span></span></code></pre></div><h5 id="how-does-variadic-function-template-works">
+  How Does Variadic Function Template Works?
+  <a class="heading-link" href="#how-does-variadic-function-template-works">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li>As you can see we have called print with 3 arguments i.e. <code>print(500, 'a', &quot;ABC&quot;);</code></li>
+<li>At the time of compilation compiler instantiate 3 different print function as follows:
+<ol>
+<li>`void print(int first, char __rest1, const char* __rest2)</li>
+<li>`void print(char first, const char* __rest1)</li>
+<li>`void print(const char* first)</li>
+</ol>
+</li>
+<li>The first print(i.e. accept 3 arguments) will be called which prints the first argument &amp; line <code>print(rest…);</code> expand with second print(i.e. accept 2 arguments). This will go on till argument count reaches to zero.</li>
+<li>That means in each call to print, the number of arguments is reduced by one &amp; the rest of the arguments will be handled by a subsequent instance of print.</li>
+<li>Thus, the number of print instance after compilation is equal to the number of arguments, plus the base case instance of print. Hence, the <strong><em>variadic template also contributes to more code bloating</em></strong>.</li>
+<li>You can get this much better if you put the above example in <a href="https://cppinsights.io/"  class="external-link" target="_blank" rel="noopener">cppinsights</a>. And try to understand all the template instances.</li>
+</ul>
+<h4 id="fold-expressions-vs-variadic-template">
+  Fold Expressions vs Variadic Template
+  <a class="heading-link" href="#fold-expressions-vs-variadic-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>As we saw, from C++11, the variadic template is a great addition to C++ Template. But it has nuisance like you need base case &amp; recursive template implementation, etc.</li>
+<li>So, with <strong><em>C++17 standard introduced a new feature named as Fold Expression</em></strong>. Which you can use with parameter pack as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(Args <span style="color:#f92672">&amp;&amp;</span>... args) {
+</span></span><span style="display:flex;"><span>    (<span style="color:#66d9ef">void</span>(cout <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>Args<span style="color:#f92672">&gt;</span>(args) <span style="color:#f92672">&lt;&lt;</span> endl), ...);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>See, no cryptic boilerplate required. Isn&rsquo;t this solution looks neater?</li>
+<li>There are total 3 types of folding: Unary fold, Binary fold &amp; Fold over a comma. Here we have done left folding over a comma. You can read more about Fold Expression <a href="https://www.codingame.com/playgrounds/2205/7-features-of-c17-that-will-simplify-your-code/fold-expressions"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<h2 id="misc">
+  Misc
+  <a class="heading-link" href="#misc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="c-template-typename-vs-class">
+  C++ Template `typename` vs `class`
+  <a class="heading-link" href="#c-template-typename-vs-class">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><code>typename</code> and <code>class</code> are interchangeable in most of the cases.</li>
+<li>A general convention is <code>typename</code> used with the concrete type(i.e. in turn, does not depend on further template parameter) while <code>class</code> used with dependent type.</li>
+<li>But there are cases where either <code>typename</code> or <code>class</code> has to be certain. For example</li>
+</ul>
+<h4 id="to-refer-dependent-types">
+  To Refer Dependent Types
+  <a class="heading-link" href="#to-refer-dependent-types">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> container<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">typename</span> container<span style="color:#f92672">::</span>value_type; <span style="color:#75715e">// value_type depends on template argument of container
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">using</span> t2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>value_type;   <span style="color:#75715e">// value_type is concrete type, so doesn&#39;t require typename
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><ul>
+<li><code>typename</code> is a must while referencing a nested type that depends on template parameter.</li>
+</ul>
+<h4 id="to-specify-template-template-type">
+  To Specify Template Template Type
+  <a class="heading-link" href="#to-specify-template-template-type">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>, <span style="color:#66d9ef">typename</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>, <span style="color:#75715e">// `class` is must prior to C++17
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">typename</span> T, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> Allocator
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(C<span style="color:#f92672">&lt;</span>T, Allocator<span style="color:#f92672">&gt;</span> container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> v : container)
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
+</span></span><span style="display:flex;"><span>print_container(v);
+</span></span></code></pre></div><ul>
+<li>This is rectified in C++17, So now you can use <code>typename</code> also.</li>
+</ul>
+<h3 id="c11-template-type-alias">
+  C++11: Template Type Alias
+  <a class="heading-link" href="#c11-template-type-alias">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> pointer <span style="color:#f92672">=</span> T<span style="color:#f92672">*</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pointer<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>;   <span style="color:#75715e">// Equivalent to: int* p = new int;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> v <span style="color:#f92672">=</span> vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>v<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dynamic_arr;         <span style="color:#75715e">// Equivalent to: vector&lt;int&gt; dynamic_arr;
+</span></span></span></code></pre></div><ul>
+<li><code>typedef</code> will also work fine, but would not encourage you to use. As it isn&rsquo;t part of <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a>.</li>
+</ul>
+<h3 id="c1417-template--auto-keyword">
+  C++14/17: Template &amp; auto Keyword
+  <a class="heading-link" href="#c1417-template--auto-keyword">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><strong><em>Since C++14, you can use <code>auto</code> in function argument</em></strong>. It&rsquo;s kind of template shorthand as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>c) { <span style="color:#75715e">/*. . .*/</span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Equivalent to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print(T <span style="color:#f92672">&amp;</span>c) { <span style="color:#75715e">/*. . .*/</span> }
+</span></span></code></pre></div><ul>
+<li>Although <strong><em><code>auto</code> in function return-type is supported from C++11</em></strong>. But, you have to mention the trailing return type. Which is rectified in C++14 &amp; now return type is automatically deduced by compiler.</li>
+<li><strong><em>From C++17, you can also use <code>auto</code> in non-type template</em></strong>(I will cover this in later part this article) parameters.</li>
+</ul>
+<h3 id="c20-template-lambda-expression">
+  C++20: Template Lambda Expression
+  <a class="heading-link" href="#c20-template-lambda-expression">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>A <a href="/posts/learn-lambda-function-in-cpp-with-example/" >generic lambda expression</a> is supported since C++14 which declare parameters as <code>auto</code>. But there was no way to change this template parameter and use real template arguments. For example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> f(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span>	vec) {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//. . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>How do you write the lambda for the above function which takes <code>std::vector</code> of type <code>T</code>? This was the limitation till C++17, but <strong><em>with C++20 it is possible templatized lambda</em></strong> as :</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> f <span style="color:#f92672">=</span> []<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&amp;</span>  vec) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
+</span></span><span style="display:flex;"><span>f(v);
+</span></span></code></pre></div><h3 id="explicit-template-instantiation">
+  Explicit Template Instantiation
+  <a class="heading-link" href="#explicit-template-instantiation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>An explicit instantiation creates and declares a concrete class/struct/union/function/variable from a template, without using it just yet.</li>
+<li>Generally, you have to implement the template in header files only. You can not put the implementation/definition of template methods in implementation files(i.e. cpp or .cc). If this seems new to you, then consider following minimalist example:</li>
+</ul>
+<p><strong>value.hpp</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#pragma once
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">value</span> {
+</span></span><span style="display:flex;"><span>    T val;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    T get_value();
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p><strong>value.cpp</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;value.hpp&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T value<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;::</span>get_value() { 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> val; 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>main.cpp</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;value.hpp&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    value<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1{<span style="color:#ae81ff">9</span>};
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> v1.get_value() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>If you compile above code you will get following error:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/tmp/main-4b4bef.o: In <span style="color:#66d9ef">function</span> <span style="color:#e6db74">`</span>main<span style="color:#960050;background-color:#1e0010">&#39;</span>:
+</span></span><span style="display:flex;"><span>main.cpp:<span style="color:#f92672">(</span>.text+0x1e<span style="color:#f92672">)</span>: undefined reference to <span style="color:#e6db74">`</span>value&lt;int&gt;::get_value<span style="color:#f92672">()</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>clang: error: linker command failed with exit code <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>use -v to see invocation<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>compiler exit status <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><ul>
+<li>If you do explicit initialization i.e. add <code>template class value&lt;int&gt;;</code> line at the end of <code>value.cpp</code>. Then the compilation gets successful.</li>
+<li>The &ldquo;template class&rdquo; command causes the compiler to explicitly instantiate the template class. In the above case, the compiler will stencil out <code>value&lt;int&gt;</code> inside of <code>value.cpp</code>.</li>
+<li>There are other solutions as well. Check out this <a href="https://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file"  class="external-link" target="_blank" rel="noopener">StackOverflow link</a>.</li>
+</ul>
+<h2 id="c-template-example-use-cases">
+  C++ Template Example Use Cases
+  <a class="heading-link" href="#c-template-example-use-cases">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="curiously-recurring-template-pattern">
+  Curiously Recurring Template Pattern
+  <a class="heading-link" href="#curiously-recurring-template-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><a href="/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/#CRTP" >CRTP</a> widely employed for static polymorphism or code reusability without bearing the cost of <a href="/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual dispatch mechanism</a>. Consider the following code:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> specific_animal<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { implementation().who(); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    specific_animal <span style="color:#f92672">&amp;</span>implementation() { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>specific_animal <span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> animal<span style="color:#f92672">&lt;</span>dog<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;dog&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> animal<span style="color:#f92672">&lt;</span>cat<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;cat&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> specific_animal<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> who_am_i(animal<span style="color:#f92672">&lt;</span>specific_animal<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>animal) {
+</span></span><span style="display:flex;"><span>    animal<span style="color:#f92672">-&gt;</span>who();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>who_am_i(<span style="color:#66d9ef">new</span> dog); <span style="color:#75715e">// Prints `dog`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>who_am_i(<span style="color:#66d9ef">new</span> cat); <span style="color:#75715e">// Prints `cat`
+</span></span></span></code></pre></div><ul>
+<li>We have not used <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual keyword</a> &amp; still achieved the functionality of polymorphism(more-specifically static polymorphism).</li>
+<li>I have written a separate article covering practical <a href="/posts/crtp-c-examples/" >Examples of Curiously Recurring Template Pattern(CRTP)</a>.</li>
+</ul>
+<h3 id="passing-std-container-as-c-template-argument">
+  Passing `std` Container as C++ Template Argument
+  <a class="heading-link" href="#passing-std-container-as-c-template-argument">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>If you wanted to accept anything and figure it out later, you could write:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> C<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(<span style="color:#66d9ef">const</span> C <span style="color:#f92672">&amp;</span>container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>v : container)
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>This naive way may fail if you pass anything other than standard container as other types may not have <code>begin</code> &amp; <code>end</code> iterator.</li>
+</ul>
+<h3 id="passing-stdvector-to-c-template-function">
+  Passing std::vector to C++ Template Function
+  <a class="heading-link" href="#passing-stdvector-to-c-template-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="naive-way-to-capture-containers-value-type">
+  Naive Way to Capture Container&rsquo;s Value Type
+  <a class="heading-link" href="#naive-way-to-capture-containers-value-type">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>But let say, you want to pass container &amp; want to work with container&rsquo;s storage type also. You can do:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> C, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T <span style="color:#f92672">=</span> <span style="color:#66d9ef">typename</span> C<span style="color:#f92672">::</span>value_type
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(<span style="color:#66d9ef">const</span> C <span style="color:#f92672">&amp;</span>container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> T <span style="color:#f92672">&amp;</span>v : container)
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>We can provide the second type parameter to our function that uses <a href="/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/" >SFINAE</a> to verify that the thing is actually a container.</li>
+<li>All standard containers have a member type named <code>value_type</code> which is the type of the thing inside the container. We sniff for that type, and if no such type exists, then <a href="/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/" >SFINAE</a> kicks in, and that overload is removed from consideration.</li>
+</ul>
+<h4 id="capturing-containers-value-type-explicitly">
+  Capturing Container&rsquo;s Value Type Explicitly
+  <a class="heading-link" href="#capturing-containers-value-type-explicitly">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>But what if you are passing vector class which doesn&rsquo;t has <code>value_type</code> member?</li>
+<li><code>std::vector</code> is defined as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Allocator</span> <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>allocator<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">vector</span>;
+</span></span></code></pre></div><ul>
+<li>And you can capture two template arguments of <code>std::vector</code> container explicitly as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>, <span style="color:#66d9ef">typename</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> Allocator
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(C<span style="color:#f92672">&lt;</span>T, Allocator<span style="color:#f92672">&gt;</span> container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> v : container)
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Above template pattern would be same if you want pass container to class/struct/union.</li>
+</ul>
+<h3 id="passing-any-container-to-c-template-function">
+  Passing Any Container to C++ Template Function
+  <a class="heading-link" href="#passing-any-container-to-c-template-function">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>You see if you pass any other containers to the above solution. It won&rsquo;t work. So to make it generic we can use <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >variadic template</a>:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>...<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Args
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(C<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>v : container)
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>     v{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>}; <span style="color:#75715e">// takes total 2 template type argument
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>print_container(v); 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>        s{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>}; <span style="color:#75715e">// takes total 3 template type argument
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>print_container(s);
+</span></span></code></pre></div><h3 id="passing-container-of-container2d-stdvector-as-c-template-argument">
+  Passing Container-of-Container/2D-std::vector as C++ Template Argument
+  <a class="heading-link" href="#passing-container-of-container2d-stdvector-as-c-template-argument">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>This is the case of nested template i.e. template-template parameter. And there are the following solutions:</li>
+</ul>
+<h4 id="explicit--complex-solution">
+  Explicit &amp; Complex Solution
+  <a class="heading-link" href="#explicit--complex-solution">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>, <span style="color:#66d9ef">typename</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C1</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>, <span style="color:#66d9ef">typename</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C2</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> Alloc_C1, <span style="color:#66d9ef">typename</span> Alloc_C2,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(<span style="color:#66d9ef">const</span> C1<span style="color:#f92672">&lt;</span>C2<span style="color:#f92672">&lt;</span>T, Alloc_C2<span style="color:#f92672">&gt;</span>, Alloc_C1<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> C2<span style="color:#f92672">&lt;</span>T, Alloc_C2<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>container_in : container)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> T <span style="color:#f92672">&amp;</span>v : container_in)
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>I know this is ugly, but seems more explicit.</li>
+</ul>
+<h4 id="neat-solution">
+  Neat Solution
+  <a class="heading-link" href="#neat-solution">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>   
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T1,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">typename</span> T1<span style="color:#f92672">::</span>value_type,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span> T3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">typename</span> T2<span style="color:#f92672">::</span>value_type
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(<span style="color:#66d9ef">const</span> T1 <span style="color:#f92672">&amp;</span>container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> T2 <span style="color:#f92672">&amp;</span>e : container)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> T3 <span style="color:#f92672">&amp;</span>x : e)
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> x <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As seen earlier including <a href="/posts/7-advance-cpp-concepts-idiom-examples-you-should-know" >SFINAE</a>.</li>
+</ul>
+<h4 id="generic-solution-using-variadic-template">
+  Generic Solution: Using Variadic Template
+  <a class="heading-link" href="#generic-solution-using-variadic-template">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>...<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">C</span>, 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">typename</span>... Args
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> print_container(C<span style="color:#f92672">&lt;</span>Args...<span style="color:#f92672">&gt;</span> container) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>container_2nd : container)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>v : container_2nd)
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> v <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>This is our standard solution using the variadic template will work for a single container or any number of the nested container.</li>
+</ul>
+<h3 id="passing-function-to-class-template-argument">
+  Passing Function to Class Template Argument
+  <a class="heading-link" href="#passing-function-to-class-template-argument">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Passing class/struct/union to another class/struct/union as template argument is common thing. But passing function to class/struct/union as template argument is bit rare. But yes it&rsquo;s possible indeed. Consider the <a href="/posts/decorator-design-pattern-in-modern-cpp/" >Functional Decorator</a> using a <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >variadic class template</a>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Need partial specialization for this to work
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Logger</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Return type and argument list
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> R, <span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Logger</span><span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    function<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span>    m_func;
+</span></span><span style="display:flex;"><span>    string                  m_name;
+</span></span><span style="display:flex;"><span>    Logger(function<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span> f, <span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>n) <span style="color:#f92672">:</span> m_func{f}, m_name{n} { }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    R <span style="color:#a6e22e">operator</span>()(Args... args) {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Entering &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        R result <span style="color:#f92672">=</span> m_func(args...);
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Exiting &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_name <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> R, <span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> make_logger(R (<span style="color:#f92672">*</span>func)(Args...), <span style="color:#66d9ef">const</span> string <span style="color:#f92672">&amp;</span>name) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Logger<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span>(function<span style="color:#f92672">&lt;</span>R(Args...)<span style="color:#f92672">&gt;</span>(func), name);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">double</span> a, <span style="color:#66d9ef">double</span> b) { <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> logged_add <span style="color:#f92672">=</span> make_logger(add, <span style="color:#e6db74">&#34;Add&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> result <span style="color:#f92672">=</span> logged_add(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Above example may seem a bit complex to you at first sight. But if you have a clear understanding of <a href="/posts/variadic-template-cpp-implementing-unsophisticated-tuple/" >variadic class temple</a> then it won&rsquo;t take more than 30 seconds to understand what&rsquo;s going on here.</li>
+</ul>
+<h2 id="conclusion">
+  Conclusion
+  <a class="heading-link" href="#conclusion">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>I hope I have covered most of the topics around C++ Template. And yes, this was a very long &amp; intense article. But I bet you that if you do master the C++ template well, it will really give you an edge. And also open a door to sub-world of C++ i.e. template meta-programming.</p>
+<blockquote>
+<p><strong><em>C++ Template: C++&rsquo;s its own interpreted sub language</em></strong></p>
+</blockquote>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

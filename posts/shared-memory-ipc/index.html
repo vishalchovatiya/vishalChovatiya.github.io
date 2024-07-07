@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Shared Memory IPC · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Brief Link to heading As the name suggests, shared memory is a memory that may be shared by multiple programs with an intent to provide communication among them or avoid redundant copies. Points To Catch Link to heading shmget() Creates a shared memory segment, The key argument could be semaphore ID shmat(): Shared segment can be attached to a process address space using this API It can be detached using shmdt(), A shared segment can be attached multiple times by the same process The original owner of a shared memory segment can assign ownership to another user with `shmctl() List out shared memory areas by ipcs -m Get more info on the particular shared memory area ipcs -m -i [shmid] Remove shared memory ipcrm shm [shmid] Server.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Shared Memory IPC">
+  <meta name="twitter:description" content="Brief Link to heading As the name suggests, shared memory is a memory that may be shared by multiple programs with an intent to provide communication among them or avoid redundant copies. Points To Catch Link to heading shmget() Creates a shared memory segment, The key argument could be semaphore ID shmat(): Shared segment can be attached to a process address space using this API It can be detached using shmdt(), A shared segment can be attached multiple times by the same process The original owner of a shared memory segment can assign ownership to another user with `shmctl() List out shared memory areas by ipcs -m Get more info on the particular shared memory area ipcs -m -i [shmid] Remove shared memory ipcrm shm [shmid] Server.">
+
+<meta property="og:url" content="http://localhost:1313/posts/shared-memory-ipc/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Shared Memory IPC">
+  <meta property="og:description" content="Brief Link to heading As the name suggests, shared memory is a memory that may be shared by multiple programs with an intent to provide communication among them or avoid redundant copies. Points To Catch Link to heading shmget() Creates a shared memory segment, The key argument could be semaphore ID shmat(): Shared segment can be attached to a process address space using this API It can be detached using shmdt(), A shared segment can be attached multiple times by the same process The original owner of a shared memory segment can assign ownership to another user with `shmctl() List out shared memory areas by ipcs -m Get more info on the particular shared memory area ipcs -m -i [shmid] Remove shared memory ipcrm shm [shmid] Server.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-09-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2016-09-10T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/shared-memory-ipc/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/shared-memory-ipc/">
+              Shared Memory IPC
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2016-09-10T00:00:00Z">
+                September 10, 2016
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              2-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/linux-system-programming/">Linux-System-Programming</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <h3 id="brief">
+  Brief
+  <a class="heading-link" href="#brief">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>As the name suggests, shared memory is a memory that may be shared by multiple programs with an intent to provide communication among them or avoid redundant copies.</li>
+</ul>
+<h3 id="pointsto-catch">
+  Points To Catch
+  <a class="heading-link" href="#pointsto-catch">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><code>shmget()</code> Creates a shared memory segment, The key argument could be semaphore ID</li>
+<li><code>shmat()</code>: Shared segment can be attached to a process address space using this API</li>
+<li>It can be detached using <code>shmdt()</code>, A shared segment can be attached multiple times by the same process</li>
+<li>The original owner of a shared memory segment can assign ownership to another user with `shmctl()</li>
+<li>List out shared memory areas by <code>ipcs -m</code></li>
+<li>Get more info on the particular shared memory area <code>ipcs -m -i [shmid]</code></li>
+<li>Remove shared memory <code>ipcrm shm [shmid]</code></li>
+</ul>
+<h3 id="serverc">
+  Server.c
+  <a class="heading-link" href="#serverc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/ipc.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/shm.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define SHMSZ     27    </span><span style="color:#75715e">//Size of shared memory
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> c;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> shmid;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> shmflg <span style="color:#f92672">=</span> IPC_CREAT <span style="color:#f92672">|</span> <span style="color:#ae81ff">0666</span>;  <span style="color:#75715e">// flags like create, access permission
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">key_t</span> key <span style="color:#f92672">=</span> <span style="color:#ae81ff">5678</span>;               <span style="color:#75715e">// Name of Shared Memory Segment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>shm, <span style="color:#f92672">*</span>s;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ((shmid <span style="color:#f92672">=</span> <span style="color:#a6e22e">shmget</span>(key, SHMSZ, shmflg)) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {         <span style="color:#75715e">//Create the segment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;shmget&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ((shm <span style="color:#f92672">=</span> <span style="color:#a6e22e">shmat</span>(shmid, NULL, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">==</span> (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>) <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {     <span style="color:#75715e">//Attach segment to data space
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;shmat&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        s <span style="color:#f92672">=</span> shm;                <span style="color:#75715e">// Fill memory to read by other process
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (c <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;a&#39;</span>; c <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;z&#39;</span>; c<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">*</span>s<span style="color:#f92672">++</span> <span style="color:#f92672">=</span> c;
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>s <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">*</span>shm <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;*&#39;</span>)     <span style="color:#75715e">// Wait for other process acknowledgement
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="clientc">
+  Client.c
+  <a class="heading-link" href="#clientc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/ipc.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/shm.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define SHMSZ     27
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> shmid;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> shmflg <span style="color:#f92672">=</span> <span style="color:#ae81ff">0666</span>;  <span style="color:#75715e">// flags like create, access permission
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">key_t</span> key <span style="color:#f92672">=</span> <span style="color:#ae81ff">5678</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>shm, <span style="color:#f92672">*</span>s;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ((shmid <span style="color:#f92672">=</span> <span style="color:#a6e22e">shmget</span>(key, SHMSZ, shmflg)) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {         <span style="color:#75715e">// Locate the segment
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;shmget&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ((shm <span style="color:#f92672">=</span> <span style="color:#a6e22e">shmat</span>(shmid, NULL, <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">==</span> (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>) <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {     <span style="color:#75715e">// Attach segment to data space
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;shmat&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (s <span style="color:#f92672">=</span> shm; <span style="color:#f92672">*</span>s <span style="color:#f92672">!=</span> NULL; s<span style="color:#f92672">++</span>)  <span style="color:#75715e">// Read what other process writes here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">putchar</span>(<span style="color:#f92672">*</span>s);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">putchar</span>(<span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>shm <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;*&#39;</span>;                     <span style="color:#75715e">// Acknowledge other proces
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

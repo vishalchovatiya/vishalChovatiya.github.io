@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Chain of Responsibility Design Pattern in Modern C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C&#43;&#43; lets you pass requests along a chain of handlers &amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Chain of Responsibility Design Pattern in Modern C&#43;&#43;">
+  <meta name="twitter:description" content="Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C&#43;&#43; lets you pass requests along a chain of handlers &amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:">
+
+<meta property="og:url" content="http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Chain of Responsibility Design Pattern in Modern C&#43;&#43;">
+  <meta property="og:description" content="Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C&#43;&#43; lets you pass requests along a chain of handlers &amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.
+By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-03T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/">
+              Chain of Responsibility Design Pattern in Modern C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-03T00:00:00Z">
+                April 3, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-patterns/">Design-Patterns</a>
+      <span class="separator">•</span>
+    <a href="/categories/software-engineering/">Software-Engineering</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Chain-of-Responsibility-Design-Pattern-in-Modern-C-vishal-chovatiya.png" alt="Featured image"/>
+        
+        <p>Chain of Responsibility is a Behavioural Design Pattern that <strong><em>provides facility to propagate event/request/command/query to the chain of loosely coupled objects</em></strong>. Chain of Responsibility Design Pattern in Modern C++ lets you pass requests along a chain of handlers &amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.</p>
+<p>By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</p>
+<ol>
+<li><a href="/posts//chain-of-responsibility-design-pattern-in-modern-cpp/" >Chain of responsibility</a></li>
+<li><a href="/posts//command-design-pattern-in-modern-cpp/" >Command</a></li>
+<li><a href="/posts//interpreter-design-pattern-in-modern-cpp/" >Interpreter</a></li>
+<li><a href="/posts//iterator-design-pattern-in-modern-cpp/" >Iterator</a></li>
+<li><a href="/posts//mediator-design-pattern-in-modern-cpp/" >Mediator</a></li>
+<li><a href="/posts//memento-design-pattern-in-modern-cpp/" >Memento</a></li>
+<li><a href="/posts//observer-design-pattern-in-modern-cpp/" >Observer</a></li>
+<li><a href="/posts//state-design-pattern-in-modern-cpp/" >State</a></li>
+<li><a href="/posts//strategy-design-pattern-in-modern-cpp/" >Strategy</a></li>
+<li><a href="/posts//template-method-design-pattern-in-modern-cpp/" >Template Method</a></li>
+<li><a href="/posts//double-dispatch-visitor-design-pattern-in-modern-cpp/" >Visitor</a></li>
+</ol>
+<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
+<p><strong><em>Note:</em></strong></p>
+<ul>
+<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
+<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
+</ul>
+<h2 id="intent">
+  Intent
+  <a class="heading-link" href="#intent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<blockquote>
+<p><strong><em>To provide the chance to handle the request by more than one object/component.</em></strong></p>
+</blockquote>
+<ul>
+<li>Chain of Responsibility Design Pattern is a chain of loosely coupled objects who all get a chance to process command/query. And they may have some sort of default processing implementation and/or they can also terminate the processing chain and thereby preventing propagation of the event to the rest of the objects.</li>
+<li>In other words, its <strong><em>processing pipeline where you just launch-and-leave</em></strong>.</li>
+</ul>
+<h2 id="classic-examples-for-chain-of-responsibility-design-pattern-in-c">
+  Classic Examples for Chain of Responsibility Design Pattern in C++
+  <a class="heading-link" href="#classic-examples-for-chain-of-responsibility-design-pattern-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>A typical use-case for Chain of Responsibility is the login process. That requires a certain number of steps to complete successfully like user name, password, captcha, etc. to matched properly. Consider the following traditional example for the same:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Authentication</span> {
+</span></span><span style="display:flex;"><span>	Authentication<span style="color:#f92672">*</span>     m_next{<span style="color:#66d9ef">nullptr</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">authenticate</span>() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">next_authentication</span>(Authentication <span style="color:#f92672">*</span>nextAuth) { m_next <span style="color:#f92672">=</span> nextAuth; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">UserName</span> <span style="color:#f92672">:</span> Authentication {
+</span></span><span style="display:flex;"><span>	string      m_name;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UserName(string name) <span style="color:#f92672">:</span> m_name(name){}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">is_valid_user_name</span>() { <span style="color:#66d9ef">return</span> true; }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">authenticate</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>is_valid_user_name()) {
+</span></span><span style="display:flex;"><span>			cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Invalid user name&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(m_next) <span style="color:#66d9ef">return</span> m_next<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Password</span> <span style="color:#f92672">:</span> Authentication {
+</span></span><span style="display:flex;"><span>	string      m_password;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	Password(string password) <span style="color:#f92672">:</span> m_password(password){}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">is_valid_password</span>() { <span style="color:#66d9ef">return</span> true; }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">authenticate</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>is_valid_password()) {
+</span></span><span style="display:flex;"><span>			cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Invalid password&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(m_next) <span style="color:#66d9ef">return</span> m_next<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	Authentication <span style="color:#f92672">*</span>login{<span style="color:#66d9ef">new</span> UserName(<span style="color:#e6db74">&#34;John&#34;</span>)};
+</span></span><span style="display:flex;"><span>	login<span style="color:#f92672">-&gt;</span>next_authentication(<span style="color:#66d9ef">new</span> Password(<span style="color:#e6db74">&#34;password&#34;</span>));
+</span></span><span style="display:flex;"><span>	login<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>I know this is not a very good example but sufficient to convey an idea of Chain of Responsibility. As you can see above, Login is a single process which requires multiple subprocesses to be carried out like username &amp; password authentication.</li>
+<li>So in our case <code>login-&gt;authenticate();</code> fires the chain of responsibility to verify each step required for login one-by-one.</li>
+<li>You can also add more steps in the login process, for example, to add captcha, create captcha class inherited with <code>Authentication</code> &amp; add that class object pointer in the login&rsquo;s next authentication chain as we did for <code>UserName</code> &amp; <code>Password</code>.</li>
+<li>Now before we move on to the more sophisticated implementations I just wanted to mention the fact that this particular implementation of a chain of responsibility seems quite artificial. Because essentially what&rsquo;s happening here is you&rsquo;re building a singly linked list so the question is well why not just use a <code>std::list</code> or a <code>std::vector</code>. It&rsquo;s certainly a very valid concern. But as I mentioned earlier, this is how people used to build chain irresponsibilities.</li>
+</ul>
+<h2 id="boost-example-for-chain-of-responsibility-design-pattern">
+  Boost Example for Chain of Responsibility Design Pattern
+  <a class="heading-link" href="#boost-example-for-chain-of-responsibility-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>What you going to see now is a modern way of implementing the Chain of Responsibility Design Pattern that is known as <a href="https://en.wikipedia.org/wiki/Broker_pattern"  class="external-link" target="_blank" rel="noopener">Event Broker</a>. Which is actually a combination of several design patterns like <a href="/posts/command-design-pattern-in-modern-cpp/" >Command</a>, <a href="/posts/mediator-design-pattern-in-modern-cpp/" >Mediator</a> &amp; <a href="/posts/observer-design-pattern-in-modern-cpp/" >Observer</a>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;boost/signals2.hpp&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">//using namespace boost::signals2;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Query</span> {                          <span style="color:#75715e">// Command
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int32_t</span>     m_cnt{<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">EventObserver</span> {                  <span style="color:#75715e">// Observer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    boost<span style="color:#f92672">::</span>signals2<span style="color:#f92672">::</span>signal<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span>(Query <span style="color:#f92672">&amp;</span>)<span style="color:#f92672">&gt;</span>       m_handlers;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ExampleClass</span> <span style="color:#f92672">:</span> EventObserver {   <span style="color:#75715e">// Mediator
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">generate_event</span>() { 
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Event generated&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        Query   q;
+</span></span><span style="display:flex;"><span>        m_handlers(q); 
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BaseHandler</span> {
+</span></span><span style="display:flex;"><span>    ExampleClass<span style="color:#f92672">&amp;</span>       m_example;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Handler_1</span> <span style="color:#f92672">:</span> BaseHandler {
+</span></span><span style="display:flex;"><span>    boost<span style="color:#f92672">::</span>signals2<span style="color:#f92672">::</span>connection      m_conn;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Handler_1(ExampleClass <span style="color:#f92672">&amp;</span>example) <span style="color:#f92672">:</span> BaseHandler{example}
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        m_conn <span style="color:#f92672">=</span> m_example.m_handlers.connect([<span style="color:#f92672">&amp;</span>](Query <span style="color:#f92672">&amp;</span>q) {
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Serving by Handler_1 : count = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">++</span>q.m_cnt <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Handler_1() { m_conn.disconnect(); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Handler_2</span> <span style="color:#f92672">:</span> BaseHandler {
+</span></span><span style="display:flex;"><span>    boost<span style="color:#f92672">::</span>signals2<span style="color:#f92672">::</span>connection      m_conn;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Handler_2(ExampleClass <span style="color:#f92672">&amp;</span>example) <span style="color:#f92672">:</span> BaseHandler{example}
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        m_conn <span style="color:#f92672">=</span> m_example.m_handlers.connect([<span style="color:#f92672">&amp;</span>](Query <span style="color:#f92672">&amp;</span>q) {
+</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Serving by Handler_2 : count = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">++</span>q.m_cnt <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Handler_2() { m_conn.disconnect(); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    ExampleClass example;
+</span></span><span style="display:flex;"><span>    Handler_1 applyThisHandlerOn{example};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    example.generate_event();       <span style="color:#75715e">// Will be served by Handler_1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>        Handler_2 TemporaryHandler{example};
+</span></span><span style="display:flex;"><span>        example.generate_event();   <span style="color:#75715e">// Will be served by Handler_1 &amp; Handler_2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    example.generate_event();       <span style="color:#75715e">// Will be served by Handler_1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Event generated
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Serving by Handler_1 : count = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Event generated
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Serving by Handler_1 : count = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Serving by Handler_2 : count = 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Event generated
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Serving by Handler_1 : count = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>So as you can see, we have <code>ExampleClass</code> which generates an event &amp; having <code>boost::signal2</code> as an observer. We have <code>Query</code>(i.e. <a href="/posts/command-design-pattern-in-modern-cpp/" >Command Design Pattern</a>) to pass between all the register handlers.</li>
+<li>Then we have handler arrangement which registers the <a href="/posts/learn-lambda-function-in-cpp-with-example/" >lambda function</a> to handle the event in constructor &amp; same will be de-register in the destructor.</li>
+<li>In main, we have facilitated the ad-hoc registration of handlers just by declaring objects which process the <code>Query</code> passed in <code>ExampleClass::generate_event()</code> Handler automatically de-registers itself when it goes out of scope thanks to <a href="https://en.cppreference.com/w/cpp/language/raii"  class="external-link" target="_blank" rel="noopener">RAII</a>.</li>
+</ul>
+<h2 id="benefits-of-chain-of-responsibility-design-pattern">
+  Benefits of Chain of Responsibility Design Pattern
+  <a class="heading-link" href="#benefits-of-chain-of-responsibility-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>Decouples the sender &amp; receiver as we saw a more sophisticated approach using <a href="/posts/mediator-design-pattern-in-modern-cpp/" >Mediator</a> &amp; <a href="/posts/command-design-pattern-in-modern-cpp/" >Command Design Pattern</a>.</li>
+<li>Simplifies code as the object which is generating event does not need to know the chain structure &amp; command/query.</li>
+<li>Enhances flexibility of object assigned duties. By changing the members within the chain or change their order, allow dynamically adding or deleting responsibility.</li>
+<li>Increase extensibility as adding a new handler is very convenient.</li>
+</ol>
+<h2 id="summary-by-faqs">
+  Summary by FAQs
+  <a class="heading-link" href="#summary-by-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>Can I use(or Difference) Chain of Responsibility Design Pattern over Decorator?</strong></p>
+<ul>
+<li>When you in need of multiple Decorator.</li>
+<li>While you want to add new functionality dynamically.</li>
+<li>When you want a change of order in functionality configurable.</li>
+<li>For example, you created Decorator of <code>WalkingAnimal</code> &amp; <code>BarkingAnimal</code> of <code>Animal</code>, and now you want both combined at run-time. In such case Chain of Responsibility would be the right choice.</li>
+</ul>
+<p><strong>When should I use Chain of Responsibility Design Pattern?</strong></p>
+<ul>
+<li>When there is more than one object to service a request.</li>
+<li>These objects &amp; its order determined at run time on the basis of request type.</li>
+<li>When you do not want to bind request &amp; handler tightly.</li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

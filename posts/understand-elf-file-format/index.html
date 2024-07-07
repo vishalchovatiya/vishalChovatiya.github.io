@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Understand ELF file format · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Understand ELF file format">
+  <meta name="twitter:description" content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.">
+
+<meta property="og:url" content="http://localhost:1313/posts/understand-elf-file-format/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Understand ELF file format">
+  <meta property="og:description" content="ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-09-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2016-09-10T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/understand-elf-file-format/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/understand-elf-file-format/">
+              Understand ELF file format
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2016-09-10T00:00:00Z">
+                September 10, 2016
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/linux-system-programming/">Linux-System-Programming</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <ul>
+<li>ELF is the file format used for object files (<code>.o</code>s), binaries, shared libraries and core dumps in Linux.</li>
+<li>ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific.</li>
+<li>An ELF file provides 2 views on the data it contains: A linking view and an execution view. Those two views can be accessed by two headers: Section header &amp; Program header.</li>
+<li>Before dive in to ELF understanding, let&rsquo;s clear some basic keywords as follows :</li>
+</ul>
+<h4 id="shared-libraryso">
+  <strong>Shared Library(.so)</strong>
+  <a class="heading-link" href="#shared-libraryso">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Combination of multiple objects files</li>
+<li>Single Copy loaded in memory shared by multiple processes (that&rsquo;s why called shared object)</li>
+</ul>
+<h4 id="sections">
+  <strong>Sections</strong>
+  <a class="heading-link" href="#sections">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Sections contain information needed during the linking time</li>
+</ul>
+<h4 id="segments">
+  <strong>Segments</strong>
+  <a class="heading-link" href="#segments">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Segments contain information needed at run time</li>
+</ul>
+<h3 id="elf-header">
+  <strong>ELF Header</strong>
+  <a class="heading-link" href="#elf-header">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Neither the <code>Section Header</code> nor the <code>Program Header</code> have fixed positions, they can be located anywhere in an ELF file. To find them the <code>ELF header</code> is used, which is located at the very start of the file.</li>
+<li>The first bytes contain the elf magic <code>\x7fELF</code>, followed by the class ID (32 or 64 bit ELF file), the data format ID (little-endian/big-endian), the machine type, etc.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vishal@linuxmachine:~$ readelf -h /bin/bash
+</span></span><span style="display:flex;"><span>    ELF Header:
+</span></span><span style="display:flex;"><span>      Magic:   7f <span style="color:#ae81ff">45</span> 4c <span style="color:#ae81ff">46</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">01</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span>      Class:                             ELF32
+</span></span><span style="display:flex;"><span>      Data:                              2<span style="color:#960050;background-color:#1e0010">&#39;</span>s complement, little endian
+</span></span><span style="display:flex;"><span>      Version:                           <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>current<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      OS/ABI:                            UNIX - System V
+</span></span><span style="display:flex;"><span>      ABI Version:                       <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>      Type:                              EXEC <span style="color:#f92672">(</span>Executable file<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      Machine:                           Intel <span style="color:#ae81ff">80386</span>
+</span></span><span style="display:flex;"><span>      Version:                           0x1
+</span></span><span style="display:flex;"><span>      Entry point address:               0x805be30
+</span></span><span style="display:flex;"><span>      Start of program headers:          <span style="color:#ae81ff">52</span> <span style="color:#f92672">(</span>bytes into file<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      Start of section headers:          <span style="color:#ae81ff">675344</span> <span style="color:#f92672">(</span>bytes into file<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      Flags:                             0x0
+</span></span><span style="display:flex;"><span>      Size of this header:               <span style="color:#ae81ff">52</span>
+</span></span><span style="display:flex;"><span>      Size of program headers:           <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>      Number of program headers:         <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>      Size of section headers:           <span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span>      Number of section headers:         <span style="color:#ae81ff">26</span>
+</span></span><span style="display:flex;"><span>      Section header string table index: <span style="color:#ae81ff">25</span>
+</span></span></code></pre></div><h3 id="section-headers-or-section-header-table">
+  <strong>Section Headers OR Section Header Table</strong>
+  <a class="heading-link" href="#section-headers-or-section-header-table">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Gives a complete overview of the sections contained in the ELF file</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> vishal@linuxmachine:~$ readelf -S /bin/bash
+</span></span><span style="display:flex;"><span> There are <span style="color:#ae81ff">26</span> section headers, starting at offset 0xa4e10:
+</span></span><span style="display:flex;"><span> Section Headers:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>Nr<span style="color:#f92672">]</span> Name             Type        Addr      Off   Size   ES Flg Lk Inf Al
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 0<span style="color:#f92672">]</span>                  NULL        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">00000</span> <span style="color:#ae81ff">000000</span> <span style="color:#ae81ff">00</span>      <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 1<span style="color:#f92672">]</span> .interp          PROGBITS    <span style="color:#ae81ff">08048134</span> <span style="color:#ae81ff">00134</span> <span style="color:#ae81ff">000013</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 2<span style="color:#f92672">]</span> .note.ABI-tag    NOTE        <span style="color:#ae81ff">08048148</span> <span style="color:#ae81ff">00148</span> <span style="color:#ae81ff">000020</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 3<span style="color:#f92672">]</span> .hash            HASH        <span style="color:#ae81ff">08048168</span> <span style="color:#ae81ff">00168</span> 002e48 <span style="color:#ae81ff">04</span>   A  <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 4<span style="color:#f92672">]</span> .dynsym          DYNSYM      0804afb0 02fb0 <span style="color:#ae81ff">007890</span> <span style="color:#ae81ff">10</span>   A  <span style="color:#ae81ff">5</span>   <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 5<span style="color:#f92672">]</span> .dynstr          STRTAB      <span style="color:#ae81ff">08052840</span> 0a840 0074e2 <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 6<span style="color:#f92672">]</span> .gnu.version     VERSYM      08059d22 11d22 000f12 <span style="color:#ae81ff">02</span>   A  <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 7<span style="color:#f92672">]</span> .gnu.version_r   VERNEED     0805ac34 12c34 <span style="color:#ae81ff">000090</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">5</span>   <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 8<span style="color:#f92672">]</span> .rel.dyn         REL         0805acc4 12cc4 <span style="color:#ae81ff">000040</span> <span style="color:#ae81ff">08</span>   A  <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span> 9<span style="color:#f92672">]</span> .rel.plt         REL         0805ad04 12d04 0005a8 <span style="color:#ae81ff">08</span>   A  <span style="color:#ae81ff">4</span>  <span style="color:#ae81ff">11</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>10<span style="color:#f92672">]</span> .init            PROGBITS    0805b2ac 132ac <span style="color:#ae81ff">000017</span> <span style="color:#ae81ff">00</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>11<span style="color:#f92672">]</span> .plt             PROGBITS    0805b2c4 132c4 000b60 <span style="color:#ae81ff">04</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>12<span style="color:#f92672">]</span> .text            PROGBITS    0805be30 13e30 <span style="color:#ae81ff">077154</span> <span style="color:#ae81ff">00</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>13<span style="color:#f92672">]</span> .fini            PROGBITS    080d2f84 8af84 00001a <span style="color:#ae81ff">00</span>  AX  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>14<span style="color:#f92672">]</span> .rodata          PROGBITS    080d2fa0 8afa0 <span style="color:#ae81ff">015198</span> <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>15<span style="color:#f92672">]</span> .eh_frame_hdr    PROGBITS    080e8138 a0138 00002c <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>16<span style="color:#f92672">]</span> .eh_frame        PROGBITS    080e8164 a0164 00009c <span style="color:#ae81ff">00</span>   A  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>17<span style="color:#f92672">]</span> .ctors           PROGBITS    080e9200 a0200 <span style="color:#ae81ff">000008</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>18<span style="color:#f92672">]</span> .dtors           PROGBITS    080e9208 a0208 <span style="color:#ae81ff">000008</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>19<span style="color:#f92672">]</span> .jcr             PROGBITS    080e9210 a0210 <span style="color:#ae81ff">000004</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>20<span style="color:#f92672">]</span> .dynamic         DYNAMIC     080e9214 a0214 0000d8 <span style="color:#ae81ff">08</span>  WA  <span style="color:#ae81ff">5</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>21<span style="color:#f92672">]</span> .got             PROGBITS    080e92ec a02ec <span style="color:#ae81ff">000004</span> <span style="color:#ae81ff">04</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>22<span style="color:#f92672">]</span> .got.plt         PROGBITS    080e92f0 a02f0 0002e0 <span style="color:#ae81ff">04</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>23<span style="color:#f92672">]</span> .data            PROGBITS    080e95e0 a05e0 <span style="color:#ae81ff">004764</span> <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>24<span style="color:#f92672">]</span> .bss             NOBITS      080edd60 a4d44 004bc8 <span style="color:#ae81ff">00</span>  WA  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">[</span>25<span style="color:#f92672">]</span> .shstrtab        STRTAB      <span style="color:#ae81ff">00000000</span> a4d44 0000cc <span style="color:#ae81ff">00</span>      <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h3 id="program-headers-or-program-headers-table">
+  <strong>Program Headers OR Program Headers Table</strong>
+  <a class="heading-link" href="#program-headers-or-program-headers-table">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Contains information for the kernel on how to start the program</li>
+<li>The <code>LOAD</code> directives determinate what parts of the ELF file get mapped into memory.</li>
+<li>The <code>INTERP</code> the directive specifies an ELF interpreter, which is normally /lib/ld-linux.so.2 on Linux systems.</li>
+<li>The DYNAMIC entry points to the .dynamic the section which contains information used by the ELF interpreter to set up the binary.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vishal@linuxmachine:~$ readelf -l /bin/bash
+</span></span><span style="display:flex;"><span>Elf file type is EXEC <span style="color:#f92672">(</span>Executable file<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Entry point 0x805be30
+</span></span><span style="display:flex;"><span>There are <span style="color:#ae81ff">8</span> program headers, starting at offset <span style="color:#ae81ff">52</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Program Headers:
+</span></span><span style="display:flex;"><span>  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+</span></span><span style="display:flex;"><span>  PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
+</span></span><span style="display:flex;"><span>  INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">[</span>Requesting program interpreter: /lib/ld-linux.so.2<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
+</span></span><span style="display:flex;"><span>  LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
+</span></span><span style="display:flex;"><span>  DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
+</span></span><span style="display:flex;"><span>  NOTE           0x000148 0x08048148 0x08048148 0x00020 0x00020 R   0x4
+</span></span><span style="display:flex;"><span>  GNU_EH_FRAME   0x0a0138 0x080e8138 0x080e8138 0x0002c 0x0002c R   0x4
+</span></span><span style="display:flex;"><span>  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> Section to Segment mapping:
+</span></span><span style="display:flex;"><span>  Segment Sections...
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">01</span>     .interp
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">02</span>     .interp .note.ABI-tag .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt ...
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">03</span>     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">04</span>     .dynamic
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">05</span>     .note.ABI-tag
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">06</span>     .eh_frame_hdr
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">07</span>
+</span></span></code></pre></div><h3 id="relocation-table-or-relocation-section">
+  <strong>Relocation Table OR Relocation Section</strong>
+  <a class="heading-link" href="#relocation-table-or-relocation-section">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Relocation is the process of connecting symbolic references(functions,variable,etc names) with symbolic definitions(function, variable,etc definitions).</li>
+<li>For example, when a program calls a function(at runtime), the associated call instruction must transfer control to the proper destination address at execution.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    vishal@linuxmachine:~$ readelf -r /bin/bash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Relocation section <span style="color:#e6db74">&#39;.rel.dyn&#39;</span> at offset 0x12cc4 contains <span style="color:#ae81ff">8</span> entries:
+</span></span><span style="display:flex;"><span>     Offset     Info    Type            Sym.Value  Sym. Name
+</span></span><span style="display:flex;"><span>    080e92ec  <span style="color:#ae81ff">00078006</span> R_386_GLOB_DAT    <span style="color:#ae81ff">00000000</span>   __gmon_start__
+</span></span><span style="display:flex;"><span>    080edd68  <span style="color:#ae81ff">00035205</span> R_386_COPY        080edd68   stdout
+</span></span><span style="display:flex;"><span>    080edd6c  00035d05 R_386_COPY        080edd6c   stderr
+</span></span><span style="display:flex;"><span>    080edd70  <span style="color:#ae81ff">00046405</span> R_386_COPY        080edd70   PC
+</span></span><span style="display:flex;"><span>    080edd74  <span style="color:#ae81ff">00067405</span> R_386_COPY        080edd74   stdin
+</span></span><span style="display:flex;"><span>    080edd78  0006e305 R_386_COPY        080edd78   UP
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Relocation section <span style="color:#e6db74">&#39;.rel.plt&#39;</span> at offset 0x12d04 contains <span style="color:#ae81ff">181</span> entries:
+</span></span><span style="display:flex;"><span>     Offset     Info    Type            Sym.Value  Sym. Name
+</span></span><span style="display:flex;"><span>    080e9368  00012c07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fileno
+</span></span><span style="display:flex;"><span>    080e936c  <span style="color:#ae81ff">00013807</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   strcmp
+</span></span><span style="display:flex;"><span>    080e9370  <span style="color:#ae81ff">00014107</span> R_386_JUMP_SLOT   0805b4a4   close
+</span></span><span style="display:flex;"><span>    080e9374  <span style="color:#ae81ff">00015307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   dlsym
+</span></span><span style="display:flex;"><span>    080e937c  00016a07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fprintf
+</span></span><span style="display:flex;"><span>    080e9388  <span style="color:#ae81ff">00018307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fflush
+</span></span><span style="display:flex;"><span>    080e9390  00019c07 R_386_JUMP_SLOT   0805b524   unlink
+</span></span><span style="display:flex;"><span>    080e930c  <span style="color:#ae81ff">00003307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   regexec
+</span></span><span style="display:flex;"><span>    080e9328  00007a07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   ferror
+</span></span><span style="display:flex;"><span>    080e9330  <span style="color:#ae81ff">00008307</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   readdir64
+</span></span><span style="display:flex;"><span>    080e9334  00008f07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   strchr
+</span></span><span style="display:flex;"><span>    080e9338  0000a507 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   fdopen
+</span></span><span style="display:flex;"><span>    080e9344  0000da07 R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   getpid
+</span></span><span style="display:flex;"><span>    080e9360  <span style="color:#ae81ff">00012207</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   write
+</span></span><span style="display:flex;"><span>    080e95cc  <span style="color:#ae81ff">00078707</span> R_386_JUMP_SLOT   <span style="color:#ae81ff">00000000</span>   strcpy
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>    ...
+</span></span></code></pre></div><h3 id="symbol-table-two-use-case">
+  <strong>Symbol Table: Two Use Case</strong>
+  <a class="heading-link" href="#symbol-table-two-use-case">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ol>
+<li>Symbol table in object/executable files will contain the symbolic name of functions &amp; variables with addresses which are used by Linker to resolve any unresolved references during linking.</li>
+<li>There&rsquo;s also the symbol table in a shared library/DLL produced by the linker(at compile time) which is used by the dynamic linker to do run-time linking &amp; resolving open references to those names to the location where the library is loaded in memory.</li>
+</ol>
+<p><strong>Note</strong>: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.</p>
+<h3 id="dynamic-section--dynamic-linking-with-the-elf-interpreter">
+  <strong>Dynamic Section &amp; Dynamic linking with the ELF interpreter</strong>
+  <a class="heading-link" href="#dynamic-section--dynamic-linking-with-the-elf-interpreter">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>First, the dynamic linker (contained within the interpreter) looks at the Dynamic section, whose address is stored in the Program Header.</li>
+<li>There it finds the NEEDED entries determining which libraries have to be loaded before the program can be run, the RELentries giving the address of the relocation tables, the VER entries which contain symbol versioning information, etc.</li>
+<li>So the dynamic linker loads the needed libraries and performs relocations (either directly at program startup or later(lazy resolution)).</li>
+<li>Finally, control is transferred to the address given by the symbol <code>_start</code> in the binary. Normally some <code>gcc/glibc</code> startup code lives there, which in the end calls <code>main()</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    vishal@linuxmachine:~$ readelf -d /bin/bash
+</span></span><span style="display:flex;"><span>    Dynamic section at offset 0xa0214 contains <span style="color:#ae81ff">22</span> entries:
+</span></span><span style="display:flex;"><span>      Tag        Type                         Name/Value
+</span></span><span style="display:flex;"><span>     0x00000001 <span style="color:#f92672">(</span>NEEDED<span style="color:#f92672">)</span>                     Shared library: <span style="color:#f92672">[</span>libncurses.so.5<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>     0x00000001 <span style="color:#f92672">(</span>NEEDED<span style="color:#f92672">)</span>                     Shared library: <span style="color:#f92672">[</span>libdl.so.2<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>     0x00000001 <span style="color:#f92672">(</span>NEEDED<span style="color:#f92672">)</span>                     Shared library: <span style="color:#f92672">[</span>libc.so.6<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>     0x0000000a <span style="color:#f92672">(</span>STRSZ<span style="color:#f92672">)</span>                      <span style="color:#ae81ff">29922</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     0x0000000b <span style="color:#f92672">(</span>SYMENT<span style="color:#f92672">)</span>                     <span style="color:#ae81ff">16</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     0x00000003 <span style="color:#f92672">(</span>PLTGOT<span style="color:#f92672">)</span>                     0x80e92f0
+</span></span><span style="display:flex;"><span>     0x00000002 <span style="color:#f92672">(</span>PLTRELSZ<span style="color:#f92672">)</span>                   <span style="color:#ae81ff">1448</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     0x00000014 <span style="color:#f92672">(</span>PLTREL<span style="color:#f92672">)</span>                     REL
+</span></span><span style="display:flex;"><span>     0x00000017 <span style="color:#f92672">(</span>JMPREL<span style="color:#f92672">)</span>                     0x805ad04
+</span></span><span style="display:flex;"><span>     0x00000011 <span style="color:#f92672">(</span>REL<span style="color:#f92672">)</span>                        0x805acc4
+</span></span><span style="display:flex;"><span>     0x00000012 <span style="color:#f92672">(</span>RELSZ<span style="color:#f92672">)</span>                      <span style="color:#ae81ff">64</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     0x6ffffffe <span style="color:#f92672">(</span>VERNEED<span style="color:#f92672">)</span>                    0x805ac34
+</span></span><span style="display:flex;"><span>     0x6fffffff <span style="color:#f92672">(</span>VERNEEDNUM<span style="color:#f92672">)</span>                 <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>     0x6ffffff0 <span style="color:#f92672">(</span>VERSYM<span style="color:#f92672">)</span>                     0x8059d22
+</span></span><span style="display:flex;"><span>     0x00000000 <span style="color:#f92672">(</span>NULL<span style="color:#f92672">)</span>                       0x0
+</span></span></code></pre></div><h3 id="procedure-linkage-tableplt">
+  <strong>Procedure Linkage Table(.plt)</strong>
+  <a class="heading-link" href="#procedure-linkage-tableplt">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>is a table of addresses</li>
+<li>resides in the text segment</li>
+<li>used to store the address of all functions needed at runtime (address not known at the time of linking)</li>
+<li>The PLT uses what is called lazy resolution. Means it resolves procedure address once when it calls method</li>
+<li>How PLT works -
+<ol>
+<li>A function func is called and the compiler translates this to a call to func@plt(you can see this in a binary dump).</li>
+<li>The program jumps to the PLT. The PLT points to the GOT. If the function has not been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself.</li>
+<li>If the function has not been previously called, PLT resolves routine &amp; update the GOT entry with the actual address of the function.</li>
+</ol>
+</li>
+</ul>
+<h3 id="global-offset-tablegot">
+  <strong>Global Offset Table(.got)</strong>
+  <a class="heading-link" href="#global-offset-tablegot">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>is a table of addresses</li>
+<li>resides in the data segment</li>
+<li>used to store the relative address of variables &amp; procedures which is mapped with the absolute address</li>
+<li>How GOT works -
+<ol>
+<li>If some instruction in the text segment, wants to refer to a variable it must normally use an absolute memory address.</li>
+<li>Instead of referring to the absolute memory address, it refers to the GOT, whose location is known.</li>
+</ol>
+</li>
+</ul>
+<p><strong>NOTE:</strong> By this kind of address tables we can effectively use relocating of objects, with just updating entry each time relocation performed</p>
+<h3 id="program-loading-in-the-kernel">
+  <strong>Program loading in the kernel</strong>
+  <a class="heading-link" href="#program-loading-in-the-kernel">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>The execution of a program starts inside the kernel, in the exec system call. There the file type is looked up and the appropriate handler is called.</li>
+<li>The <code>binfmt-elf</code> the handler then loads the ELF header and the Program Header, followed by lots of sanity checks.</li>
+<li>The kernel then loads the parts specified in the LOAD directives in the Program Header into memory. If an INTERP entry is present, the interpreter is loaded too.</li>
+<li>Statically linked binaries can do without an interpreter; dynamically linked programs always need <code>/lib/ld-linux.so</code> as an interpreter, because it includes some startup code, loads shared libraries needed by the binary and performs relocations.</li>
+</ul>
+<p>Finally, control can be transferred to the program, to the interpreter, if present, otherwise to the binary itself.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    vishal@linuxmachine:~$ readelf -l /bin/bash
+</span></span><span style="display:flex;"><span>    Program Headers:
+</span></span><span style="display:flex;"><span>      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+</span></span><span style="display:flex;"><span>      PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
+</span></span><span style="display:flex;"><span>      INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">[</span>Requesting program interpreter: /lib/ld-linux.so.2<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>      LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
+</span></span><span style="display:flex;"><span>      LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
+</span></span><span style="display:flex;"><span>      DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
+</span></span><span style="display:flex;"><span>      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+</span></span><span style="display:flex;"><span>    ...
+</span></span></code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software-Engineering on Vishal Chovatiya</title>
+    <link>http://localhost:1313/categories/software-engineering/</link>
+    <description>Recent content in Software-Engineering on Vishal Chovatiya</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/software-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Liskov&#39;s Substitution Principle in C&#43;&#43; | SOLID as a Rock</title>
+      <link>http://localhost:1313/posts/liskovs-substitution-principle-in-cpp-solid-as-a-rock/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/liskovs-substitution-principle-in-cpp-solid-as-a-rock/</guid>
+      <description>So you know how to code in general, understand the object-oriented programming, learned C++, and completed at least one Software Development Course (if you’re not there yet, these articles aren&amp;rsquo;t for you). You can write software easily if you know at least one programming language, but is your code any good? Could it be done any better? Is it clean (and what on earth does that mean)? Is your architecture any good?</description>
+    </item>
+    <item>
+      <title>Open Closed Principle in C&#43;&#43; | SOLID as a Rock</title>
+      <link>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</guid>
+      <description>This is the second part of a five-part article series about SOLID as Rock design principle. The SOLID design principles, when combined together, make it easy for a programmer to craft software that is easy to maintain, reuse &amp;amp; extend. Open-Closed Principle(OCP) is the second principle in this series which I will discuss here with minimalistic example in Modern C++ along with its benefits &amp;amp; generic guideline.&#xA;By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
+    </item>
+    <item>
+      <title>Single Responsibility Principle in C&#43;&#43; | SOLID as a Rock</title>
+      <link>http://localhost:1313/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/single-responsibility-principle-in-cpp-solid-as-a-rock/</guid>
+      <description>This article is the first part of a five-part series about SOLID as Rock design principle series. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see an example of the Single Responsibility Principle in C++ along with its benefits &amp;amp; generic guideline.&#xA;By the way, If you want to directly jumps to other design principles, then below is the quick links:</description>
+    </item>
+    <item>
+      <title>What Is Design Pattern?</title>
+      <link>http://localhost:1313/posts/what-is-design-pattern/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/what-is-design-pattern/</guid>
+      <description>After hitting a certain level of experience &amp;amp; spending quite enough time in the industry, I have realised the importance of designing/architecting system &amp;amp; software. So I have started looking into system/software design &amp;amp; got to know nothing can better start than a Design Pattern. And the first thing I have done is googling &amp;ldquo;What is Design Pattern?&amp;rdquo; Hence got the idea of this article.&#xA;But as someone without a computer science background(I am from electronics background), learning them was a struggle.</description>
+    </item>
+    <item>
+      <title>Builder Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/builder-design-pattern-in-modern-cpp/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/builder-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic or ordinary form of object creation could result in design problems or added complexity to the design. Builder Design Pattern in C++ solves this specific problem by separating the construction of a complex object from its representation.&#xA;By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
+    </item>
+    <item>
+      <title>Dependency Inversion Principle in C&#43;&#43; | SOLID as a Rock</title>
+      <link>http://localhost:1313/posts/dependency-inversion-principle-in-cpp-solid-as-a-rock/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/dependency-inversion-principle-in-cpp-solid-as-a-rock/</guid>
+      <description>Dependency Inversion Principle in C++ is the fifth &amp;amp; last design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see an example code with the flaw &amp;amp; correct it with help of DIP. We will also see guideline &amp;amp; benefits of DIP in closure of the article.</description>
+    </item>
+    <item>
+      <title>Factory Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C++ helps to mitigate this issue by creating objects using separate methods or polymorphic classes.&#xA;By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
+    </item>
+    <item>
+      <title>Interface Segregation Principle in C&#43;&#43; | SOLID as a Rock</title>
+      <link>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/interface-segregation-principle-in-cpp-solid-as-a-rock/</guid>
+      <description>Interface Segregation Principle in C++ is the fourth &amp;amp; by far the simplest design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see a code violating ISP, a solution to the same code, guideline &amp;amp; benefits of ISP.&#xA;By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
+    </item>
+    <item>
+      <title>Prototype Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/prototype-design-pattern-in-modern-cpp/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/prototype-design-pattern-in-modern-cpp/</guid>
+      <description>Prototype Design Pattern is a Creational Design Pattern that helps in the prototyping(creating/copying cheaply) of an object using separate methods or polymorphic classes. You can consider the prototype as a template of an object before the actual object is constructed. In this article of the Creational Design Patterns, we&amp;rsquo;re going to take a look at why we need a Prototype Design Pattern in C++ i.e. motivation, prototype factory &amp;amp; leveraging prototype design pattern to implement virtual copy constructor.</description>
+    </item>
+    <item>
+      <title>Singleton Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/singleton-design-pattern-in-modern-cpp/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/singleton-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. The basic or ordinary form of object creation could result in design problems or added complexity to the design. In this article of the Creational Design Patterns, we&amp;rsquo;re going to take a look at the much-hated &amp;amp; commonly asked design pattern in a programming interview. That is Singleton Design Pattern in Modern C++ which criticizes for its extensibility &amp;amp; testability.</description>
+    </item>
+    <item>
+      <title>Adapter Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/adapter-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/adapter-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Structural Design Patterns deal with the relationship between object &amp;amp; classes i.e. how object &amp;amp; classes interact or build a relationship in a manner suitable to the situation. The structural design patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at Adapter Design Pattern in Modern C++ which used to convert the interface of an existing class into another interface that client/API-user expect.</description>
+    </item>
+    <item>
+      <title>Bridge Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/bridge-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/bridge-design-pattern-in-modern-cpp/</guid>
+      <description>Bridge Design Pattern is a Structural Design Pattern used to decouple a class into two parts – abstraction and it’s implementation – so that both can be developed independently. This promotes the loose coupling between class abstraction &amp;amp; its implementation. You get this decoupling by adding one more level of indirection i.e. an interface which acts as a bridge between your original class &amp;amp; functionality. Insulation is another name of Bridge Design Pattern in C++ world.</description>
+    </item>
+    <item>
+      <title>Composite Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/composite-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/composite-design-pattern-in-modern-cpp/</guid>
+      <description>GoF describes the Composite Design Pattern as “Compose objects into a tree structure to represent part-whole hierarchies. Composite lets the client treat individual objects and compositions of objects uniformly”. This seems over-complicated to me. So, I would not go into tree-leaf kind of jargon. Rather I directly saw you 2 or 3 different ways to implement Composite Design Pattern in Modern C++. But in simple words, the Composite Design Pattern is a Structural Design Pattern with a goal to treat the group of objects in the same manner as a single object.</description>
+    </item>
+    <item>
+      <title>Decorator Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/decorator-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/decorator-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Structural Design Patterns deal with the relationship between object &amp;amp; classes i.e. how object &amp;amp; classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at the not so complex yet subtle design pattern that is Decorator Design Pattern in Modern C++ due to its extensibility &amp;amp; testability.</description>
+    </item>
+    <item>
+      <title>Facade Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/facade-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/facade-design-pattern-in-modern-cpp/</guid>
+      <description>Facade Design Pattern is a Structural Design Pattern used to provide a unified interface to a complex system. It is same as Facade in building architecture, a Facade is an object that serves as a front-facing interface masking a more complex underlying system. A Facade Design Pattern in C++ can:&#xA;Improve the readability &amp;amp; usability of a software library by masking interaction with more complex components by providing a single simplified API.</description>
+    </item>
+    <item>
+      <title>Flyweight Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/flyweight-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/flyweight-design-pattern-in-modern-cpp/</guid>
+      <description>Flyweight Design Pattern is a Structural Design Pattern that concerned with space optimization. It is a technique to minimizes memory footprint by sharing or avoiding redundancy as much as possible with other similar objects. Flyweight Design Pattern in Modern C++ is often used in a situation where object count is higher which uses an unacceptable amount of memory. Often some parts of these objects can be shared &amp;amp; kept in common data structures that can be used by multiple objects.</description>
+    </item>
+    <item>
+      <title>Proxy Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Structural Design Patterns deal with the relationship between objects i.e. how objects/classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at Proxy Design Pattern in C++ which dictates the way you access the object.&#xA;If you haven’t check out other Structural Design Patterns, then here is the list:</description>
+    </item>
+    <item>
+      <title>Chain of Responsibility Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/chain-of-responsibility-design-pattern-in-modern-cpp/</guid>
+      <description>Chain of Responsibility is a Behavioural Design Pattern that provides facility to propagate event/request/command/query to the chain of loosely coupled objects. Chain of Responsibility Design Pattern in Modern C++ lets you pass requests along a chain of handlers &amp;amp; upon receiving a request, each handler decides either to process the request or to forward it to the next handler in the chain.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
+    </item>
+    <item>
+      <title>Command Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/command-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/command-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects which in turn make the interaction between the objects easy &amp;amp; loosely coupled. In this article of the Behavioural Design Patterns, we&amp;rsquo;re going to take a look at Command Design Pattern in Modern C++ which encapsulate all the details related to operation into a separate object. Command Design Pattern is widely used in sophisticated software. In fact, you might be using it every day without even knowing that.</description>
+    </item>
+    <item>
+      <title>Interpreter Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/interpreter-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/interpreter-design-pattern-in-modern-cpp/</guid>
+      <description>Interpreter Design Pattern is a Behavioural Design Pattern which is a component that processes structured text data by turning it into separate lexical tokens(lexing) and then interpreting sequences of tokens(parsing). In this article, we will see the Interpreter Design Pattern in Modern C++.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:&#xA;Chain of responsibility Command Interpreter Iterator Mediator Memento Observer State Strategy Template Method Visitor The code snippets you see throughout this series of articles are simplified not sophisticated.</description>
+    </item>
+    <item>
+      <title>Iterator Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/iterator-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/iterator-design-pattern-in-modern-cpp/</guid>
+      <description>Iterator Design Pattern in Modern C++ is a heavily used pattern i.e. provides facility to traverse data containers sophistically. For simplicity, you can consider a pointer moving across an array, but the real magic comes when you get to the next element of a container, in that case, you need not know anything about how the container is constructed(like sequential(not necessarily be contiguous), associative or hashed). This is handled by the iterator.</description>
+    </item>
+    <item>
+      <title>Mediator Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/mediator-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mediator-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects &amp;amp; encapsulating behaviour in an object to delegate requests. In this article of the Behavioural Design Patterns, we&amp;rsquo;re going to take a look at Mediator Design Pattern in Modern C++. And the motivation behind the Mediator Design Pattern is to provide proper communication between components by letting the components be aware(or unaware also, depending upon use case) of each other&amp;rsquo;s presence or absence in the system.</description>
+    </item>
+    <item>
+      <title>Memento Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/memento-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/memento-design-pattern-in-modern-cpp/</guid>
+      <description>Memento Design Pattern in Modern C++ is a very straight forward Behavioural Design Pattern. The motivation behind using the Memento Design Pattern is to keep some sort of token which then allows you to restore an object to a particular state. This is particularly useful if you have a system with medieval components i.e. an object or indeed a set of objects goes through a set of changes.&#xA;By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</description>
+    </item>
+    <item>
+      <title>Observer Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/observer-design-pattern-in-modern-cpp/</link>
+      <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/observer-design-pattern-in-modern-cpp/</guid>
+      <description>The Observer Design Pattern is a type of Behavioural Design Pattern that use to get information when certain events happen i.e. basically one component want information about something happening in the other component. And that can a lot of things like a field changes to a particular value or you want to information when the object does a particular thing, etc. Observer Design Pattern in Modern C++ enables you to create subscription mechanism to notify multiple objects about events that happen to the object they&amp;rsquo;re observing.</description>
+    </item>
+    <item>
+      <title>Double Dispatch : Visitor Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/double-dispatch-visitor-design-pattern-in-modern-cpp/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/double-dispatch-visitor-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects. That in turn, make the interaction between the objects easy &amp;amp; loosely coupled. In this article of the design pattern series, we&amp;rsquo;re going to take a look at Visitor Design Pattern in Modern C++ which is also known as a classic technique for recovering lost type information(using Double Dispatch[TODO]). Visitor Design Pattern is used to perform an operation on a group of similar kind of objects or hierarchy.</description>
+    </item>
+    <item>
+      <title>State Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/state-design-pattern-in-modern-cpp/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/state-design-pattern-in-modern-cpp/</guid>
+      <description>A State Design Pattern is a type of Behavioural Design Pattern that defines objects behaviour(defined as a state) based on some event happens. And that can be the internal or external event. For example, if you design an ATM machine using the State Design Pattern, the external event could be someone inserted debit/credit card &amp;amp; internal event could be a user timeout. So in nutshell, the State Design Pattern in Modern C++ is a systematic way to implement certain behaviour on a particular event considering the context.</description>
+    </item>
+    <item>
+      <title>Strategy Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/strategy-design-pattern-in-modern-cpp/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/strategy-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects which in turn make the interaction between the objects easy &amp;amp; loosely coupled. In this article of the Behavioural Design Pattern series, we&amp;rsquo;re going to take a look at Strategy Design Pattern in Modern C++. It allows you to partially specify the behaviour of the class and then augment it later on. This pattern is also known as policy in many programming languages including especially in the C++ language.</description>
+    </item>
+    <item>
+      <title>Template Method Design Pattern in Modern C&#43;&#43;</title>
+      <link>http://localhost:1313/posts/template-method-design-pattern-in-modern-cpp/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/template-method-design-pattern-in-modern-cpp/</guid>
+      <description>In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects. And encapsulating behaviour in an object to delegate requests. The Behavioural Design Patterns make the interaction between the objects easy &amp;amp; loosely coupled. In this article of the design pattern series, we&amp;rsquo;re going to take a look at Template Method Design Pattern in Modern C++. It allows us to define the skeleton of the algorithm in the base class with concrete implementations defined in derived classes.</description>
+    </item>
+  </channel>
+</rss>

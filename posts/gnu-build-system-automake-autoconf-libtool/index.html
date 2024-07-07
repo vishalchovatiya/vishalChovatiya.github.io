@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  GNU Build System: Automake, Autoconf, Libtool · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Brief Link to heading GNU Build System: Automake, Autoconf, Libtool are a suite of programming tools used to make source code packages portable to many Unix-like systems. Why We Need Autotools: Link to heading Autoconf: automatically generates configure script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms. configure generates a config.h file (from a template) which programs can include to work around portability issues.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GNU Build System: Automake, Autoconf, Libtool">
+  <meta name="twitter:description" content="Brief Link to heading GNU Build System: Automake, Autoconf, Libtool are a suite of programming tools used to make source code packages portable to many Unix-like systems. Why We Need Autotools: Link to heading Autoconf: automatically generates configure script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms. configure generates a config.h file (from a template) which programs can include to work around portability issues.">
+
+<meta property="og:url" content="http://localhost:1313/posts/gnu-build-system-automake-autoconf-libtool/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="GNU Build System: Automake, Autoconf, Libtool">
+  <meta property="og:description" content="Brief Link to heading GNU Build System: Automake, Autoconf, Libtool are a suite of programming tools used to make source code packages portable to many Unix-like systems. Why We Need Autotools: Link to heading Autoconf: automatically generates configure script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms. configure generates a config.h file (from a template) which programs can include to work around portability issues.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-09-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2016-09-30T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/gnu-build-system-automake-autoconf-libtool/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/gnu-build-system-automake-autoconf-libtool/">
+              GNU Build System: Automake, Autoconf, Libtool
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2016-09-30T00:00:00Z">
+                September 30, 2016
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/linux-system-programming/">Linux-System-Programming</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <h3 id="brief">
+  Brief
+  <a class="heading-link" href="#brief">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>GNU Build System: Automake, Autoconf, Libtool are a suite of programming tools used to make source code packages portable to many Unix-like systems.</li>
+</ul>
+<h3 id="why-we-need-autotools">
+  Why We Need Autotools:
+  <a class="heading-link" href="#why-we-need-autotools">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><strong><code>Autoconf</code></strong>: automatically generates <code>configure</code> script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms.</li>
+<li><code>configure</code> generates a <code>config.h</code> file (from a template) which programs can include to work around portability issues. For example, if <code>HAVE_LIBPTHREAD</code> is not defined, use forks instead.</li>
+<li><strong><code>Automake</code></strong>: No need to write lengthy &amp; complex makefiles. just define target, dependencies, flags, etc.</li>
+<li> <strong><code>Libtool</code></strong>: simplifying the building and installation of shared libraries on any Unix-like system.</li>
+<li>Autotools can handle cross-platform development smoothly.</li>
+</ul>
+<p>Above statements may seem like alien right now. But just go through below example &amp; then read again. You will get what I just said</p>
+<h3 id="compiling-hello-world-with-autotools">
+  Compiling Hello World With Autotools
+  <a class="heading-link" href="#compiling-hello-world-with-autotools">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Creating following files in empty directory</li>
+</ul>
+<h4 id="configureac">
+  configure.ac
+  <a class="heading-link" href="#configureac">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">AC_INIT([PackageName],</span> <span style="color:#960050;background-color:#1e0010">[1.0],</span> <span style="color:#960050;background-color:#1e0010">[bug-report@address])</span> <span style="color:#75715e"># Initialize `Autoconf`. Specify package&#39;s name, version &amp; bug-report address.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">AM_INIT_AUTOMAKE</span> <span style="color:#75715e"># Initialize Automake
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">AC_PROG_CC</span> <span style="color:#75715e"># Check for a C compiler
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">AC_CONFIG_HEADERS([config.h])</span> <span style="color:#75715e"># Declare config.h as output header
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">AC_CONFIG_FILES([Makefile</span> <span style="color:#960050;background-color:#1e0010">src/Makefile])</span> <span style="color:#75715e"># Declare Makefile &amp; src/Makefile as output files 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">AC_OUTPUT</span> <span style="color:#75715e"># Output all declared files
+</span></span></span></code></pre></div><h4 id="makefileam">
+  Makefile.am
+  <a class="heading-link" href="#makefileam">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>SUBDIRS <span style="color:#f92672">=</span> src <span style="color:#75715e"># Build recursively in src directory</span>
+</span></span></code></pre></div><h4 id="srcmakefileam">
+  src/Makefile.am
+  <a class="heading-link" href="#srcmakefileam">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>bin_PROGRAMS <span style="color:#f92672">=</span> hello <span style="color:#75715e"># &#34;hello&#34; is target &amp; will be installed in bindir (as specify &#34;bin_&#34;)</span>
+</span></span><span style="display:flex;"><span>hello_SOURCES <span style="color:#f92672">=</span> main.c <span style="color:#75715e"># Dependencies of target hello is main.c</span>
+</span></span></code></pre></div><h4 id="srcmainc">
+   src/main.c
+  <a class="heading-link" href="#srcmainc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;Hello World !&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="directory-structure">
+  Directory Structure
+  <a class="heading-link" href="#directory-structure">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ls -R
+</span></span><span style="display:flex;"><span>.:
+</span></span><span style="display:flex;"><span>configure.ac Makefile.am src
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./src:
+</span></span><span style="display:flex;"><span>main.c Makefile.am
+</span></span></code></pre></div><h4 id="build-package">
+  Build Package
+  <a class="heading-link" href="#build-package">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ autoreconf --install
+</span></span><span style="display:flex;"><span>$ ./configure --prefix<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>$ make
+</span></span><span style="display:flex;"><span>$ bin/hello
+</span></span><span style="display:flex;"><span>Hello World !
+</span></span><span style="display:flex;"><span>$
+</span></span></code></pre></div><p>At this stage, there are a lot of other files are generated as follows :</p>
+<ul>
+<li><code>Makefile.in</code>, <code>config.h.in</code>, <code>config*</code> : expected configuration templates.</li>
+<li><code>aclocal.m4</code>: definitions for third-party macros used in <code>configure.ac</code>.</li>
+<li><code>depcomp</code>, <code>install-sh</code>, <code>missing</code>: auxiliary tools used during the build.</li>
+<li><code>autom4te.cache/</code>: Autotools cache files.</li>
+</ul>
+<h3 id="how-autotool-works">
+  How Autotool Works
+  <a class="heading-link" href="#how-autotool-works">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="understand-build-package-procedure">
+  Understand Build Package Procedure
+  <a class="heading-link" href="#understand-build-package-procedure">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<h5 id="step-1-autoreconf---install">
+  Step 1: <code>autoreconf --install</code>
+  <a class="heading-link" href="#step-1-autoreconf---install">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li><code>autoreconf</code> is a helper that knows how to call <code>autoconf</code>, <code>autoheader</code>, <code>aclocal</code>, <code>automake</code>, <code>libtoolize</code>, <code>autopoint</code>, etc tools in the right order.</li>
+</ul>
+<p><strong>Behind <code>autoreconf</code></strong></p>
+<ul>
+<li><code>aclocal</code>: Scan <code>configure.ac</code> for uses of third-party macros, and gather definitions in <code>aclocal.m4</code>.</li>
+<li><code>autoconf</code>: Create <code>configure</code> from <code>configure.ac</code> &amp; <code>aclocal.m4</code>.</li>
+<li><code>autoheader</code> : Create <code>config.h.in</code> from <code>configure.ac</code>.</li>
+<li><code>automake --add-missing</code>: Create <code>Makefile.in</code> s from <code>Makefile.am</code> s, <code>configure.ac</code> &amp; <code>aclocal.m4</code>. <code>--add-missing</code> option will add required file(like <code>config.guess</code>, <code>config.sub</code>, <code>missing</code>, <code>depcomp</code>, <code>install-sh</code>, etc) to carry out build process.</li>
+</ul>
+<p><strong>Note:</strong> Run <code>libtoolize</code>, If you use <code>LT_INIT</code> to create a shared library with <code>libtool</code> in <code>configure.ac</code>, otherwise you will get error as <code>configure.ac:[LINE]: error: required file './ltmain.sh' not found</code>.</p>
+<h5 id="step-2--configure---prefixpwd">
+  Step 2 : `./configure &ndash;prefix=$(pwd)
+  <a class="heading-link" href="#step-2--configure---prefixpwd">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li><code>configure</code> will create <code>Makefile</code>s from <code>Makefile.in</code>s</li>
+</ul>
+<h5 id="step-3-make--make-install">
+  Step 3: <code>make &amp; make install</code>
+  <a class="heading-link" href="#step-3-make--make-install">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li>Finally <code>make &amp; make install</code> - Do all things for you</li>
+</ul>
+<h4 id="generalise-idea">
+  Generalise Idea
+  <a class="heading-link" href="#generalise-idea">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Practically, You do not have to remember the interaction of all tools, just call <code>autoreconf</code> yourself and let it deal with all the lower-level tools.</li>
+<li><code>autoreconf</code> is your friend. You only need a rough idea of the purpose of each tool to understand errors.</li>
+</ul>
+<h5 id="gnu-autoconf">
+  GNU Autoconf
+  <a class="heading-link" href="#gnu-autoconf">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li><code>autoconf</code> Create <code>configure</code> from <code>configure.ac</code>.</li>
+<li><code>autoheader</code> Create <code>config.h.in</code> from <code>configure.ac</code>.</li>
+<li><code>autoreconf</code> Run all tools in the right order.</li>
+<li><code>autoscan</code> Scan sources for common portability problems, and related macros missing from <code>configure.ac</code>.</li>
+<li><code>autoupdate</code> Update obsolete macros in <code>configure.ac</code>.</li>
+<li><code>ifnames</code> Gather identifiers from all <code>#if/#ifdef/...</code> directives.</li>
+<li><code>autom4te</code> The heart of <code>Autocon</code>. It drives <code>M4</code> and implements the features used by most of the above tools. Useful for creating more than just configure files.</li>
+</ul>
+<h5 id="gnu-automake">
+  GNU Automake
+  <a class="heading-link" href="#gnu-automake">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li><code>automake</code> Create <code>Makefile.in</code> from <code>Makefile.am</code> and <code>configure.ac</code>.</li>
+<li><code>aclocal</code> Scan <code>configure.ac</code> for uses of third-party macros, and gather definitions in <code>aclocal.m4</code>.</li>
+</ul>
+<h5 id="gnu-libtool">
+  GNU Libtool
+  <a class="heading-link" href="#gnu-libtool">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h5>
+<ul>
+<li><code>Libtool</code> Helps manage the creation of static and dynamic libraries on various Unix-like operating systems</li>
+</ul>
+<h3 id="distributing-packege">
+  Distributing Packege
+  <a class="heading-link" href="#distributing-packege">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ make distcheck
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=================================================</span>
+</span></span><span style="display:flex;"><span>packagename-1.0 archives ready <span style="color:#66d9ef">for</span> distribution:
+</span></span><span style="display:flex;"><span>packagename-1.0.tar.gz
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=================================================</span>
+</span></span></code></pre></div><ul>
+<li>At the end of command execution you will find <code>packagename-1.0.tar.gz</code> in same folder.</li>
+</ul>
+<h3 id="generating-shared-library-with-autotools">
+  Generating Shared Library With Autotools
+  <a class="heading-link" href="#generating-shared-library-with-autotools">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<h4 id="configureac-1">
+  configure.ac
+  <a class="heading-link" href="#configureac-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">AC_INIT([PackageName],</span> <span style="color:#960050;background-color:#1e0010">[1.0],</span> <span style="color:#960050;background-color:#1e0010">[bug-report@address])</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">AM_INIT_AUTOMAKE([foreign])</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">LT_INIT</span> <span style="color:#75715e"># Used to initialize libtool to create shared library 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>AM_MY_MACRO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-I ./&#34;</span> <span style="color:#75715e"># Delacring Custome Macro</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">AC_SUBST([AM_MY_MACRO])</span> <span style="color:#75715e"># Passing Custome Macro to Makefile.am
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">AC_PROG_CC</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">AC_CONFIG_HEADERS([config.h])</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">AC_CONFIG_FILES([Makefile</span> <span style="color:#960050;background-color:#1e0010">sum/Makefile</span> <span style="color:#960050;background-color:#1e0010">src/Makefile])</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">AC_OUTPUT</span>
+</span></span></code></pre></div><h4 id="makefileam-1">
+  Makefile.am
+  <a class="heading-link" href="#makefileam-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>SUBDIRS <span style="color:#f92672">=</span> sum src
+</span></span></code></pre></div><h4 id="srcmainc-1">
+  src/main.c
+  <a class="heading-link" href="#srcmainc-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">int main()</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>{
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;sum(0,1) = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="srcmakefileam-1">
+  src/Makefile.am
+  <a class="heading-link" href="#srcmakefileam-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bin_PROGRAMS <span style="color:#f92672">=</span> sum
+</span></span><span style="display:flex;"><span>sum_SOURCES <span style="color:#f92672">=</span> main.c
+</span></span><span style="display:flex;"><span>sum_LDADD <span style="color:#f92672">=</span> ../sum/libsum.la <span style="color:#75715e"># add &amp; link sum against libsum.so</span>
+</span></span><span style="display:flex;"><span>sum__LDFLAGS <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>AM_MY_MACRO<span style="color:#66d9ef">)</span> <span style="color:#75715e"># Macro Passed By configure.ac</span>
+</span></span></code></pre></div><h4 id="sumsumc">
+  sum/sum.c
+  <a class="heading-link" href="#sumsumc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sum</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="summakefileam">
+  sum/Makefile.am
+  <a class="heading-link" href="#summakefileam">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>lib_LTLIBRARIES <span style="color:#f92672">=</span> libsum.la
+</span></span><span style="display:flex;"><span>libsum_la_SOURCES <span style="color:#f92672">=</span> sum.c
+</span></span></code></pre></div><h4 id="directory-structre">
+  Directory Structre
+  <a class="heading-link" href="#directory-structre">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ls -R
+</span></span><span style="display:flex;"><span>.:
+</span></span><span style="display:flex;"><span>configure.ac Makefile.am src sum
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./src:
+</span></span><span style="display:flex;"><span>main.c Makefile.am
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./sum:
+</span></span><span style="display:flex;"><span>Makefile.am sum.c
+</span></span></code></pre></div><h4 id="build-package-1">
+  Build Package
+  <a class="heading-link" href="#build-package-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ autoreconf --install
+</span></span><span style="display:flex;"><span>$ ./configure --prefix<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>$ make install
+</span></span><span style="display:flex;"><span>$ ./bin/sum
+</span></span><span style="display:flex;"><span>sum<span style="color:#f92672">(</span>0,1<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>$
+</span></span><span style="display:flex;"><span>$ ldd ./bin/sum
+</span></span><span style="display:flex;"><span>linux-vdso.so.1 <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">(</span>0x00007fff606ac000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>libsum.so.0 <span style="color:#f92672">=</span>&gt; /home/vishal/asdf/lib/libsum.so.0 <span style="color:#f92672">(</span>0x00007fdcf43a6000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>libc.so.6 <span style="color:#f92672">=</span>&gt; /lib64/libc.so.6 <span style="color:#f92672">(</span>0x00007fdcf3fcd000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>/lib64/ld-linux-x86-64.so.2 <span style="color:#f92672">(</span>0x00007fdcf45a9000<span style="color:#f92672">)</span>
+</span></span></code></pre></div><ul>
+<li>At the end of <code>make install</code>, there are two folders named <code>lib</code> &amp; <code>bin</code> having a shared library in <code>lib</code> &amp; executable in <code>bin</code>.</li>
+</ul>
+<h3 id="what-next-">
+  What Next ?
+  <a class="heading-link" href="#what-next-">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>This is just short introduction of How Autotools help us ! There are lot to discover about its competitors like <a href="https://cmake.org/"  class="external-link" target="_blank" rel="noopener">CMake</a>, <a href="http://www.scons.org"  class="external-link" target="_blank" rel="noopener">Scons</a>, etc.</li>
+</ul>
+<h4 id="sources">
+  Sources
+  <a class="heading-link" href="#sources">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<p>1. <a href="https://www.lrde.epita.fr/~adl/dl/autotools.pdf"  class="external-link" target="_blank" rel="noopener">Autotools</a>2. <a href="https://en.wikipedia.org/wiki/GNU_Build_System"  class="external-link" target="_blank" rel="noopener">GNU Build System</a>3. <a href="https://www.gnu.org/software/automake/manual/automake.html"  class="external-link" target="_blank" rel="noopener">Automake</a></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

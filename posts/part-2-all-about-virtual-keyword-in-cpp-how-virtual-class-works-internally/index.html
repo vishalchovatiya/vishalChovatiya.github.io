@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Part 2: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Base Class Works Internally? · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="In PART 1 of &ldquo;All About Virtual Keyword in C&#43;&#43;&rdquo; series, we have discussed &ldquo;How Does Virtual Function Works Internally?&rdquo;. So, in this article, I will discuss &ldquo;How Does Virtual Base Class Works Internally?&rdquo;. I am iterating the same thing which I have mentioned in the earlier article as well that implementation of a virtual mechanism is purely compiler dependent. So, there is no C&#43;&#43; standard is defined for such dynamic dispatch.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Part 2: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Base Class Works Internally?">
+  <meta name="twitter:description" content="In PART 1 of “All About Virtual Keyword in C&#43;&#43;” series, we have discussed “How Does Virtual Function Works Internally?”. So, in this article, I will discuss “How Does Virtual Base Class Works Internally?”. I am iterating the same thing which I have mentioned in the earlier article as well that implementation of a virtual mechanism is purely compiler dependent. So, there is no C&#43;&#43; standard is defined for such dynamic dispatch.">
+
+<meta property="og:url" content="http://localhost:1313/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Part 2: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Base Class Works Internally?">
+  <meta property="og:description" content="In PART 1 of “All About Virtual Keyword in C&#43;&#43;” series, we have discussed “How Does Virtual Function Works Internally?”. So, in this article, I will discuss “How Does Virtual Base Class Works Internally?”. I am iterating the same thing which I have mentioned in the earlier article as well that implementation of a virtual mechanism is purely compiler dependent. So, there is no C&#43;&#43; standard is defined for such dynamic dispatch.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-11T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/">
+              Part 2: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Base Class Works Internally?
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-11T00:00:00Z">
+                September 11, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/memory-layout-of-C-objects.png" alt="Featured image"/>
+        
+        <p>In <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >PART 1</a> of &ldquo;All About Virtual Keyword in C++&rdquo; series, we have discussed &ldquo;How Does Virtual Function Works Internally?&rdquo;. So, in this article, I will discuss &ldquo;How Does Virtual Base Class Works Internally?&rdquo;. I am iterating the same thing which I have mentioned in the earlier article as well that implementation of a virtual mechanism is purely compiler dependent. So, there is no C++ standard is defined for such dynamic dispatch. Hence, here I am discussing the general approach.</p>
+<p>As usual, before learning anything new I usually start with “Why do we need it in the first place?”</p>
+<h2 id="why-do-we-need-a-virtual-classinheritance">
+  Why Do We Need a Virtual Class/Inheritance?
+  <a class="heading-link" href="#why-do-we-need-a-virtual-classinheritance">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>When we use inheritance, we basically extending a derived class with base class functionality. In other words, the base class object would be treated as <a href="/posts/memory-layout-of-cpp-object/" >sub-object</a> in the derived class.</li>
+<li>As a result, this would create a problem in multiple inheritances if base class sharing the same mutual class as <a href="/posts/memory-layout-of-cpp-object/" >sub-object</a> in the top-level hierarchy and you want to access its property.</li>
+</ul>
+<h3 id="problem">
+  Problem
+  <a class="heading-link" href="#problem">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>I know above statement is a bit complex. So, let see an example.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Top</span> { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> t; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Left</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Top { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> l; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Right</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Top { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> r; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bottom</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Left, <span style="color:#66d9ef">public</span> Right { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> b; };
+</span></span></code></pre></div><ul>
+<li>The above class hierarchy/inheritance results in the &ldquo;diamond&rdquo; which looks like below:</li>
+</ul>
+<pre tabindex="0"><code>    Top
+   /   \
+Left   Right
+   \   /
+   Bottom
+</code></pre><ul>
+<li>An instance of <code>Bottom</code> will be made up of <code>Left</code>, which includes <code>Top</code>, and <code>Right</code> which also includes <code>Top</code>. So, we have two sub-object of <code>Top</code>. This will create ambiguity as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom <span style="color:#f92672">*</span>bot <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom;
+</span></span><span style="display:flex;"><span>bot<span style="color:#f92672">-&gt;</span>t <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// is this Left&#39;s `t` or Right&#39;s `t` data member ??
+</span></span></span></code></pre></div><ul>
+<li>This was by far the simplest reason for the need of the virtual base class. And consider the following scenarios as an example:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Top   <span style="color:#f92672">*</span>t_ptr1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Left;
+</span></span><span style="display:flex;"><span>Top   <span style="color:#f92672">*</span>t_ptr2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Right; 
+</span></span></code></pre></div><ul>
+<li>These both will work fine as <code>Left</code> or <code>Right</code> object memory layout has <code>Top</code> subobject. You can see the memory layout of the <code>Bottom</code> object below for clear understanding.</li>
+</ul>
+<pre tabindex="0"><code>|                      |
+|----------------------|  &lt;------ Bottom bot;   // Bottom object 
+|    Left::Top::t      |
+|----------------------|
+|    Left::l           |
+|----------------------|
+|    Right::Top::t     |
+|----------------------|
+|    Right::r          |
+|----------------------|
+|    Bottom::b         |
+|----------------------|
+|                      |
+</code></pre><ul>
+<li>Now, what happens when we upcast a <code>Bottom</code> pointer?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Left  <span style="color:#f92672">*</span>left <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom;
+</span></span></code></pre></div><ul>
+<li>This will work fine as <code>Bottom</code> object memory layout starts with <code>Left</code> subobject.</li>
+<li>However, what happens when we upcast to <code>Right</code>?</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Right  <span style="color:#f92672">*</span>right <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom;
+</span></span></code></pre></div><ul>
+<li>For this to work, we have to adjust the <code>right</code> pointer value to make it point to the corresponding section of the <code>Bottom</code> layout:</li>
+</ul>
+<pre tabindex="0"><code>|                      |
+|----------------------|
+|    Left::Top::t      |
+|----------------------|
+|    Left::l           |
+|----------------------|  &lt;------ right;
+|    Right::Top::t     |
+|----------------------|
+|    Right::r          |
+|----------------------|
+|    Bottom::b         |
+|----------------------|
+|                      |
+|                      |
+</code></pre><ul>
+<li>After this adjustment, we can access the <code>Bottom</code> through the <code>right</code> pointer as a normal <code>Right</code> object.</li>
+<li>But, what would happen if we do</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Top<span style="color:#f92672">*</span> Top <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom;
+</span></span></code></pre></div><ul>
+<li>This statement is ambiguous: the compiler will complain</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>error: <span style="color:#960050;background-color:#1e0010">`</span>Top<span style="color:#960050;background-color:#1e0010">&#39;</span> is an ambiguous base of <span style="color:#960050;background-color:#1e0010">`</span>Bottom<span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span></code></pre></div><ul>
+<li>Although you can use force <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >typecasting/C-style-cast</a> as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Top<span style="color:#f92672">*</span> topL <span style="color:#f92672">=</span> (Left<span style="color:#f92672">*</span>) Bottom;
+</span></span><span style="display:flex;"><span>Top<span style="color:#f92672">*</span> topR <span style="color:#f92672">=</span> (Right<span style="color:#f92672">*</span>) Bottom;
+</span></span></code></pre></div><h3 id="solution">
+  Solution
+  <a class="heading-link" href="#solution">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><strong><em>Virtual inheritance uses to solve such kind of diamond problems</em></strong>. When you specify virtual while inheriting your classes, you&rsquo;re telling the compiler that you only want a single instance.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Top</span> { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> t; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Left</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">public</span> Top { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> l; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Right</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">public</span> Top { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> r; };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bottom</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Left, <span style="color:#66d9ef">public</span> Right { <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">int</span> b; };
+</span></span></code></pre></div><ul>
+<li>This means that there is only one &ldquo;instance&rdquo; of <code>Top</code> included in the hierarchy. Hence</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom <span style="color:#f92672">*</span>bot <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom;
+</span></span><span style="display:flex;"><span>bot<span style="color:#f92672">-&gt;</span>t <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// no longer ambiguous
+</span></span></span></code></pre></div><ul>
+<li>So, this may seem more obvious and simpler from a programmer&rsquo;s point of view. But from the compiler&rsquo;s point of view, this is vastly more complicated.</li>
+<li>But an interesting question is how this <code>bot-&gt;t</code> will be addressed &amp; handle by the compiler? Ok, this is the time to move on to next point.</li>
+</ul>
+<h2 id="how-does-virtual-base-class-addressing-works-internally">
+  How Does Virtual Base Class Addressing Works Internally?
+  <a class="heading-link" href="#how-does-virtual-base-class-addressing-works-internally">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>A class containing one or more virtual base class as a subobject, such as <code>Bottom</code>, is divided into two regions:
+<ol>
+<li><strong><em>Invariant region</em></strong></li>
+<li><strong><em>Shared region</em></strong></li>
+</ol>
+</li>
+<li>Data within the invariant region remains at a fixed offset(which decided in compilation step) from the start of the object regardless of subsequent derivations. So members within the invariant region can access directly. In our case, its <code>Left</code> &amp; <code>Right</code> &amp; <code>Bottom</code>.</li>
+<li>Additionally, the shared region represents the virtual base class subobjects whose location within the shared region fluctuates with an order of derivation &amp; subsequent derivation. So members within the shared region need to accessed indirectly.</li>
+<li>As the name suggests, an <strong><em>invariant region placed at the start</em></strong> of objects memory layout and the <strong><em>shared region placed at the end</em></strong>.</li>
+<li>The <strong><em>offset of the shared region updated in the virtual table</em></strong>. The code necessary for this augmented by the compiler at the time of object construction. See below image for reference.</li>
+</ul>
+<pre tabindex="0"><code>|                        |          
+|------------------------| &lt;------ Bottom bot;   // Bottom object           
+|    Left::l             |          
+|------------------------|               |------------------| 
+|    Left::_vptr_Left    |-------|       |  offset of Top   | // offset starts 
+|------------------------|       |-------|------------------|       // from left subobject = 20
+|    Right::r            |               |    ...           |
+|------------------------|               |------------------|  
+|    Right::_vptr_Right  |-------|       
+|------------------------|       |       |------------------| 
+|    Bottom::b           |       |       |  offset of Top   | // offset starts 
+|------------------------|       |-------|------------------|       // from right subobject = 12                       
+|    Top::t              |               |    ...           |                                    
+|------------------------|               |------------------|                                            
+|                        |       
+</code></pre><ul>
+<li>Now coming back to our interesting question i.e. &ldquo;How this <code>bot-&gt;t</code> will be addressed?&rdquo;</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom <span style="color:#f92672">*</span>bot <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom;
+</span></span><span style="display:flex;"><span>bot<span style="color:#f92672">-&gt;</span>t <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span></code></pre></div><ul>
+<li>Above code will probably be transformed into</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Bottom <span style="color:#f92672">*</span>bot <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bottom;
+</span></span><span style="display:flex;"><span>(bot <span style="color:#f92672">+</span> _vptr_Left[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])<span style="color:#f92672">-&gt;</span>t <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// If you haven&#39;t got this, then consider the above memory map
+</span></span></span></code></pre></div><ul>
+<li>So, as you can see addressing of <a href="http://www.avabodh.com/cxxin/virtualbase.html"  class="external-link" target="_blank" rel="noopener">virtual base class</a> is done through the offset(of the base class) stored in the virtual table.</li>
+</ul>
+<h2 id="handling-of-virtual-functions-in-the-virtual-base-class">
+  Handling of Virtual Functions in the Virtual Base Class
+  <a class="heading-link" href="#handling-of-virtual-functions-in-the-virtual-base-class">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Handling of the virtual functions in the virtual base class is the same as we have discussed in our previous <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >article</a> with multiple inheritances. There is nothing special about it.</li>
+</ul>
+<h2 id="summary">
+  Summary
+  <a class="heading-link" href="#summary">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>As I mentioned earlier this seems straight forward from the programmer&rsquo;s point of view. But from the compiler’s point of view, it is complicated. And, there are many other <a href="/posts/complications-of-using-the-virtual-base-class/" >Complications of Using the Virtual Base Class</a> which I have discussed in a separate article. Let&rsquo;s summaries few take away points:</p>
+<ul>
+<li>There is no C++ standard on dynamic dispatch implementation &amp; it only states behaviour</li>
+<li>The virtual class needed to avoid the diamond problem</li>
+<li>The object having virtual base class as subobject has memory layout divided in two regions:
+<ol>
+<li>Invariant region: non-virtual classes</li>
+<li>Shared region: virtual classes</li>
+</ol>
+</li>
+<li>Shared region i.e. virtual base class subobject placed at the end of memory layout.</li>
+<li>The addresses of the data members in the virtual base class resolved using offset(of virtual base class) store in the virtual table.</li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

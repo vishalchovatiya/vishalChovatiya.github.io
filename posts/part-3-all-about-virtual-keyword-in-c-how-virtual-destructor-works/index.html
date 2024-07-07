@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Part 3: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Destructor Works? · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="Finally, we are in the 3rd &amp; last part of this series. We have already discussed how virtual function &amp; virtual class/inheritance works internally in previous parts. We left one topic i.e. &ldquo;How Does Virtual Destructor Works?&rdquo; which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”
+Why Do We Need a Virtual Destructor? Link to heading We will understand this with our earlier example(slightly twisted): class protocol_t { private: uint8_t *_type; // storage .">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Part 3: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Destructor Works?">
+  <meta name="twitter:description" content="Finally, we are in the 3rd &amp; last part of this series. We have already discussed how virtual function &amp; virtual class/inheritance works internally in previous parts. We left one topic i.e. “How Does Virtual Destructor Works?” which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”
+Why Do We Need a Virtual Destructor? Link to heading We will understand this with our earlier example(slightly twisted): class protocol_t { private: uint8_t *_type; // storage .">
+
+<meta property="og:url" content="http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Part 3: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Destructor Works?">
+  <meta property="og:description" content="Finally, we are in the 3rd &amp; last part of this series. We have already discussed how virtual function &amp; virtual class/inheritance works internally in previous parts. We left one topic i.e. “How Does Virtual Destructor Works?” which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”
+Why Do We Need a Virtual Destructor? Link to heading We will understand this with our earlier example(slightly twisted): class protocol_t { private: uint8_t *_type; // storage .">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-09-12T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/">
+              Part 3: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Destructor Works?
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-09-12T00:00:00Z">
+                September 12, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/memory-layout-of-C-objects.png" alt="Featured image"/>
+        
+        <p>Finally, we are in the 3rd &amp; last part of this series. We have already discussed how <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual function</a> &amp; <a href="/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/" >virtual class/inheritance</a> works internally in previous parts. We left one topic i.e. &ldquo;How Does Virtual Destructor Works?&rdquo; which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”</p>
+<h2 id="why-do-we-need-a-virtual-destructor">
+  Why Do We Need a Virtual Destructor?
+  <a class="heading-link" href="#why-do-we-need-a-virtual-destructor">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>We will understand this with our earlier example(slightly twisted):</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">protocol_t</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>_type;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        protocol_t() { _type <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">uint8_t</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">~</span>protocol_t() { cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~protocol_t&#34;</span>; <span style="color:#66d9ef">delete</span> _type; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">authenticate</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">wifi_t</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> protocol_t {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_pass;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        wifi_t() { _pass <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">char</span>[<span style="color:#ae81ff">15</span>]; }
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">~</span>wifi_t() { cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~wifi_t&#34;</span>; <span style="color:#66d9ef">delete</span> _pass; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">authenticate</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">bluetooth_t</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> protocol_t {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>_pass;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// storage ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        bluetooth_t() { _pass <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">char</span>[<span style="color:#ae81ff">15</span>]; }
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">~</span>bluetooth_t(){ cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~bluetooth_t&#34;</span>; <span style="color:#66d9ef">delete</span> _pass; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">authenticate</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">connect</span>(){};
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// operations ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">makeConnection</span>(protocol_t <span style="color:#f92672">*</span>protocol) {
+</span></span><span style="display:flex;"><span>    protocol<span style="color:#f92672">-&gt;</span>authenticate();
+</span></span><span style="display:flex;"><span>    protocol<span style="color:#f92672">-&gt;</span>connect();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Do some tx &amp; rx
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">delete</span> protocol;
+</span></span><span style="display:flex;"><span>}    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> prot_type <span style="color:#f92672">=</span> rand() <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>; 
+</span></span><span style="display:flex;"><span>    makeConnection( (prot_type) <span style="color:#f92672">?</span> <span style="color:#66d9ef">new</span> wifi_t : <span style="color:#66d9ef">new</span> bluetooth_t);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>So, we have created <code>wifi_t</code> &amp; <code>bluetooth_t</code> objects dynamically in <code>main() and passed it to function </code>makeConnection()`</li>
+<li>An objects of <code>wifi_t</code>, <code>bluetooth_t</code> &amp; <code>protocol_t</code> also uses heap memory at construction &amp; destruction time.</li>
+<li>Well, this code compiles &amp; runs fine without any error. But when you run above code, at the time of <code>delete protocol</code> line it always calls the destructor of <code>protocol_t</code> which you can verify by <code>~protocol_t</code> print on console.</li>
+<li>We are freeing only sub-object resources which is <code>protocol_t</code> in call of <code>~protocol_t() destructor. This means that there is a memory leak as we are not freeing heap memory resource of an object pointed by the pointer </code>protocol_t<code>in function</code>makeConnection()`</li>
+<li>We even don&rsquo;t know the type of object <code>protocol_t</code> pointer pointed to at the run time.</li>
+<li>Virtual destructors are there to solve this problem. What we have to do is that</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>protocol_t() { cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~protocol_t&#34;</span>; <span style="color:#66d9ef">delete</span> _type; }
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span></code></pre></div><ul>
+<li>Put keyword <strong>virtual</strong> in front of destructor <code>~protocol_t()</code> Now <code>delete protocol</code> line will not directly call the destructor of <code>protocol</code>, rather it calls destructor indirectly i.e. using virtual table mechanism(in other words, dynamic dispatch).</li>
+<li>This way it calls the destructor of the object pointed i.e. either <code>~wifi_t() or </code>~bluetooth_t() by pointer <code>protocol</code> &amp; then call the destructor of its base class i.e. <code>~protocol_t()</code></li>
+<li>Hence, <strong><em>virtual destructor uses to delete the object pointed by base class pointer/reference</em></strong>.</li>
+</ul>
+<h2 id="how-does-virtual-destructor-works">
+  How Does Virtual Destructor Works?
+  <a class="heading-link" href="#how-does-virtual-destructor-works">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>The question is how our destructor of a derived class called. The answer is simple it calls the destructor indirectly i.e. using virtual table pointer(<code>_vptr</code>). Let&rsquo;s understand it with the assumption that our pointer <code>protocol</code> points to an object of type <code>wifi_t</code>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>protocol_t <span style="color:#f92672">*</span>protocol <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> wifi_t;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">delete</span> protocol;
+</span></span></code></pre></div><ul>
+<li>Here is the memory layout of the object <code>wifi_t</code></li>
+</ul>
+<pre tabindex="0"><code>|                                |          
+|--------------------------------| &lt;------ wifi_t class object memory layout
+|  protocol_t::_type             |          
+|--------------------------------|          
+|  protocol_t::_vptr_protocol_t  |----------|
+|--------------------------------|          |----------|-------------------------|
+|  wifi_t::_pass                 |                     |   type_info wifi_t      |
+|--------------------------------|                     |-------------------------|
+|                                |                     |   wifi_t::authenticate  |
+|                                |                     |-------------------------|
+|                                |                     |   wifi_t::connect       |
+|                                |                     |-------------------------|
+|                                |                     |   wifi_t::~wifi_t       |
+|                                |                     |-------------------------|
+</code></pre><ul>
+<li>Now, the statement <code>delete protocol;</code> will probably be transformed by a compiler into</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>(<span style="color:#f92672">*</span>protocol<span style="color:#f92672">-&gt;</span>vptr[<span style="color:#ae81ff">3</span>])(protocol);  <span style="color:#75715e">// Equivalent to `delete protocol;`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span></code></pre></div><ul>
+<li>Till here it was simple for us to understand how things are working. Because this is similar to a <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual function</a> mechanism which we have seen in earlier articles. But the real magic comes when the destructor of a base class i.e. <code>protocol_t</code> will be called.</li>
+<li>Which is again done with augmented code by the compiler in derived class destructor &amp; probably be:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#f92672">~</span>wifi_t() { 
+</span></span><span style="display:flex;"><span>    cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~wifi_t&#34;</span>; 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>_pass;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Compiler augmented code ----------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Rewire virtual table
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>vptr <span style="color:#f92672">=</span> vtable_protocol_t; <span style="color:#75715e">// vtable_protocol_t = address of static virtual table
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Call to base class destructor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    protocol_t<span style="color:#f92672">::~</span>protocol_t(<span style="color:#66d9ef">this</span>); 
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ----------------------------------------------------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>The process of destructing an object takes more operations than those you write inside the body of the destructor. When the compiler generates the code for the destructor, it adds extra code both before and after the user-defined code. Here we have only taken after code for the sake of understanding.</li>
+<li>The same process will happen no matter how long tree up there is.</li>
+</ul>
+<h2 id="verifying-compiler-augmented-code-in-case-of-the-virtual-destructor">
+  Verifying Compiler Augmented Code in Case of the Virtual Destructor
+  <a class="heading-link" href="#verifying-compiler-augmented-code-in-case-of-the-virtual-destructor">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Although you can not see compiler augmented code(unless if you disassemble it), we can use one hack that will prove that compiler insert the call of base class destructor in a derived class destructor when we use a virtual destructor.</li>
+<li>For the same, consider the following code:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">base</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>base()<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">derived</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> base{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>derived(){}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>  base <span style="color:#f92672">*</span>pbase <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> derived;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">delete</span> pbase;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>When we use <strong><em>pure virtual destructor</em></strong>, the compiler will throw the following error at the time of linking:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>exit status <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>main<span style="color:#f92672">-</span><span style="color:#ae81ff">06</span>bc44.o: In function <span style="color:#960050;background-color:#1e0010">`</span>derived<span style="color:#f92672">::~</span>derived()<span style="color:#960050;background-color:#1e0010">`</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>main.cpp:(.text._ZN7derivedD2Ev[_ZN7derivedD2Ev]<span style="color:#f92672">+</span><span style="color:#ae81ff">0x11</span>)<span style="color:#f92672">:</span> undefined reference to <span style="color:#960050;background-color:#1e0010">`</span>base<span style="color:#f92672">::~</span>base()<span style="color:#960050;background-color:#1e0010">`</span>
+</span></span><span style="display:flex;"><span>clang: error: linker command failed with exit code <span style="color:#ae81ff">1</span> (use <span style="color:#f92672">-</span>v to see invocation)
+</span></span></code></pre></div><ul>
+<li>Hence, compiler tried to add the code for base class destructor call in the derived class destructor. But due to unavailability of base class destructor definition linker exited with an error.</li>
+</ul>
+<h2 id="tricky-example-guess-the-output">
+  Tricky Example: Guess the Output
+  <a class="heading-link" href="#tricky-example-guess-the-output">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Following example stolen from <a href="https://stackoverflow.com/questions/7750280/how-does-virtual-destructor-work-in-c"  class="external-link" target="_blank" rel="noopener">stackoverflow</a>:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>base() { f(); }
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">f</span>() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;base&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">derived</span> <span style="color:#f92672">:</span> base {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">f</span>() { std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;derived&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>   base <span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> derived;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">delete</span> p;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>I would recommend you to guess the output first &amp; run it. If you get goosebump, try to interpret below line.</li>
+<li>Standard mandates that the runtime type of the object is that of the class being constructed/destructed at this time, even if the original object that is being constructed/destructed is of a derived type.</li>
+<li>Hence, it prints the output <code>base</code>.</li>
+</ul>
+<h2 id="summary">
+  Summary
+  <a class="heading-link" href="#summary">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>Virtual destructor uses to delete the object pointed by base class pointer/reference</li>
+<li>Call to virtual destructor is done using dynamic dispatch</li>
+<li>Compiler augments the derived class destructor code by inserting a call to the base class destructor</li>
+<li>The runtime type of the object is that of the class being constructed/destructed at this time, even if the original object that is being constructed/destructed is of a derived type</li>
+</ol>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

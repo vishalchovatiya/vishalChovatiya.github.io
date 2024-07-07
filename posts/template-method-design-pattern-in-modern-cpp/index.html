@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Template Method Design Pattern in Modern C&#43;&#43; · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects. And encapsulating behaviour in an object to delegate requests. The Behavioural Design Patterns make the interaction between the objects easy &amp; loosely coupled. In this article of the design pattern series, we&rsquo;re going to take a look at Template Method Design Pattern in Modern C&#43;&#43;. It allows us to define the skeleton of the algorithm in the base class with concrete implementations defined in derived classes.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Template Method Design Pattern in Modern C&#43;&#43;">
+  <meta name="twitter:description" content="In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects. And encapsulating behaviour in an object to delegate requests. The Behavioural Design Patterns make the interaction between the objects easy &amp; loosely coupled. In this article of the design pattern series, we’re going to take a look at Template Method Design Pattern in Modern C&#43;&#43;. It allows us to define the skeleton of the algorithm in the base class with concrete implementations defined in derived classes.">
+
+<meta property="og:url" content="http://localhost:1313/posts/template-method-design-pattern-in-modern-cpp/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Template Method Design Pattern in Modern C&#43;&#43;">
+  <meta property="og:description" content="In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects. And encapsulating behaviour in an object to delegate requests. The Behavioural Design Patterns make the interaction between the objects easy &amp; loosely coupled. In this article of the design pattern series, we’re going to take a look at Template Method Design Pattern in Modern C&#43;&#43;. It allows us to define the skeleton of the algorithm in the base class with concrete implementations defined in derived classes.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-02T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/template-method-design-pattern-in-modern-cpp/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/template-method-design-pattern-in-modern-cpp/">
+              Template Method Design Pattern in Modern C&#43;&#43;
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-02T00:00:00Z">
+                April 2, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-patterns/">Design-Patterns</a>
+      <span class="separator">•</span>
+    <a href="/categories/software-engineering/">Software-Engineering</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Template-Method-Design-Pattern-in-Modern-C-vishal-chovatiya.png" alt="Featured image"/>
+        
+        <p>In software engineering, Behavioural Design Patterns deal with the assignment of responsibilities between objects. And encapsulating behaviour in an object to delegate requests. The Behavioural Design Patterns make the interaction between the objects easy &amp; loosely coupled. In this article of the design pattern series, we&rsquo;re going to take a look at Template Method Design Pattern in Modern C++. It <strong><em>allows us to define the skeleton of the algorithm in the base class with concrete implementations defined in derived classes</em></strong>.</p>
+<p>By the way, If you haven’t check out my other articles on Behavioural Design Patterns, then here is the list:</p>
+<ol>
+<li><a href="/posts//chain-of-responsibility-design-pattern-in-modern-cpp/" >Chain of responsibility</a></li>
+<li><a href="/posts//command-design-pattern-in-modern-cpp/" >Command</a></li>
+<li><a href="/posts//interpreter-design-pattern-in-modern-cpp/" >Interpreter</a></li>
+<li><a href="/posts//iterator-design-pattern-in-modern-cpp/" >Iterator</a></li>
+<li><a href="/posts//mediator-design-pattern-in-modern-cpp/" >Mediator</a></li>
+<li><a href="/posts//memento-design-pattern-in-modern-cpp/" >Memento</a></li>
+<li><a href="/posts//observer-design-pattern-in-modern-cpp/" >Observer</a></li>
+<li><a href="/posts//state-design-pattern-in-modern-cpp/" >State</a></li>
+<li><a href="/posts//strategy-design-pattern-in-modern-cpp/" >Strategy</a></li>
+<li><a href="/posts//template-method-design-pattern-in-modern-cpp/" >Template Method</a></li>
+<li><a href="/posts//double-dispatch-visitor-design-pattern-in-modern-cpp/" >Visitor</a></li>
+</ol>
+<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
+<p><strong><em>Note:</em></strong></p>
+<ul>
+<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
+<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
+</ul>
+<h2 id="intent">
+  Intent
+  <a class="heading-link" href="#intent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<blockquote>
+<p><strong><em>To provide high-level blueprint of an algorithm to be completed by its inheritors.</em></strong></p>
+</blockquote>
+<ul>
+<li>Now, this might seem familiar to you because we&rsquo;ve seen something like this already in the <a href="/posts/strategy-design-pattern-in-modern-cpp/" >Strategy Design Pattern</a>. So we know that algorithms generally can be decomposed into the common parts(i.e. high-level parts) as well as the specifics. And the <a href="/posts/strategy-design-pattern-in-modern-cpp/" >Strategy Design Pattern</a> handles that for us quite efficiently. Then why do we need yet another design pattern</li>
+<li><a href="/posts/strategy-design-pattern-in-modern-cpp/" >Strategy Design Pattern</a> does this through composition. In which you have the high-level algorithm that uses some interface. And then the concrete implementations actually implement this interface and then you stick them in as pointer or reference.</li>
+<li>Template Method Design Pattern is very similar except it does this through inheritance instead. So the overall algorithm would typically be in an <a href="https://isocpp.org/wiki/faq/abcs"  class="external-link" target="_blank" rel="noopener">abstract base class</a>. And then, of course, you have inheritors of this class which overrides certain key abstract members. But the base class actually keeps the template for the actual algorithms. So the parent class template method is then invoked to actually orchestrate the algorithm at the high level. This might still do not fit in your head right-away but the following example will surely help.</li>
+</ul>
+<h2 id="template-method-design-pattern-example-in-c">
+  Template Method Design Pattern Example in C++
+  <a class="heading-link" href="#template-method-design-pattern-example-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Game</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">explicit</span> <span style="color:#a6e22e">Game</span>(<span style="color:#66d9ef">uint32_t</span> players)<span style="color:#f92672">:</span> m_no_of_players(players) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>() {
+</span></span><span style="display:flex;"><span>        start();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>have_winner())
+</span></span><span style="display:flex;"><span>            take_turn();
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Player &#34;</span> <span style="color:#f92672">&lt;&lt;</span> get_winner() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; wins.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> start() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">have_winner</span>() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">take_turn</span>() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">get_winner</span>() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> m_current_player{<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> m_no_of_players{<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Chess</span> <span style="color:#f92672">:</span> Game {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">explicit</span> <span style="color:#a6e22e">Chess</span>()<span style="color:#f92672">:</span> Game {<span style="color:#ae81ff">2</span>} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> start() {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Starting chess with &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_no_of_players <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; players</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">have_winner</span>() { <span style="color:#66d9ef">return</span> m_turns <span style="color:#f92672">==</span> m_max_turns; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">take_turn</span>() {
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Turn &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_turns <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; taken by player &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m_current_player <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>        m_turns<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        m_current_player <span style="color:#f92672">=</span> (m_current_player <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> m_no_of_players;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">get_winner</span>() { <span style="color:#66d9ef">return</span> m_current_player; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> m_turns{<span style="color:#ae81ff">0</span>}, m_max_turns{<span style="color:#ae81ff">4</span>};
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Chess chess;
+</span></span><span style="display:flex;"><span>    chess.run();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Starting chess with 2 players
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Turn 0 taken by player 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Turn 1 taken by player 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Turn 2 taken by player 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Turn 3 taken by player 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">Player 0 wins.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><ul>
+<li>As you can see the <code>Game::run()</code>is our template method that the algorithm itself is defined not in some external class but in an abstract base class. And then we inherit <code>Chess</code> from <code>Game</code> to provide the implementation of the parts(i.e. <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >pure virtual methods</a>) of the <code>run()</code>template method.</li>
+<li>To implement the Template Method Design Pattern, you have to think in terms of reverse inheritance. For example, you have a bunch of documents like PDF, Doc, HTML, XML. For which you have to create a data mining algorithm. In case of inheritance what you do is you define <code>mine()</code>method as <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >pure virtual</a> in an abstract class. And override it in <a href="/posts/memory-layout-of-cpp-object/" >subclasses</a> while technically you should define the algorithm mine(in abstract class) like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mine</span>(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> report_file){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>EOF()){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> line <span style="color:#f92672">=</span> get_line();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span> data_samples <span style="color:#f92672">=</span> parse(line);
+</span></span><span style="display:flex;"><span>        add_to_(report_file, data_samples);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>And make all of this method(i.e. <code>get_line()</code>, <code>parse()</code>, etc.) of the mining algorithm <a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >pure virtual</a> to be implemented by derived class as these are the common yet type-dependent steps among the type of documents to extract data.</li>
+</ul>
+<h2 id="benefits-of-template-method-design-pattern">
+  Benefits of Template Method Design Pattern
+  <a class="heading-link" href="#benefits-of-template-method-design-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ol>
+<li>If you have a monolithic algorithm exposed to each &amp; every class. And when steps of that algorithm changes, you might need to modify all the classes. But if you have several classes that contain almost identical algorithms with some minor differences &amp; had employed the Template Method Design Pattern. Then you will have no worries.</li>
+<li>By pulling the common steps into abstract class, you are limiting code duplicity &amp; encouraging expressiveness of code.</li>
+</ol>
+<h2 id="summary-by-faqs">
+  Summary by FAQs
+  <a class="heading-link" href="#summary-by-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>What is the difference between Strategy &amp; Template Method Design Pattern?</strong></p>
+<ul>
+<li>
+<p>Template Method is based on inheritance which alters parts of an algorithm by extending those parts in derived classes.</p>
+</li>
+<li>
+<p>Strategy is based on the composition which alters parts of the <a href="/posts/inside-the-cpp-object-model/" >object</a>&rsquo;s behaviour by supplying it with different strategies that correspond to different behaviour.</p>
+</li>
+<li>
+<p>Template Method works at the class level, so it&rsquo;s static.</p>
+</li>
+<li>
+<p>Strategy works on the <a href="/posts/inside-the-cpp-object-model/" >object</a> level, letting you switch behaviours at runtime.</p>
+</li>
+</ul>
+<p><strong>Where should we use the Template Method Design Pattern?</strong></p>
+<p>Employ the Template Method Design Pattern when you want to let clients extend only particular steps of an algorithm, but not the entire algorithm structure.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

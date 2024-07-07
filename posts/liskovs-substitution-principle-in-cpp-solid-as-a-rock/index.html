@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  Liskov&#39;s Substitution Principle in C&#43;&#43; | SOLID as a Rock · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="So you know how to code in general, understand the object-oriented programming, learned C&#43;&#43;, and completed at least one Software Development Course (if you’re not there yet, these articles aren&rsquo;t for you). You can write software easily if you know at least one programming language, but is your code any good? Could it be done any better? Is it clean (and what on earth does that mean)? Is your architecture any good?">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Liskov&#39;s Substitution Principle in C&#43;&#43; | SOLID as a Rock">
+  <meta name="twitter:description" content="So you know how to code in general, understand the object-oriented programming, learned C&#43;&#43;, and completed at least one Software Development Course (if you’re not there yet, these articles aren’t for you). You can write software easily if you know at least one programming language, but is your code any good? Could it be done any better? Is it clean (and what on earth does that mean)? Is your architecture any good?">
+
+<meta property="og:url" content="http://localhost:1313/posts/liskovs-substitution-principle-in-cpp-solid-as-a-rock/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="Liskov&#39;s Substitution Principle in C&#43;&#43; | SOLID as a Rock">
+  <meta property="og:description" content="So you know how to code in general, understand the object-oriented programming, learned C&#43;&#43;, and completed at least one Software Development Course (if you’re not there yet, these articles aren’t for you). You can write software easily if you know at least one programming language, but is your code any good? Could it be done any better? Is it clean (and what on earth does that mean)? Is your architecture any good?">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-04-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-04-07T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/liskovs-substitution-principle-in-cpp-solid-as-a-rock/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/liskovs-substitution-principle-in-cpp-solid-as-a-rock/">
+              Liskov&#39;s Substitution Principle in C&#43;&#43; | SOLID as a Rock
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2020-04-07T00:00:00Z">
+                April 7, 2020
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              7-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-patterns/">Design-Patterns</a>
+      <span class="separator">•</span>
+    <a href="/categories/design-principles/">Design-Principles</a>
+      <span class="separator">•</span>
+    <a href="/categories/software-engineering/">Software-Engineering</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/Liskovs-Substitution-Principle-in-C-SOLID-as-a-Rock-vishal-chovatiya.webp" alt="Featured image"/>
+        
+        <p>So you know how to code in general, understand the object-oriented programming, learned C++, and completed at least one Software Development Course (if you’re not there yet, these articles aren&rsquo;t for you). You can write software easily if you know at least one programming language, but is your code any good? Could it be done any better? Is it clean (and what on earth does that mean)? Is your architecture any good? Should you use a different one? <a href="/posts/what-is-design-pattern/" >What about Design Patterns?</a> These were some of the questions I&rsquo;ve had when I started, and answering them helped me to step up to a professional level. Which is why I have written these series SOLID as a Rock design principle. <strong>L</strong>iskov&rsquo;s <strong>S</strong>ubstitution <strong>P</strong>rinciple in C++ is the second principle in this series which I will discuss here.</p>
+<p>By the way, If you haven&rsquo;t gone through my previous articles on design principles, then below is the quick links:</p>
+<ol>
+<li><a href="/posts//single-responsibility-principle-in-cpp-solid-as-a-rock/" ><strong>S</strong>RP – Single Responsibility Principle</a></li>
+<li><a href="/posts//open-closed-principle-in-cpp-solid-as-a-rock/" ><strong>O</strong>CP – Open/Closed Principle</a></li>
+<li><a href="/posts//liskovs-substitution-principle-in-cpp-solid-as-a-rock/" ><strong>L</strong>SP – Liskov Substitution Principle</a></li>
+<li><a href="/posts//interface-segregation-principle-in-cpp-solid-as-a-rock/" ><strong>I</strong>SP – Interface Segregation Principle</a></li>
+<li><a href="/posts//dependency-inversion-principle-in-cpp-solid-as-a-rock/" ><strong>D</strong>IP – Dependency Inversion Principle</a></li>
+</ol>
+<p>The code snippets you see throughout this series of articles are simplified not sophisticated. So you often see me not using keywords like <code>override</code>, <code>final</code>, <code>public</code>(while inheritance) just to make code compact &amp; consumable(most of the time) in single standard screen size. I also prefer <code>struct</code> instead of <code>class</code> just to save line by not writing &ldquo;<code>public:</code>&rdquo; sometimes and also miss <a href="/posts//part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>, constructor, <a href="/posts//all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a>, prefix <code>std::</code>, deleting dynamic memory, intentionally. I also consider myself a pragmatic person who wants to convey an idea in the simplest way possible rather than the standard way or using Jargons.</p>
+<p><strong><em>Note:</em></strong></p>
+<ul>
+<li>If you stumbled here directly, then I would suggest you go through <a href="/posts//what-is-design-pattern/" >What is design pattern?</a> first, even if it is trivial. I believe it will encourage you to explore more on this topic.</li>
+<li>All of this code you encounter in this series of articles are compiled using C++20(though I have used <a href="/posts//21-new-features-of-modern-cpp-to-use-in-your-project/" >Modern C++</a> features up to C++17 in most cases). So if you don&rsquo;t have access to the latest compiler you can use <a href="https://wandbox.org/"  class="external-link" target="_blank" rel="noopener">https://wandbox.org/</a> which has preinstalled boost library as well.</li>
+</ul>
+<h2 id="intent">
+  Intent
+  <a class="heading-link" href="#intent">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<blockquote>
+<p><strong><em>Subtypes must be substitutable for their base types without altering the correctness of the program</em></strong></p>
+</blockquote>
+<ul>
+<li>If I address this in the context of C++, this literally means that functions that use pointers/references to base classes must be able to substitute by its derived classes.</li>
+<li>The Liskov Substitution Principle revolves around ensuring that inheritance is used correctly.</li>
+</ul>
+<h2 id="motivation-violating-the-liskovs-substitution-principle">
+  Motivation: Violating the Liskov&rsquo;s Substitution Principle
+  <a class="heading-link" href="#motivation-violating-the-liskovs-substitution-principle">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>A great &amp; traditional example illustrating LSP was how sometimes something that sounds right in natural language doesn&rsquo;t quite work in code.</li>
+<li>In mathematics, a <code>Square</code> is a <code>Rectangle</code>. Indeed it is a specialization of a rectangle. The &ldquo;IS A&rdquo; makes you want to model this with inheritance. However if in code you made <code>Square</code> derive from <code>Rectangle</code>, then a <code>Square</code> should be usable anywhere you expect a <code>Rectangle</code>. This makes for some strange behaviour as follows:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Rectangle</span> {
+</span></span><span style="display:flex;"><span>    Rectangle(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> width, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> height) <span style="color:#f92672">:</span> m_width{width}, m_height{height} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">get_width</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_width; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">get_height</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_height; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_width</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> width) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_width <span style="color:#f92672">=</span> width; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_height</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> height) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_height <span style="color:#f92672">=</span> height; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">area</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_width <span style="color:#f92672">*</span> m_height; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> m_width, m_height;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Square</span> <span style="color:#f92672">:</span> Rectangle {
+</span></span><span style="display:flex;"><span>    Square(<span style="color:#66d9ef">uint32_t</span> size) <span style="color:#f92672">:</span> Rectangle(size, size) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_width</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> width) <span style="color:#66d9ef">override</span> { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_width <span style="color:#f92672">=</span> m_height <span style="color:#f92672">=</span> width; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_height</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> height) <span style="color:#66d9ef">override</span> { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_height <span style="color:#f92672">=</span> m_width <span style="color:#f92672">=</span> height; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">process</span>(Rectangle <span style="color:#f92672">&amp;</span>r) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> w <span style="color:#f92672">=</span> r.get_width();
+</span></span><span style="display:flex;"><span>    r.set_height(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    assert((w <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span>) <span style="color:#f92672">==</span> r.area()); <span style="color:#75715e">// Fails for Square &lt;--------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    Rectangle r{<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>    process(r);
+</span></span><span style="display:flex;"><span>    Square s{<span style="color:#ae81ff">5</span>};
+</span></span><span style="display:flex;"><span>    process(s);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As you can see above, we have violated Liskovs&rsquo;s Substitution Principle in the <code>void process(Rectangle &amp;r)</code> function. Therefore <code>Square</code> is not a valid substitute of <code>Rectangle</code>.</li>
+<li>If you see from the design perspective, the very idea of inheriting <code>Square</code> from <code>Rectangle</code> is not a good idea. Because <code>Square</code> does not have height &amp; width, rather it has the size/length of sides.</li>
+</ul>
+<h2 id="solution-example-of-liskovs-substitution-principle-in-c">
+  Solution: Example of Liskov&rsquo;s Substitution Principle in C++
+  <a class="heading-link" href="#solution-example-of-liskovs-substitution-principle-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="not-so-good">
+  Not so good
+  <a class="heading-link" href="#not-so-good">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">process</span>(Rectangle <span style="color:#f92672">&amp;</span>r) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> w <span style="color:#f92672">=</span> r.get_width();
+</span></span><span style="display:flex;"><span>    r.set_height(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">dynamic_cast</span><span style="color:#f92672">&lt;</span>Square <span style="color:#f92672">*&gt;</span>(<span style="color:#f92672">&amp;</span>r) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>        assert((r.get_width() <span style="color:#f92672">*</span> r.get_width()) <span style="color:#f92672">==</span> r.area());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        assert((w <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span>) <span style="color:#f92672">==</span> r.area());
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>A common code smell that frequently indicates an LSP violation is the presence of <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >type checking</a> code within a code block that is polymorphic.</li>
+<li>For instance, if you have a <code>std::for_each</code> loop over a collection of objects of type <code>Foo</code>, and within this loop, there is a check to see if <code>Foo</code> is in fact <code>Bar</code>(a subtype of <code>Foo</code>), then this is almost certainly an LSP violation. Rather you should ensure <code>Bar</code> is in all ways substitutable for <code>Foo</code>, there should be no need to include such a check.</li>
+</ul>
+<h3 id="an-ok-way-to-do-it">
+  An OK way to do it
+  <a class="heading-link" href="#an-ok-way-to-do-it">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">process</span>(Rectangle <span style="color:#f92672">&amp;</span>r) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> w <span style="color:#f92672">=</span> r.get_width();
+</span></span><span style="display:flex;"><span>    r.set_height(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (r.is_square())
+</span></span><span style="display:flex;"><span>        assert((r.get_width() <span style="color:#f92672">*</span> r.get_width()) <span style="color:#f92672">==</span> r.area());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        assert((w <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span>) <span style="color:#f92672">==</span> r.area());
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>No need to create a separate class for <code>Square</code>. Instead, you can simply check for <code>bool</code> flag within the <code>Rectangle</code> class to validate <code>Square</code> property. Though not a recommended way.</li>
+</ul>
+<h3 id="use-proper-inheritance-hierarchy">
+  Use proper inheritance hierarchy
+  <a class="heading-link" href="#use-proper-inheritance-hierarchy">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Shape</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">area</span>() <span style="color:#66d9ef">const</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Rectangle</span> <span style="color:#f92672">:</span> Shape {
+</span></span><span style="display:flex;"><span>    Rectangle(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> width, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> height) <span style="color:#f92672">:</span> m_width{width}, m_height{height} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">get_width</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_width; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">get_height</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_height; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_width</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> width) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_width <span style="color:#f92672">=</span> width; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_height</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> height) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_height <span style="color:#f92672">=</span> height; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">area</span>() <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span> { <span style="color:#66d9ef">return</span> m_width <span style="color:#f92672">*</span> m_height; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> m_width, m_height;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Square</span> <span style="color:#f92672">:</span> Shape {
+</span></span><span style="display:flex;"><span>    Square(<span style="color:#66d9ef">uint32_t</span> size) <span style="color:#f92672">:</span> m_size(size) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set_size</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint32_t</span> size) { <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>m_size <span style="color:#f92672">=</span> size; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">area</span>() <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span> { <span style="color:#66d9ef">return</span> m_size <span style="color:#f92672">*</span> m_size; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> m_size;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">process</span>(Shape <span style="color:#f92672">&amp;</span>s) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Use polymorphic behaviour only i.e. area()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="with-factory-pattern">
+  With Factory Pattern
+  <a class="heading-link" href="#with-factory-pattern">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Still, creation or change is needed to process <code>Shape</code>, then you should try to use <a href="/posts/7-advanced-cpp-concepts-idiom-examples-you-should-know/#Virtual-Constructor" >Virtual Constructor</a> &amp; <a href="/posts/prototype-design-pattern-in-modern-cpp/" >Virtual Copy Constructor</a> i.e. <a href="/posts/factory-design-pattern-in-modern-cpp/" >Factory Pattern</a>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ShapeFactory</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> Shape <span style="color:#a6e22e">CreateRectangle</span>(<span style="color:#66d9ef">uint32_t</span> width, <span style="color:#66d9ef">uint32_t</span> height);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> Shape <span style="color:#a6e22e">CreateSquare</span>(<span style="color:#66d9ef">uint32_t</span> size);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="benefits-of-liskovs-substitution-principle">
+  Benefits of Liskov&rsquo;s Substitution Principle
+  <a class="heading-link" href="#benefits-of-liskovs-substitution-principle">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="-compatibility">
+  =&gt; Compatibility
+  <a class="heading-link" href="#-compatibility">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>It enables the binary compatibility between multiple releases &amp; patches. In other words, It keeps the client code away from being impacted.</li>
+</ul>
+<h3 id="-type-safety">
+  =&gt; Type Safety
+  <a class="heading-link" href="#-type-safety">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>It&rsquo;s the easiest approach to handle type safety with inheritance, as types are not allowed to <em>vary</em> when inheriting.</li>
+</ul>
+<h3 id="-maintainability">
+  =&gt; Maintainability
+  <a class="heading-link" href="#-maintainability">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Code that adheres to LSP is loosely dependent on each other &amp; encourages code reusability.</li>
+<li>Code that adheres to the LSP is code that makes the right abstractions.</li>
+</ul>
+<h2 id="yardstick-to-craft-liskovs-substitution-principle-friendly-software-in-c">
+  Yardstick to Craft Liskov&rsquo;s Substitution Principle Friendly Software in C++
+  <a class="heading-link" href="#yardstick-to-craft-liskovs-substitution-principle-friendly-software-in-c">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>In most introductions to <a href="/posts/memory-layout-of-cpp-object/" >object-oriented programming</a>, inheritance discussed as an &ldquo;IS-A&rdquo; relationship with the inherited object. However, this is necessary, but not sufficient. It is more appropriate to say that one object can be designed to inherit from another if it always has an &ldquo;IS-SUBSTITUTABLE-FOR&rdquo; relationship with the inherited object.</li>
+<li>The whole point of using an abstract base class is so that, in the future, you can write a new <a href="/posts/inside-the-cpp-object-model/" >subclass</a> &amp; insert it into existing, working, tested code. A noble goal, but how to achieve it? First, start with decomposing your problem space &mdash; domain. Second, express your contract/interfaces/<a href="/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/" >virtual-methods</a> in plain English.</li>
+</ul>
+<h2 id="closing-notes">
+  Closing Notes
+  <a class="heading-link" href="#closing-notes">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Don’t get me wrong, I like SOLID and the approaches it promotes. But it’s just a shape of deeper principles lying in its foundation. The examples above made it clear what this principle is striving for i.e. <strong><em>loose coupling &amp; ensuring correct inheritance</em></strong>.</p>
+<p>Now, go out there and make your subclasses swappable, and thank <a href="https://en.wikipedia.org/wiki/Barbara_Liskov"  class="external-link" target="_blank" rel="noopener"><strong>Dr. Barbara Liskov</strong></a> for such a useful principle.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

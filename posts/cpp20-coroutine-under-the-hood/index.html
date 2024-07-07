@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  C&#43;&#43;20 Coroutine: Under The Hood · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="A coroutine is one of the major feature introduced with the C&#43;&#43;20 standard apart from Module, Ranges &amp; Concept. And you see how happy I am to unfold it. I already set the baseline on this topic with my previous article that Coroutine in C Language, where we saw, how suspension-resumption of execution works! With this article &ldquo;C&#43;&#43;20 Coroutine: Under The Hood&rdquo;, we will see how compiler creates magic &amp; standard library helps it with basic infrastructure making C&#43;&#43;20 coroutine more sophisticated(yet complex) &amp; scalable/customizable.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43;20 Coroutine: Under The Hood">
+  <meta name="twitter:description" content="A coroutine is one of the major feature introduced with the C&#43;&#43;20 standard apart from Module, Ranges &amp; Concept. And you see how happy I am to unfold it. I already set the baseline on this topic with my previous article that Coroutine in C Language, where we saw, how suspension-resumption of execution works! With this article “C&#43;&#43;20 Coroutine: Under The Hood”, we will see how compiler creates magic &amp; standard library helps it with basic infrastructure making C&#43;&#43;20 coroutine more sophisticated(yet complex) &amp; scalable/customizable.">
+
+<meta property="og:url" content="http://localhost:1313/posts/cpp20-coroutine-under-the-hood/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="C&#43;&#43;20 Coroutine: Under The Hood">
+  <meta property="og:description" content="A coroutine is one of the major feature introduced with the C&#43;&#43;20 standard apart from Module, Ranges &amp; Concept. And you see how happy I am to unfold it. I already set the baseline on this topic with my previous article that Coroutine in C Language, where we saw, how suspension-resumption of execution works! With this article “C&#43;&#43;20 Coroutine: Under The Hood”, we will see how compiler creates magic &amp; standard library helps it with basic infrastructure making C&#43;&#43;20 coroutine more sophisticated(yet complex) &amp; scalable/customizable.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-05-09T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-05-09T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/cpp20-coroutine-under-the-hood/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/cpp20-coroutine-under-the-hood/">
+              C&#43;&#43;20 Coroutine: Under The Hood
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2021-05-09T00:00:00Z">
+                May 9, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              14-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/C20-Coroutine.png" alt="Featured image"/>
+        
+        <p>A coroutine is one of the major feature introduced with the C++20 standard apart from <a href="https://en.cppreference.com/w/cpp/language/modules"  class="external-link" target="_blank" rel="noopener">Module</a>, <a href="https://en.cppreference.com/w/cpp/ranges"  class="external-link" target="_blank" rel="noopener">Ranges</a> &amp; <a href="https://en.cppreference.com/w/cpp/concepts"  class="external-link" target="_blank" rel="noopener">Concept</a>. And you see how happy I am to unfold it. I already set the baseline on this topic with my previous article that <a href="/posts/coroutine-in-c-language/" >Coroutine in C Language</a>, where we saw, how suspension-resumption of execution works! With this article &ldquo;C++20 Coroutine: Under The Hood&rdquo;, we will see how compiler creates magic &amp; standard library helps it with basic infrastructure making C++20 coroutine more sophisticated(yet complex) &amp; scalable/customizable.</p>
+<p>At any point, you feel there is some jargons/terminology that is not known to you. Please keep reading forward. I have added a <a href="/posts/cpp20-coroutine-under-the-hood/#C20nbspCoroutine_Terminology" >special section</a> for it.</p>
+<h2 id="what-is-coroutine-in-general">
+  What Is Coroutine In General?
+  <a class="heading-link" href="#what-is-coroutine-in-general">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><img alt="Cpp20-Coroutine-Under-The-Hood" src="/images/C20-Coroutine-Under-The-Hood.png"></p>
+<ul>
+<li>Please refer my previous article <a href="/posts/coroutine-in-c-language" >Coroutine in C Language</a> for more.</li>
+</ul>
+<h2 id="what-is-c20-coroutine">
+  What Is C++20 Coroutine?
+  <a class="heading-link" href="#what-is-c20-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>A function that
+<ol>
+<li>Contains keywords <code>co_await</code>, <code>co_yield</code> and/or <code>co_return</code>.</li>
+<li>Use a return type specifying a promise.</li>
+</ol>
+</li>
+<li>From the higher abstraction, the C++20 coroutine consists of:
+<ol>
+<li>Promise
+<ul>
+<li>Defines overall coroutine behaviour.</li>
+<li>Act as a communicator between caller &amp; called coroutine.</li>
+</ul>
+</li>
+<li>Awaiter
+<ul>
+<li>Controls suspension &amp; resumption behaviour.</li>
+</ul>
+</li>
+<li>Coroutine handle
+<ul>
+<li>Controls execution behaviour.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="why-do-you-even-need-coroutine">
+  Why Do You Even Need Coroutine?
+  <a class="heading-link" href="#why-do-you-even-need-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>
+<p>I have already covered this in my earlier post <a href="/posts/coroutine-in-c-language/" >Coroutine in C Language</a>.</p>
+</li>
+<li>
+<p>However, if you still want to understand the need for coroutine with use case then please refer to <a href="/posts/iterator-design-pattern-in-modern-cpp/" >Iterator Design Pattern With Modern C++</a>.</p>
+</li>
+<li>
+<p>Or you can directly see the section of this article <a href="/posts/cpp20-coroutine-under-the-hood/#Generating_Integer_Sequence_Using_C20_Coroutine" >Generating Integer Sequence Using Coroutine</a>.</p>
+</li>
+</ul>
+<h2 id="understanding-c20coroutine-with-examples">
+  Understanding C++20 Coroutine With Examples
+  <a class="heading-link" href="#understanding-c20coroutine-with-examples">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>Enough theory. Let&rsquo;s talk code.</li>
+</ul>
+<h3 id="suspending-a-coroutine">
+  Suspending a Coroutine
+  <a class="heading-link" href="#suspending-a-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Following is a lame &amp; minimal example of a C++20 Coroutine. However, this is a very good starting point for beginner with slow pace &amp; less cluttered code.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;coroutine&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HelloWorldCoro</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">promise_type</span> { <span style="color:#75715e">// compiler looks for `promise_type`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        HelloWorldCoro <span style="color:#a6e22e">get_return_object</span>() { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>; }    
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always initial_suspend() { <span style="color:#66d9ef">return</span> {}; }        
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always final_suspend() { <span style="color:#66d9ef">return</span> {}; }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    HelloWorldCoro(promise_type<span style="color:#f92672">*</span> p) <span style="color:#f92672">:</span> m_handle(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;::</span>from_promise(<span style="color:#f92672">*</span>p)) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>HelloWorldCoro() { m_handle.destroy(); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;</span>      m_handle;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    HelloWorldCoro mycoro <span style="color:#f92672">=</span> print_hello_world();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mycoro.m_handle.resume();
+</span></span><span style="display:flex;"><span>    mycoro.m_handle(); <span style="color:#75715e">// Equal to mycoro.m_handle.resume();
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// g++-10 -std=c++20 -fcoroutines -fno-exceptions -o myapp Main.cpp
+</span></span></span></code></pre></div><ul>
+<li>
+<p>A coroutine can be resumed by a resume member function of the <code>std::coroutine_handle</code> or by invoking the function call operator of the <code>std::coroutine_handle</code> object.</p>
+</li>
+<li>
+<p>As I have mentioned earlier, the C++20 coroutine consists of:</p>
+<ol>
+<li>
+<p>Promise i.e. <a href="https://en.cppreference.com/w/cpp/coroutine/coroutine_traits"  class="external-link" target="_blank" rel="noopener">promise_type</a></p>
+<ul>
+<li>Type containing special methods like get_return_object(), initial_suspend(), final_suspend(), etc. that compiler use in coroutine transformation. Hence, it controls overall coroutine behaviour.</li>
+</ul>
+</li>
+<li>
+<p>Awaiter i.e. <a href="https://en.cppreference.com/w/cpp/coroutine/suspend_always"  class="external-link" target="_blank" rel="noopener">std::suspend_always</a></p>
+<ol>
+<li>Empty class to suspend coroutine always.</li>
+</ol>
+<ul>
+<li>You can see the GCC implementation for this type <a href="https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/std/coroutine#L313"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+</li>
+<li>
+<p>Coroutine handle i.e. <a href="https://en.cppreference.com/w/cpp/coroutine/coroutine_handle"  class="external-link" target="_blank" rel="noopener">std::coroutine_handle</a></p>
+<ul>
+<li>Handler for coroutine that used to resume, destroy or check on a lifetime of coroutine.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>The compiler transforms the above <code>print_hello_world</code> coroutine as :</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    __HelloWorldCoro_ctx<span style="color:#f92672">*</span> __context <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> __HelloWorldCoro_ctx{};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> __return <span style="color:#f92672">=</span> __context<span style="color:#f92672">-&gt;</span>_promise.get_return_object();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> __context<span style="color:#f92672">-&gt;</span>_promise.initial_suspend();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> std<span style="color:#f92672">::</span>suspend_always{ };
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>__final_suspend_label:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> __context<span style="color:#f92672">-&gt;</span>_promise.final_suspend();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> __context;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> __return;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As you can see, the compiler first creates the context(i.e. coroutine state) object. Which presumably look like:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">__HelloWorldCoro_ctx</span> {
+</span></span><span style="display:flex;"><span>    HelloWorldCoro<span style="color:#f92672">::</span>promise_type _promise;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// storage for argument passed to coroutine
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// storage for local variables
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// storage for representation of the current suspension point
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Standard doesn&#39;t define such type, rather compilers choose the type that suits its implementation.
+</span></span></span></code></pre></div><ul>
+<li>
+<p>As seen, with the help of this context object, it creates the <code>HelloWorldCoro</code> object named as <code>__return</code> with the help of promise&rsquo;s method <code>get_return_object()</code></p>
+</li>
+<li>
+<p>Finally, one more level of transformation of <code>co_await</code> statements, coroutine would look like:</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    __HelloWorldCoro_ctx<span style="color:#f92672">*</span> __context <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> __HelloWorldCoro_ctx{};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> __return <span style="color:#f92672">=</span> __context<span style="color:#f92672">-&gt;</span>_promise.get_return_object();
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;&amp;</span> awaiter <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>awaiter.await_ready()) {
+</span></span><span style="display:flex;"><span>            awaiter.await_suspend(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;&gt;</span> p); 
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// compiler added suspend/resume hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>        awaiter.await_resume();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;&amp;</span> awaiter <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>awaiter.await_ready()) {
+</span></span><span style="display:flex;"><span>            awaiter.await_suspend(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;&gt;</span> p); 
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// compiler added suspend/resume hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>        awaiter.await_resume();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>__final_suspend_label:
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;&amp;</span> awaiter <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>awaiter.await_ready()) {
+</span></span><span style="display:flex;"><span>            awaiter.await_suspend(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;&gt;</span> p); 
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// compiler added suspend/resume hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>        awaiter.await_resume();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> __return;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>As you can see our <code>HelloWorldCoro::promise_type::initial_suspend()</code><br>
+&amp; <code>HelloWorldCoro::promise_type::final_suspend()</code>returns <code>std::suspend_always</code>. </p>
+</li>
+<li>
+<p>Whose, method <code>std::suspend_always::await_ready()</code>in turn returns <code>false</code> always. </p>
+</li>
+<li>
+<p>So our coroutine will be suspended every time it encounters <code>co_await</code>.</p>
+</li>
+</ul>
+<h3 id="returning-a-value-from-coroutine">
+  Returning a Value From Coroutine
+  <a class="heading-link" href="#returning-a-value-from-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;coroutine&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cassert&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HelloWorldCoro</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">promise_type</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> m_value;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        HelloWorldCoro <span style="color:#a6e22e">get_return_object</span>() { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>; }
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always initial_suspend() { <span style="color:#66d9ef">return</span> {}; }
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always final_suspend() { <span style="color:#66d9ef">return</span> {}; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">return_value</span>(<span style="color:#66d9ef">int</span> val) { m_value <span style="color:#f92672">=</span> val; }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    HelloWorldCoro(promise_type<span style="color:#f92672">*</span> p) <span style="color:#f92672">:</span> m_handle(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;::</span>from_promise(<span style="color:#f92672">*</span>p)) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>HelloWorldCoro() { m_handle.destroy(); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;</span>      m_handle;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> std<span style="color:#f92672">::</span>suspend_always{ };
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    HelloWorldCoro mycoro <span style="color:#f92672">=</span> print_hello_world();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mycoro.m_handle.resume();
+</span></span><span style="display:flex;"><span>    mycoro.m_handle.resume();
+</span></span><span style="display:flex;"><span>    assert(mycoro.m_handle.promise().m_value <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>To return a value from a coroutine, you need to supply <code>return_value()</code>method to promise type. In other words, the compiler expects the method named <code>return_value</code> with appropriate argument.</p>
+</li>
+<li>
+<p>And, if you don&rsquo;t supply it to promise type, you will be prompted with the below error:</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Main.cpp:<span style="color:#ae81ff">27</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5</span><span style="color:#f92672">:</span> error: no member named <span style="color:#960050;background-color:#1e0010">‘</span>return_value<span style="color:#960050;background-color:#1e0010">’</span> in <span style="color:#960050;background-color:#1e0010">‘</span>std<span style="color:#f92672">::</span>__n4861<span style="color:#f92672">::</span>__coroutine_traits_impl<span style="color:#f92672">&lt;</span>HelloWorldCoro, <span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;::</span>promise_type<span style="color:#960050;background-color:#1e0010">’</span> {aka <span style="color:#960050;background-color:#1e0010">‘</span>HelloWorldCoro<span style="color:#f92672">::</span>promise_type<span style="color:#960050;background-color:#1e0010">’</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">27</span> <span style="color:#f92672">|</span>     <span style="color:#66d9ef">co_return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">|</span>     <span style="color:#f92672">^~~~~~~~~</span>
+</span></span></code></pre></div><ul>
+<li>This <code>return_value()</code>method is then used by compiler to transform the <code>co_return</code> statement as below:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    __HelloWorldCoro_ctx<span style="color:#f92672">*</span> __context <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> __HelloWorldCoro_ctx{};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> __return <span style="color:#f92672">=</span> __context<span style="color:#f92672">-&gt;</span>_promise.get_return_object();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> __context<span style="color:#f92672">-&gt;</span>_promise.initial_suspend();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> std<span style="color:#f92672">::</span>suspend_always{ };
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    __context<span style="color:#f92672">-&gt;</span>_promise.return_value(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">goto</span> __final_suspend_label;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>__final_suspend_label:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> __context<span style="color:#f92672">-&gt;</span>_promise.final_suspend();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> __context;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> __return;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>As you might have noticed, <code>co_return</code> transformation is plain vanilla, where the compiler just passes the return value to the promise object &amp; jump to the final suspend label.</p>
+</li>
+<li>
+<p>I will not expand the <code>co_await</code> statements again. Otherwise, the code will become messy. However, by now, you can guess what could be there.</p>
+</li>
+</ul>
+<h3 id="yielding-a-value-from-coroutine">
+  Yielding a Value From Coroutine
+  <a class="heading-link" href="#yielding-a-value-from-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;coroutine&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cassert&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HelloWorldCoro</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">promise_type</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> m_val;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        HelloWorldCoro <span style="color:#a6e22e">get_return_object</span>() { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>; } 
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always initial_suspend() { <span style="color:#66d9ef">return</span> {}; } 
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always final_suspend() { <span style="color:#66d9ef">return</span> {}; } 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always yield_value(<span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>            m_val <span style="color:#f92672">=</span> val; 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> {};
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    HelloWorldCoro(promise_type<span style="color:#f92672">*</span> p) <span style="color:#f92672">:</span> m_handle(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;::</span>from_promise(<span style="color:#f92672">*</span>p)) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>HelloWorldCoro() { m_handle.destroy(); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;</span>      m_handle;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_yield</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    HelloWorldCoro mycoro <span style="color:#f92672">=</span> print_hello_world();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mycoro.m_handle.resume();
+</span></span><span style="display:flex;"><span>    assert(mycoro.m_handle.promise().m_val <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    mycoro.m_handle.resume();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>As we have done in returning a value from a coroutine, to yield anything from coroutine you need to supply the <code>yield_value()</code>method to promise_type that returns awaitable type.</p>
+</li>
+<li>
+<p>Once again, the compiler transforms the coroutine that yields as:</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    __HelloWorldCoro_ctx<span style="color:#f92672">*</span> __context <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> __HelloWorldCoro_ctx{};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> __return <span style="color:#f92672">=</span> __context<span style="color:#f92672">-&gt;</span>_promise.get_return_object();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> __context<span style="color:#f92672">-&gt;</span>_promise.initial_suspend();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> __context<span style="color:#f92672">-&gt;</span>_promise.yield_value(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>__final_suspend_label:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> __context<span style="color:#f92672">-&gt;</span>_promise.final_suspend();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> __context;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> __return;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>As you can see <code>co_yield</code> statement transformed into <code>co_await</code> considering the promise&rsquo;s method(i.e. <code>yield_value()</code> call as expression. That returns <code>std::suspend_always</code> so our coroutine will be suspended thereafter yielding a value.</li>
+</ul>
+<h2 id="generating-integer-sequence-using-c20-coroutine">
+  Generating Integer Sequence Using C++20 Coroutine
+  <a class="heading-link" href="#generating-integer-sequence-using-c20-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>So, that we understood the compiler transformations of coroutine, let&rsquo;s do something meaningful with coroutine.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;coroutine&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cassert&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Generator</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">promise_type</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> m_val;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Generator <span style="color:#a6e22e">get_return_object</span>() { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>; }
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_never initial_suspend() { <span style="color:#66d9ef">return</span> {}; }
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always final_suspend() { <span style="color:#66d9ef">return</span> {}; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>suspend_always yield_value(<span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>            m_val <span style="color:#f92672">=</span> val; 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> {};
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ---------------------------- Iterator Implementation ----------------------------- */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">iterator</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">!=</span>(<span style="color:#66d9ef">const</span> iterator<span style="color:#f92672">&amp;</span> rhs) { <span style="color:#66d9ef">return</span> not m_h_ptr<span style="color:#f92672">-&gt;</span>done(); }
+</span></span><span style="display:flex;"><span>        iterator<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">++</span>() { 
+</span></span><span style="display:flex;"><span>            m_h_ptr<span style="color:#f92672">-&gt;</span>resume(); 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>; 
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() { <span style="color:#66d9ef">return</span> m_h_ptr<span style="color:#f92672">-&gt;</span>promise().m_val; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;</span> <span style="color:#f92672">*</span>m_h_ptr;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    iterator <span style="color:#a6e22e">begin</span>() { <span style="color:#66d9ef">return</span> iterator{<span style="color:#f92672">&amp;</span>m_handle}; }
+</span></span><span style="display:flex;"><span>    iterator <span style="color:#a6e22e">end</span>() { <span style="color:#66d9ef">return</span> iterator{<span style="color:#66d9ef">nullptr</span>}; }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ---------------------------------------------------------------------------------- */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Generator(promise_type<span style="color:#f92672">*</span> p) <span style="color:#f92672">:</span> m_handle(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;::</span>from_promise(<span style="color:#f92672">*</span>p)) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Generator() { m_handle.destroy(); }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;</span>promise_type<span style="color:#f92672">&gt;</span>      m_handle;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Generator <span style="color:#a6e22e">range</span>(<span style="color:#66d9ef">uint32_t</span> start, <span style="color:#66d9ef">uint32_t</span> end) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(start <span style="color:#f92672">!=</span> end)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">co_yield</span> start<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;&amp;</span>no : range(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10</span>)) {  <span style="color:#75715e">// Isn&#39;t this look like Python !
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        std<span style="color:#f92672">::</span>cout<span style="color:#f92672">&lt;&lt;</span> no <span style="color:#f92672">&lt;&lt;</span>std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EXIT_SUCCESS;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>A <code>range()</code>function of the above code will generate the integers on every iteration on a need basis. Instead of generating &amp; returning precomputed sequence.</p>
+</li>
+<li>
+<p>For the rest of the code, I suggest you spend some time with patience. And play around it.</p>
+</li>
+<li>
+<p>And, If you are thinking that why do we need <code>iterator</code> implementation inside <code>Generator</code>, then please learn <a href="https://cppinsights.io/lnk?code=I2luY2x1ZGUgPGNzdGRpbz4KCmludCBtYWluKCkKewogICAgY29uc3QgY2hhciBhcnJbXXsyLDQsNiw4LDEwfTsKCiAgICBmb3IoY29uc3QgY2hhciYgYyA6IGFycikKICAgIHsKICAgICAgcHJpbnRmKCJjPSVjXG4iLCBjKTsKICAgIH0KfQ==&amp;std=cpp17&amp;rev=1.0"  class="external-link" target="_blank" rel="noopener">How Range Based `for` Loop Works In C++!</a>.</p>
+</li>
+</ul>
+<h2 id="c20coroutine-terminology">
+  C++20 Coroutine Terminology
+  <a class="heading-link" href="#c20coroutine-terminology">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>
+<p>This section should have been at beginning of the article. However, I believe that until you understand how coroutine works under the hood, you won&rsquo;t be able to connect the dots on C++20 coroutine jargons( or won&rsquo;t understand data type naming convention).</p>
+</li>
+<li>
+<p>By this time you are able to write a C++ coroutine &amp; you can ignore this section. Nonetheless, it is just that you will have a hard time communicating with fellow C++ developers &amp; reading <a href="https://en.cppreference.com/w/"  class="external-link" target="_blank" rel="noopener">cppreference</a>. If you do so.</p>
+</li>
+</ul>
+<h3 id="awaitable">
+  Awaitable
+  <a class="heading-link" href="#awaitable">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>
+<p>A type that supports the <code>co_await</code> operator is called an Awaitable type.</p>
+</li>
+<li>
+<p>C++20 introduced a new unary operator <code>co_await</code> that can be applied to an expression. For example:</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dummy</span> { <span style="color:#75715e">// Awaitable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>suspend_always <span style="color:#66d9ef">operator</span> <span style="color:#66d9ef">co_await</span>(){ <span style="color:#66d9ef">return</span> {}; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> dummy{}; 
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="awaiter">
+  Awaiter
+  <a class="heading-link" href="#awaiter">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">my_awaiter</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">await_ready</span>() { <span style="color:#66d9ef">return</span> false; } 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">await_suspend</span>(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;&gt;</span>) {} 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">await_resume</span>() {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> my_awaiter{};
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>An Awaiter type is a type that implements the three special methods that are called as part of a <code>co_await</code> expression: <code>await_ready(), </code>await_suspend() and <code>await_resume()</code> For example, standard library defined trivial awaiters i.e. <a href="https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/std/coroutine#L313"  class="external-link" target="_blank" rel="noopener">std::suspend_always</a> &amp; <a href="https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/std/coroutine#L322"  class="external-link" target="_blank" rel="noopener">std::suspend_never</a>.</p>
+</li>
+<li>
+<p>Note that a type can be both an Awaitable type and an Awaiter type.</p>
+</li>
+</ul>
+<h3 id="co_await">
+  <code>co_await</code>
+  <a class="heading-link" href="#co_await">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li><code>co_await</code> is a unary operator that suspends a coroutine and returns control to the caller. Its operand is an expression whose type must either define operator <code>co_await</code>, or Awaitable.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dummy</span> { }; <span style="color:#75715e">// Awaitable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HelloWorldCoro</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">promise_type</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">auto</span> <span style="color:#a6e22e">await_transform</span>(<span style="color:#66d9ef">const</span> dummy<span style="color:#f92672">&amp;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> dummy{}; 
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;World!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="promise">
+  Promise
+  <a class="heading-link" href="#promise">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>
+<p>A type strictly named as <em><code>promise_type</code></em>.</p>
+</li>
+<li>
+<p>The promise object is used inside the coroutine. The coroutine submits its result or exception through this object.</p>
+</li>
+<li>
+<p>The promise type is determined by the compiler from the return type of the coroutine using <a href="https://en.cppreference.com/w/cpp/coroutine/coroutine_traits"  class="external-link" target="_blank" rel="noopener">std::coroutine_traits</a>.</p>
+</li>
+</ul>
+<h3 id="coroutine-handle">
+  Coroutine Handle
+  <a class="heading-link" href="#coroutine-handle">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>The coroutine handle used to resume the execution of the coroutine or to destroy the coroutine frame. It does also indicates the status of coroutine using <code>std::coroutine_handle::done()</code>method.</li>
+</ul>
+<h3 id="coroutine-state">
+  Coroutine State
+  <a class="heading-link" href="#coroutine-state">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>The coroutine state(referred to as a context object) is a compiler-generated, heap-allocated (unless the allocation is optimized out) object that contains
+<ul>
+<li>Promise object.</li>
+<li>Parameters (all copied by value).</li>
+<li>Local variables.</li>
+<li>Representation of the current suspension point, so that resume knows where to continue and destroy knows what local variables were in scope.</li>
+</ul>
+</li>
+</ul>
+<h2 id="how-does-coroutine-gets-executed">
+  How Does Coroutine Gets Executed!
+  <a class="heading-link" href="#how-does-coroutine-gets-executed">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>
+<p>Ahh&hellip;! it&rsquo;s time for the real magic!</p>
+</li>
+<li>
+<p>Now, that we saw how the compiler does the magic with coroutine keywords <code>co_await</code>, <code>co_yield</code> &amp; <code>co_return</code>. Let&rsquo;s understand how it gets executed.</p>
+</li>
+<li>
+<p>But, Before, we move forward, let me clarify some points:</p>
+<ol>
+<li>
+<p>C++ Standard doesn&rsquo;t bother about implementation rather it only states behaviour. Hence implementation of the coroutine is completely dependent on the compiler &amp; library writers. To see that, you can check the <a href="https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/std/coroutine#L126"  class="external-link" target="_blank" rel="noopener">library implementation</a> of <code>std::coroutine_handle::resume()</code>that uses <a href="https://raw.githubusercontent.com/mirrors/gcc/master/gcc/builtins.def"  class="external-link" target="_blank" rel="noopener">__builtin_coro_resume</a> which is provided by the GCC compiler. Proving that the library &amp; compiler is tightly coupled.</p>
+</li>
+<li>
+<p>With that being said, I have not written any C++ library or compiler in my career. Though I have written/ported the core C library for proprietary architecture. So, whatever you see in this section is just to build your intuition on how coroutine can be implemented. Based on my research &amp; intuition.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>There are two ways I can see this can be done:</p>
+</li>
+</ul>
+<h3 id="hypothesis-1">
+  Hypothesis 1
+  <a class="heading-link" href="#hypothesis-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>For example, If you have defined your coroutine as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>HelloWorldCoro <span style="color:#a6e22e">print_hello_world</span>(<span style="color:#66d9ef">int</span> a) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_await</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">co_return</span> a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span> c;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>Then, operations can be divided into 3 different sections separated by 2 suspension-point(i.e. <code>co_await &lt;expr&gt;</code>) as</p>
+<ol>
+<li>
+<p><code>int b = 10;</code></p>
+</li>
+<li>
+<p><code>a = 10; int c = 10;</code></p>
+</li>
+<li>
+<p><code>co_return a + b + c;</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p>Considering these suspension points, then the compiler basically</p>
+<ul>
+<li>
+<p>Rewrite your coroutine into a bit like functions.</p>
+</li>
+<li>
+<p>And create a copy of all local variables as a data member of the coroutine state object.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>You can assume coroutine state object layout as:</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">print_hello_world</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print_hello_world(<span style="color:#66d9ef">int</span> a_) <span style="color:#f92672">:</span> a{a}{} <span style="color:#75715e">// Coroutine state object with coroutine arguments
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_s1</span>(){ <span style="color:#75715e">// Before suspension point 1 operations
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        sp <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// switching call back based on suspension point
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_s2</span>(){ <span style="color:#75715e">// Operations b/w suspension point 1 &amp; 2 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        sp <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>    } 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">_s3</span>(){ <span style="color:#75715e">// Operations after suspension point 2 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        promise.return_value(a <span style="color:#f92672">+</span> b <span style="color:#f92672">+</span> c);  <span style="color:#75715e">// After execution, coro_done = true;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        coro_done <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    } 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a, b, c; <span style="color:#75715e">// Local variables
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    promise_type<span style="color:#f92672">&amp;</span> promise;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>s_cb)[] <span style="color:#f92672">=</span> {_s1, _s2, _s3}; <span style="color:#75715e">// suspension point callbacks 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> sp{<span style="color:#ae81ff">0</span>}; <span style="color:#75715e">// current suspension point(sp)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">bool</span> coro_done{false};
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><ul>
+<li>Now, when you call coroutine, you are basically creating a coroutine state object with a similar argument to that of coroutine.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> mycoro <span style="color:#f92672">=</span> print_hello_world(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// transform into
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>print_hello_world    <span style="color:#a6e22e">mycoro</span>(<span style="color:#ae81ff">5</span>);
+</span></span></code></pre></div><ul>
+<li>As you might have guessed, due to rewriting coroutine into tiny functions, we don&rsquo;t need a suspension mechanism anymore. And resumption can be implemented as:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">::</span>resume() { 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(not print_hello_world<span style="color:#f92672">::</span>coro_done)
+</span></span><span style="display:flex;"><span>        print_hello_world<span style="color:#f92672">::</span>s_cb[sp]();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>
+<p>So, when you call resume you are basically calling the suspension-point specific tiny function(technically its method) from a coroutine state object. That implies the creation of two stack frame i.e. <code>std::coroutine_handle::resume()</code>&amp; <code>print_hello_world::_sX()</code>, where <code>X</code> stands for a suspension point number. Consequently not needing a separate stack &amp; using the same stack as the caller. And this is why C++20 coroutines are stackless coroutine &amp; faster.</p>
+</li>
+<li>
+<p>I agree that the above example is not compilable, don&rsquo;t cover edge cases &amp; doesn&rsquo;t consider customized(i.e. awaiter object) coroutine behaviour. But, with the intuition we just built, you can easily create a mental model of coroutine &amp; see the compiler perspective.</p>
+</li>
+<li>
+<p>And to test your intuition capability, just imagine <strong>How you can transform the tiny functions for the coroutine that contains <code>co_await</code> expression in a for loop?</strong></p>
+</li>
+</ul>
+<h3 id="hypothesis-2">
+  Hypothesis 2
+  <a class="heading-link" href="#hypothesis-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<ul>
+<li>Another usual way you can implement suspension-resumption is with the help of <a href="/posts/coroutine-in-c-language/" >context switching APIs</a>. For example, in the expansion of <code>co_wait &lt;expr&gt;</code> statement, I have mentioned the comment &ldquo;<em>compiler added suspend/resume hook</em>&rdquo; as below.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;&amp;</span> awaiter <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>suspend_always{};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>awaiter.await_ready()) {
+</span></span><span style="display:flex;"><span>        awaiter.await_suspend(std<span style="color:#f92672">::</span>coroutine_handle<span style="color:#f92672">&lt;&gt;</span> p); 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// compiler added suspend/resume hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    awaiter.await_resume();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>This is the place where your compiler adds its secret sauce to your code with <a href="/posts/coroutine-in-c-language/" >context switching APIs</a>. And rest is I think easy to imagine if you have read my earlier post <a href="/posts/coroutine-in-c-language/" >Coroutine in C Language</a> thoroughly.</li>
+</ul>
+<h2 id="summary">
+  Summary
+  <a class="heading-link" href="#summary">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="subroutine-vs-coroutine">
+  Subroutine vs Coroutine
+  <a class="heading-link" href="#subroutine-vs-coroutine">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Subroutines</th>
+<th>Coroutines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>call</strong></td>
+<td>calling convention i.e. foo()</td>
+<td>calling convention i.e. foo()</td>
+</tr>
+<tr>
+<td><strong>suspend</strong></td>
+<td>Can&rsquo;t suspend</td>
+<td>co_await/co_yield expression</td>
+</tr>
+<tr>
+<td><strong>resume</strong></td>
+<td>Can&rsquo;t suspend</td>
+<td>coroutine_handle&lt;&gt;::resume()</td>
+</tr>
+<tr>
+<td><strong>return</strong></td>
+<td>return statement</td>
+<td>co_return statement</td>
+</tr>
+</tbody>
+</table>
+<h3 id="compiler-transformation-of-coroutine-related-keywords">
+  Compiler Transformation Of Coroutine Related Keywords
+  <a class="heading-link" href="#compiler-transformation-of-coroutine-related-keywords">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">co_return</span> x;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// transforms into
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>__promise.return_value(x);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">goto</span> __final_suspend_label;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">co_await</span> y;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// transforms into
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;&amp;</span> __awaitable <span style="color:#f92672">=</span> y;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (__awaitable.await_ready()) {
+</span></span><span style="display:flex;"><span>    __awaitable.await_suspend();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// compiler added suspend/resume hook
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>__awaitable.await_resume();
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">co_yield</span> z;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// transforms into
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">co_await</span> __promise.yield_value(z);
+</span></span></code></pre></div><h2 id="parting-words-with-faqs">
+  Parting Words With FAQs
+  <a class="heading-link" href="#parting-words-with-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li>
+<p>This is not just it, there are still many things that we haven&rsquo;t explored like exception handling, coroutine calling coroutine, etc.</p>
+</li>
+<li>
+<p>One unusual thing I observed about C++20 Coroutine is, You have to specify the return type even if you don&rsquo;t return anything from the coroutine. IMO, this is unusual &amp; counter-intuitive.</p>
+</li>
+</ul>
+<p><strong>What does it mean by stackfull &amp; stackless coroutine?</strong></p>
+<ul>
+<li>stackfull coroutines need a separate stack to be executed.</li>
+<li>stackless coroutine uses the same stack as of caller.</li>
+</ul>
+<p><strong>Difference between threads &amp; coroutines?</strong></p>
+<ul>
+<li>Coroutines are about your <em>programming model</em> and threads are about your <em>execution model</em>.</li>
+<li>co-routine can still do concurrency without scheduler overhead - it simply manages the context-switching itself.</li>
+<li>Another benefit is the much lower memory usage. With the threaded model, each thread needs to allocate its own stack, and so your memory usage grows linearly with the number of threads you have.</li>
+</ul>
+<p><strong>What does it mean by &ldquo;coroutines are like lightweight threads&rdquo;?</strong></p>
+<ul>
+<li>First of all, coroutines &amp; threads are a different entity. Because coroutine can be stackless &amp; doesn&rsquo;t need OS intervention on schedule, it is lower on memory footprint &amp; faster on execution as compared to thread. With C++, it&rsquo;s, even more, faster if you use <a href="/posts/cpp20-coroutine-under-the-hood/#Hypothesis_1" >Hypothesis 1</a>.</li>
+</ul>
+<p><strong>How come C++ coroutine are stackless?</strong></p>
+<ul>
+<li>This is already answered in <a href="/posts/cpp20-coroutine-under-the-hood/#Hypothesis_1" >Hypothesis 1</a>. Still one more time.</li>
+<li>The compiler &ldquo;returns&rdquo; a handle to this dynamically allocated coroutine frame to the caller of the coroutine.</li>
+<li>When a caller calls <code>std::coroutine_handle::resume()</code> method, stackframe for <code>std::coroutine_handle::resume()</code> will be created which resumes the coroutine while processing all coroutine data on a dynamically allocated coroutine frame.</li>
+<li>And this is how coroutine is stackless in C++. Because it executes in the current stack only. Instead of a separate coroutine stack.</li>
+</ul>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>

@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>
+  7 Advance C&#43;&#43; Concepts &amp; Idiom Examples You Should Know · Vishal Chovatiya
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="Vishal Chovatiya">
+<meta name="description" content="So I have started updating myself with Modern C&#43;&#43; a while ago &amp; since my post 21 new features of Modern C&#43;&#43; to use in your project &amp; All about lambda function in C&#43;&#43; was popular I decided to write about advance C&#43;&#43; concepts &amp; idioms which I have learned from this wikibook &amp; course.
+There are many other advance C&#43;&#43; concepts &amp; idioms as well but I consider these 7 as &ldquo;should-know&rdquo;.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="7 Advance C&#43;&#43; Concepts &amp; Idiom Examples You Should Know">
+  <meta name="twitter:description" content="So I have started updating myself with Modern C&#43;&#43; a while ago &amp; since my post 21 new features of Modern C&#43;&#43; to use in your project &amp; All about lambda function in C&#43;&#43; was popular I decided to write about advance C&#43;&#43; concepts &amp; idioms which I have learned from this wikibook &amp; course.
+There are many other advance C&#43;&#43; concepts &amp; idioms as well but I consider these 7 as “should-know”.">
+
+<meta property="og:url" content="http://localhost:1313/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/">
+  <meta property="og:site_name" content="Vishal Chovatiya">
+  <meta property="og:title" content="7 Advance C&#43;&#43; Concepts &amp; Idiom Examples You Should Know">
+  <meta property="og:description" content="So I have started updating myself with Modern C&#43;&#43; a while ago &amp; since my post 21 new features of Modern C&#43;&#43; to use in your project &amp; All about lambda function in C&#43;&#43; was popular I decided to write about advance C&#43;&#43; concepts &amp; idioms which I have learned from this wikibook &amp; course.
+There are many other advance C&#43;&#43; concepts &amp; idioms as well but I consider these 7 as “should-know”.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-11-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-11-16T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.css" media="screen">
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+<body class="preload-transitions colorscheme-light">
+  
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="http://localhost:1313/">
+      Vishal Chovatiya
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Latest</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/pages/start-here">Start Here</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/cpp/">C/C&#43;&#43;</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/linux-system-programming/">Linux System Programming</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/categories/misc/">Misc</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://localhost:1313/posts/7-advance-cpp-concepts-idiom-examples-you-should-know/">
+              7 Advance C&#43;&#43; Concepts &amp; Idiom Examples You Should Know
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2019-11-16T00:00:00Z">
+                November 16, 2019
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              15-minute read
+            </span>
+          </div>
+          
+          <div class="categories">
+  <i class="fa-solid fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cpp/">Cpp</a></div>
+
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+          <img src="/images/7-Advanced-C-programming-styles-and-idiom-examples-you-should-know-vishal-chovatiya.png" alt="Featured image"/>
+        
+        <p>So I have started updating myself with Modern C++ a while ago &amp; since my post <a href="/posts/21-new-features-of-modern-cpp-to-use-in-your-project/" >21 new features of Modern C++ to use in your project</a> &amp; <a href="/posts/learn-lambda-function-in-cpp-with-example/" >All about lambda function in C++</a> was popular I decided to write about advance C++ concepts &amp; idioms which I have learned from this <a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms"  class="external-link" target="_blank" rel="noopener">wikibook</a> &amp; <a href="https://www.udemy.com/course/cpp-in-detail-common-idioms/"  class="external-link" target="_blank" rel="noopener">course</a>.</p>
+<p>There are many other advance C++ concepts &amp; idioms as well but I consider these 7 as &ldquo;should-know&rdquo;. To explain them, I have taken a more pragmatic approach than sophistication. So, I have weighed more on readability, simplicity over other fancy features, syntax sugars and complexity.</p>
+<p><strong><em>Note:</em></strong> There are also drawbacks of using some of these techniques which I have not discussed here or maybe I am not qualified enough.</p>
+<h3 id="1-raii">
+  1. RAII
+  <a class="heading-link" href="#1-raii">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong><em>Intent:</em></strong> To guarantee the release of resource(s) at the end of a scope.<br>
+<strong><em>Implementation:</em></strong> Wrap resource into a class; resource acquired in the constructor immediately after its allocation; and automatically released in the destructor; resource used via an interface of the class;<br>
+<strong><em>Also known as:</em></strong> Execute-around object, Resource release is finalization, Scope-bound resource management</p>
+<h4 id="problem">
+  Problem
+  <a class="heading-link" href="#problem">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li><strong>R</strong>esource <strong>A</strong>cquisition <strong>I</strong>s <strong>I</strong>nitialization idiom is the most powerful &amp; vastly used idiom although the name is really terrible as the idiom is rather about resource release than acquisition.</li>
+<li>RAII guarantee the release of resource at the end of a scope/destruction. It thus ensures no resource leaks and provides basic <a href="/posts/7-best-practices-for-exception-handling-in-cpp-with-example/" >exception safety guarantee</a>.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">resource</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    resource(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;resource acquired</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>resource() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;resource destroyed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    resource <span style="color:#f92672">*</span>ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> resource(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> x;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Enter an integer: &#34;</span>;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cin <span style="color:#f92672">&gt;&gt;</span> x;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// the function returns early, and ptr won&#39;t be deleted!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>; <span style="color:#75715e">// the function returns early, and ptr won&#39;t be deleted!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// do stuff with ptr here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>In the above code, the early <code>return</code> or <code>throw</code> statement, causing the function to terminate without <code>ptr</code> being deleted.</li>
+<li>In addition, the memory allocated for variable <code>ptr</code> is now leaked (and leaked again every time this function is called and returns early).</li>
+</ul>
+<h4 id="solution">
+  Solution
+  <a class="heading-link" href="#solution">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">smart_ptr</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> m_ptr;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span>... Args<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    smart_ptr(Args<span style="color:#f92672">&amp;&amp;</span>... args) <span style="color:#f92672">:</span> m_ptr(<span style="color:#66d9ef">new</span> T(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>Args<span style="color:#f92672">&gt;</span>(args)...)){}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>smart_ptr() { <span style="color:#66d9ef">delete</span> m_ptr; }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    smart_ptr(<span style="color:#66d9ef">const</span> smart_ptr<span style="color:#f92672">&amp;</span> rhs) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> smart_ptr<span style="color:#f92672">&amp;</span> rhs) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    smart_ptr(smart_ptr<span style="color:#f92672">&amp;&amp;</span> rhs) <span style="color:#f92672">:</span> m_ptr(exchange(rhs.m_ptr, <span style="color:#66d9ef">nullptr</span>)){}
+</span></span><span style="display:flex;"><span>    smart_ptr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(smart_ptr<span style="color:#f92672">&amp;&amp;</span> rhs){        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">&amp;</span>rhs <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>) <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">delete</span> m_ptr;
+</span></span><span style="display:flex;"><span>        m_ptr <span style="color:#f92672">=</span> exchange(rhs.m_ptr,<span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>m_ptr; }
+</span></span><span style="display:flex;"><span>    T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_ptr; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> ptr <span style="color:#f92672">=</span> smart_ptr<span style="color:#f92672">&lt;</span>resource<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>); <span style="color:#75715e">// now ptr guarantee the release of resource
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>Note that no matter what happens after <code>ptr</code> declaration, <code>ptr</code> will be destroyed when the function terminates (regardless of how it terminates).</li>
+<li>As the <code>ptr</code> is a local <a href="/posts/memory-layout-of-cpp-object/" >object</a>, the destructor will be called while the <a href="/posts/how-c-program-convert-into-assembly/" >function stack frame</a> rewinds. Hence, we are assured that the <code>resource</code> will be properly cleaned up.</li>
+</ul>
+<h4 id="usecases">
+  Usecases
+  <a class="heading-link" href="#usecases">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Using RAII, resources like <code>new</code>/<code>delete</code>, <code>malloc</code>/<code>free</code>, acquire/release, mutex lock/unlock, file open/close, count <code>++</code>/<code>--</code>, database connect/disconnect or anything else that exists in limited supply can easily be managed.</li>
+<li>Examples from C++ Standard Library include <a href="/posts/understanding-unique-ptr-with-example-in-cpp11/" ><code>std::unique_ptr</code></a>, <code>std::ofstream</code>, <code>std::lock_guard</code>, etc.</li>
+</ul>
+<h3 id="2-return-type-resolver">
+  2. Return Type Resolver
+  <a class="heading-link" href="#2-return-type-resolver">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong><em>Intent:</em></strong> To deduce the type of the object being initialize or assign to.<br>
+<strong><em>Implementation:</em></strong> Uses templatized conversion operator.<br>
+<strong><em>Also known as:</em></strong> Return type overloading</p>
+<h4 id="issue">
+  Issue
+  <a class="heading-link" href="#issue">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">from_string</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>str) { <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>stoi(str); }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">from_string</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>str) { <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>stof(str); } <span style="color:#75715e">// error
+</span></span></span></code></pre></div><ul>
+<li>A function can not overloaded only by its return type.</li>
+</ul>
+<h4 id="solution-1">
+  Solution
+  <a class="heading-link" href="#solution-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">from_string</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> string m_str;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    from_string(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>str) <span style="color:#f92672">:</span> m_str(str) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">operator</span> type(){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">constexpr</span>(is_same_v<span style="color:#f92672">&lt;</span>type, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span>)        <span style="color:#66d9ef">return</span> stof(m_str);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (is_same_v<span style="color:#f92672">&lt;</span>type, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>)              <span style="color:#66d9ef">return</span> stoi(m_str);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n_int <span style="color:#f92672">=</span> from_string(<span style="color:#e6db74">&#34;123&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> n_float <span style="color:#f92672">=</span> from_string(<span style="color:#e6db74">&#34;123.111&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Will only work with C++17 due to `is_same_v`
+</span></span></span></code></pre></div><p>If you are unaware of constexpr, I have written a short post on <a href="/posts/when-to-use-const-vs-constexpr-in-cpp/" >when to use const vs constexpr in c++</a>.</p>
+<h4 id="usecases-1">
+  Usecases
+  <a class="heading-link" href="#usecases-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>So, when you use <a href="/posts/what-exactly-nullptr-is-in-cpp/" ><code>nullptr</code></a>(introduced in C++11), this is the technique that runs under the hood to deduce the correct type depending upon the pointer variable it is assigning to.</li>
+<li>You can also overcome the function overloading limitation on the basis of a return type as we have seen above.</li>
+<li>Return Type Resolver can also used to provide a generic interface for <a href="/posts/2-wrong-way-to-learn-copy-assignment-operator-in-cpp-with-example/" >assignment</a>, independent of the object assigned to.</li>
+</ul>
+<h3 id="3-type-erasure">
+  3. Type Erasure
+  <a class="heading-link" href="#3-type-erasure">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong><em>Intent:</em></strong> To create generic container that can handle a variety of concrete types.<br>
+<strong><em>Implementation:</em></strong> Can be implemented by <code>void*</code>, templates, polymorphism, union, proxy class, etc.<br>
+<strong><em>Also known as:</em></strong> Duck-typing</p>
+<h4 id="problem-1">
+  Problem
+  <a class="heading-link" href="#problem-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>C++ is a <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >statically typed</a> language with strong typing. In statically typed languages, object type known &amp; set at compile-time. While in dynamically typed languages the type associated with run-time values.</li>
+<li>In other words, in strongly typed languages the type of an object doesn&rsquo;t change after compilation.</li>
+<li>However, to overcome this limitation &amp; providing a feature like dynamically typed languages, library designers come up with various generic container kind of things like <a href="https://en.cppreference.com/w/cpp/utility/any"  class="external-link" target="_blank" rel="noopener"><code>std::any</code></a>(C++17), <a href="https://en.cppreference.com/w/cpp/utility/variant"  class="external-link" target="_blank" rel="noopener"><code>std::variant</code></a> (C++17), <a href="https://en.cppreference.com/w/cpp/utility/functional/function"  class="external-link" target="_blank" rel="noopener"><code>std::function</code></a>(C++11), etc.</li>
+</ul>
+<h4 id="different-type-erasure-techniques">
+  Different Type Erasure Techniques
+  <a class="heading-link" href="#different-type-erasure-techniques">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>There is no one strict rule on how to implement this idiom, it can have various forms with its own drawbacks as follows:</li>
+</ul>
+<p><strong>=&gt; Type erasure using void* (like in C)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">qsort</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> base, size_t num, size_t size,
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> (<span style="color:#f92672">*</span>compare)(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>,<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>));
+</span></span></code></pre></div><p><em>Drawback:</em> not safe &amp; separate compare function needed for each type</p>
+<p><strong>=&gt; Type erasure using <a href="/posts/c-template-a-quick-uptodate-look/" >C++ templates</a></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RandomAccessIterator</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> sort(RandomAccessIterator first, RandomAccessIterator last);
+</span></span></code></pre></div><p><em>Drawback:</em> may lead to many function template instantiations &amp; longer compilation time</p>
+<p><strong>=&gt; Type erasure using polymorphism</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base</span> { <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method</span>() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">derived_1</span> <span style="color:#f92672">:</span> base { <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;derived_1</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; } };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">derived_2</span> <span style="color:#f92672">:</span> base { <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;derived_2</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; } };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// We don&#39;t see a concrete type (it&#39;s erased) though can dynamic_cast
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">call</span>(base<span style="color:#f92672">*</span> ptr) { ptr<span style="color:#f92672">-&gt;</span>method(); };
+</span></span></code></pre></div><p><em>Drawback:</em> run-time cost (dynamic dispatch, indirection, vtable, etc.)</p>
+<p><strong>=&gt; Type erasure using union</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Data</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">union</span> <span style="color:#a6e22e">U</span> {
+</span></span><span style="display:flex;"><span>    Data d;         <span style="color:#75715e">// occupies 1 byte
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span><span style="color:#66d9ef">int32_t</span> n; <span style="color:#75715e">// occupies 4 bytes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> c;         <span style="color:#75715e">// occupies 1 byte
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>U() {}         <span style="color:#75715e">// need to know currently active type
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}; <span style="color:#75715e">// an instance of U in total occupies 4 bytes.
+</span></span></span></code></pre></div><p><em>Drawback:</em> not <a href="/posts/cpp-type-casting-with-example-for-c-developers/" >type-safe</a></p>
+<h4 id="solution-2">
+  Solution
+  <a class="heading-link" href="#solution-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>As I mentioned earlier that standard library already has such generic containers.</li>
+<li>To understand type erasure better let&rsquo;s implement one i.e. <code>std::any</code>:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">any</span> 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">base</span> {};
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">inner</span><span style="color:#f92672">:</span> base{
+</span></span><span style="display:flex;"><span>        inner(T t)<span style="color:#f92672">:</span> m_t{std<span style="color:#f92672">::</span>move(t)} {}
+</span></span><span style="display:flex;"><span>        T m_t;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">type</span>() {}
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    any()<span style="color:#f92672">:</span> m_ptr{<span style="color:#66d9ef">nullptr</span>}, typePtr{<span style="color:#66d9ef">nullptr</span>} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    any(T <span style="color:#f92672">&amp;&amp;</span> t)<span style="color:#f92672">:</span> m_ptr{std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span>inner<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span>(t)}, typePtr{<span style="color:#f92672">&amp;</span>inner<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;::</span>type} {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    any<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(T<span style="color:#f92672">&amp;&amp;</span> t){
+</span></span><span style="display:flex;"><span>        m_ptr <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span>inner<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;</span>(t); 
+</span></span><span style="display:flex;"><span>        typePtr <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>inner<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;::</span>type;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">friend</span> T<span style="color:#f92672">&amp;</span> any_cast(<span style="color:#66d9ef">const</span> any<span style="color:#f92672">&amp;</span> var);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>base<span style="color:#f92672">&gt;</span> m_ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>typePtr)() <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T<span style="color:#f92672">&amp;</span> any_cast(<span style="color:#66d9ef">const</span> any<span style="color:#f92672">&amp;</span> var)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(var.typePtr <span style="color:#f92672">==</span> any<span style="color:#f92672">::</span>inner<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;::</span>type)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>any<span style="color:#f92672">::</span>inner<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;*&gt;</span>(var.m_ptr.get())<span style="color:#f92672">-&gt;</span>m_t;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>logic_error{<span style="color:#e6db74">&#34;Bad cast!&#34;</span>};
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    any var(<span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> any_cast<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(var) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    var <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>string{<span style="color:#e6db74">&#34;some text&#34;</span>};
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> any_cast<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>string<span style="color:#f92672">&gt;</span>(var) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Especially, the thing here to note is how we are leveraging empty static method i.e. <code>inner&lt;T&gt;::type()</code> to determine template instance type in <code>any_cast&lt;T&gt;</code>.</p>
+<h4 id="usecases-2">
+  Usecases
+  <a class="heading-link" href="#usecases-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Employ to handle multiple types of the return value from function/method(Although that&rsquo;s not recommended advice).</li>
+</ul>
+<h3 id="4-crtp">
+  4. CRTP
+  <a class="heading-link" href="#4-crtp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong><em>Intent:</em></strong> To achieve static polymorphism.<br>
+<strong><em>Implementation:</em></strong> Make use of base class template spcialization.<br>
+<strong><em>Also known as:</em></strong> Upside-down inheritance, Static polymorphism</p>
+<h4 id="problem-2">
+  Problem
+  <a class="heading-link" href="#problem-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_1</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> value <span style="color:#f92672">&amp;</span>rhs) <span style="color:#66d9ef">const</span> {<span style="color:#66d9ef">return</span> m_x <span style="color:#f92672">&lt;</span> rhs.m_x;}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// bool operator==(const value &amp;rhs) const;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// bool operator!=(const value &amp;rhs) const;    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// List goes on. . . . . . . . . . . . . . . . . . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// data members to compare
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_2</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> value <span style="color:#f92672">&amp;</span>rhs) <span style="color:#66d9ef">const</span> {<span style="color:#66d9ef">return</span> m_x <span style="color:#f92672">&lt;</span> rhs.m_x;}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// bool operator==(const value &amp;rhs) const;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// bool operator!=(const value &amp;rhs) const;    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// List goes on. . . . . . . . . . . . . . . . . . . .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// data members to compare
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_3</span> { ...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">obj_type_4</span> { ...
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// List goes on. . . . . . . . . . . . . . . . . . . .
+</span></span></span></code></pre></div><ul>
+<li>For each comparable objects, you need to define respective comparison operators. This is redundant because if we have an <code>operator &lt;</code> , we can overload other operators on the basis of it.</li>
+<li>Thus, <code>operator &lt;</code> is the only one operator having type information, other operators can be made type independent for reusability purpose.</li>
+</ul>
+<h4 id="solution-3">
+  Solution
+  <a class="heading-link" href="#solution-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li><strong>C</strong>uriously <strong>R</strong>ecurring <strong>T</strong>emplate <strong>P</strong>attern implementation rule is simple, <strong><em>separate out the type-dependent &amp; independent functionality and bind type</em> <em>independent functionality with the base class using self-referencing template</em></strong>.</li>
+<li>Above line may seem cryptic at first. So, consider the below solution to the above problem for more clarity:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">derived</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">compare</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">:</span> compare<span style="color:#f92672">&lt;</span>value<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m_x;
+</span></span><span style="display:flex;"><span>    value(<span style="color:#66d9ef">int</span> x) <span style="color:#f92672">:</span> m_x(x) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">const</span> value <span style="color:#f92672">&amp;</span>rhs) <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> m_x <span style="color:#f92672">&lt;</span> rhs.m_x; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">derived</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">&gt;</span> (<span style="color:#66d9ef">const</span> compare<span style="color:#f92672">&lt;</span>derived<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>lhs, <span style="color:#66d9ef">const</span> compare<span style="color:#f92672">&lt;</span>derived<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>rhs) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// static_assert(std::is_base_of_v&lt;compare&lt;derived&gt;, derived&gt;); // Compile time safety measures
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> derived<span style="color:#f92672">&amp;&gt;</span>(rhs) <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> derived<span style="color:#f92672">&amp;&gt;</span>(lhs));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*  Same goes with other operators
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    == :: returns !(lhs &lt; rhs) and !(rhs &lt; lhs)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    != :: returns !(lhs == rhs)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    &gt;= :: returns (rhs &lt; lhs) or (rhs == lhs)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    &lt;= :: returns (lhs &lt; rhs) or (rhs == lhs) 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {   
+</span></span><span style="display:flex;"><span>    value v1{<span style="color:#ae81ff">5</span>}, v2{<span style="color:#ae81ff">10</span>};
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> boolalpha <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;v1 &gt; v2: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (v1 <span style="color:#f92672">&gt;</span> v2) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39;\n&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Now no need to write comparator operators for all the classes, 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Write only type dependent `operator &lt;` &amp;  use CRTP
+</span></span></span></code></pre></div><h4 id="usecases-3">
+  Usecases
+  <a class="heading-link" href="#usecases-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>CRTP widely employed for static polymorphism without bearing the cost of virtual dispatch mechanism. Consider the following code we have not used virtual keyword &amp; still achieved the functionality of polymorphism(specifically static polymorphism).</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> specific_animal<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { implementation().who(); }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    specific_animal<span style="color:#f92672">&amp;</span> implementation() {<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>specific_animal<span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>);}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> animal<span style="color:#f92672">&lt;</span>dog<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;dog&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> animal<span style="color:#f92672">&lt;</span>cat<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;cat&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> specific_animal<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> who_am_i(animal<span style="color:#f92672">&lt;</span>specific_animal<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span> animal) {
+</span></span><span style="display:flex;"><span>    animal.who();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>CRTP can also used for optimization as we have seen above it also enables code reusability.</li>
+</ul>
+<p>Update: The above hiccup of declaring multiple comparisons operator will permanently be sorted from C++20 by using <a href="https://en.cppreference.com/w/cpp/language/default_comparisons"  class="external-link" target="_blank" rel="noopener">spaceship</a>(<code>&lt;=&gt;</code>)/<a href="https://en.wikipedia.org/wiki/Three-way_comparison"  class="external-link" target="_blank" rel="noopener">Three-way-comparison operator</a>.</p>
+<h3 id="5-virtual-constructor">
+  5. Virtual Constructor
+  <a class="heading-link" href="#5-virtual-constructor">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong><em>Intent:</em></strong> To create a copy or new object without knowing its concrete type.<br>
+<strong><em>Implementation:</em></strong> Exploits overloaded methods with polymorphic assignment.<br>
+<strong><em>Also known as:</em></strong> <a href="/posts/factory-design-pattern-in-modern-cpp/" >Factory method/design-pattern</a>.</p>
+<h4 id="problem-3">
+  Problem
+  <a class="heading-link" href="#problem-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>C++ has the support of polymorphic object destruction using it&rsquo;s base class&rsquo;s <a href="/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/" >virtual destructor</a>. But, equivalent support for creation and copying of objects is missing as С++ doesn&rsquo;t support virtual constructor, <a href="/posts/all-about-copy-constructor-in-cpp-with-example/" >copy constructors</a>.</li>
+<li>Moreover, you can’t create an object unless you know its static type, because the compiler must know the amount of space it needs to allocate. For the same reason, copy of an object also requires its type to known at compile-time.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>animal(){ cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~animal</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> animal {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>dog(){ cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~dog</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> animal {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>cat(){ cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;~cat</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who_am_i</span>(animal <span style="color:#f92672">*</span>who) { <span style="color:#75715e">// not sure whether dog would be passed here or cat
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// How to `create` the object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// How to `copy` object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> who; <span style="color:#75715e">// you can delete object pointed by who
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h4 id="solution-4">
+  Solution
+  <a class="heading-link" href="#solution-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>The Virtual Constructor technique allows polymorphic creation &amp; copying of objects in C++ by delegating the act of creation &amp; copying the object to the derived class through the use of virtual methods.</li>
+<li>Following code is not only implement virtual constructor(i.e. <code>create()</code>) but also implements virtual <a href="/posts/all-about-copy-constructor-in-cpp-with-example/" >copy constructor</a> (i.e. <code>clone()</code>) .</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">animal</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#f92672">~</span>animal() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> create() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> clone() <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">dog</span> <span style="color:#f92672">:</span> animal {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> create() { <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span>dog<span style="color:#f92672">&gt;</span>(); }
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> clone() { <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span>dog<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">cat</span> <span style="color:#f92672">:</span> animal {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> create() { <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span>cat<span style="color:#f92672">&gt;</span>(); }
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>animal<span style="color:#f92672">&gt;</span> clone() { <span style="color:#66d9ef">return</span> std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span>cat<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">who_am_i</span>(animal <span style="color:#f92672">*</span>who) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> new_who <span style="color:#f92672">=</span> who<span style="color:#f92672">-&gt;</span>create();<span style="color:#75715e">// `create` the object of same type i.e. pointed by who ?
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> duplicate_who <span style="color:#f92672">=</span> who<span style="color:#f92672">-&gt;</span>clone(); <span style="color:#75715e">// `copy` object of same type i.e. pointed by who ?    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">delete</span> who; <span style="color:#75715e">// you can delete object pointed by who
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h4 id="usecases-4">
+  Usecases
+  <a class="heading-link" href="#usecases-4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>To provide a generic interface to produce/copy a variety of classes using only one class.</li>
+</ul>
+<h3 id="6-sfinae-and-stdenable_if">
+  6. SFINAE and std::enable_if
+  <a class="heading-link" href="#6-sfinae-and-stdenable_if">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong><em>Intent:</em></strong> To filter out functions that do not yield valid template instantiations from a set of overloaded functions.<br>
+<strong><em>Implementation:</em></strong> Achieved automatically by compiler or exploited using std::enable_if.<br>
+<strong><em>Also known as:</em></strong></p>
+<h4 id="motivation">
+  Motivation
+  <a class="heading-link" href="#motivation">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li><strong>S</strong>ubstitution <strong>F</strong>ailure <strong>I</strong>s <strong>N</strong>ot <strong>A</strong>n <strong>E</strong>rror is a language feature(not an idiom) a C++ compiler uses to filter out some templated function overloads during overload resolution.</li>
+<li>During overload resolution of function templates, when substituting the explicitly specified or deduced type for the template parameter fails, the specialization discarded from the overload set instead of causing a compile error.</li>
+<li>Substitution failure happens when type or expression ill-formed.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> func(T<span style="color:#f92672">*</span> t){ <span style="color:#75715e">// Single overload set
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">constexpr</span>(std<span style="color:#f92672">::</span>is_class_v<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>){ cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;T is user-defined type</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;T is primitive type</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> primitive_t <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> {<span style="color:#66d9ef">char</span> var <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;4&#39;</span>;}class_t;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>func(<span style="color:#f92672">&amp;</span>class_t);
+</span></span><span style="display:flex;"><span>func(<span style="color:#f92672">&amp;</span>primitive_t);
+</span></span></code></pre></div><ul>
+<li>Imagine if you want to create two sets(based on primitive type &amp; user-defined type separately) of a function having the same signature?</li>
+</ul>
+<h4 id="solution-5">
+  Solution
+  <a class="heading-link" href="#solution-5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>, <span style="color:#66d9ef">typename</span> <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>enable_if_t<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>is_class_v<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;&gt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> func(T<span style="color:#f92672">*</span> t){
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;T is user-defined type</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>, std<span style="color:#f92672">::</span>enable_if_t<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>is_integral_v<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>, T<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> func(T<span style="color:#f92672">*</span> t){ <span style="color:#75715e">// NOTE: function signature is NOT-MODIFIED
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;T is primitive type</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Above code snippet is a short example of exploiting SFINAE using <code>std::enable_if</code>, in which first template instantiation will become equivalent to <code>void func&lt;(anonymous), void&gt;((anonymous) * t) and second, </code>void func(int * t).</li>
+<li>You can read more about <code>std::enable_if</code> <a href="https://en.cppreference.com/w/cpp/types/enable_if"  class="external-link" target="_blank" rel="noopener">here</a>.</li>
+</ul>
+<h4 id="usecases-5">
+  Usecases
+  <a class="heading-link" href="#usecases-5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Together with <code>std::enable_if</code>, SFINAE is heavily used in template metaprogramming.</li>
+<li>The standard library also leveraged SFINAE in most <a href="https://en.cppreference.com/w/cpp/header/type_traits"  class="external-link" target="_blank" rel="noopener">type_traits</a> utilities. Consider the following example which checks for the user-defined type or primitive type:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// Stolen &amp; trimmed from https://stackoverflow.com/questions/982808/c-sfinae-examples.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">is_class_type</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> C<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">char</span> test(<span style="color:#66d9ef">int</span> C<span style="color:#f92672">::*</span>);    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> C<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">double</span> test(...);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> { value <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(is_class_type<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;::</span>test<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">0</span>)) <span style="color:#f92672">==</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">char</span>) };
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">class_t</span>{};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    cout<span style="color:#f92672">&lt;&lt;</span>is_class_type<span style="color:#f92672">&lt;</span>class_t<span style="color:#f92672">&gt;::</span>value<span style="color:#f92672">&lt;&lt;</span>endl;    <span style="color:#75715e">// 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout<span style="color:#f92672">&lt;&lt;</span>is_class_type<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>value<span style="color:#f92672">&lt;&lt;</span>endl;        <span style="color:#75715e">// 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>Without SFINAE, you would get a compiler error, something like &ldquo;<code>0</code> cannot be converted to member pointer for a non-class type <code>int</code>&rdquo; as both the overload of <code>test</code> method only differs in terms of the return type.</li>
+<li>Because <code>int</code> is not a class, so it can&rsquo;t have a member pointer of type <code>int int::*</code> .</li>
+</ul>
+<h3 id="7-proxy">
+  7. Proxy
+  <a class="heading-link" href="#7-proxy">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong><em>Intent:</em></strong> To achieve intuitive functionality using middleware class.<br>
+<strong><em>Implementation:</em></strong> By use of temporary/proxy class.<br>
+<strong><em>Also known as:</em></strong> <code>operator []</code>(i.e. subscript) proxy, double/twice operator overloading</p>
+<h4 id="motivation-1">
+  Motivation
+  <a class="heading-link" href="#motivation-1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>Most of the dev believes this is only about the subscript operator (i.e. <code>operator[ ]</code>), but I believe type/class that comes in between exchanging data is proxy.</li>
+<li>We have already seen a nice example of this idiom indirectly above in <a href="#Type-Eraser" >type-erasure</a>(i.e. class <code>any::inner&lt;&gt;</code>). But still, I think one more example will add concreteness to our understanding.</li>
+</ul>
+<h4 id="operator---solution">
+  operator [ ] solution
+  <a class="heading-link" href="#operator---solution">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">arr2D</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">proxy_class</span>{
+</span></span><span style="display:flex;"><span>        proxy_class(T <span style="color:#f92672">*</span>arr) <span style="color:#f92672">:</span> m_arr_ptr(arr) {}
+</span></span><span style="display:flex;"><span>        T <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">operator</span>[](<span style="color:#66d9ef">uint32_t</span> idx) { <span style="color:#66d9ef">return</span> m_arr_ptr[idx]; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        T <span style="color:#f92672">*</span>m_arr_ptr;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    T m_arr[<span style="color:#ae81ff">10</span>][<span style="color:#ae81ff">10</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    arr2D<span style="color:#f92672">::</span>proxy_class <span style="color:#66d9ef">operator</span>[](<span style="color:#66d9ef">uint32_t</span> idx) { <span style="color:#66d9ef">return</span> arr2D<span style="color:#f92672">::</span>proxy_class(m_arr[idx]); }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    arr2D<span style="color:#f92672">&lt;&gt;</span> arr;
+</span></span><span style="display:flex;"><span>    arr[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> arr[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="usecases-6">
+  Usecases
+  <a class="heading-link" href="#usecases-6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h4>
+<ul>
+<li>To create intuitive features like double operator overloading, <code>std::any</code> etc.</li>
+</ul>
+<h3 id="summary-by-faqs">
+  Summary by FAQs
+  <a class="heading-link" href="#summary-by-faqs">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>When to actually use RAII?</strong></p>
+<p>When you have set of steps to carry out a task &amp; two steps are ideal i.e. set-up &amp; clean-up, then that&rsquo;s the place you can employ RAII.</p>
+<p><strong>Why can&rsquo;t functions be overloaded by return type?</strong></p>
+<p>You can&rsquo;t overload on return types as it is not mandatory to use the return value of the functions in a function call expression. For example, I can just say</p>
+<p><code>get_val()</code>;`</p>
+<p>What does the compiler do now?</p>
+<p><strong>When to use return type resolver idiom?</strong></p>
+<p>You can apply return type resolver idiom when your input types are fixed but output types may vary.</p>
+<p><strong>What is type erasure in C++?</strong></p>
+<ul>
+<li>Type erasure technique is used to design generic type which relies on the type of <a href="/posts/2-wrong-way-to-learn-copy-assignment-operator-in-cpp-with-example/" >assignment</a>(as we do in python).</li>
+<li>By the way, do you know <code>auto</code> or can you design one now?</li>
+</ul>
+<p><strong>Best scenarios to apply type erasure idiom?</strong></p>
+<ul>
+<li>Useful in generic programming.</li>
+<li>Can also be used to handle multiple types of the return value from function/method(Although that&rsquo;s not recommended advice).</li>
+</ul>
+<p><strong>What is the curiously recurring template pattern (CRTP)?</strong></p>
+<p>CRTP is when a class <code>A</code> has a base class. And that base class is a template specialization for the class <code>A</code> itself. E.g.<br>
+<code>template &lt;class T&gt;</code><br>
+<code>class X{...};</code><br>
+<code>class A : public X&lt;A&gt; {...};</code><br>
+It <em>is</em> curiously recurring, isn&rsquo;t it?</p>
+<p><strong>Why Curiously Recurring Template Pattern (CRTP) works?</strong></p>
+<p>I think <a href="https://stackoverflow.com/questions/49708984/why-curiously-recurring-template-pattern-crtp-works"  class="external-link" target="_blank" rel="noopener">this</a> answer is very appropriate.</p>
+<p><strong>What is SFINAE?</strong></p>
+<p><strong>S</strong>ubstitution <strong>F</strong>ailure <strong>I</strong>s <strong>N</strong>ot <strong>A</strong>n <strong>E</strong>rror is a language feature(not an idiom) a C++ compiler uses to filter out some templated function overloads during overload resolution.</p>
+<p><strong>What is Proxy Class in C++?</strong></p>
+<p>A proxy is a class that provides a modified interface to another class.</p>
+<p><strong>Why do we not have a virtual constructor in C++?</strong></p>
+<ul>
+<li>A virtual-table(vtable) is made for each Class having one or more &lsquo;virtual-functions&rsquo;. Whenever an object is created of such class, it contains a &lsquo;virtual-pointer&rsquo; which points to the base of the corresponding vtable. Whenever there is a virtual function call, the vtable is used to resolve to the function address.</li>
+<li>A constructor can not be virtual, because when the constructor of a class is executed there is no vtable in the memory, means no virtual pointer defined yet. Hence the constructor should always be non-virtual.</li>
+</ul>
+<p><strong>Can we make a class copy constructor virtual in C++?</strong></p>
+<p>Similar to &ldquo;Why do we not have a virtual constructor in C++?&rdquo; which already answered above.</p>
+<p><strong>What are the use cases &amp; need for virtual constructor?</strong></p>
+<p>To create &amp; copy the object(without knowing its concrete type) using a base class polymorphic method.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+
+        
+        
+      </footer>
+    </article>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+    integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+  
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"
+    integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"
+    integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,
+      {
+        delimiters: [
+          {left: '$$', right: '$$', display:true},
+          {left: '$', right: '$', display:false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      }
+    );"></script>
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+    2024
+     Vishal Chovatiya 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.js"></script>
+  
+
+  
+
+  
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+
+</html>
