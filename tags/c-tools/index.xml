@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>C-Tools on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/c-tools/</link>
+    <link>https://vishalchovatiya.github.io/tags/c-tools/</link>
     <description>Recent content in C-Tools on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 20 Jul 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/c-tools/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/c-tools/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mastering C&#43;&#43;: Books | Courses | Tools | Tutorials | Blogs | Communities</title>
-      <link>http://localhost:1313/posts/mastering-c-books-courses-tools-tutorials-blogs-communities/</link>
+      <link>https://vishalchovatiya.github.io/posts/mastering-c-books-courses-tools-tutorials-blogs-communities/</link>
       <pubDate>Mon, 20 Jul 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/mastering-c-books-courses-tools-tutorials-blogs-communities/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/mastering-c-books-courses-tools-tutorials-blogs-communities/</guid>
       <description>Do not get carried away with tittle Mastering C++. This is a never-ending journey. Because ISOCPP is releasing the baby elephants every three years. With the standard covering almost 1500 pages currently, C++ is not the simplest language to learn and master. I have spent quite enough time in the industry. But still feel imposter sometimes. It&amp;rsquo;s been quite a while I was thinking of sharing my Modern C++ journey. Although, I am sharing the knowledge piece-by-piece through such articles.</description>
     </item>
   </channel>

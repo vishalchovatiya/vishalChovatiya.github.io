@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>All-About-Virtual-Keyword-in-C on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/all-about-virtual-keyword-in-c/</link>
+    <link>https://vishalchovatiya.github.io/tags/all-about-virtual-keyword-in-c/</link>
     <description>Recent content in All-About-Virtual-Keyword-in-C on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Thu, 12 Sep 2019 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/all-about-virtual-keyword-in-c/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/all-about-virtual-keyword-in-c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Part 3: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Destructor Works?</title>
-      <link>http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</link>
+      <link>https://vishalchovatiya.github.io/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</link>
       <pubDate>Thu, 12 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</guid>
       <description>Finally, we are in the 3rd &amp;amp; last part of this series. We have already discussed how virtual function &amp;amp; virtual class/inheritance works internally in previous parts. We left one topic i.e. &amp;ldquo;How Does Virtual Destructor Works?&amp;rdquo; which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”
 Why Do We Need a Virtual Destructor? We will understand this with our earlier example(slightly twisted): class protocol_t { private: uint8_t *_type; // storage .</description>
     </item>
     <item>
       <title>Part 1: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Function Works Internally?</title>
-      <link>http://localhost:1313/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/</link>
+      <link>https://vishalchovatiya.github.io/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/</link>
       <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/part-1-all-about-virtual-keyword-in-cpp-how-virtual-function-works-internally/</guid>
       <description>&amp;ldquo;All About Virtual Keyword in C++&amp;rdquo; is a series of articles(total of three, PART 1, PART 2, PART 3) describe working of the virtual keyword in different scenarios. This article mostly focuses on &amp;ldquo;How Does Virtual Function Works Internally?&amp;rdquo;. In other words, How dynamic dispatch done in C++! Although I am not a compiler writer, but this is what I have learned so far from various sources, courses, books &amp;amp; disassembly of C++ program.</description>
     </item>
     <item>
       <title>Part 2: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Base Class Works Internally?</title>
-      <link>http://localhost:1313/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/</link>
+      <link>https://vishalchovatiya.github.io/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/</link>
       <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/part-2-all-about-virtual-keyword-in-cpp-how-virtual-class-works-internally/</guid>
       <description>In PART 1 of &amp;ldquo;All About Virtual Keyword in C++&amp;rdquo; series, we have discussed &amp;ldquo;How Does Virtual Function Works Internally?&amp;rdquo;. So, in this article, I will discuss &amp;ldquo;How Does Virtual Base Class Works Internally?&amp;rdquo;. I am iterating the same thing which I have mentioned in the earlier article as well that implementation of a virtual mechanism is purely compiler dependent. So, there is no C++ standard is defined for such dynamic dispatch.</description>
     </item>
   </channel>

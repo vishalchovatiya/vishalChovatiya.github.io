@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Rtld_default on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/rtld_default/</link>
+    <link>https://vishalchovatiya.github.io/tags/rtld_default/</link>
     <description>Recent content in Rtld_default on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 30 Sep 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/rtld_default/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/rtld_default/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dynamic Linking Example</title>
-      <link>http://localhost:1313/posts/dynamic-linking-example/</link>
+      <link>https://vishalchovatiya.github.io/posts/dynamic-linking-example/</link>
       <pubDate>Fri, 30 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/dynamic-linking-example/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/dynamic-linking-example/</guid>
       <description>Following example covers API like dladdr, dlclose, dlerror, dlopen, dlsym and flags like RTLD_LAZY, RTLD_NOW, RTLD_GLOBAL, `RTLD_LOCAL, `RTLD_NODELETE`, `RTLD_NOLOAD`, RTLD_NEXT, RTLD_DEFAULT, etc.
 At First Sight, This Might Look Lengthy &amp;amp; Alien, But If You Spend 5 Min, You Might Get What You Looking For. I Struggle With Finding Dynamic Linking Example On Net When I Came Across Dynamic Linking Related Development. So I Wrote One Helping Post. flags.c We will create binary flags out of flags.</description>
     </item>

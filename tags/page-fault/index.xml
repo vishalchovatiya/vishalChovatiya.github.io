@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Page-Fault on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/page-fault/</link>
+    <link>https://vishalchovatiya.github.io/tags/page-fault/</link>
     <description>Recent content in Page-Fault on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 15 Oct 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/page-fault/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/page-fault/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How Does Virtual Memory Work?</title>
-      <link>http://localhost:1313/posts/how-does-virtual-memory-work/</link>
+      <link>https://vishalchovatiya.github.io/posts/how-does-virtual-memory-work/</link>
       <pubDate>Sat, 15 Oct 2016 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/how-does-virtual-memory-work/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/how-does-virtual-memory-work/</guid>
       <description>Have you ever wondered , How game of size 8 GB is running on a computer has 4 GB of RAM only? or You can play multiple movies simultaneously combined size more than RAM size? If you are a software developer, you may come across a word like multi-tasking or multiprocessing which is key concept behind this. In other words, it creates virtual memory which is a memory management technique. Here we will see how it works</description>
     </item>
   </channel>

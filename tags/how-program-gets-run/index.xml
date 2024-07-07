@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>How-Program-Gets-Run on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/how-program-gets-run/</link>
+    <link>https://vishalchovatiya.github.io/tags/how-program-gets-run/</link>
     <description>Recent content in How-Program-Gets-Run on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 25 Sep 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/how-program-gets-run/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/how-program-gets-run/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How Program Gets Run: Linux</title>
-      <link>http://localhost:1313/posts/program-gets-run-linux/</link>
+      <link>https://vishalchovatiya.github.io/posts/program-gets-run-linux/</link>
       <pubDate>Sun, 25 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/program-gets-run-linux/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/program-gets-run-linux/</guid>
       <description>I know it’s long, but please bear with me &amp;amp; have patience.
 How do we launch our programs? Do you know how programs get runs behind the screen when you double-click on it or you type ./a.out on shell As you know, the standard way to launch an application from a shell is to start terminal emulator application &amp;amp; just write the name of the program &amp;amp; pass or not arguments to our program, for example: [vishal@machine Desktop]$ ls --version ls (GNU coreutils) 8.</description>
     </item>

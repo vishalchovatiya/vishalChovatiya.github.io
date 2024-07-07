@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Abstract-Class-Destructor-C on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/abstract-class-destructor-c/</link>
+    <link>https://vishalchovatiya.github.io/tags/abstract-class-destructor-c/</link>
     <description>Recent content in Abstract-Class-Destructor-C on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Thu, 12 Sep 2019 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/abstract-class-destructor-c/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/abstract-class-destructor-c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Part 3: All About Virtual Keyword in C&#43;&#43;: How Does Virtual Destructor Works?</title>
-      <link>http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</link>
+      <link>https://vishalchovatiya.github.io/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</link>
       <pubDate>Thu, 12 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/part-3-all-about-virtual-keyword-in-c-how-virtual-destructor-works/</guid>
       <description>Finally, we are in the 3rd &amp;amp; last part of this series. We have already discussed how virtual function &amp;amp; virtual class/inheritance works internally in previous parts. We left one topic i.e. &amp;ldquo;How Does Virtual Destructor Works?&amp;rdquo; which we will see now. As usual, before learning anything new I usually start with “Why Do We Need It in the First Place?”
 Why Do We Need a Virtual Destructor? We will understand this with our earlier example(slightly twisted): class protocol_t { private: uint8_t *_type; // storage .</description>
     </item>
