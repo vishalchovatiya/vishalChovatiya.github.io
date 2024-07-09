@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Difference-Between-Adapter on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/difference-between-adapter/</link>
+    <link>https://vishalchovatiya.github.io/tags/difference-between-adapter/</link>
     <description>Recent content in Difference-Between-Adapter on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/difference-between-adapter/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/difference-between-adapter/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Proxy Design Pattern in Modern C&#43;&#43;</title>
-      <link>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</link>
+      <link>https://vishalchovatiya.github.io/posts/proxy-design-pattern-in-modern-cpp/</link>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/proxy-design-pattern-in-modern-cpp/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/proxy-design-pattern-in-modern-cpp/</guid>
       <description>In software engineering, Structural Design Patterns deal with the relationship between objects i.e. how objects/classes interact or build a relationship in a manner suitable to the situation. The Structural Design Patterns simplify the structure by identifying relationships. In this article of the Structural Design Patterns, we&amp;rsquo;re going to take a look at Proxy Design Pattern in C++ which dictates the way you access the object.
 If you haven’t check out other Structural Design Patterns, then here is the list:</description>
     </item>

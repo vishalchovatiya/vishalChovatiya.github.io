@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Abstract-Factory-C on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/abstract-factory-c/</link>
+    <link>https://vishalchovatiya.github.io/tags/abstract-factory-c/</link>
     <description>Recent content in Abstract-Factory-C on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/abstract-factory-c/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/abstract-factory-c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Factory Design Pattern in Modern C&#43;&#43;</title>
-      <link>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</link>
+      <link>https://vishalchovatiya.github.io/posts/factory-design-pattern-in-modern-cpp/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/factory-design-pattern-in-modern-cpp/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/factory-design-pattern-in-modern-cpp/</guid>
       <description>In software engineering, Creational Design Patterns deal with object creation mechanisms, i.e. try to create objects in a manner suitable to the situation. In addition to this basic or ordinary form of object creation could result in design problems or added complexity to the design. Factory Design Pattern in C++ helps to mitigate this issue by creating objects using separate methods or polymorphic classes.
 By the way, If you haven’t check out my other articles on Creational Design Patterns, then here is the list:</description>
     </item>

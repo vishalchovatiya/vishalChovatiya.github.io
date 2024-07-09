@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Typecasting-on-Nullptr_t on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/typecasting-on-nullptr_t/</link>
+    <link>https://vishalchovatiya.github.io/tags/typecasting-on-nullptr_t/</link>
     <description>Recent content in Typecasting-on-Nullptr_t on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 30 Nov 2019 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/typecasting-on-nullptr_t/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/typecasting-on-nullptr_t/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What Exactly nullptr Is in C&#43;&#43;?</title>
-      <link>http://localhost:1313/posts/what-exactly-nullptr-is-in-cpp/</link>
+      <link>https://vishalchovatiya.github.io/posts/what-exactly-nullptr-is-in-cpp/</link>
       <pubDate>Sat, 30 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/what-exactly-nullptr-is-in-cpp/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/what-exactly-nullptr-is-in-cpp/</guid>
       <description>The answer to &amp;ldquo;What exactly nullptr is in C++?&amp;rdquo; would be a piece of cake for experienced C++ eyes &amp;amp; for those who are aware of Modern C++ i.e. keyword. But nullptr is more than just a keyword in C++ &amp;amp; to explain that, I have written this article. But before jump-into it, we will see issues with NULL &amp;amp; then we&amp;rsquo;ll dive into the unsophisticated implementation of nullptr &amp;amp; some use-cases of nullptr.</description>
     </item>
   </channel>

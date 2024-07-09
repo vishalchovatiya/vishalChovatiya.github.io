@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Mutex on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/mutex/</link>
+    <link>https://vishalchovatiya.github.io/tags/mutex/</link>
     <description>Recent content in Mutex on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 10 Sep 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/mutex/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/mutex/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Thread Conditional Wait with Mutex : pthread_cond_t</title>
-      <link>http://localhost:1313/posts/thread-conditional-wait-with-mutex-pthread_cond_t/</link>
+      <link>https://vishalchovatiya.github.io/posts/thread-conditional-wait-with-mutex-pthread_cond_t/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/thread-conditional-wait-with-mutex-pthread_cond_t/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/thread-conditional-wait-with-mutex-pthread_cond_t/</guid>
       <description>Brief Condition variables provide yet another way for threads to synchronize. While mutexes implement synchronization by controlling thread access to data, condition variables allow threads to synchronize based upon the actual value of data. Without condition variables, the programmer would need to have threads continually polling (possibly in a critical section), to check if the condition is met. This can be very resource consuming since the thread would be continuously busy in this activity.</description>
     </item>
   </channel>

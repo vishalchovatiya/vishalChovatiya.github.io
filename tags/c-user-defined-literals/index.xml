@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>C-User-Defined-Literals on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/c-user-defined-literals/</link>
+    <link>https://vishalchovatiya.github.io/tags/c-user-defined-literals/</link>
     <description>Recent content in C-User-Defined-Literals on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 13 Oct 2019 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/c-user-defined-literals/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/c-user-defined-literals/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>21 New Features of Modern C&#43;&#43; to Use in Your Project</title>
-      <link>http://localhost:1313/posts/21-new-features-of-modern-cpp-to-use-in-your-project/</link>
+      <link>https://vishalchovatiya.github.io/posts/21-new-features-of-modern-cpp-to-use-in-your-project/</link>
       <pubDate>Sun, 13 Oct 2019 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/21-new-features-of-modern-cpp-to-use-in-your-project/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/21-new-features-of-modern-cpp-to-use-in-your-project/</guid>
       <description>So, you came across the Modern C++ &amp;amp; overwhelmed by its features in terms of performance, convenience &amp;amp; code expressiveness. But in a dilemma that how you can spot where you can enforce Modern C++ features in your day to day coding job. No worries, here we will see 21 new features of Modern C++ you can use in your project.
 C++ community releasing new standards more frequently than iPhone releases.</description>
     </item>

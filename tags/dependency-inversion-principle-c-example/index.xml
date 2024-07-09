@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Dependency-Inversion-Principle-C-Example on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/dependency-inversion-principle-c-example/</link>
+    <link>https://vishalchovatiya.github.io/tags/dependency-inversion-principle-c-example/</link>
     <description>Recent content in Dependency-Inversion-Principle-C-Example on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/dependency-inversion-principle-c-example/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/dependency-inversion-principle-c-example/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dependency Inversion Principle in C&#43;&#43; | SOLID as a Rock</title>
-      <link>http://localhost:1313/posts/dependency-inversion-principle-in-cpp-solid-as-a-rock/</link>
+      <link>https://vishalchovatiya.github.io/posts/dependency-inversion-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/dependency-inversion-principle-in-cpp-solid-as-a-rock/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/dependency-inversion-principle-in-cpp-solid-as-a-rock/</guid>
       <description>Dependency Inversion Principle in C++ is the fifth &amp;amp; last design principle of a series SOLID as a Rock design principles. The SOLID design principles focus on developing software that is easy to maintainable, reusable &amp;amp; extendable. In this article, we will see an example code with the flaw &amp;amp; correct it with help of DIP. We will also see guideline &amp;amp; benefits of DIP in closure of the article.</description>
     </item>
   </channel>

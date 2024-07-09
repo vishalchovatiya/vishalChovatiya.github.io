@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Double-Dispatch-C-Example on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/double-dispatch-c-example/</link>
+    <link>https://vishalchovatiya.github.io/tags/double-dispatch-c-example/</link>
     <description>Recent content in Double-Dispatch-C-Example on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 11 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/double-dispatch-c-example/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/double-dispatch-c-example/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Double Dispatch in C&#43;&#43;: Recover Original Type of the Object Pointed by Base Class Pointer</title>
-      <link>http://localhost:1313/posts/double-dispatch-in-cpp/</link>
+      <link>https://vishalchovatiya.github.io/posts/double-dispatch-in-cpp/</link>
       <pubDate>Sat, 11 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/double-dispatch-in-cpp/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/double-dispatch-in-cpp/</guid>
       <description>Double Dispatch in C++ is a mechanism that dispatches a function call to different concrete functions depending on the runtime types of two objects involved in the call. In more simple words, its function calling using two different virtual tables of respective two objects. I know this sounds cryptic, but don&amp;rsquo;t worry I will come to double dispatch solution after trying most of the naive solution so that you will come away with the full understanding of concept without having needless confusions.</description>
     </item>
   </channel>

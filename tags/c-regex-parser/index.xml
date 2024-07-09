@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>C-Regex-Parser on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/c-regex-parser/</link>
+    <link>https://vishalchovatiya.github.io/tags/c-regex-parser/</link>
     <description>Recent content in C-Regex-Parser on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Thu, 16 Jul 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/c-regex-parser/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/c-regex-parser/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Regex C&#43;&#43;</title>
-      <link>http://localhost:1313/posts/regex-c/</link>
+      <link>https://vishalchovatiya.github.io/posts/regex-c/</link>
       <pubDate>Thu, 16 Jul 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/regex-c/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/regex-c/</guid>
       <description>Regular expressions (or regex in short) is a much-hated &amp;amp; underrated topic so far with Modern C++. But at the same time, correct use of regex can spare you writing many lines of code. If you have spent quite enough time in the industry. And not knowing regex then you are missing out on 20-30% productivity. In that case, I highly recommend you to learn regex, as it is one-time investment(something similar to learn once, write anywhere philosophy).</description>
     </item>
   </channel>

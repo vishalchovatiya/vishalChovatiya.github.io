@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Elf-File-Format on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/elf-file-format/</link>
+    <link>https://vishalchovatiya.github.io/tags/elf-file-format/</link>
     <description>Recent content in Elf-File-Format on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 10 Sep 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/elf-file-format/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/elf-file-format/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Understand ELF file format</title>
-      <link>http://localhost:1313/posts/understand-elf-file-format/</link>
+      <link>https://vishalchovatiya.github.io/posts/understand-elf-file-format/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/understand-elf-file-format/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/understand-elf-file-format/</guid>
       <description>ELF is the file format used for object files (.os), binaries, shared libraries and core dumps in Linux. ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course, the contained code is arch-specific. An ELF file provides 2 views on the data it contains: A linking view and an execution view.</description>
     </item>
   </channel>

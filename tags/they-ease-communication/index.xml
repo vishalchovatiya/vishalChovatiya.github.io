@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>They-Ease-Communication on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/they-ease-communication/</link>
+    <link>https://vishalchovatiya.github.io/tags/they-ease-communication/</link>
     <description>Recent content in They-Ease-Communication on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/they-ease-communication/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/they-ease-communication/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What Is Design Pattern?</title>
-      <link>http://localhost:1313/posts/what-is-design-pattern/</link>
+      <link>https://vishalchovatiya.github.io/posts/what-is-design-pattern/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/what-is-design-pattern/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/what-is-design-pattern/</guid>
       <description>After hitting a certain level of experience &amp;amp; spending quite enough time in the industry, I have realised the importance of designing/architecting system &amp;amp; software. So I have started looking into system/software design &amp;amp; got to know nothing can better start than a Design Pattern. And the first thing I have done is googling &amp;ldquo;What is Design Pattern?&amp;rdquo; Hence got the idea of this article.
 But as someone without a computer science background(I am from electronics background), learning them was a struggle.</description>
     </item>

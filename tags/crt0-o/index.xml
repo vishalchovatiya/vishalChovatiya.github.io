@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Crt0-O on Vishal Chovatiya</title>
-    <link>http://localhost:1313/tags/crt0-o/</link>
+    <link>https://vishalchovatiya.github.io/tags/crt0-o/</link>
     <description>Recent content in Crt0-O on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 10 Sep 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/crt0-o/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://vishalchovatiya.github.io/tags/crt0-o/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CRT: C Run Time Before Starting main()</title>
-      <link>http://localhost:1313/posts/crt-run-time-before-starting-main/</link>
+      <link>https://vishalchovatiya.github.io/posts/crt-run-time-before-starting-main/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/crt-run-time-before-starting-main/</guid>
+      <guid>https://vishalchovatiya.github.io/posts/crt-run-time-before-starting-main/</guid>
       <description>There are a lot of functions called before &amp;amp; after the main execution. As an application developer you need not worry about this stuff, but yes! if you are a core developer who works in Linux kernel, Binutils, compiler or embedded system-related development, then you must know these things. Here in &amp;ldquo;CRT: C run time before starting main&amp;rdquo;, we will see some pointers related to it.
 What Is crt? crt stands for C runtime.</description>
     </item>
