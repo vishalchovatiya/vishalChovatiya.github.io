@@ -2,71 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>C-Language on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/categories/c-language/</link>
+    <link>http://localhost:1313/categories/c-language/</link>
     <description>Recent content in C-Language on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 24 Apr 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/categories/c-language/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/c-language/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Coroutine in C Language</title>
-      <link>https://vishalchovatiya.github.io/posts/coroutine-in-c-language/</link>
+      <link>http://localhost:1313/posts/coroutine-in-c-language/</link>
       <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/coroutine-in-c-language/</guid>
+      <guid>http://localhost:1313/posts/coroutine-in-c-language/</guid>
       <description>It&amp;rsquo;s been quite a while that I haven&amp;rsquo;t published anything on my blog. But that&amp;rsquo;s due to the job change. I hope you understand that it has never been easy to re-settle in a new environment with new people while maintaining a steep technical learning curve. It takes time to tune yourself accordingly. Anyways, I wrote on &amp;ldquo;Coroutine in C Language&amp;rdquo; as a pre-pend to my upcoming post on C++20 Coroutine.</description>
     </item>
     <item>
       <title>How C Program Converts Into Assembly!</title>
-      <link>https://vishalchovatiya.github.io/posts/how-c-program-convert-into-assembly/</link>
+      <link>http://localhost:1313/posts/how-c-program-convert-into-assembly/</link>
       <pubDate>Mon, 16 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/how-c-program-convert-into-assembly/</guid>
+      <guid>http://localhost:1313/posts/how-c-program-convert-into-assembly/</guid>
       <description>In an earlier article, we have seen C runtime: before starting main &amp;amp; How C program stored in RAM memory. Here we will see &amp;ldquo;How C program converts into assembly?&amp;rdquo; and different aspect of its working at the machine level.
 A Bit About Functions Stack Frames During function code execution, a new stack frame is created in stack memory to allow access to function parameters and local variables. The direction of stack frame growth totally depends on compiler ABI which is out of our scope for this article.</description>
     </item>
     <item>
       <title>How C Program Stored in Ram Memory!</title>
-      <link>https://vishalchovatiya.github.io/posts/how-c-program-stored-in-ram-memory/</link>
+      <link>http://localhost:1313/posts/how-c-program-stored-in-ram-memory/</link>
       <pubDate>Mon, 16 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/how-c-program-stored-in-ram-memory/</guid>
+      <guid>http://localhost:1313/posts/how-c-program-stored-in-ram-memory/</guid>
       <description>When you run any C-program, its executable image loaded into RAM of computer in an organized manner which called process address space or memory layout of C program. Here I have tried to show you the same thing in two parts . In the 1st part i.e. &amp;ldquo;Overview&amp;rdquo;, we will see segment-wise overview &amp;amp; in 2nd part i.e. &amp;ldquo;Example&amp;rdquo;, we&amp;rsquo;ll see How C program stored in RAM memory? with example.</description>
     </item>
     <item>
       <title>Default Handlers in C: weak_alias</title>
-      <link>https://vishalchovatiya.github.io/posts/default-handlers-in-c-weak_alias/</link>
+      <link>http://localhost:1313/posts/default-handlers-in-c-weak_alias/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/default-handlers-in-c-weak_alias/</guid>
+      <guid>http://localhost:1313/posts/default-handlers-in-c-weak_alias/</guid>
       <description>Default Handlers in C: weak_alias function tells the linker that new is to be a weak alias for old. That is, this definition of new is a weak symbol. If there is no other definition of a symbol called new, this old definition stands.
 Might seems alien to you first, so go through a below example &amp;amp; read again.
-Definition of weak_alias is as follows : #define weak_alias(old, new) \ extern __typeof(old) new __attribute__((weak, alias(#old))) If there is another (non-weak) definition of new then that non-weak(i.</description>
+Definition of weak_alias is as follows : 1 2 #define weak_alias(old, new) \ extern __typeof(old) new __attribute__((weak, alias(#old))) If there is another (non-weak) definition of new then that non-weak(i.</description>
     </item>
     <item>
       <title>How Floating-Point No Is Stored in Memory?</title>
-      <link>https://vishalchovatiya.github.io/posts/how-floating-point-no-is-stored-memory/</link>
+      <link>http://localhost:1313/posts/how-floating-point-no-is-stored-memory/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/how-floating-point-no-is-stored-memory/</guid>
+      <guid>http://localhost:1313/posts/how-floating-point-no-is-stored-memory/</guid>
       <description>This article is just a simplification of the IEEE 754 standard. Here, we will see how floating-point no stored in memory, floating-point exceptions/rounding, etc. But if you will want to find more authoritative sources then go for
 What Every Computer Scientist Should Know About Floating-Point Arithmetic https://en.wikipedia.org/wiki/IEEE_754-1985 https://en.wikipedia.org/wiki/Floating_point. Floating-point numbers stored by encoding significand &amp;amp; the exponent (along with a sign bit)
 Above line contains 2-3 abstract terms &amp;amp; I think you will unable to understand the above line until you read further.</description>
     </item>
     <item>
       <title>How Do malloc &amp; free Work in C!</title>
-      <link>https://vishalchovatiya.github.io/posts/how-do-malloc-free-work-in-c/</link>
+      <link>http://localhost:1313/posts/how-do-malloc-free-work-in-c/</link>
       <pubDate>Sat, 08 Oct 2016 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/how-do-malloc-free-work-in-c/</guid>
+      <guid>http://localhost:1313/posts/how-do-malloc-free-work-in-c/</guid>
       <description>As we know, the process can allocate &amp;amp; deallocate memory using malloc &amp;amp; free in C language. But do you ever consider what happens behind the scene ? or How do malloc &amp;amp; free work? Let see
 Allocating Memory on the Heap A process can allocate memory by increasing the size of the heap.
 Heap is a variable-size segment of contiguous virtual memory that begins just after the uninitialized data segment of a process and grows &amp;amp; shrinks as memory allocated and freed.</description>
     </item>
     <item>
       <title>CRT: C Run Time Before Starting main()</title>
-      <link>https://vishalchovatiya.github.io/posts/crt-run-time-before-starting-main/</link>
+      <link>http://localhost:1313/posts/crt-run-time-before-starting-main/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/crt-run-time-before-starting-main/</guid>
+      <guid>http://localhost:1313/posts/crt-run-time-before-starting-main/</guid>
       <description>There are a lot of functions called before &amp;amp; after the main execution. As an application developer you need not worry about this stuff, but yes! if you are a core developer who works in Linux kernel, Binutils, compiler or embedded system-related development, then you must know these things. Here in &amp;ldquo;CRT: C run time before starting main&amp;rdquo;, we will see some pointers related to it.
 What Is crt? crt stands for C runtime.</description>
     </item>

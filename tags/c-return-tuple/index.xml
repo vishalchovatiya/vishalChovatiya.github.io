@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>C-Return-Tuple on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/c-return-tuple/</link>
+    <link>http://localhost:1313/tags/c-return-tuple/</link>
     <description>Recent content in C-Return-Tuple on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 17 May 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/c-return-tuple/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/c-return-tuple/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Variadic Template C&#43;&#43;: Implementing Unsophisticated Tuple</title>
-      <link>https://vishalchovatiya.github.io/posts/variadic-template-cpp-implementing-unsophisticated-tuple/</link>
+      <link>http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/</link>
       <pubDate>Sun, 17 May 2020 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/variadic-template-cpp-implementing-unsophisticated-tuple/</guid>
+      <guid>http://localhost:1313/posts/variadic-template-cpp-implementing-unsophisticated-tuple/</guid>
       <description>From C++11, std::tuple is an incredible expansion to Modern C++, that offers a fixed-size col­lec­tion of het­ero­ge­neous values. Un­for­tu­nately, tu­ples can be somewhat dubious to manage in a conventional fash­ion. But, subsequently released C++ stan­dard in­tro­duced a few fea­tures &amp;amp; helpers that greatly re­duce the nec­es­sary boil­er­plate. So, in this article, I will explain the variadic template in C++ with the help of unsophisticated tuple implementation. And also walks you through a tricky part of tuple i.</description>
     </item>
   </channel>

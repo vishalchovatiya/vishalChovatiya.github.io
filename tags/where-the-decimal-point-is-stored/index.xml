@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Where-the-Decimal-Point-Is-Stored on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/where-the-decimal-point-is-stored/</link>
+    <link>http://localhost:1313/tags/where-the-decimal-point-is-stored/</link>
     <description>Recent content in Where-the-Decimal-Point-Is-Stored on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 15 Sep 2019 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/where-the-decimal-point-is-stored/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/where-the-decimal-point-is-stored/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How Floating-Point No Is Stored in Memory?</title>
-      <link>https://vishalchovatiya.github.io/posts/how-floating-point-no-is-stored-memory/</link>
+      <link>http://localhost:1313/posts/how-floating-point-no-is-stored-memory/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/how-floating-point-no-is-stored-memory/</guid>
+      <guid>http://localhost:1313/posts/how-floating-point-no-is-stored-memory/</guid>
       <description>This article is just a simplification of the IEEE 754 standard. Here, we will see how floating-point no stored in memory, floating-point exceptions/rounding, etc. But if you will want to find more authoritative sources then go for
 What Every Computer Scientist Should Know About Floating-Point Arithmetic https://en.wikipedia.org/wiki/IEEE_754-1985 https://en.wikipedia.org/wiki/Floating_point. Floating-point numbers stored by encoding significand &amp;amp; the exponent (along with a sign bit)
 Above line contains 2-3 abstract terms &amp;amp; I think you will unable to understand the above line until you read further.</description>

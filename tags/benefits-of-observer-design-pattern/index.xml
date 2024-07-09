@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Benefits-of-Observer-Design-Pattern on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/benefits-of-observer-design-pattern/</link>
+    <link>http://localhost:1313/tags/benefits-of-observer-design-pattern/</link>
     <description>Recent content in Benefits-of-Observer-Design-Pattern on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/benefits-of-observer-design-pattern/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/benefits-of-observer-design-pattern/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Observer Design Pattern in Modern C&#43;&#43;</title>
-      <link>https://vishalchovatiya.github.io/posts/observer-design-pattern-in-modern-cpp/</link>
+      <link>http://localhost:1313/posts/observer-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/observer-design-pattern-in-modern-cpp/</guid>
+      <guid>http://localhost:1313/posts/observer-design-pattern-in-modern-cpp/</guid>
       <description>The Observer Design Pattern is a type of Behavioural Design Pattern that use to get information when certain events happen i.e. basically one component want information about something happening in the other component. And that can a lot of things like a field changes to a particular value or you want to information when the object does a particular thing, etc. Observer Design Pattern in Modern C++ enables you to create subscription mechanism to notify multiple objects about events that happen to the object they&amp;rsquo;re observing.</description>
     </item>
   </channel>

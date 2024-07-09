@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Try-Catch-Throw-C-Example on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/try-catch-throw-c-example/</link>
+    <link>http://localhost:1313/tags/try-catch-throw-c-example/</link>
     <description>Recent content in Try-Catch-Throw-C-Example on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 03 Nov 2019 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/try-catch-throw-c-example/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/try-catch-throw-c-example/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>C&#43;&#43; Exception Handling Best Practices: 7 Things To Know</title>
-      <link>https://vishalchovatiya.github.io/posts/7-best-practices-for-exception-handling-in-cpp-with-example/</link>
+      <link>http://localhost:1313/posts/7-best-practices-for-exception-handling-in-cpp-with-example/</link>
       <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/7-best-practices-for-exception-handling-in-cpp-with-example/</guid>
+      <guid>http://localhost:1313/posts/7-best-practices-for-exception-handling-in-cpp-with-example/</guid>
       <description>Exception handling in C++ is a well-unschooled topic if you observe initial stages of the learning curve. There are numerous tutorials available online on exception handling in C++. But few explains what you should not do &amp;amp; intricacies around it. So here I am to bridge the gap &amp;amp; show you some intricacies, from where &amp;amp; why you should not throw an exception and C++ exception handling best practices. Along with some newer features introduced for exception handling in Modern C++ with example.</description>
     </item>
   </channel>

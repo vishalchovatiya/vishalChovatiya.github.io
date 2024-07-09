@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Rvalue-and-Lvalue-Reference-C on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/rvalue-and-lvalue-reference-c/</link>
+    <link>http://localhost:1313/tags/rvalue-and-lvalue-reference-c/</link>
     <description>Recent content in Rvalue-and-Lvalue-Reference-C on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 15 Sep 2019 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/rvalue-and-lvalue-reference-c/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/rvalue-and-lvalue-reference-c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Lvalue Rvalue and Their References With Example in C&#43;&#43;</title>
-      <link>https://vishalchovatiya.github.io/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/</link>
+      <link>http://localhost:1313/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/</link>
       <pubDate>Sun, 15 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/</guid>
+      <guid>http://localhost:1313/posts/lvalue-rvalue-and-their-references-with-example-in-cpp/</guid>
       <description>This topic might be a piece of cake for every experienced C++ veteran. But I remember back in the days when I was a novice &amp;amp; introducing myself with Modern C++, I was really irritated by C++ compiler messages saying this is lvalue &amp;amp; that is rvalue kind of jargons. And even if you are not using C++, you may have faced compiler error in C language saying &amp;ldquo;lvalue required as left operand of assignment&amp;rdquo;.</description>
     </item>
   </channel>

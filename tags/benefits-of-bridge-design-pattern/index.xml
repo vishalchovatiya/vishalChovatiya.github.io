@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Benefits-of-Bridge-Design-Pattern on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/benefits-of-bridge-design-pattern/</link>
+    <link>http://localhost:1313/tags/benefits-of-bridge-design-pattern/</link>
     <description>Recent content in Benefits-of-Bridge-Design-Pattern on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/benefits-of-bridge-design-pattern/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/benefits-of-bridge-design-pattern/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bridge Design Pattern in Modern C&#43;&#43;</title>
-      <link>https://vishalchovatiya.github.io/posts/bridge-design-pattern-in-modern-cpp/</link>
+      <link>http://localhost:1313/posts/bridge-design-pattern-in-modern-cpp/</link>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/bridge-design-pattern-in-modern-cpp/</guid>
+      <guid>http://localhost:1313/posts/bridge-design-pattern-in-modern-cpp/</guid>
       <description>Bridge Design Pattern is a Structural Design Pattern used to decouple a class into two parts – abstraction and it’s implementation – so that both can be developed independently. This promotes the loose coupling between class abstraction &amp;amp; its implementation. You get this decoupling by adding one more level of indirection i.e. an interface which acts as a bridge between your original class &amp;amp; functionality. Insulation is another name of Bridge Design Pattern in C++ world.</description>
     </item>
   </channel>

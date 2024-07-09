@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Clone-System-Call-Example on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/clone-system-call-example/</link>
+    <link>http://localhost:1313/tags/clone-system-call-example/</link>
     <description>Recent content in Clone-System-Call-Example on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 10 Sep 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/clone-system-call-example/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/clone-system-call-example/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Clone system call example</title>
-      <link>https://vishalchovatiya.github.io/posts/clone-system-call-example/</link>
+      <link>http://localhost:1313/posts/clone-system-call-example/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/clone-system-call-example/</guid>
+      <guid>http://localhost:1313/posts/clone-system-call-example/</guid>
       <description>This is a quick article on Clone system call example without talking shit. So let&amp;rsquo;s see some pointers for the same :
 clone() creates a new process, in a manner similar to fork. It is actually a library function layered on top of the underlying clone()system call. Unlike fork , these calls allow the child process to share parts of its execution context with the calling process, such as the memory space, the table of file descriptors, and the table of signal handlers.</description>
     </item>

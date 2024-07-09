@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Coroutine-Basics on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/coroutine-basics/</link>
+    <link>http://localhost:1313/tags/coroutine-basics/</link>
     <description>Recent content in Coroutine-Basics on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sat, 24 Apr 2021 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/coroutine-basics/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/coroutine-basics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Coroutine in C Language</title>
-      <link>https://vishalchovatiya.github.io/posts/coroutine-in-c-language/</link>
+      <link>http://localhost:1313/posts/coroutine-in-c-language/</link>
       <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/coroutine-in-c-language/</guid>
+      <guid>http://localhost:1313/posts/coroutine-in-c-language/</guid>
       <description>It&amp;rsquo;s been quite a while that I haven&amp;rsquo;t published anything on my blog. But that&amp;rsquo;s due to the job change. I hope you understand that it has never been easy to re-settle in a new environment with new people while maintaining a steep technical learning curve. It takes time to tune yourself accordingly. Anyways, I wrote on &amp;ldquo;Coroutine in C Language&amp;rdquo; as a pre-pend to my upcoming post on C++20 Coroutine.</description>
     </item>
   </channel>

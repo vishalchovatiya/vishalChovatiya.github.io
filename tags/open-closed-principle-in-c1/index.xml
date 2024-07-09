@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Open-Closed-Principle-in-C1 on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/open-closed-principle-in-c1/</link>
+    <link>http://localhost:1313/tags/open-closed-principle-in-c1/</link>
     <description>Recent content in Open-Closed-Principle-in-C1 on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/open-closed-principle-in-c1/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/open-closed-principle-in-c1/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Open Closed Principle in C&#43;&#43; | SOLID as a Rock</title>
-      <link>https://vishalchovatiya.github.io/posts/open-closed-principle-in-cpp-solid-as-a-rock/</link>
+      <link>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</link>
       <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/open-closed-principle-in-cpp-solid-as-a-rock/</guid>
+      <guid>http://localhost:1313/posts/open-closed-principle-in-cpp-solid-as-a-rock/</guid>
       <description>This is the second part of a five-part article series about SOLID as Rock design principle. The SOLID design principles, when combined together, make it easy for a programmer to craft software that is easy to maintain, reuse &amp;amp; extend. Open-Closed Principle(OCP) is the second principle in this series which I will discuss here with minimalistic example in Modern C++ along with its benefits &amp;amp; generic guideline.
 By the way, If you haven&amp;rsquo;t gone through my previous articles on design principles, then below is the quick links:</description>
     </item>

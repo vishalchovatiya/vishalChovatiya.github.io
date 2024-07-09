@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>But-We-Do-Create-in-the-Clone on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/but-we-do-create-in-the-clone/</link>
+    <link>http://localhost:1313/tags/but-we-do-create-in-the-clone/</link>
     <description>Recent content in But-We-Do-Create-in-the-Clone on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/but-we-do-create-in-the-clone/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/but-we-do-create-in-the-clone/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Prototype Design Pattern in Modern C&#43;&#43;</title>
-      <link>https://vishalchovatiya.github.io/posts/prototype-design-pattern-in-modern-cpp/</link>
+      <link>http://localhost:1313/posts/prototype-design-pattern-in-modern-cpp/</link>
       <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/prototype-design-pattern-in-modern-cpp/</guid>
+      <guid>http://localhost:1313/posts/prototype-design-pattern-in-modern-cpp/</guid>
       <description>Prototype Design Pattern is a Creational Design Pattern that helps in the prototyping(creating/copying cheaply) of an object using separate methods or polymorphic classes. You can consider the prototype as a template of an object before the actual object is constructed. In this article of the Creational Design Patterns, we&amp;rsquo;re going to take a look at why we need a Prototype Design Pattern in C++ i.e. motivation, prototype factory &amp;amp; leveraging prototype design pattern to implement virtual copy constructor.</description>
     </item>
   </channel>

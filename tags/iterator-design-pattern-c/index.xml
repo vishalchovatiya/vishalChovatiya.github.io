@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Iterator-Design-Pattern-C on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/tags/iterator-design-pattern-c/</link>
+    <link>http://localhost:1313/tags/iterator-design-pattern-c/</link>
     <description>Recent content in Iterator-Design-Pattern-C on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Apr 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/tags/iterator-design-pattern-c/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/iterator-design-pattern-c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Iterator Design Pattern in Modern C&#43;&#43;</title>
-      <link>https://vishalchovatiya.github.io/posts/iterator-design-pattern-in-modern-cpp/</link>
+      <link>http://localhost:1313/posts/iterator-design-pattern-in-modern-cpp/</link>
       <pubDate>Fri, 03 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/posts/iterator-design-pattern-in-modern-cpp/</guid>
+      <guid>http://localhost:1313/posts/iterator-design-pattern-in-modern-cpp/</guid>
       <description>Iterator Design Pattern in Modern C++ is a heavily used pattern i.e. provides facility to traverse data containers sophistically. For simplicity, you can consider a pointer moving across an array, but the real magic comes when you get to the next element of a container, in that case, you need not know anything about how the container is constructed(like sequential(not necessarily be contiguous), associative or hashed). This is handled by the iterator.</description>
     </item>
   </channel>

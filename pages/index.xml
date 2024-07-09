@@ -2,45 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Pages on Vishal Chovatiya</title>
-    <link>https://vishalchovatiya.github.io/pages/</link>
+    <link>http://localhost:1313/pages/</link>
     <description>Recent content in Pages on Vishal Chovatiya</description>
     <image>
       <title>Vishal Chovatiya</title>
-      <url>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://vishalchovatiya.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- 0.128.0</generator>
     <language>en</language>
     <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://vishalchovatiya.github.io/pages/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/pages/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Start Here</title>
-      <link>https://vishalchovatiya.github.io/pages/start-here/</link>
+      <link>http://localhost:1313/pages/start-here/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/pages/start-here/</guid>
+      <guid>http://localhost:1313/pages/start-here/</guid>
       <description>This page gives you a quick start index for entire blog, segregated topic-wise:
 C++ Fundamentals Memory Layout of C++ Object in Different Scenarios Inside the C++ Object Model Part 1: All About Virtual Keyword in C++: How Does Virtual Function Works Internally? Part 2: All About Virtual Keyword in C++: How Does Virtual Base Class Works Internally? Part 3: All About Virtual Keyword in C++: How Does Virtual Destructor Works? Complications of Using the Virtual Base Class 2 Wrong Way to Learn Copy Assignment Operator in C++ With Example When to Use const vs constexpr in C++ All About Copy Constructor in C++ With Example How to hack C/C++ application using RTLD_NEXT with an easy example Lvalue Rvalue and Their References With Example in C++ Move Constructor &amp;amp; Assignment Operator With std::shared_ptr Understanding unique_ptr with Example in C++11 Advanced All About Lambda Function in C++(From C++11 to C++20) C++ Template: A Quick UpToDate Look(C++11/14/17/20) 7 Advance C++ Concepts &amp;amp; Idiom Examples You Should Know C++ Type Casting With Example for C Developers Mastering C++: Books | Courses | Tools | Tutorials | Blogs | Communities Variadic Template C++: Implementing Unsophisticated Tuple Regex C++ 21 New Features of Modern C++ to Use in Your Project CRTP C++ Examples C++ Exception Handling Best Practices: 7 Things To Know Using std::map Wisely With Modern C++ What Exactly nullptr Is in C++?</description>
     </item>
     <item>
       <title>Curriculum Vitae</title>
-      <link>https://vishalchovatiya.github.io/pages/curriculum-vitae/</link>
+      <link>http://localhost:1313/pages/curriculum-vitae/</link>
       <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/pages/curriculum-vitae/</guid>
+      <guid>http://localhost:1313/pages/curriculum-vitae/</guid>
       <description>Hi, I&amp;rsquo;m Vishal — Experienced Enthusiast For: C++, System Software, Firmware, SoC Modeling &amp;amp; Leadership.
 I am a techie who writes software in Assembly/C/C++(11/14/17)/SystemC/Python along with any other technologies that are needed to get things done. I also dabble in blogging, leadership, technical writing &amp;amp; application programming when time permits.
 At present, leading a team on a technical front along with non-technical nuisances, to create a high impact on individual team member’s career growth while considering corporate accountability also.</description>
     </item>
     <item>
       <title>About Me</title>
-      <link>https://vishalchovatiya.github.io/pages/vishal-chovatiya/</link>
+      <link>http://localhost:1313/pages/vishal-chovatiya/</link>
       <pubDate>Sat, 10 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>https://vishalchovatiya.github.io/pages/vishal-chovatiya/</guid>
+      <guid>http://localhost:1313/pages/vishal-chovatiya/</guid>
       <description>Hey there&amp;hellip;! I am Vishal.
-I live in Bangalore(India).
+I live in Bangalore, India.
 I write articles here about the things I&amp;rsquo;m interested in.
 I watch a lot of sci-fi movies &amp;amp; never miss the iron-man/transformer like series.
 I write code &amp;amp; preserve it if it is helpful to others &amp;amp; me in the future.
-At present, leading a team on a technical front along with non-technical nuisances, to create a high impact on individual team member’s career growth while considering corporate accountability also.</description>
+Some of the words that describe me the best: Software Developer⌨, Tech-Lead👨‍✈️, Product Owner🥼, Fitness Freak🏋, Geek🤓, Hipster🕴, Blogger👨‍💻, Productivity Hacker⌚, Technical Writer✍️, Tech talker👨‍🎤, Leader👨‍🔬, Mentor👨🏻‍🔧, Perpetual Student👨‍🎓, Incomplete🔍 &amp;amp; Learning Fiend📚.</description>
     </item>
   </channel>
 </rss>
